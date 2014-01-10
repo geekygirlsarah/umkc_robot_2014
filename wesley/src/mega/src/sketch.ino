@@ -7,10 +7,12 @@
  */
 
 #include "wesley_ir_class_mega.h"
-#include "
-
 // from mega-->mini
 ir_bridge_mega mini_br;
+
+
+#include "motor_cmd.h"
+motor_cmd sabertooth;
 
 void setup() {
 }
@@ -22,9 +24,8 @@ void loop() {
 		// or this, to supply initial sensor_count:
 		//mini_br.begin(3, 8);
 	}
-	if (mega_br.peek() > 0) {
-		// something on the serial line. process it!
-		// add in motor commands.
-	
+	if (mega_br.peek() == '!') {
+		sabertooth.all_stop();
+		
 	
 }

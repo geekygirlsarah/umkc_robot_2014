@@ -18,23 +18,9 @@ void setup() {
 }
 
 void loop() {
-	// this is wrong. start from the poll() and work out
-	switch(mega_br.state) {
-		case mega_br.WAITING {
-			while(mega_br.begin() != mega_br.AR_GOOD);
-			break;
-		}
-		case mega_br.CLOSING {
-			// do non-intensive work to conserve power.
-			break;
-		}
-		case mega_br.WORKING {
-			// do main thrust of work here.
-			byte cmd = mega_br.get_cmd()
-			break;
-		}
-		default:
-			break;
-
-	// should be out of a WAITING state
+	if (mega_br.ar_status == mega_br.AR_WAIT) {
+		mega_br.begin();
+	} else {
+		mega_br.sendcmd(gapFinder.findGap());
+		;w
 }
