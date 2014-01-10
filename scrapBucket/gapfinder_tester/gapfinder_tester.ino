@@ -17,11 +17,12 @@ GapFinder gapf;
 void setup()
 {
   Serial.begin(9600);  
-  gapf.init(A0,A1,A2);
+  gapf.init(A2,A3,A4);
 }
 
 void loop()
 {
+   gapf.debug();
    gapf.findGap(); 
 }
 
