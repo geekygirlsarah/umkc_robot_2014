@@ -11,6 +11,7 @@
 
 #include <DistanceGP2Y0A21YK.h>
 #include "gapfinder.h"
+#include "Distance_2D120X.h"
 
 GapFinder gapf;
 
@@ -22,7 +23,8 @@ void setup()
 
 void loop()
 {
-   gapf.debug();
-   gapf.findGap(); 
+   GapFinder::ternary gap_status;
+   gapf.printDebug();
+   gap_status = gapf.findGap(); 
 }
 

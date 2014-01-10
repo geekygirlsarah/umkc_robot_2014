@@ -9,6 +9,7 @@
  * TODO: Put in the IR sensor modification thingy, the IR sensor values are jumping EVERWHERE
  * TODO: refine the error checking... i don't want to ever mistakenly get to GAP stage.
  *   strange floaty issues - will vascilllate between MAYBE and def maybe state. Need to make those state transitions more defined 
+ * TODO: interface with the outside world - return a thingy from gapFind
  **/
 
 #ifndef GAPFINDER_H
@@ -26,9 +27,9 @@ private:
   //maybe gap - YES no no | no no YES (ignore middle sensor)
   //definitely maybe gap - YES YES no | no YES YES (Time to slow down!!)
   //YES GAP - YES YES YES (we're at a gap)
-  enum ternary  { 
+  enum internal  { 
     no_gap, maybe_gap, def_maybe_gap, yes_gap };
-  ternary gap_status;
+  internal gap_status;
 
   int check;        //how many times in a row must the sensors read a hole
   int distance1,distance2,distance3;  //used for debugging
@@ -58,6 +59,15 @@ private:
 
 
 public:
+
+  //FindGap returns this enum. 
+  //NO_GAP -> nothing
+  //MAYBE_GAP -> Slow down! There is a gap ahead.
+  //YES_GAP -> Stop, there's definitely a gap right here!
+  enum ternary {NO_GAP, MAYBE_GAP, YES_GAP};  
+  
+
+
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
   void init(int pin1, int pin2, int pin3)  {
@@ -69,7 +79,7 @@ public:
   }
 
   //find and print the distances
-  void debug()  {
+  void printDebug()  {
     distance1 = Dist1.getDistanceCentimeter();
     distance2 = Dist2.getDistanceCentimeter();
     distance3 = Dist3.getDistanceCentimeter();
@@ -85,7 +95,7 @@ public:
   }
 
   //State machine - to make sure there really is a gap, and not just a sensor misreading
-  void findGap()  {
+  ternary findGap()  {
     switch (gap_status)  {
     case no_gap:
       if(checkMaybeGap())
@@ -120,14 +130,23 @@ public:
       break;
 
     }
-    if(gap_status == no_gap)
+    if(gap_status == no_gap)  {
       Serial.println("Nope");
-    else if (gap_status == maybe_gap)
+      return NO_GAP;
+    }
+    else if (gap_status == maybe_gap)  {
       Serial.println("Maybe - 1 sensor");
-    else if (gap_status == def_maybe_gap)
+      return NO_GAP;
+    }
+    else if (gap_status == def_maybe_gap)  {
+      
       Serial.println("Definitely maybe - 2 sensor");
-    else
+      return MAYBE_GAP;
+    }
+    else  {
       Serial.println("GAP! - 3 Sensors");
+      return YES_GAP;
+    }
   }
 
 
