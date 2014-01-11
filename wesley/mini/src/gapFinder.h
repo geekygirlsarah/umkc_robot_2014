@@ -37,11 +37,6 @@ private:
   DistanceGP2Y0A21YK Dist2;  
   DistanceGP2Y0A21YK Dist3;
 
-  // EMG -- added these for begin()
-  DistanceGP2Y0A21YK* sensor_array;
-  int* distance;
-  byte no_of_sensors;
-
   const static int threshold = 20;  //threshold for ping sensor detecting a hole (cm)
 
 
@@ -81,34 +76,6 @@ public:
     check = 3;
     gap_status = no_gap;    //we start out assuming no hole
   }
-
-/* BEGIN EMG ADDITIONS */
-  // begin has a variable argument list (...)
-  // the first argument is the number of sensors being tracked and also
-  //    used to count how many variables are in the parameter list
-  //    the succeeding paramters are the pins 
-  // example: GapFinder.begin(3, A0, A1, A2);
-  //          GapFinder.begin(2, A0, A1);
-  void begin(byte count, ...) {
-    no_of_sensors = count;
-    sensor_array = malloc(count);
-    distance = malloc(count);
-
-    va_list argList;
-    va_start(argList, num);
-
-    for (int ith = 0; ith < count; ith++) {
-      sensor_array[ith].begin(va_arg(argList, int));
-    }
-  }
-
-  // this destructor is here to catch any chance that the class object
-  //    is destroyed. this will free the memory allocated in begin()
-  ~GapFinder() {
-    free(sensor_array);
-    free(distance);
-  }
-/* END EMG ADDITIONS */
 
   //find and print the distances
   void printDebug()  {
