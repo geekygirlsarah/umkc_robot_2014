@@ -1,3 +1,6 @@
+
+
+
 /**
  * GapFinder
  * Jan 2014
@@ -6,17 +9,16 @@
  * Given three IR sensors in a row, finds a gap thingy
  * written for the 2014 ieee region 5 comp
  *
- * TODO: Put in the IR sensor modification thingy, the IR sensor values are jumping EVERWHERE
- * TODO: refine the error checking... i don't want to ever mistakenly get to GAP stage.
+ * TODO: Put in the IR sensor modification thingy, the IR sensor values are jumping EVERWHERE (DONE)
+ * TODO: refine the error checking... i don't want to ever mistakenly get to GAP stage. (not done yet)
  *   strange floaty issues - will vascilllate between MAYBE and def maybe state. Need to make those state transitions more defined 
- * TODO: interface with the outside world - return a thingy from gapFind
+ * TODO: interface with the outside world - return a thingy from gapFind (DONE)
  **/
+#include <Distance2D120X.h>
+
 
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
-
-#include <DistanceGP2Y0A21YK.h>  //ir sensor madness
-
 
 
 
@@ -34,11 +36,11 @@ private:
   int check;        //how many times in a row must the sensors read a hole
   int distance1,distance2,distance3;  //used for debugging
 
-  DistanceGP2Y0A21YK Dist1;
-  DistanceGP2Y0A21YK Dist2;  
-  DistanceGP2Y0A21YK Dist3;
+  Distance2D120X Dist1;
+  Distance2D120X Dist2;  
+  Distance2D120X Dist3;
 
-  const static int threshold = 20;  //threshold for ping sensor detecting a hole (cm)
+  const static int threshold = 15;  //threshold for ping sensor detecting a hole (cm)
 
 
   
@@ -59,6 +61,7 @@ private:
 
 
 public:
+
 
   //FindGap returns this enum. 
   //NO_GAP -> nothing
@@ -104,11 +107,11 @@ public:
 
     case maybe_gap:
       //maybe check for gap many many times? or is it better to just delay and wait a bit?
-      check = 2;
-
+      //check = 2;
+  //TODO TODO make this nicer instead of vascillating between maybegap and no gap
       if(checkDefMaybeGap())
           gap_status = def_maybe_gap;
-      else if (check-- == 0)
+      else 
           gap_status = no_gap;
       break;    //only if 3 in a row read back HOLE, will we move to yes gap
       

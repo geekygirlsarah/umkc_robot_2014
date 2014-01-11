@@ -7,24 +7,25 @@
 //TODO
 //add in the ir sensor //thingy formula thingy
 //add in using 3 ir sensors, and the slow down thingy
-
-
-#include <DistanceGP2Y0A21YK.h>
+#include <Distance2D120X.h>
 #include "gapfinder.h"
-#include "Distance_2D120X.h"
 
+
+//WITH THE thigy -> IN INCHES!!! (problem - when you don't have anything... it dfaults to 8 inches
 GapFinder gapf;
 
 void setup()
 {
   Serial.begin(9600);  
-  gapf.init(A2,A3,A4);
+  gapf.init(A0,A1,A2);
 }
 
 void loop()
 {
+
    GapFinder::ternary gap_status;
    gapf.printDebug();
    gap_status = gapf.findGap(); 
+
 }
 
