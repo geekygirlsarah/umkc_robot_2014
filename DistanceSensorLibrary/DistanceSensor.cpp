@@ -19,7 +19,7 @@ boolean DistanceSensor::isCloser(int threshold)
 /// isFarther: check whether the distance to the detected object is bigger than a given threshold
 boolean DistanceSensor::isFarther(int threshold)
 {
-  if (threshold>getDistanceCentimeter())
+  if (threshold<getDistanceCentimeter())
   {
     return true;
   }
