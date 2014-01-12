@@ -16,7 +16,7 @@ motor_cmd sabertooth;
 
 void setup() {
 	console.begin(9600);
-//	sabertooth.begin(2);
+	sabertooth.begin(2);
 	mini_br.begin(3);
 	console.println("ready");
 }
