@@ -37,7 +37,7 @@ void loop() {
 				if (sabertooth.DIRECTION == sabertooth.REVERSE) {
 					sabertooth.reverse(mini_br.cmd());
 				}
-				console.print(mini_br.cmd(), HEX);
+//				console.print(mini_br.cmd(), HEX);
 				break;
 			default:
 				break;
