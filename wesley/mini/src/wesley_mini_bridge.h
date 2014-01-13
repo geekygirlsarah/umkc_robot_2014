@@ -43,9 +43,15 @@ class mini_bridge {
 		// range:  0 - stop
 		// 		  50 - full
 		void speed(const byte value) {
-			mega.write('-');
-			mega.write(value);
+			byte cmd[2] = { 0, 0 };
+			cmd[0] = '-';
+			cmd[1] = value;
+			mega.write(cmd, sizeof(cmd));
+		//	mega.write('-');
+		//	mega.write(value);
 		//	mega.print(value, DEC);
+
+		//  mega.flush() ??
 		}
 
 		bool cmd_waiting() {

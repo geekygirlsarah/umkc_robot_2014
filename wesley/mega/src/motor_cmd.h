@@ -9,8 +9,8 @@
 class motor_cmd {
     private:
         // motor indentifiers - red button is front of vehicle
-        const byte motor_R = 0x00;    // right side, as looking down
-        const byte motor_L = 0x80;    // left side, as looking down
+        const byte motor_R = 0x80;    // right side, as looking down
+        const byte motor_L = 0x00;    // left side, as looking down
         
         // speed
         const byte ALL_STOP     = 0x00;
@@ -53,15 +53,19 @@ class motor_cmd {
 			switch(serial_port) {
 				case 1:
 					#define mcontrol Serial1
+					Serial.print("Serial1: ");
 					break;
 				case 2:
 					#define mcontrol Serial2
+					Serial.print("Serial2: ");
 					break;
 				case 3:
 					#define mcontrol Serial3
+					Serial.print("Serial3: ");
 					break;
 				default:
 					#define mcontrol Serial2
+					Serial.print("Serial2: ");
 					break;
 			}
 
@@ -107,15 +111,35 @@ class motor_cmd {
          */
         void forward( byte motor_speed ) {
         	// make a conversion from supplied range to the actual
+        	Serial.print("   ::CMD:: forward - at value: ");
+			Serial.print(motor_speed, DEC); Serial.print(" : ");
             motor_speed = ( 1.26)*motor_speed + 64;
+            Serial.println(motor_speed, DEC);
             mcontrol.write(motor_L | motor_speed);
             mcontrol.write(motor_R | motor_speed);
             DIRECTION = FORWARD;
         }            
-        void reverse( long motor_speed ) {
+        void reverse( byte motor_speed ) {
+        	Serial.print("   ::CMD:: reverse - at value: ");
+			Serial.print(motor_speed, DEC); Serial.print(" : ");
             motor_speed = (-1.26)*motor_speed + 64;
+            Serial.println(motor_speed, DEC);
             mcontrol.write(motor_L | motor_speed);
             mcontrol.write(motor_R | motor_speed);
+            DIRECTION = REVERSE;
+        }
+
+        void forward() {
+        	// make a conversion from supplied range to the actual
+        	Serial.println("   ::CMD:: forward - at HALF_ value");
+            mcontrol.write(motor_L | HALF_FORWARD);
+            mcontrol.write(motor_R | HALF_FORWARD);
+            DIRECTION = FORWARD;
+        }            
+        void reverse() {
+        	Serial.println("   ::CMD:: reverse - at HALF_ value");
+            mcontrol.write(motor_L | HALF_REVERSE);
+            mcontrol.write(motor_R | HALF_REVERSE);
             DIRECTION = REVERSE;
         }
 
@@ -140,6 +164,7 @@ class motor_cmd {
             DIRECTION = STOPPED;
         }
         void all_stop( ) {
+        	Serial.println("   ::CMD:: stopping");
             mcontrol.write(ALL_STOP);
             DIRECTION = STOPPED;
         }

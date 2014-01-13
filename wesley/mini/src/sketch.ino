@@ -51,5 +51,4 @@ void loop() {
 //	Serial.print("mini: ");
 //	Serial.print(random(0, 50), DEC);
 //	Serial.println();
-//	}
 }
