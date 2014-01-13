@@ -97,6 +97,22 @@ public:
     delay(500); //make it readable
   }
 
+  void printGapStatus()  {
+   if(gap_status == no_gap)  {
+      Serial.println("gap_status: Nope");
+    }
+    else if (gap_status == maybe_gap)  {
+      Serial.println("gap_status: Maybe - 1 sensor");
+    }
+    else if (gap_status == def_maybe_gap)  {
+      
+      Serial.println("gap_status: Definitely maybe - 2 sensor");
+    }
+    else  {
+      Serial.println("gap_status: GAP! - 3 Sensors");
+    }
+  }
+
   //State machine - to make sure there really is a gap, and not just a sensor misreading
   ternary findGap()  {
     switch (gap_status)  {
@@ -134,20 +150,15 @@ public:
 
     }
     if(gap_status == no_gap)  {
-      Serial.println("Nope");
       return NO_GAP;
     }
     else if (gap_status == maybe_gap)  {
-      Serial.println("Maybe - 1 sensor");
       return NO_GAP;
     }
     else if (gap_status == def_maybe_gap)  {
-      
-      Serial.println("Definitely maybe - 2 sensor");
       return MAYBE_GAP;
     }
     else  {
-      Serial.println("GAP! - 3 Sensors");
       return YES_GAP;
     }
   }
