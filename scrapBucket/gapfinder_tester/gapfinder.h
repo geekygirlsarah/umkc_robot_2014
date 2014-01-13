@@ -88,11 +88,11 @@ public:
     distance3 = Dist3.getDistanceCentimeter();
     //difference = distance1 - distance2;
 
-    Serial.print("Distance in centimers #1: ");
+    Serial.print("dist(cm)#1: ");
     Serial.println(distance1);
-    Serial.print("Distance in centimers #2: ");
+    Serial.print("dist(cm)#2: ");
     Serial.println(distance2);    
-    Serial.print("Distance in centimers #3: ");
+    Serial.print("dist(cm)#3: ");
     Serial.println(distance3); 
     delay(500); //make it readable
   }
