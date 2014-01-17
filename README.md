@@ -6,8 +6,7 @@ Arduino code for the UMKC IEEE Robotics Team 2014 IEEE R5 Competition
 branch status
 =======
 * master - tested working stuff.
-* movement - testing how to use IR sensors and whatnot
-* bridge - testing how to communicate between mini + mega
+* move - how to combine ir sensor data to make robo move intelligently
 * arm - basic framework for arm movement includiung an inverse kinematic function
 
 
