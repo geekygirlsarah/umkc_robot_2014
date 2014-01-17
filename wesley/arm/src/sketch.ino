@@ -36,6 +36,10 @@ void loop()
 				wrist_r = 90;
 				hand = 90;
 				break;
+			case 'k':
+				arm.move_to(random(0, 180), random(0, 180), random(0, 180), random(0, 90));
+				break;
+
 
 			case 'a':
 				base -= 5;
