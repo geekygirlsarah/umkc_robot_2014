@@ -5,6 +5,11 @@
  * PURPOSE: This class defines and describes the control interface
  *          to the AL5D arm.
  *
+ * move_to function lifted from:
+ * http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
+ * and modified to fit this class
+ *
+ *
  * Servos work on the premise of angles from 0 to 180.
  * For the purposes of this code, CENTER is defiend as 90.
  *
