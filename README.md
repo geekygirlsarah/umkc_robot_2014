@@ -8,6 +8,7 @@ branch status
 * master - 
 * movement - testing how to use IR sensors and whatnot
 * bridge - testing how to communicate between mini + mega
+* arm - basic framework for arm movement includiung an inverse kinematic function
 
 
 resources
