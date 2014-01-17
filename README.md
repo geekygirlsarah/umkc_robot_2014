@@ -18,3 +18,5 @@ updated to -> https://github.com/jeroendoggen/arduino-distance-sensor-library
 documentation for that library - https://gp2y0a21yk-library.googlecode.com/hg/Documentation/latex/refman.pdf
 
 sharp ir sensor diagram - http://www.sharpsma.com/webfm_send/1203
+
+Encoder library - http://pjrc.com/teensy/td_libs_Encoder.html
