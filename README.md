@@ -5,9 +5,9 @@ Arduino code for the UMKC IEEE Robotics Team 2014 IEEE R5 Competition
 
 branch status
 =======
-master - 
-movement - testing how to use IR sensors and whatnot
-bridge - testing how to communicate between mini + mega
+* master - 
+* movement - testing how to use IR sensors and whatnot
+* bridge - testing how to communicate between mini + mega
 
 
 resources
