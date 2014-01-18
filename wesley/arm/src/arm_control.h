@@ -34,6 +34,8 @@
 
 #include <Servo.h>
 
+// need a better way to do this? or is this fine?
+#define NO_OF_JOINTS 6
 
 #define BASE_HGT 47.625     //base hight 1 7/8"
 #define HUMERUS 146.05      //shoulder-to-elbow 5 3/4"
@@ -48,20 +50,25 @@ float uln_sq = ULNA*ULNA;
 
 class arm_control {
 	private:
+		byte* position;
+		byte* destination;
+
 		Servo* arm;
 		
 		void attach_joint(const byte joint, const byte pin) {
 			arm[joint].attach(pin);
 		}
 
-		void position(const byte joint, const byte angle) {
-			arm[joint].write(angle);
-		}
+//		void position(const byte joint, const byte angle) {
+//			arm[joint].write(angle);
+//		}
 
 	public:
 		enum joints { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
 		arm_control() {
-			arm = new Servo[6];
+			arm = new Servo[NO_OF_JOINTS];
+			position = new byte[NO_OF_JOINTS];
+			destination = new byte[NO_OF_JOINTS];
 		};
 		arm_control(const byte joints) {
 			arm = new Servo[joints];
@@ -69,6 +76,8 @@ class arm_control {
 
 		~arm_control() {
 			delete(arm);
+			delete(position);
+			delete(destination);
 		}
 
 		// connect(4, JOINT, JOINT, JOINT)
@@ -122,16 +131,48 @@ class arm_control {
 		// return the arm to the parked position.
 		// adjust these angles to change the park position.
 		void park() {
-			put(BASE, 90);
-			put(SHOULDER, 155);
-			put(ELBOW, 150);
-			put(WRIST_P, 10);
-			put(WRIST_R, 95);
-			put(HAND, 90);
+			destination[BASE] = 90;
+			destination[SHOULDER] = 155;
+			destination[ELBOW] = 150;
+			destination[WRIST_P] = 10;
+			destination[WRIST_R] = 95;
+			destination[HAND] = 90;
+			// need to update this each time a physical joint is added.
+			put(NO_OF_JOINTS, BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND);
 		}
 
 		byte get( const byte joint ) {
 			return(arm[joint].read());
+		}
+		
+		void put( byte count, ...) {
+			va_list args;
+			va_start(args, count);
+			byte* arm_queue = new byte[count];
+			for (int jth = 0; jth < count; jth++) {
+				arm_queue[jth] = va_arg(args, byte);
+			}
+			byte maximal_distance = 0;
+			for (int joint = 0; joint < NO_OF_JOINTS; joint++) {
+				byte distance = destination[joint] > position[joint] \
+								? (destination[joint] - position[joint]) \
+								: (position[joint] - destination[joint]);
+				if (distance > maximal_distance) {
+					maximal_distance = distance;
+				}
+			}
+			for (; maximal_distance > 0; maximal_distance--) {
+				for (int joint = 0; joint <= NO_OF_JOINTS; joint++) {
+					if (destination[joint] != position[joint]) {
+						destination[joint] > position[joint] \
+							? position[joint] += 1 \
+							: position[joint] -= 1;
+					}
+					put(joint, position[joint]);
+				}
+			}
+
+			delete(arm_queue);
 		}
 
 		void put( float x, float y, float z, float grip_angle_d )
