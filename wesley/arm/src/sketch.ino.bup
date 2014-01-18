@@ -1,15 +1,14 @@
 #include "arm_control.h"
 #define console Serial
 
-const byte NO_OF_JOINTS = 6;
-
 arm_control arm;
 
-void setup() {
+void setup()
+{
 	console.begin(9600);
-//	console.println("init - preparing arm"); console.flush();
-	arm.connect(NO_OF_JOINTS, 2, 3, 4, 6, 7, 8);
-	arm.begin();
+	arm.connect(2, 3, 4, 6, 7, 8);
+	arm.park();
+	pinMode(9, INPUT);
 }
 
 byte base;
@@ -20,14 +19,19 @@ byte wrist_r;
 byte hand;
 byte pin;
 
-void loop() {
-	base = arm.read(arm.BASE);
-	shoulder = arm.read(arm.SHOULDER);
-	elbow = arm.read(arm.ELBOW);
-	wrist_p = arm.read(arm.WRIST_P);
-	wrist_r = arm.read(arm.WRIST_R);
-	hand = arm.read(arm.HAND);
-	if(console.available() > 0) {
+void loop()
+{
+	/* commands:
+	 * a - swivel left
+	 * d - swivel right
+	 */
+	base = arm.get(arm.BASE);
+	shoulder = arm.get(arm.SHOULDER);
+	elbow = arm.get(arm.ELBOW);
+	wrist_p = arm.get(arm.WRIST_P);
+	wrist_r = arm.get(arm.WRIST_R);
+	hand = arm.get(arm.HAND);
+	if (console.available() > 0) {
 		byte cmd = console.read();
 		switch(cmd) {
 			case 'p':
@@ -37,6 +41,7 @@ void loop() {
 				arm.put(random(0, 180), random(0, 180), random(0, 180), random(0, 90));
 				break;
 
+
 			case 'a':
 				base -= 5;
 				arm.put(arm.BASE, base);
@@ -45,6 +50,7 @@ void loop() {
 				base += 5;
 				arm.put(arm.BASE, base);
 				break;
+			
 			case 'w':
 				shoulder -=5;
 				arm.put(arm.SHOULDER, shoulder);
@@ -83,5 +89,11 @@ void loop() {
 			default:
 				break;
 		}
+		Serial.print(" base: "); Serial.print(base);
+		Serial.print(" shou: "); Serial.print(shoulder);
+		Serial.print(" elbo: "); Serial.print(elbow);
+		Serial.print(" wriP: "); Serial.print(wrist_p);
+		Serial.print(" wriR: "); Serial.print(wrist_r);
+		Serial.println();
 	}
 }

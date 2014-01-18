@@ -1,41 +1,13 @@
 /* ARM_CONTROL
  * written by: Eric M Gonzalez
- * date: 13-01-14
+ * date: 18-01-2014
  *
- * PURPOSE: This class defines and describes the control interface
- *          to the AL5D arm.
+ * PURPOSE: Define and describe a control interface to the robotic arm.
  *
- * move_to function lifted from:
- * http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
- * and modified to fit this class
- *
- *
- * Servos work on the premise of angles from 0 to 180.
- * For the purposes of this code, CENTER is defiend as 90.
- *
- * Inverse Kinematic equations can be based on vectors and
- *    trigonometry.
- *
- *    |
- *    |
- *    |         ___________
- *    |        / α       γ \              alpha,
- *    |       /             \             gamma,
- *    |      /               \
- *    |     /                 \
- *    |    /
- *    |   /
- *    |  /
- *    | /  θ                              theta
- *    |/_____________________________
- *
- * the lengths between each axis/axel must be measured.
  */
 
 #include <Servo.h>
-
-// need a better way to do this? or is this fine?
-#define NO_OF_JOINTS 6
+#include <stdio.h>
 
 #define BASE_HGT 47.625     //base hight 1 7/8"
 #define HUMERUS 146.05      //shoulder-to-elbow 5 3/4"
@@ -46,32 +18,46 @@
 float hum_sq = HUMERUS*HUMERUS;
 float uln_sq = ULNA*ULNA;
 
-#define ftl(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))  //float to long conversion
-
 class arm_control {
 	private:
 		byte* position;
 		byte* destination;
 
 		Servo* arm;
-		
-		void attach_joint(const byte joint, const byte pin) {
-			arm[joint].attach(pin);
+		byte no_of_joints;
+
+		void store() {
+			for (int joint = 0; joint < no_of_joints; joint++) {
+				position[joint] = arm[joint].read();
+			//	Serial.print("joint: "); Serial.print(joint, DEC);
+			//	Serial.print(" position thought: ");
+			//	Serial.print(position[joint]);
+			//	Serial.print(" position actual: ");
+			//	Serial.print(arm[joint].read());
+			//	Serial.println();
+			}
 		}
-
-//		void position(const byte joint, const byte angle) {
-//			arm[joint].write(angle);
-//		}
-
+	
 	public:
 		enum joints { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
 		arm_control() {
-			arm = new Servo[NO_OF_JOINTS];
-			position = new byte[NO_OF_JOINTS];
-			destination = new byte[NO_OF_JOINTS];
-		};
+			// default number of servo-joints in AL5D
+			no_of_joints = 6;
+			position = new byte[no_of_joints];
+			destination = new byte[no_of_joints];
+
+			arm = new Servo[no_of_joints];
+			store();
+
+			//arm_control(6) ?? just call another constructor?
+		}
 		arm_control(const byte joints) {
-			arm = new Servo[joints];
+			no_of_joints = joints;
+			position = new byte[no_of_joints];
+			destination = new byte[no_of_joints];
+
+			arm = new Servo[no_of_joints];
+			store();
 		}
 
 		~arm_control() {
@@ -80,57 +66,37 @@ class arm_control {
 			delete(destination);
 		}
 
-		// connect(4, JOINT, JOINT, JOINT)
-		// arm.connect(ELBOW)
+		void connect(int argc, ...) {
+			int pin;
+			va_list argv;
+			va_start(argv, argc);
 
-		void connect( const byte joints, ...) {
-			va_list args;
-			va_start(args, joints);
-			byte pin = 0;
-			for (byte jth = 0; jth < joints; jth++) {
-				pin = va_arg(args, byte);
-				attach_joint(jth, pin);
+			for (int joint = 0; joint < argc; joint++) {
+				pin = va_arg(argv, int);
+			//	Serial.print(joint, DEC); Serial.print(" : ");
+			//	Serial.println(pin, DEC);
+				arm[joint].attach(pin);
 			}
-			va_end(args);
+
+			va_end(argv);
 		}
 
-		/* comment for testing */
-		void connect( const byte b_jt, 		// base
-					  const byte s_jt, 		// shoulder
-					  const byte e_jt, 		// elbow
-					  const byte p_jt, 		// wrist
-					  const byte r_jt, 		// wrist
-					  const byte h_jt ) {	// hand
-			attach_joint(BASE,     b_jt);
-			attach_joint(SHOULDER, s_jt);
-			attach_joint(ELBOW,    e_jt);
-			attach_joint(WRIST_P,  p_jt);
-			attach_joint(WRIST_R,  r_jt);
-			attach_joint(HAND,     h_jt);
-		}	//*/
-
-		void disconnect() {
-			for (byte joint = BASE; joint <= HAND; joint++) {
-				arm[joint].detach();
-			}
+		byte read(const byte joint) {
+			return(arm[joint].read());
 		}
 
-		void swivel(const byte angle) {
-			arm[BASE].write(angle);
-		//	Servo::refresh();
+		void begin() {
+			arm[BASE].write(90);
+			arm[SHOULDER].write(155);
+			arm[ELBOW].write(150);
+			arm[WRIST_P].write(10);
+			arm[WRIST_R].write(95);
+			arm[HAND].write(90);
+			store();
 		}
 
-		void put(const byte joint, const byte angle) {
-//			for (byte position = arm[joint].read(); position < angle; position += 1) {
-//				arm[joint].write(position);
-//				delay(20);
-//			}
-			arm[joint].write(angle);
-		}
-
-		// return the arm to the parked position.
-		// adjust these angles to change the park position.
 		void park() {
+			/* comment out - not working */
 			destination[BASE] = 90;
 			destination[SHOULDER] = 155;
 			destination[ELBOW] = 150;
@@ -138,46 +104,66 @@ class arm_control {
 			destination[WRIST_R] = 95;
 			destination[HAND] = 90;
 			// need to update this each time a physical joint is added.
-			put(NO_OF_JOINTS, BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND);
+			put(no_of_joints, BASE, SHOULDER, ELBOW, \
+							  WRIST_P, WRIST_R, HAND);
+			//*/
+		}
+			
+
+		void put(const byte joint, const byte angle) {
+			Serial.print("ARM :: called direct put(");
+			Serial.print(joint, DEC);
+			Serial.print(", ");
+			Serial.print(angle);
+			Serial.println(")");
+			arm[joint].write(angle);
+			position[joint] = angle;
+			// as opposed to..
+			//position[joint] = arm[joint].read();
 		}
 
-		byte get( const byte joint ) {
-			return(arm[joint].read());
-		}
-		
-		void put( byte count, ...) {
-			va_list args;
-			va_start(args, count);
-			byte* arm_queue = new byte[count];
-			for (int jth = 0; jth < count; jth++) {
-				arm_queue[jth] = va_arg(args, byte);
+		void put(byte argc, ...) {
+			Serial.println("ARM :: called put(...)");
+			Serial.flush();
+			va_list argv;
+			va_start(argv, argc);
+
+			byte* arm_queue = new byte[argc];
+			for (int jth = 0; jth < argc; jth++) {
+				arm_queue[jth] = va_arg(argv, int);
 			}
-			byte maximal_distance = 0;
-			for (int joint = 0; joint < NO_OF_JOINTS; joint++) {
-				byte distance = destination[joint] > position[joint] \
-								? (destination[joint] - position[joint]) \
-								: (position[joint] - destination[joint]);
-				if (distance > maximal_distance) {
-					maximal_distance = distance;
+			byte max_distance = 0;
+			for (byte jth = 0; jth < argc; jth++) {
+				byte distance = destination[arm_queue[jth]] >= position[arm_queue[jth]] \
+								? (destination[arm_queue[jth]] - position[arm_queue[jth]]) \
+								: (position[arm_queue[jth]] - destination[arm_queue[jth]]);
+				if (distance > max_distance) {
+					max_distance = distance;
 				}
 			}
-			for (; maximal_distance > 0; maximal_distance--) {
-				for (int joint = 0; joint <= NO_OF_JOINTS; joint++) {
-					if (destination[joint] != position[joint]) {
-						destination[joint] > position[joint] \
-							? position[joint] += 1 \
-							: position[joint] -= 1;
+			
+			// cycle through quanta of max_distance
+			// ONLY AMONG THE JOINTS THAT WILL BE MOVED
+			for (; max_distance > 1; max_distance--) {
+				for (byte jth = 0; jth < argc; jth++) {
+					if (destination[arm_queue[jth]] != position[arm_queue[jth]]) {
+						destination[arm_queue[jth]] > position[arm_queue[jth]] \
+							? position[arm_queue[jth]] += 1 \
+							: position[arm_queue[jth]] -= 1;
+						put(jth, position[jth]);
 					}
-					put(joint, position[joint]);
 				}
 			}
 
-			delete(arm_queue);
+
+			delete (arm_queue);
+			Serial.println("ARM :: leaving put(...)");
 		}
 
 		void put( float x, float y, float z, float grip_angle_d )
 		{
-			float grip_angle_r = radians( grip_angle_d );    //grip angle in radians for use in calculations
+			//grip angle in radians for use in calculations
+			float grip_angle_r = radians( grip_angle_d );    
 			/* Base angle and radial distance from x,y coordinates */
 			float bas_angle_r = atan2( x, y );
 			float rdist = sqrt(( x * x ) + ( y * y ));
@@ -213,26 +199,21 @@ class arm_control {
 			float elb_servopulse = 1500.0 -  (( elb_angle_d - 90.0 ) * 6.6 );
 			float wri_servopulse = 1500 + ( wri_angle_d  * 11.1 );
 
-			/* Set Servos, using arm* */
+			/* Set Servos, using arm*
 			put(BASE, degrees(bas_angle_r) );
 			put(WRIST_P, wri_angle_d );
 			put(SHOULDER, shl_angle_d );
 			put(ELBOW, elb_angle_d );
 			//*/
-			
-			/* write out angle information to console
-			Serial.print("set arm to:");
-			Serial.print(" base: "); Serial.print( degrees(bas_angle_r) );
-			Serial.print(" shou: "); Serial.print( shl_angle_d );
-			Serial.print(" elbo: "); Serial.print( elb_angle_d );
-			Serial.print(" wriP: "); Serial.print( wri_angle_d );
-			Serial.println();	//*/
 
-			/* Set servos 
-			servos.setposition( BAS_SERVO, ftl( bas_servopulse ));
-			servos.setposition( WRI_SERVO, ftl( wri_servopulse ));
-			servos.setposition( SHL_SERVO, ftl( shl_servopulse ));
-			servos.setposition( ELB_SERVO, ftl( elb_servopulse ));
-			//*/
+			destination[BASE] = degrees(bas_angle_r);
+			destination[WRIST_P] = wri_angle_d;
+			destination[SHOULDER] = shl_angle_d;
+			destination[ELBOW] = elb_angle_d;
+
+			put (4, BASE, WRIST_P, SHOULDER, ELBOW);
+			
 		}
+
 };
+
