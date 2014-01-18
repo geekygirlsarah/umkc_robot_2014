@@ -112,6 +112,10 @@ class arm_control {
 		}
 
 		void put(const byte joint, const byte angle) {
+//			for (byte position = arm[joint].read(); position < angle; position += 1) {
+//				arm[joint].write(position);
+//				delay(20);
+//			}
 			arm[joint].write(angle);
 		}
 
@@ -119,14 +123,18 @@ class arm_control {
 		// adjust these angles to change the park position.
 		void park() {
 			put(BASE, 90);
-			put(SHOULDER, 167);
-			put(ELBOW, 160);
-			put(WRIST_P, 45);
-			put(WRIST_R, 90);
+			put(SHOULDER, 155);
+			put(ELBOW, 150);
+			put(WRIST_P, 10);
+			put(WRIST_R, 95);
 			put(HAND, 90);
 		}
 
-		void move_to( float x, float y, float z, float grip_angle_d )
+		byte get( const byte joint ) {
+			return(arm[joint].read());
+		}
+
+		void put( float x, float y, float z, float grip_angle_d )
 		{
 			float grip_angle_r = radians( grip_angle_d );    //grip angle in radians for use in calculations
 			/* Base angle and radial distance from x,y coordinates */
@@ -171,13 +179,13 @@ class arm_control {
 			put(ELBOW, elb_angle_d );
 			//*/
 			
-			/* write out angle information to console */
+			/* write out angle information to console
 			Serial.print("set arm to:");
 			Serial.print(" base: "); Serial.print( degrees(bas_angle_r) );
 			Serial.print(" shou: "); Serial.print( shl_angle_d );
 			Serial.print(" elbo: "); Serial.print( elb_angle_d );
 			Serial.print(" wriP: "); Serial.print( wri_angle_d );
-			Serial.println();
+			Serial.println();	//*/
 
 			/* Set servos 
 			servos.setposition( BAS_SERVO, ftl( bas_servopulse ));

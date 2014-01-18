@@ -8,14 +8,16 @@ void setup()
 	console.begin(9600);
 	arm.connect(2, 3, 4, 6, 7, 8);
 	arm.park();
+	pinMode(9, INPUT);
 }
 
-	byte base = 90;
-	byte shoulder = 167;
-	byte elbow = 160;
-	byte wrist_p = 45;
-	byte wrist_r = 90;
-	byte hand = 90;
+byte base;
+byte shoulder;
+byte elbow;
+byte wrist_p;
+byte wrist_r;
+byte hand;
+byte pin;
 
 void loop()
 {
@@ -23,21 +25,20 @@ void loop()
 	 * a - swivel left
 	 * d - swivel right
 	 */
-
+	base = arm.get(arm.BASE);
+	shoulder = arm.get(arm.SHOULDER);
+	elbow = arm.get(arm.ELBOW);
+	wrist_p = arm.get(arm.WRIST_P);
+	wrist_r = arm.get(arm.WRIST_R);
+	hand = arm.get(arm.HAND);
 	if (console.available() > 0) {
 		byte cmd = console.read();
 		switch(cmd) {
 			case 'p':
 				arm.park();
-				base = 90;
-				shoulder = 167;
-				elbow = 160;
-				wrist_p = 45;
-				wrist_r = 90;
-				hand = 90;
 				break;
 			case 'k':
-				arm.move_to(random(0, 180), random(0, 180), random(0, 180), random(0, 90));
+				arm.put(random(0, 180), random(0, 180), random(0, 180), random(0, 90));
 				break;
 
 
@@ -88,5 +89,11 @@ void loop()
 			default:
 				break;
 		}
+		Serial.print(" base: "); Serial.print(base);
+		Serial.print(" shou: "); Serial.print(shoulder);
+		Serial.print(" elbo: "); Serial.print(elbow);
+		Serial.print(" wriP: "); Serial.print(wrist_p);
+		Serial.print(" wriR: "); Serial.print(wrist_r);
+		Serial.println();
 	}
 }
