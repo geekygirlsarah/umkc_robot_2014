@@ -6,21 +6,31 @@
  * 			sabertooth motor controller.
  */
 
+#ifndef MOTOR_CMD_H
+#define MOTOR_CMD_H
+
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
+#include "WProgram.h"
+#include <pins_arduino.h>
+#endif
+
 class motor_cmd {
     private:
         // motor indentifiers - red button is front of vehicle
-        const byte motor_R = 0x80;    // right side, as looking down
-        const byte motor_L = 0x00;    // left side, as looking down
+        static const byte motor_R = 0x80;    // right side, as looking down
+        static const byte motor_L = 0x00;    // left side, as looking down
         
         // speed
-        const byte ALL_STOP     = 0x00;
-        const byte FULL_REVERSE = 0x01;
-        const byte HALF_REVERSE = 0x10;
-        const byte TURN_REVERSE = 0x30;
-        const byte FULL_STOP    = 0x40;
-        const byte TURN_FORWARD = 0x50;
-        const byte HALF_FORWARD = 0x70;
-        const byte FULL_FORWARD = 0x7F;
+        static const byte ALL_STOP     = 0x00;
+        static const byte FULL_REVERSE = 0x01;
+        static const byte HALF_REVERSE = 0x10;
+        static const byte TURN_REVERSE = 0x30;
+        static const byte FULL_STOP    = 0x40;
+        static const byte TURN_FORWARD = 0x50;
+        static const byte HALF_FORWARD = 0x70;
+        static const byte FULL_FORWARD = 0x7F;
 
         // translate angle into a duration
         // the calculations here need better work. find out how
@@ -38,11 +48,11 @@ class motor_cmd {
 
     public:
         // direction
-        const byte FORWARD = 0xFF;
-        const byte LEFT    = 0x33;
-        const byte RIGHT   = 0x55;
-        const byte REVERSE = 0xBB;
-        const byte STOPPED = 0x00;
+        static const byte FORWARD = 0xFF;
+        static const byte LEFT    = 0x33;
+        static const byte RIGHT   = 0x55;
+        static const byte REVERSE = 0xBB;
+        static const byte STOPPED = 0x00;
         byte DIRECTION;
 
         motor_cmd() {
@@ -174,3 +184,4 @@ class motor_cmd {
         }
 };
 
+#endif
