@@ -1,3 +1,5 @@
+
+
 //Test program to find a gap among the waves.
 //Author: Vicky Wu + Andrew Cunningham
 
@@ -8,9 +10,9 @@
 //add in the ir sensor //thingy formula thingy
 //add in using 3 ir sensors, and the slow down thingy
 #include <Distance2D120X.h>
-#include "gapfinder.h"
-#include "magellan_edgesensors.h"
-#include "irsensor_tester.h"`
+#include <gapfinder.h>
+#include <irsensor_tester.h>
+#include <magellan_edgesensors.h>
 
 //WITH THE thigy -> IN INCHES!!! (problem - when you don't have anything... it dfaults to 8 inches
 GapFinder gapf;
