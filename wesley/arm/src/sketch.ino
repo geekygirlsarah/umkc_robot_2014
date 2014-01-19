@@ -73,11 +73,19 @@ void loop() {
 				break;
 			case 't':
 				wrist_p += 5;
-				arm.put(arm.WRIST_P, wrist_p);
+				arm.put(arm.WRIST_P, :rist_p);
 				break;
 			case 'g':
 				wrist_p -= 5;
 				arm.put(arm.WRIST_P, wrist_p);
+				break;
+			case 'Q':
+				hand -= 5;
+				arm.put(arm.HAND, hand);
+				break;
+			case 'E':
+				hand += 5;
+				arm.put(arm.HAND, hand);
 				break;
 
 			default:

@@ -47,7 +47,7 @@ class arm_control {
 			destination = new byte[no_of_joints];
 
 			arm = new Servo[no_of_joints];
-			store();
+		//	store();
 
 			//arm_control(6) ?? just call another constructor?
 		}
@@ -57,7 +57,7 @@ class arm_control {
 			destination = new byte[no_of_joints];
 
 			arm = new Servo[no_of_joints];
-			store();
+		//	store();
 		}
 
 		~arm_control() {
@@ -111,20 +111,31 @@ class arm_control {
 			
 
 		void put(const byte joint, const byte angle) {
-			Serial.print("ARM :: called direct put(");
+			Serial.print("ARM :: called direct: ");
+			for (int tab = 0; tab < joint; tab++) {
+				Serial.print("\t\t");
+			}
+			Serial.print("put(");
 			Serial.print(joint, DEC);
 			Serial.print(", ");
 			Serial.print(angle);
 			Serial.println(")");
 			arm[joint].write(angle);
-			position[joint] = angle;
+		//	position[joint] = angle;
 			// as opposed to..
-			//position[joint] = arm[joint].read();
+			position[joint] = arm[joint].read();
 		}
 
 		void put(byte argc, ...) {
 			Serial.println("ARM :: called put(...)");
 			Serial.flush();
+			Serial.println("ARM :: put(x,y,z) --> going to:");
+			Serial.print("\t"); Serial.print(destination[BASE], DEC);
+			Serial.print(", "); Serial.print(destination[SHOULDER], DEC);
+			Serial.print(", "); Serial.print(destination[ELBOW], DEC);
+			Serial.print(", "); Serial.print(destination[WRIST_P], DEC);
+			Serial.println();
+
 			va_list argv;
 			va_start(argv, argc);
 
@@ -211,7 +222,8 @@ class arm_control {
 			destination[SHOULDER] = shl_angle_d;
 			destination[ELBOW] = elb_angle_d;
 
-			put (4, BASE, WRIST_P, SHOULDER, ELBOW);
+		//	put (4, BASE, WRIST_P, SHOULDER, ELBOW);
+			put (4, BASE, SHOULDER, ELBOW, WRIST_P);
 			
 		}
 
