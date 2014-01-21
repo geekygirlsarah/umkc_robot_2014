@@ -37,6 +37,18 @@ void loop() {
 				arm.put(random(0, 180), random(0, 180), random(0, 180), random(0, 90));
 				break;
 
+			/* these don't work like you think.
+			case 'c':
+				arm.circle();
+				break;
+			case 'l':
+				arm.line();
+				break;
+			case 'x':
+				arm.zero_x();
+				break;
+			//*/
+
 			case 'a':
 				base -= 5;
 				arm.put(arm.BASE, base);
@@ -73,7 +85,7 @@ void loop() {
 				break;
 			case 't':
 				wrist_p += 5;
-				arm.put(arm.WRIST_P, :rist_p);
+				arm.put(arm.WRIST_P, wrist_p);
 				break;
 			case 'g':
 				wrist_p -= 5;
@@ -88,6 +100,28 @@ void loop() {
 				arm.put(arm.HAND, hand);
 				break;
 
+			case '?': {
+				byte* pillow = new byte[4];
+				arm.get(pillow, 4);
+				console.println("MAIN :: get angles -->");
+				console.print("\t");
+				for (int ith = 0; ith < 4; ith++) {
+					console.print(pillow[ith], DEC);
+					console.print(", ");
+				}
+				console.println();
+				delete(pillow);
+			} // a bit confusing, but the 'new' needs to be in
+			  //    a protected scope, hence the brackets.
+				break;
+
+			case 'z': {
+				byte polar_angle;
+				console.print("MAIN :: polar_distance --> ");
+				console.print(arm.polar_distance(&polar_angle));
+				console.println();
+			}
+				break;
 			default:
 				break;
 		}

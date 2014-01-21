@@ -4,15 +4,19 @@
  *
  * PURPOSE: Define and describe a control interface to the robotic arm.
  *
+ * Recommended viewing at 100 coloumns
+ *
  */
 
 #include <Servo.h>
 #include <stdio.h>
 
-#define BASE_HGT 47.625     //base hight 1 7/8"
-#define HUMERUS 146.05      //shoulder-to-elbow 5 3/4"
-#define ULNA 187.325        //elbow-to-wrist 7 3/8"
-#define GRIPPER 8.89        //gripper length 3 1/2"
+#define BASE_HGT 69.85      // base hight 2 3/4"
+#define HUMERUS 146.05      // shoulder-to-elbow 5 3/4"
+#define ULNA 187.325        // elbow-to-wrist 7 3/8"
+#define GRIPPER 88.9        // gripper length 3 1/2"
+                            // this gripper measure is to the outside
+                            // screw-hole, not the tip of the hand.
 
 /* pre-calculations */
 float hum_sq = HUMERUS*HUMERUS;
@@ -111,15 +115,15 @@ class arm_control {
 			
 
 		void put(const byte joint, const byte angle) {
-			Serial.print("ARM :: called direct: ");
-			for (int tab = 0; tab < joint; tab++) {
-				Serial.print("\t\t");
-			}
-			Serial.print("put(");
-			Serial.print(joint, DEC);
-			Serial.print(", ");
-			Serial.print(angle);
-			Serial.println(")");
+//			Serial.print("ARM :: called direct: ");
+//			for (int tab = 0; tab < joint; tab++) {
+//				Serial.print("\t\t");
+//			}
+//			Serial.print("put(");
+//			Serial.print(joint, DEC);
+//			Serial.print(", ");
+//			Serial.print(angle);
+//			Serial.println(")");
 			arm[joint].write(angle);
 		//	position[joint] = angle;
 			// as opposed to..
@@ -127,9 +131,9 @@ class arm_control {
 		}
 
 		void put(byte argc, ...) {
-			Serial.println("ARM :: called put(...)");
-			Serial.flush();
-			Serial.println("ARM :: put(x,y,z) --> going to:");
+//			Serial.println("ARM :: called put(...)");
+//			Serial.flush();
+			Serial.println("ARM :: put(...) --> going to:");
 			Serial.print("\t"); Serial.print(destination[BASE], DEC);
 			Serial.print(", "); Serial.print(destination[SHOULDER], DEC);
 			Serial.print(", "); Serial.print(destination[ELBOW], DEC);
@@ -155,13 +159,14 @@ class arm_control {
 			
 			// cycle through quanta of max_distance
 			// ONLY AMONG THE JOINTS THAT WILL BE MOVED
-			for (; max_distance > 1; max_distance--) {
+			for (; max_distance > 0; max_distance--) {
 				for (byte jth = 0; jth < argc; jth++) {
 					if (destination[arm_queue[jth]] != position[arm_queue[jth]]) {
 						destination[arm_queue[jth]] > position[arm_queue[jth]] \
 							? position[arm_queue[jth]] += 1 \
 							: position[arm_queue[jth]] -= 1;
 						put(jth, position[jth]);
+						delay(18);
 					}
 				}
 			}
@@ -171,8 +176,26 @@ class arm_control {
 			Serial.println("ARM :: leaving put(...)");
 		}
 
+		/* The following movement functions were found on the internet.
+		 * Original author: Oleg Mazurov
+		 * LINK: http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
+		 *
+		 * An extended explanation can be found at the above link.
+		 * In summary, the functions do:
+		 *    put(x, y, z, a) : move the arm directly to a prescribed
+		 *       Cartesian co-ordinate in a 3D-field with the origin
+		 *       at the base of the robot.
+		 *    zero_x() - moves arm along the y-axis
+		 *    line() - moves arm along the x-axis
+		 *    circle() - a circle in the y-z plane
+		 */
 		void put( float x, float y, float z, float grip_angle_d )
 		{
+			Serial.print("ARM :: put(xyz) --> (");
+			Serial.print(x), Serial.print(", ");
+			Serial.print(y), Serial.print(", ");
+			Serial.print(z), Serial.print(") ");
+			Serial.print(grip_angle_d); Serial.println();
 			//grip angle in radians for use in calculations
 			float grip_angle_r = radians( grip_angle_d );    
 			/* Base angle and radial distance from x,y coordinates */
@@ -227,5 +250,69 @@ class arm_control {
 			
 		}
 
-};
+		void zero_x() {
+			for( double yaxis = 150.0; yaxis < 356.0; yaxis += 1 ) {
+				put( 0, yaxis, 127.0, 0 );
+				delay( 10 );
+			}
+			for( double yaxis = 356.0; yaxis > 150.0; yaxis -= 1 ) {
+				put( 0, yaxis, 127.0, 0 );
+			    delay( 10 );
+			  }
+		}
+ 
+		/* moves arm in a straight line */
+		void line() {
+			for( double xaxis = -100.0; xaxis < 100.0; xaxis += 0.5 ) {
+				put( xaxis, 250, 100, 0 );
+				delay( 10 );
+			}
+			for( float xaxis = 100.0; xaxis > -100.0; xaxis -= 0.5 ) {
+				put( xaxis, 250, 100, 0 );
+				delay( 10 );
+		    }
+		}
 
+		void circle() {
+			#define RADIUS 80.0
+			//float angle = 0;
+			float zaxis,yaxis;
+			for( float angle = 0.0; angle < 360.0; angle += 1.0 ) {
+				yaxis = RADIUS * sin( radians( angle )) + 200;
+				zaxis = RADIUS * cos( radians( angle )) + 200;
+				put( 0, yaxis, zaxis, 0 );
+				delay( 1 );
+			}
+		}
+
+		void get(byte* angles, const byte size) {
+			for (byte joint = 0; joint < size; joint++) {
+				angles[joint] = arm[joint].read();
+			}
+		}
+
+		double polar_distance(byte* angle) {
+			double x_comp[4];
+			double y_comp[4];
+
+			// position at the SHOULDER
+			x_comp[0] = 0; y_comp[0] = 0;
+
+			// position at the ELBOW
+			x_comp[1] = HUMERUS * cos(radians(arm[SHOULDER].read()));
+			y_comp[1] = HUMERUS * sin(radians(arm[SHOULDER].read()));
+
+			// position at the WRIST
+			x_comp[2] = ULNA * cos(radians(arm[ELBOW].read() - arm[SHOULDER].read()));
+			y_comp[2] = ULNA * sin(radians(arm[ELBOW].read() - arm[SHOULDER].read()));
+
+			// position at the GRIPPER POINT (outward screw)
+			x_comp[3] = GRIPPER * cos(radians(arm[WRIST_P].read() - arm[ELBOW].read()));
+			y_comp[3] = GRIPPER * sin(radians(arm[WRIST_P].read() - arm[ELBOW].read()));
+
+			double y = y_comp[1] + y_comp[2] + y_comp[3];
+			return(y);
+		}
+
+	// END OF CLASS (arm_control);
+};
