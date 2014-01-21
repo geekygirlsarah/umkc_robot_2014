@@ -1,5 +1,4 @@
-//todo uncomment
-//#include <Distance2D120X.h>
+#include <Distance2D120X.h>
 /**
  * Wall following module by Chris Denniston.
  * The documentation should work well with doxygen.
@@ -17,10 +16,9 @@ class WallFollower{
   int timeLowConfidence; /**< The number of function calls spent in low confidence of going straight */
   int lowConfidence; /**< The minimum amount of difference between the first and last ping sensors that causes concern. in cm */
   bool isStraight; /** < The boolean determining if the robot is straight or not. */
-  //Todo uncomment
-  //Distance2D120X Dist1;
-  //Distance2D120X Dist2;  
-  //Distance2D120X Dist3;
+  Distance2D120X Dist1;
+  Distance2D120X Dist2;  
+  Distance2D120X Dist3;
   int distance1;
   int distance2;
   int distance3;
@@ -33,9 +31,9 @@ class WallFollower{
    * @param pin3 The third pin to connect to.
    */
   void init(int pin1, int pin2, int pin3){
-    /* Dist1.begin(pin1); */
-    /* Dist2.begin(pin2); */
-    /* Dist3.begin(pin3); */
+    Dist1.begin(pin1);
+    Dist2.begin(pin2);
+    Dist3.begin(pin3);
     distance1 = 0;
     distance2 = 0;
     distance3 = 0;
@@ -61,26 +59,26 @@ class WallFollower{
    * Prints debug information for the module. 
    * Copied from gapfinder mostly.
    */
-  /* void printDebug(){ */
-  /*   distance1 =  Dist1.getDistanceCentimeter(); */
-  /*   distance2 = Dist2.getDistanceCentimeter(); */
-  /*   distance3 = Dist3.getDistanceCentimeter(); */
-  /*   
-       /* RobotIsStraight();
-  /*   Serial.print("dist(cm)#1: "); */
-  /*   Serial.println(distance1); */
-  /*   Serial.print("dist(cm)#2: "); */
-  /*   Serial.println(distance2);     */
-  /*   Serial.print("dist(cm)#3: "); */
-  /*   Serial.println(distance3);  */
-  /*   Serial.print("Straight confidence: "); */
-  /*   Serial.println(straightConfidence); */
-  /*   Serial.print("Time low confidence: "); */
-  /*   Serial.println(timeLowConfidence); */
-  /*   Serial.print("Is next to wall: "); */
-  /*   Serial.println(isNextToWall); */
-  /*   delay(500); //make it readable */
-  /* } */
+  void printDebug(){
+    distance1 =  Dist1.getDistanceCentimeter();
+    distance2 = Dist2.getDistanceCentimeter();
+    distance3 = Dist3.getDistanceCentimeter();
+    
+    RobotIsStraight();
+    Serial.print("dist(cm)#1: ");
+    Serial.println(distance1);
+    Serial.print("dist(cm)#2: ");
+    Serial.println(distance2);
+    Serial.print("dist(cm)#3: ");
+    Serial.println(distance3);
+    Serial.print("Straight confidence: ");
+    Serial.println(straightConfidence);
+    Serial.print("Time low confidence: ");
+    Serial.println(timeLowConfidence);
+    Serial.print("Is next to wall: ");
+    Serial.println(isNextToWall);
+    delay(500); //make it readable
+  }
   /**
    *Detremines straihgt confidence. Nothing should start caring until in low confidence. Robot shouldn't be concerned until in low confidence.
    * Algorithm: Get distance from 3 IR pins. -> distance variables
@@ -98,9 +96,9 @@ class WallFollower{
    * @return True if it's straight, False if it's not.
    */
   bool RobotIsStraight(){
-    /* distance1 = Dist1.getDistanceCentimeter(); */
-    /* distance2 = Dist2.getDistanceCentimeter(); */
-    /* distance3 = Dist3.getDistanceCentimeter(); */
+    distance1 = Dist1.getDistanceCentimeter();
+    distance2 = Dist2.getDistanceCentimeter();
+    distance3 = Dist3.getDistanceCentimeter();
     distance1 = 0;
     distance2 = 0;
     distance3 = 0;
