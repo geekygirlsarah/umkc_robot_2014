@@ -19,7 +19,7 @@
 #include <magellan_edgesensors.h>
 
 #include <motor_cmd.h>
-#include <wesley_mega_bridge.h>
+#include <wesley_mega_bridge.h> 
 
 #include <Encoder.h>
 #define console Serial
@@ -36,25 +36,30 @@ void setup() {
 	console.begin(9600);
 	sabertooth.begin(2);        //motor controller on serial2
 	console.println("ready");
-        gapfind.init(A0,A1,A2);
+        gapfind.init(A5,A6,A7);
         current_status = start;
 }
 
 void loop() {
         
         //keep going forward until you find gap
-        gapfind.update();  
-        gapfind.printGapStatus();
-        gapfind.printDebug();
+        if(!gapfind.gapPresent())
+          gapfind.update();  
+        //gapfind.printGapStatus();
+        //gapfind.printDebug();
+        
+                    
+        
         switch (current_status) {
           case start:
             //let's keep going
-            console.println("start \t go forward!");
+            //console.println("start \t go forward!");
             sabertooth.reverse(20);
             current_status = moving;
             break;
           case moving:
-            console.println("moving \t checking gap");
+            sabertooth.reverse(20);
+            //console.println("moving \t checking gap");
             //check if a gap has been found
             if(gapfind.gapPresent())  {
               console.println("moving \t GAP FOUND!!");
@@ -62,7 +67,7 @@ void loop() {
             }
             break;
           case stopped:
-            console.println("stopped \t ");
+            //console.println("stopped \t ");
             //stay here forever
             sabertooth.all_stop();
             break;
@@ -71,7 +76,7 @@ void loop() {
         }
         
         
-        delay(100);  //make it readable
+        //delay(50);  //make it readable
         //gapfind.printDebug();
         
        
