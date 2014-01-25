@@ -34,13 +34,14 @@ private:
   internal gap_status;
 
   int check;        //how many times in a row must the sensors read a hole
+  int outerloopcount;	//how many times the update() method will run thru the state loop
   int distance1,distance2,distance3;  //used for debugging
 
   Distance2D120X Dist1;
   Distance2D120X Dist2;  
   Distance2D120X Dist3;
 
-  const static int threshold = 15;  //threshold for ping sensor detecting a hole (cm)
+  const static int threshold = 25;  //threshold for ping sensor detecting a hole (cm)
 
 
   
@@ -94,7 +95,7 @@ public:
     Serial.println(distance2);    
     Serial.print("dist(cm)#3: ");
     Serial.println(distance3); 
-    delay(500); //make it readable
+    //delay(500); //make it readable
   }
 
   void printGapStatus()  {
@@ -114,41 +115,44 @@ public:
   }
 
   //State machine - to make sure there really is a gap, and not just a sensor misreading
-  ternary findGap()  {
-    switch (gap_status)  {
-    case no_gap:
-      if(checkMaybeGap())
-        gap_status = maybe_gap;
-      break;
+  ternary update()  {
+    
+	//wrapping this entire thing in a while... hopefully speed this up		  
+	outerloopcount= 5;
+	while(outerloopcount-- > 0)	{
+			switch (gap_status)  {
+			case no_gap:
+			  if(checkMaybeGap())
+				gap_status = maybe_gap;
+			  break;
 
-    case maybe_gap:
-      //maybe check for gap many many times? or is it better to just delay and wait a bit?
-      //check = 2;
-  //TODO TODO make this nicer instead of vascillating between maybegap and no gap
-      if(checkDefMaybeGap())
-          gap_status = def_maybe_gap;
-      else 
-          gap_status = no_gap;
-      break;    //only if 3 in a row read back HOLE, will we move to yes gap
-      
-      
-    case def_maybe_gap:  
-      //SLOW DOWN!!
-      check = 3;
-      while(check-- >0)  {
-       if(checkYesGap())
-        gap_status = yes_gap;
-       else if (!checkDefMaybeGap())
-        gap_status = maybe_gap;
-      }
-     
-      break;
-    case yes_gap:
-      if(!checkYesGap())
-        gap_status = no_gap;
-      break;
+			case maybe_gap:
+			  //maybe check for gap many many times? or is it better to just delay and wait a bit?
+			  //check = 2;
+		  //TODO TODO make this nicer instead of vascillating between maybegap and no gap
+			  if(checkDefMaybeGap())
+				  gap_status = def_maybe_gap;
+			  else 
+				  gap_status = no_gap;
+			  break;    //only if 3 in a row read back HOLE, will we move to yes gap
+			  
+			case def_maybe_gap:  
+			  //SLOW DOWN!!
+			  check = 5;
+			  gap_status = yes_gap;	//assume that there is a gap.
+			  while(check-- >0)  {
+				if(!checkYesGap())	//want to check if yes gap check times in a ROW
+					gap_status = maybe_gap;
+			  }
+			 
+			  break;
+			case yes_gap:
+			  if(!checkYesGap())
+				gap_status = no_gap;
+			  break;
 
-    }
+			}
+	}
     if(gap_status == no_gap)  {
       return NO_GAP;
     }
@@ -163,6 +167,17 @@ public:
     }
   }
 
+  bool gapPresent()	{
+ 	return gap_status == yes_gap;	
+  }
+ 
+  bool maybeGapPresent()	{
+  	return gap_status == def_maybe_gap;
+  }
+
+  bool gapNotPresent()	{
+  	return (gap_status == no_gap || gap_status == maybe_gap);
+  }
 
 };
 
