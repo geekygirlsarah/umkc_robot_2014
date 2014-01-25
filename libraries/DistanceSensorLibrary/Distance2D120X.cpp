@@ -20,9 +20,9 @@ int Distance2D120X::getDistanceCentimeter()
     return (4);
   }
 
-  if (adcValue < 130 )                             //upper boundary: with the formula, about 20 CM cutoff 
+  if (adcValue < 90 )                             //upper boundary: with the formula, about 40 cm cutoff (updated 1/25/14)
   {
-    return (20);
+    return (35);
   }
 
   else
