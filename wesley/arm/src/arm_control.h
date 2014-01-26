@@ -30,6 +30,10 @@ class arm_control {
 		Servo* arm;
 		byte no_of_joints;
 
+		short pulse_width(short angle) {
+			return(map(angle, 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH));
+		}
+
 		void store() {
 			for (int joint = 0; joint < no_of_joints; joint++) {
 				position[joint] = arm[joint].read();
@@ -90,10 +94,10 @@ class arm_control {
 		}
 
 		void begin() {
-			arm[BASE].write(90);
-			arm[SHOULDER].write(155);
-			arm[ELBOW].write(150);
-			arm[WRIST_P].write(10);
+			arm[BASE].write(80);
+			arm[SHOULDER].write(160);
+			arm[ELBOW].write(165);
+			arm[WRIST_P].write(0);
 			arm[WRIST_R].write(95);
 			arm[HAND].write(90);
 			store();
@@ -101,10 +105,10 @@ class arm_control {
 
 		void park() {
 			/* comment out - not working */
-			destination[BASE] = 90;
-			destination[SHOULDER] = 155;
-			destination[ELBOW] = 150;
-			destination[WRIST_P] = 10;
+			destination[BASE] = 80;
+			destination[SHOULDER] = 160;
+			destination[ELBOW] = 165;
+			destination[WRIST_P] = 0;
 			destination[WRIST_R] = 95;
 			destination[HAND] = 90;
 			// need to update this each time a physical joint is added.
@@ -127,6 +131,11 @@ class arm_control {
 			arm[joint].write(angle);
 		//	position[joint] = angle;
 			// as opposed to..
+			position[joint] = arm[joint].read();
+		}
+
+		void put(const byte joint, const float angle) {
+			arm[joint].writeMicroseconds(pulse_width(angle * 10));
 			position[joint] = arm[joint].read();
 		}
 
@@ -157,6 +166,14 @@ class arm_control {
 				}
 			}
 			
+			float step[argc];
+			for (int jth = 0; jth < argc; jth++) {
+				step[jth] = abs(destination[arm_queue[jth]] - position[arm_queue[jth]]);
+				step[jth] = step[jth] / max_distance;
+				step[jth] = floor(step[jth] * 10) / 10;
+			}
+			// divide out each distance to be moved by the number of steps
+			//    required to move the longest
 			// cycle through quanta of max_distance
 			// ONLY AMONG THE JOINTS THAT WILL BE MOVED
 			for (; max_distance > 0; max_distance--) {
@@ -166,6 +183,9 @@ class arm_control {
 							? position[arm_queue[jth]] += 1 \
 							: position[arm_queue[jth]] -= 1;
 						put(jth, position[jth]);
+					//	destination[arm_queue[jth]] > position[arm_queue[jth]] \
+					//		? p_put(arm_queue[jth],  step[jth]) \
+					//		: p_put(arm_queue[jth], -step[jth]) ;
 						delay(18);
 					}
 				}
@@ -174,6 +194,16 @@ class arm_control {
 
 			delete (arm_queue);
 			Serial.println("ARM :: leaving put(...)");
+		}
+
+		void p_put(const byte joint, const float step) {
+			short angle_p = short( ( position[joint] + step ) * 10 );
+			Serial.print("ARM :: p_put --> got (");
+			Serial.print(joint, DEC); Serial.print(", ");
+			Serial.print(angle_p, DEC); Serial.println(")");
+			angle_p = map (angle_p, 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
+			arm[joint].writeMicroseconds(angle_p);
+			position[joint] = arm[joint].read();
 		}
 
 		/* The following movement functions were found on the internet.
@@ -294,21 +324,25 @@ class arm_control {
 		double polar_distance(byte* angle) {
 			double x_comp[4];
 			double y_comp[4];
+			byte angle_actual = 0;
 
 			// position at the SHOULDER
 			x_comp[0] = 0; y_comp[0] = 0;
 
 			// position at the ELBOW
-			x_comp[1] = HUMERUS * cos(radians(arm[SHOULDER].read()));
-			y_comp[1] = HUMERUS * sin(radians(arm[SHOULDER].read()));
+			angle_actual = arm[SHOULDER].read();
+			x_comp[1] = HUMERUS * cos(radians(angle_actual));
+			y_comp[1] = HUMERUS * sin(radians(angle_actual));
 
 			// position at the WRIST
-			x_comp[2] = ULNA * cos(radians(arm[ELBOW].read() - arm[SHOULDER].read()));
-			y_comp[2] = ULNA * sin(radians(arm[ELBOW].read() - arm[SHOULDER].read()));
+			angle_actual = (angle_actual - arm[ELBOW].read());
+			x_comp[2] = ULNA * cos(radians(angle_actual));
+			y_comp[2] = ULNA * sin(radians(angle_actual));
 
 			// position at the GRIPPER POINT (outward screw)
-			x_comp[3] = GRIPPER * cos(radians(arm[WRIST_P].read() - arm[ELBOW].read()));
-			y_comp[3] = GRIPPER * sin(radians(arm[WRIST_P].read() - arm[ELBOW].read()));
+			angle_actual = (angle_actual + (arm[WRIST_P].read() - 90));
+			x_comp[3] = GRIPPER * cos(radians(angle_actual));
+			y_comp[3] = GRIPPER * sin(radians(angle_actual));
 
 			double y = y_comp[1] + y_comp[2] + y_comp[3];
 			return(y);
