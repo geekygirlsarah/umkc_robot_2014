@@ -166,12 +166,19 @@ class arm_control {
 				}
 			}
 			
-			float step[argc];
+			short step[argc];
 			for (int jth = 0; jth < argc; jth++) {
+				// find the distance between where the joint is now and where it's going
 				step[jth] = abs(destination[arm_queue[jth]] - position[arm_queue[jth]]);
-				step[jth] = step[jth] / max_distance;
-				step[jth] = floor(step[jth] * 10) / 10;
+				// divide out the max distance to find the width of a matching step
+				step[jth] = (step[jth] * 10 ) / max_distance;
+				// multiply by ten to increase the magnitude of the step, but
+				//    retain it's ability to fit in an integer.
+				Serial.print(step[jth], DEC); Serial.print(", ");
 			}
+			Serial.println();
+
+
 			// divide out each distance to be moved by the number of steps
 			//    required to move the longest
 			// cycle through quanta of max_distance

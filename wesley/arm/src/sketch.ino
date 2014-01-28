@@ -123,6 +123,38 @@ void loop() {
 				console.println();
 			}
 				break;
+
+			case '1': 
+				base = 45;
+				shoulder = 105;
+				elbow = 90;
+				wrist_p = 15;
+				arm.put(arm.BASE, base);
+				arm.put(arm.SHOULDER, shoulder);
+				arm.put(arm.ELBOW, elbow);
+				arm.put(arm.WRIST_P, wrist_p);
+				break;
+			case '2':
+				base = 70;
+				shoulder = 105;
+				elbow = 95;
+				wrist_p = 0;
+				arm.put(arm.BASE, base);
+				arm.put(arm.SHOULDER, shoulder);
+				arm.put(arm.ELBOW, elbow);
+				arm.put(arm.WRIST_P, wrist_p);
+				break;
+			case '3':
+				base = 90;
+				shoulder = 105;
+				elbow = 90;
+				wrist_p = 0;
+				arm.put(arm.BASE, base);
+				arm.put(arm.SHOULDER, shoulder);
+				arm.put(arm.ELBOW, elbow);
+				arm.put(arm.WRIST_P, wrist_p);
+				break;
+				
 			default:
 				break;
 		}
