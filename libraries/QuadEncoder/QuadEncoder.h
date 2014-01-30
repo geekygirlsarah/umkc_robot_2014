@@ -16,7 +16,9 @@
 // // Assuming it is wired up in this configuration
 // // FR    BR    FL    BL
 // // 13:12 11:10 50:51 52:53
-// // A15   A13   A11   A9
+// // A15   A13   A11    A09
+//
+//
 //
 // // We will use PORTB
 
@@ -85,7 +87,7 @@ class QuadEncoder	{
 ISR(PCINT2_vect)
 {
 	// encoder code goes here
-	char tmp1;
+	uint8_t tmp1;
 
 	//get current state
 	state = PINK;
