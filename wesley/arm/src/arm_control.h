@@ -1,15 +1,6 @@
-/* ARM_CONTROL
- * written by: Eric M Gonzalez
- * date: 18-01-2014
- *
- * PURPOSE: Define and describe a control interface to the robotic arm.
- *
- * Recommended viewing at 100 coloumns
- *
- */
-
 #include <Servo.h>
-#include <stdio.h>
+
+#define topulse(a)     map(a, 0,  180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
 
 #define BASE_HGT 69.85      // base hight 2 3/4"
 #define HUMERUS 146.05      // shoulder-to-elbow 5 3/4"
@@ -18,248 +9,260 @@
                             // this gripper measure is to the outside
                             // screw-hole, not the tip of the hand.
 
-#define topulse(a)		map((a*10), 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
-
-/* pre-calculations */
+// squares of certain lengths for later calculations
 float hum_sq = HUMERUS*HUMERUS;
 float uln_sq = ULNA*ULNA;
 
 class arm_control {
 	private:
-		// holds the servos current position
-		byte* position;
-		// holds the serovs destination. used in calculation
-		//    of the step put(...)
-		byte* destination;
-
-		// an arry of servos
-		Servo* arm;
 		byte no_of_joints;
 
-		// this is a single word and argument entry to the arduino map
-		//    function - converts a range between the 0 - 180 and
-		//    returns and MIN_ and MAX_PULSE_WIDTH
-		short pulse_width(short angle) {
-			return(map(angle, 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH));
-		}
+		Servo* arm;
 
-		// this asks the servos in turn what their current positon is.
-		void store() {
-			for (int joint = 0; joint < no_of_joints; joint++) {
-				position[joint] = arm[joint].read();
-			//	Serial.print("joint: "); Serial.print(joint, DEC);
-			//	Serial.print(" position thought: ");
-			//	Serial.print(position[joint]);
-			//	Serial.print(" position actual: ");
-			//	Serial.print(arm[joint].read());
-			//	Serial.println();
+		short* p_destination;
+		short* p_position;
+
+	public:
+		enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
+
+
+		arm_control() {
+			no_of_joints = 6;
+			p_position = new short[no_of_joints];
+			p_destination = new short[no_of_joints];
+			arm = new Servo[no_of_joints];
+			
+			for (byte joint = 0; joint < no_of_joints; joint++) {
+				p_destination[joint] = 0;
+				p_position[joint] = 0;
 			}
 		}
-	
-	public:
-		// externally viewable enum for single joint identification.
-		//    this needs to be updated if any joints are added
-		enum joints { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
-
-		// default constructor - just sets up 6 joints.
-		arm_control() {
-			// default number of servo-joints in AL5D
-			no_of_joints = 6;
-			position = new byte[no_of_joints];
-			destination = new byte[no_of_joints];
-
-			arm = new Servo[no_of_joints];
-		}
-		// secondary constructor - sets up for a given number of joints
-		arm_control(const byte joints) {
+		arm_control(byte joints) {
 			no_of_joints = joints;
-			position = new byte[no_of_joints];
-			destination = new byte[no_of_joints];
-
+			p_position = new short[no_of_joints];
+			p_destination = new short[no_of_joints];
 			arm = new Servo[no_of_joints];
+			
+			for (byte joint = 0; joint < no_of_joints; joint++) {
+				p_destination[joint] = 0;
+				p_position[joint] = 0;
+			}
 		}
-
-		// destructor - just in case the arm object goes out of scope, we
-		//    need to destroy the memory we've created earlier.
 		~arm_control() {
+			delete(p_destination);
+			delete(p_position);
 			delete(arm);
-			delete(position);
-			delete(destination);
 		}
 
-		// called with (NO_OF_JOINTS, and a list of the servos IN ORDER of connection)
-		// This is the pin that the joint will be attached to.
-		//
-		// example: .connect(6, 2, 3, 4, 6, 7, 8);
-		void connect(int argc, ...) {
-			int pin;
+		// attachs a set of pins to the servos
+		void connect(byte argc, ...) {
+		//	Serial.println("ARM :: connect --> entering");
 			va_list argv;
 			va_start(argv, argc);
 
-			for (int joint = 0; joint < argc; joint++) {
+			int pin = 0;
+			for (byte joint = 0; joint < argc; joint++) {
 				pin = va_arg(argv, int);
-			//	Serial.print(joint, DEC); Serial.print(" : ");
-			//	Serial.println(pin, DEC);
 				arm[joint].attach(pin);
+				p_position[joint] = arm[joint].readMicroseconds();
+		//		Serial.print("\tjoint("); Serial.print(joint, DEC);
+		//		Serial.print(") at ("); Serial.print(p_position[joint]);
+		//		Serial.println(")");
 			}
 
 			va_end(argv);
+		//	Serial.println("ARM :: connect --> leaving");
 		}
 
-		// ask the given joint what its position is.
-		// returned in angle
-		byte read(const byte joint) {
-			return(arm[joint].read());
+		// this needs to be called immediately after connect.
+		//    this sets the arm into a sane, locked position.
+		//    these values can be adjusted as necessary.
+		void initial_park() {
+		//	Serial.println("ARM :: park() --> entering");
+			Serial.flush();
+			/* here, define, in pulse, what angles to place the
+			 *    servos at. these will then be moved below */
+			p_position[BASE] 	= 1368;		//  80°
+			p_position[SHOULDER]	= 2245;		// 165°
+			p_position[ELBOW]	= 600;		//   5.5°
+			p_position[WRIST_P]	= 544;		//   0°
+			p_position[WRIST_R]	= 1523;		//  95°
+			p_position[HAND]		= 1472;		//  90°
+			
+			/* for testing purposes, this will proceed in order
+			 *    and directly place the successive joints at
+			 *    the prescribed angle defined above.
+			 * the ORDER in which these are placed is not set in
+			 *    stone. it may prove useful in the future to set
+			 *    a specific order. something like: 5 3 4 0 2 1 */
+			for (byte joint = 0; joint < no_of_joints; joint++) {
+				arm[joint].writeMicroseconds(p_position[joint]);
+			}
 		}
+			
 
-		// should be called right after connect. this sets the arm in a
-		//    sane starting position
-		void begin() {
-			arm[BASE].write(80);
-			arm[SHOULDER].write(165);
-			arm[ELBOW].write(5);
-			arm[WRIST_P].write(0);
-			arm[WRIST_R].write(100);
-			arm[HAND].write(45);
-			store();
-		}
-
-		// parks the arm from whatever position its currently at.
 		void park() {
-			/* comment out - not working */
-			destination[BASE] = 80;
-			destination[SHOULDER] = 165;
-			destination[ELBOW] = 5;
-			destination[WRIST_P] = 0;
-			destination[WRIST_R] = 100;
-			destination[HAND] = 45;
-			// need to update this each time a physical joint is added.
-			put(no_of_joints, BASE, SHOULDER, ELBOW, \
-							  WRIST_P, WRIST_R, HAND);
-			//*/
+		//	Serial.println("ARM :: park() --> entering");
+			Serial.flush();
+			/* here, define, in pulse, what angles to place the
+			 *    servos at. these will then be moved below */
+			p_destination[BASE] 	= 1368;		//  80°
+			p_destination[SHOULDER]	= 2245;		// 165°
+			p_destination[ELBOW]	= 600;		//   5.5°
+			p_destination[WRIST_P]	= 544;		//   0°
+			p_destination[WRIST_R]	= 1523;		//  95°			p_destination[HAND]		= 1472;		//  90°
+			
+			/* for testing purposes, this will proceed in order
+			 *    and directly place the successive joints at
+			 *    the prescribed angle defined above.
+			 * the ORDER in which these are placed is not set in
+			 *    stone. it may prove useful in the future to set
+			 *    a specific order. something like: 5 3 4 0 2 1 */
+		//	for (byte joint = 0; joint < no_of_joints; joint++) {
+		//		arm[joint].writeMicroseconds(p_destination[joint]);
+		//	}
+			
+			update(6, BASE, SHOULDER, ELBOW, \
+					  WRIST_P, WRIST_R, HAND);
+		//	Serial.println("ARM :: park() --> leaving");
+		//	Serial.flush();
 		}
-		
 
+		// this locks the arm in much the same position as park()
+		//    the difference is that the wrist is pointing up to
+		//    carry the tool across the field.
+		void carry() {
+			Serial.println("ARM :: carry() --> entering");
+			Serial.flush();
+			// here, define a secondary park location to use
+			//    while carrying a tool.
+			p_destination[BASE] 	= 1368;
+			p_destination[SHOULDER]	= 2245;
+			p_destination[ELBOW]	= 600;
+			p_destination[WRIST_P]	= 2348;
+			p_destination[WRIST_R]	= 544;
+			p_destination[HAND]		= 1472;
+
+			update(6, BASE, SHOULDER, ELBOW, \
+					  WRIST_P, WRIST_R, HAND);
+			Serial.println("ARM :: carry() --> leaving");
+			Serial.flush();
+		}
+
+		// return the angle value of the servo
+		byte read(const byte joint) {
+			return arm[joint].read();
+		}
+
+		void p_put(const byte joint, short pusle) {
+			// this function should be a direct write by pulse to
+			//    the servo. this would take the place of the 
+			//    following function, put(byte, byte);
+		}
+
+		// directly put the given joint to the given angle,
+		//    converting first to pulse width
 		void put(const byte joint, const byte angle) {
-//			Serial.print("ARM :: called direct: ");
-//			for (int tab = 0; tab < joint; tab++) {
-//				Serial.print("\t\t");
-//			}
-//			Serial.print("put(");
-//			Serial.print(joint, DEC);
-//			Serial.print(", ");
-//			Serial.print(angle);
-//			Serial.println(")");
-			arm[joint].write(angle);
-		//	position[joint] = angle;
-			// as opposed to..
-			position[joint] = arm[joint].read();
+			// this function currently writes the pulse to the motor
+			//    from a given angle. this should translate the angle
+			//    and pass both joint and pulse to the above p_put().
+			arm[joint].writeMicroseconds(topulse(angle));
+			p_position[joint] = arm[joint].readMicroseconds();
 		}
 
-		void put(const byte joint, const float angle) {
-			arm[joint].writeMicroseconds(pulse_width(angle * 10));
-			position[joint] = arm[joint].read();
-		}
-
-		void put(byte argc, ...) {
-//			Serial.println("ARM :: called put(...)");
-//			Serial.flush();
-			Serial.println("ARM :: put(...) --> going to:");
-			Serial.print("\t"); Serial.print(destination[BASE], DEC);
-			Serial.print(", "); Serial.print(destination[SHOULDER], DEC);
-			Serial.print(", "); Serial.print(destination[ELBOW], DEC);
-			Serial.print(", "); Serial.print(destination[WRIST_P], DEC);
-			Serial.println();
-
+		// call update with update(NO_OF_JOINTS, <a list of joints to mov
+		void update(const byte argc, ...) {
+			Serial.println("ARM :: update(...) --> entering");
+			Serial.flush();
 			va_list argv;
 			va_start(argv, argc);
 
+			// collect the queue of joints to move;
 			byte* arm_queue = new byte[argc];
-			for (int jth = 0; jth < argc; jth++) {
-				arm_queue[jth] = va_arg(argv, int);
+			for (byte ith = 0; ith < argc; ith++) {
+				arm_queue[ith] = va_arg(argv, int);
 			}
-			byte max_distance = 0;
+
+			va_end(argv);
+			Serial.println("ARM :: update(...) --> armqueue created");
+			Serial.flush();
+			// destroy the argument list - we're done.
+			
+			short* step = new short[argc];
+			// this is likely unneccessary.
+			// clean up a new array
 			for (byte jth = 0; jth < argc; jth++) {
-				byte distance = destination[arm_queue[jth]] >= position[arm_queue[jth]] \
-								? (destination[arm_queue[jth]] - position[arm_queue[jth]]) \
-								: (position[arm_queue[jth]] - destination[arm_queue[jth]]);
-				if (distance > max_distance) {
-					max_distance = distance;
+				step[jth] = 0;
+			}
+			Serial.println("ARM :: update(...) --> step cleared");
+			Serial.flush();
+			// find the width of the distance for each joint to be moved
+			short max_distance = 0;
+			for (byte jth = 0; jth < argc; jth++) {
+				step[jth] = abs(p_destination[arm_queue[jth]] \
+								- p_position[arm_queue[jth]]);
+				if (step[jth] > max_distance) {
+					max_distance = step[jth];
 				}
 			}
-			
-			byte step[argc];
+			Serial.println("ARM :: update(...) --> disatnce found");
+			Serial.flush();
+
+			// calculate the step value for each other moving joint
 			for (byte jth = 0; jth < argc; jth++) {
-				// find the distance between where the joint is now and where it's going
-				step[jth] = abs(destination[arm_queue[jth]] - position[arm_queue[jth]]);
-				// divide out the max distance to find the width of a matching step
-				step[jth] = (step[jth] * 10 ) / max_distance;
-				// multiply by ten to increase the magnitude of the step, but
-				//    retain it's ability to fit in an integer.
-				Serial.print(step[jth], DEC); Serial.print(", ");
+				step[jth] = (step[jth] / (max_distance / 10));
+				Serial.print("\tstep: [");
+				Serial.print(step[jth], DEC);
+				Serial.println("]");
 			}
-			Serial.println();
 
-			
-			// this for loop finds the next step to put the arm to based on
-			//    a new map from 0 - 1800 (for finer granularity) of the servo.
-			// while the longest distance still has to move (this should always
-			//    be in stpes of 1
-//			for (; max_distance > 0; max_distance--) {
-//				// for each joint that we need to move
-//				for (byte joint = 0; joint < argc; joint++) {
-//				}
-//			}
-
-
-			// divide out each distance to be moved by the number of steps
-			//    required to move the longest
-			// cycle through quanta of max_distance
-			// ONLY AMONG THE JOINTS THAT WILL BE MOVED
+			// lower the number of movement steps that will be taken
+			max_distance /= 10;
 			for (; max_distance > 0; max_distance--) {
 				for (byte jth = 0; jth < argc; jth++) {
-					if (destination[arm_queue[jth]] != position[arm_queue[jth]]) {
-						destination[arm_queue[jth]] > position[arm_queue[jth]] \
-							? position[arm_queue[jth]] += 1 \
-							: position[arm_queue[jth]] -= 2;
-						put(jth, position[jth]);
-					//	destination[arm_queue[jth]] > position[arm_queue[jth]] \
-					//		? p_put(arm_queue[jth],  step[jth]) \
-					//		: p_put(arm_queue[jth], -step[jth]) ;
-						delay(18);
-					}
+					// adjust position in the correct direction.
+					// if dest > position,
+					//    position increases
+					// else
+					//    position descreses
+					//
+					// this is due to the arc of movement is absolute
+					//    from 0 to 180
+					//    or 544 to 2400
+					p_position[arm_queue[jth]] = p_destination[arm_queue[jth]] > p_position[arm_queue[jth]] ?
+													p_position[arm_queue[jth]] += step[jth] :
+													p_position[arm_queue[jth]] -= step[jth] ;
+					// write this change to the servo.
+					// this should be changed to p_put
+					arm[arm_queue[jth]].writeMicroseconds(p_position[arm_queue[jth]]);
+					delay(5);
 				}
-			}	//*/
+			}
 
+			// run through the joints one more time and directly put
+			//    them to their final position in case any came up
+			//    short after the above step cucles.
+			for (byte joint = 0; joint < no_of_joints; joint++) {
+				arm[joint].writeMicroseconds(p_position[joint]);
+			}
 
-			delete (arm_queue);
-			Serial.println("ARM :: leaving put(...)");
+			//*/
+			delete(arm_queue);
+			delete(step);
+			Serial.println("ARM :: update(...) --> leaving");
+			Serial.flush();
 		}
 
-		void p_put(const byte joint, const float step) {
-			short angle_p = short( ( position[joint] + step ) * 10 );
-			Serial.print("ARM :: p_put --> got (");
-			Serial.print(joint, DEC); Serial.print(", ");
-			Serial.print(angle_p, DEC); Serial.println(")");
-			angle_p = map (angle_p, 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
-			arm[joint].writeMicroseconds(angle_p);
-			position[joint] = arm[joint].read();
-		}
-
-		/* The following movement functions were found on the internet.
-		 * Original author: Oleg Mazurov
-		 * LINK: http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
+		/* place at (x, y, z) - this is an inverse kinematic
+		 *    equation that translates the (x, y, z) into
+		 *    angualr measures from an origin defined at the
+		 *    base of the arm.
 		 *
-		 * An extended explanation can be found at the above link.
-		 * In summary, the functions do:
-		 *    put(x, y, z, a) : move the arm directly to a prescribed
-		 *       Cartesian co-ordinate in a 3D-field with the origin
-		 *       at the base of the robot.
-		 *    zero_x() - moves arm along the y-axis
-		 *    line() - moves arm along the x-axis
-		 *    circle() - a circle in the y-z plane
-		 */
-		void put( float x, float y, float z, float grip_angle_d )
+		 * this function is borrowed from:
+http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
+		 * which, conincedentilelery is the same arm as the one we have
+		 * */
+		void move_to( float x, float y, float z, float grip_angle_d )
 		{
 			Serial.print("ARM :: put(xyz) --> (");
 			Serial.print(x), Serial.print(", ");
@@ -293,15 +296,15 @@ class arm_control {
 			/* elbow angle */
 			float elb_angle_r = acos(( hum_sq + uln_sq - s_w ) / ( 2 * HUMERUS * ULNA ));
 			float elb_angle_d = degrees( elb_angle_r );
-			float elb_angle_dn = -( 180.0 - elb_angle_d );
+		//	float elb_angle_dn = -( 180.0 - elb_angle_d );
 			/* wrist angle */
-			float wri_angle_d = ( grip_angle_d - elb_angle_dn ) - shl_angle_d;
+			float wri_angle_d = ( grip_angle_d - elb_angle_d ) - shl_angle_d;
 
 			/* Servo pulses */
-			float bas_servopulse = 1500.0 - (( degrees( bas_angle_r )) * 11.11 );
-			float shl_servopulse = 1500.0 + (( shl_angle_d - 90.0 ) * 6.6 );
-			float elb_servopulse = 1500.0 -  (( elb_angle_d - 90.0 ) * 6.6 );
-			float wri_servopulse = 1500 + ( wri_angle_d  * 11.1 );
+		//	float bas_servopulse = 1500.0 - (( degrees( bas_angle_r )) * 11.11 );
+		//	float shl_servopulse = 1500.0 + (( shl_angle_d - 90.0 ) * 6.6 );
+		//	float elb_servopulse = 1500.0 -  (( elb_angle_d - 90.0 ) * 6.6 );
+		//	float wri_servopulse = 1500 + ( wri_angle_d  * 11.1 );
 
 			/* Set Servos, using arm*
 			put(BASE, degrees(bas_angle_r) );
@@ -309,84 +312,17 @@ class arm_control {
 			put(SHOULDER, shl_angle_d );
 			put(ELBOW, elb_angle_d );
 			//*/
-
-			destination[BASE] = degrees(bas_angle_r);
-			destination[WRIST_P] = wri_angle_d;
-			destination[SHOULDER] = shl_angle_d;
-			destination[ELBOW] = elb_angle_d;
+			
+			// update the pulse_destination array and then prepare
+			//    to call update 
+			p_destination[BASE] = topulse(degrees(bas_angle_r));
+			p_destination[WRIST_P] = topulse(wri_angle_d);
+			p_destination[SHOULDER] = topulse(shl_angle_d);
+			p_destination[ELBOW] = topulse(elb_angle_d);
 
 		//	put (4, BASE, WRIST_P, SHOULDER, ELBOW);
-			put (4, BASE, SHOULDER, ELBOW, WRIST_P);
+			update(4, BASE, SHOULDER, ELBOW, WRIST_P);
 			
 		}
 
-		void zero_x() {
-			for( double yaxis = 150.0; yaxis < 356.0; yaxis += 1 ) {
-				put( 0, yaxis, 127.0, 0 );
-				delay( 10 );
-			}
-			for( double yaxis = 356.0; yaxis > 150.0; yaxis -= 1 ) {
-				put( 0, yaxis, 127.0, 0 );
-			    delay( 10 );
-			  }
-		}
- 
-		/* moves arm in a straight line */
-		void line() {
-			for( double xaxis = -100.0; xaxis < 100.0; xaxis += 0.5 ) {
-				put( xaxis, 250, 100, 0 );
-				delay( 10 );
-			}
-			for( float xaxis = 100.0; xaxis > -100.0; xaxis -= 0.5 ) {
-				put( xaxis, 250, 100, 0 );
-				delay( 10 );
-		    }
-		}
-
-		void circle() {
-			#define RADIUS 80.0
-			//float angle = 0;
-			float zaxis,yaxis;
-			for( float angle = 0.0; angle < 360.0; angle += 1.0 ) {
-				yaxis = RADIUS * sin( radians( angle )) + 200;
-				zaxis = RADIUS * cos( radians( angle )) + 200;
-				put( 0, yaxis, zaxis, 0 );
-				delay( 1 );
-			}
-		}
-
-		void get(byte* angles, const byte size) {
-			for (byte joint = 0; joint < size; joint++) {
-				angles[joint] = arm[joint].read();
-			}
-		}
-
-		double polar_distance(byte* angle) {
-			double x_comp[4];
-			double y_comp[4];
-			byte angle_actual = 0;
-
-			// position at the SHOULDER
-			x_comp[0] = 0; y_comp[0] = 0;
-
-			// position at the ELBOW
-			angle_actual = arm[SHOULDER].read();
-			x_comp[1] = HUMERUS * cos(radians(angle_actual));
-			y_comp[1] = HUMERUS * sin(radians(angle_actual));
-
-			// position at the WRIST
-			angle_actual = (angle_actual - arm[ELBOW].read());
-			x_comp[2] = ULNA * cos(radians(angle_actual));
-			y_comp[2] = ULNA * sin(radians(angle_actual));
-
-			// position at the GRIPPER POINT (outward screw)
-			angle_actual = (angle_actual + (arm[WRIST_P].read() - 90));
-			x_comp[3] = GRIPPER * cos(radians(angle_actual));
-			y_comp[3] = GRIPPER * sin(radians(angle_actual));
-
-			double y = y_comp[1] + y_comp[2] + y_comp[3];
-			return(y);
-		}
-
-	// END OF CLASS (arm_control);
 };
