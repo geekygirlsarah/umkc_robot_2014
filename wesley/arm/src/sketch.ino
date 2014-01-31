@@ -4,7 +4,7 @@
 
 const byte NO_OF_JOINTS = 6;
 
-arm_control arm;
+arm_control arm(NO_OF_JOINTS);
 
 void setup() {
 	console.begin(9600);
@@ -35,20 +35,9 @@ void loop() {
 				arm.park();
 				break;
 			case 'k':
-				arm.put(random(0, 180), random(0, 180), random(0, 180), random(0, 90));
+				arm.put(random(0, 180), random(0, 180), \
+						random(0, 180), random(0, 90));
 				break;
-
-			/* these don't work like you think.
-			case 'c':
-				arm.circle();
-				break;
-			case 'l':
-				arm.line();
-				break;
-			case 'x':
-				arm.zero_x();
-				break;
-			//*/
 
 			case 'a':
 				base -= 5;
@@ -68,11 +57,11 @@ void loop() {
 				break;
 
 			case 'r':
-				elbow -= 5;
+				elbow += 5;
 				arm.put(arm.ELBOW, elbow);
 				break;
 			case 'f':
-				elbow += 5;
+				elbow -= 5;
 				arm.put(arm.ELBOW, elbow);
 				break;
 
@@ -101,7 +90,26 @@ void loop() {
 				arm.put(arm.HAND, hand);
 				break;
 
-			case '?': {
+			case '?':
+				Serial.print("expected: ");
+				Serial.print(base, DEC); Serial.print("\t");
+				Serial.print(shoulder, DEC); Serial.print("\t");
+				Serial.print(elbow, DEC); Serial.print("\t");
+				Serial.print(wrist_p, DEC); Serial.print("\t");
+				Serial.print(wrist_r, DEC); Serial.print("\t");
+				Serial.println(hand, DEC);
+
+				Serial.print("actual  : ");
+				Serial.print(arm.read(arm.BASE)); Serial.print("\t");
+				Serial.print(arm.read(arm.SHOULDER)); Serial.print("\t");
+				Serial.print(arm.read(arm.ELBOW)); Serial.print("\t");
+				Serial.print(arm.read(arm.WRIST_P)); Serial.print("\t");
+				Serial.print(arm.read(arm.WRIST_R)); Serial.print("\t");
+				Serial.println(arm.read(arm.HAND));
+
+				break;
+
+/*			case '?': {
 				byte* pillow = new byte[4];
 				arm.get(pillow, 4);
 				console.println("MAIN :: get angles -->");
@@ -124,7 +132,7 @@ void loop() {
 			}
 				break;
 
-			case '1': 
+*/			case '1': 
 				base = 45;
 				shoulder = 105;
 				elbow = 90;

@@ -18,22 +18,32 @@
                             // this gripper measure is to the outside
                             // screw-hole, not the tip of the hand.
 
+#define topulse(a)		map((a*10), 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
+
 /* pre-calculations */
 float hum_sq = HUMERUS*HUMERUS;
 float uln_sq = ULNA*ULNA;
 
 class arm_control {
 	private:
+		// holds the servos current position
 		byte* position;
+		// holds the serovs destination. used in calculation
+		//    of the step put(...)
 		byte* destination;
 
+		// an arry of servos
 		Servo* arm;
 		byte no_of_joints;
 
+		// this is a single word and argument entry to the arduino map
+		//    function - converts a range between the 0 - 180 and
+		//    returns and MIN_ and MAX_PULSE_WIDTH
 		short pulse_width(short angle) {
 			return(map(angle, 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH));
 		}
 
+		// this asks the servos in turn what their current positon is.
 		void store() {
 			for (int joint = 0; joint < no_of_joints; joint++) {
 				position[joint] = arm[joint].read();
@@ -47,7 +57,11 @@ class arm_control {
 		}
 	
 	public:
+		// externally viewable enum for single joint identification.
+		//    this needs to be updated if any joints are added
 		enum joints { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
+
+		// default constructor - just sets up 6 joints.
 		arm_control() {
 			// default number of servo-joints in AL5D
 			no_of_joints = 6;
@@ -55,25 +69,28 @@ class arm_control {
 			destination = new byte[no_of_joints];
 
 			arm = new Servo[no_of_joints];
-		//	store();
-
-			//arm_control(6) ?? just call another constructor?
 		}
+		// secondary constructor - sets up for a given number of joints
 		arm_control(const byte joints) {
 			no_of_joints = joints;
 			position = new byte[no_of_joints];
 			destination = new byte[no_of_joints];
 
 			arm = new Servo[no_of_joints];
-		//	store();
 		}
 
+		// destructor - just in case the arm object goes out of scope, we
+		//    need to destroy the memory we've created earlier.
 		~arm_control() {
 			delete(arm);
 			delete(position);
 			delete(destination);
 		}
 
+		// called with (NO_OF_JOINTS, and a list of the servos IN ORDER of connection)
+		// This is the pin that the joint will be attached to.
+		//
+		// example: .connect(6, 2, 3, 4, 6, 7, 8);
 		void connect(int argc, ...) {
 			int pin;
 			va_list argv;
@@ -89,34 +106,39 @@ class arm_control {
 			va_end(argv);
 		}
 
+		// ask the given joint what its position is.
+		// returned in angle
 		byte read(const byte joint) {
 			return(arm[joint].read());
 		}
 
+		// should be called right after connect. this sets the arm in a
+		//    sane starting position
 		void begin() {
 			arm[BASE].write(80);
-			arm[SHOULDER].write(160);
-			arm[ELBOW].write(165);
+			arm[SHOULDER].write(165);
+			arm[ELBOW].write(5);
 			arm[WRIST_P].write(0);
-			arm[WRIST_R].write(95);
-			arm[HAND].write(90);
+			arm[WRIST_R].write(100);
+			arm[HAND].write(45);
 			store();
 		}
 
+		// parks the arm from whatever position its currently at.
 		void park() {
 			/* comment out - not working */
 			destination[BASE] = 80;
-			destination[SHOULDER] = 160;
-			destination[ELBOW] = 165;
+			destination[SHOULDER] = 165;
+			destination[ELBOW] = 5;
 			destination[WRIST_P] = 0;
-			destination[WRIST_R] = 95;
-			destination[HAND] = 90;
+			destination[WRIST_R] = 100;
+			destination[HAND] = 45;
 			// need to update this each time a physical joint is added.
 			put(no_of_joints, BASE, SHOULDER, ELBOW, \
 							  WRIST_P, WRIST_R, HAND);
 			//*/
 		}
-			
+		
 
 		void put(const byte joint, const byte angle) {
 //			Serial.print("ARM :: called direct: ");
@@ -166,8 +188,8 @@ class arm_control {
 				}
 			}
 			
-			short step[argc];
-			for (int jth = 0; jth < argc; jth++) {
+			byte step[argc];
+			for (byte jth = 0; jth < argc; jth++) {
 				// find the distance between where the joint is now and where it's going
 				step[jth] = abs(destination[arm_queue[jth]] - position[arm_queue[jth]]);
 				// divide out the max distance to find the width of a matching step
@@ -177,6 +199,17 @@ class arm_control {
 				Serial.print(step[jth], DEC); Serial.print(", ");
 			}
 			Serial.println();
+
+			
+			// this for loop finds the next step to put the arm to based on
+			//    a new map from 0 - 1800 (for finer granularity) of the servo.
+			// while the longest distance still has to move (this should always
+			//    be in stpes of 1
+//			for (; max_distance > 0; max_distance--) {
+//				// for each joint that we need to move
+//				for (byte joint = 0; joint < argc; joint++) {
+//				}
+//			}
 
 
 			// divide out each distance to be moved by the number of steps
@@ -188,7 +221,7 @@ class arm_control {
 					if (destination[arm_queue[jth]] != position[arm_queue[jth]]) {
 						destination[arm_queue[jth]] > position[arm_queue[jth]] \
 							? position[arm_queue[jth]] += 1 \
-							: position[arm_queue[jth]] -= 1;
+							: position[arm_queue[jth]] -= 2;
 						put(jth, position[jth]);
 					//	destination[arm_queue[jth]] > position[arm_queue[jth]] \
 					//		? p_put(arm_queue[jth],  step[jth]) \
@@ -196,7 +229,7 @@ class arm_control {
 						delay(18);
 					}
 				}
-			}
+			}	//*/
 
 
 			delete (arm_queue);
