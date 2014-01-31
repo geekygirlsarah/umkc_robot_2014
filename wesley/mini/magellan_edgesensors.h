@@ -23,7 +23,7 @@ class Magellan {
 public:
 
 
-  //findEdge returns this enum. 
+  //detectEdge returns this enum. 
   //ok - we're good. no edges about to run over
   //front_danger - STOP! front sensor detects an edge
   //back_danger - STOP! back sensor detects an edge
@@ -141,4 +141,5 @@ private:
 };
 
 #endif
+
 
