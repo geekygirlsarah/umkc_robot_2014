@@ -16,7 +16,7 @@ class WallFollower{
   int timeLowConfidence; /**< The number of function calls spent in low confidence of going straight */
   int lowConfidence; /**< The minimum amount of difference between the first and last ping sensors that causes concern. in cm */
   bool isStraight; /** < The boolean determining if the robot is straight or not. */
-  Distance2D120X Dist1;
+  Distance2D120XeDist1;
   Distance2D120X Dist2;  
   Distance2D120X Dist3;
   int distance1;
@@ -118,10 +118,19 @@ class WallFollower{
     }
     
   }
-      
-     
+/**
+ * Determines wether the robot is straight or not without recalculating the value.
+ * @return wether the robot is straight or not
+ */
+bool getStraight(){
+	return isStraight;
+}      
+/**
+ * Gets the turnoffset. More fine grained than just a boolean value.
+* Turn offset is the difference in distance between the first and last sensor. pin1 being grater in distance results in a positive value and pin3 being greater in distance results in a negative value. The value is in cm. 
+* Does not recalculate the value.
+*/
+int getTurnOffset(){
+	return turnOffset;
 }
-
-
-
-#endif
+#endif //Wallfollower
