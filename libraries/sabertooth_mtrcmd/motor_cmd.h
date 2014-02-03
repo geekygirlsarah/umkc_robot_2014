@@ -153,11 +153,60 @@ class motor_cmd {
             DIRECTION = REVERSE;
         }
 
+		//turn right forever
+		void turn_right(byte motor_speed) {
+           	Serial.print("   ::CMD:: turn right- at value hex: ");
+			motor_speed = ( 1.26)*motor_speed + 64;
+			Serial.print(motor_speed, HEX); Serial.print(" : ");
+            mcontrol.write(motor_L | motor_speed);
+            motor_speed = motor_speed - ( 2*(motor_speed-0x40)); 
+			Serial.println(motor_speed, HEX); Serial.print(" : ");
+            mcontrol.write(motor_R | motor_speed);
+            DIRECTION = RIGHT;
+        }
+ 		//turn left forever	
+		void turn_left( byte motor_speed) {
+            motor_speed = ( 1.26)*motor_speed + 64;
+            mcontrol.write(motor_R | motor_speed);
+            motor_speed = ( -1.26)*motor_speed + 64;
+            mcontrol.write(motor_L | motor_speed);
+            DIRECTION = LEFT;
+        }
+
+		/* just turn forever at half speed. no setting the speed 
+         */
+        
+		void turn_right( ) {
+            mcontrol.write(motor_L | HALF_FORWARD);
+            mcontrol.write(motor_R | HALF_REVERSE);
+            DIRECTION = RIGHT;
+        }
+        void turn_left( ) {
+            mcontrol.write(motor_L | HALF_REVERSE);
+            mcontrol.write(motor_R | HALF_FORWARD);
+            DIRECTION = LEFT;
+        }
+
+		void forward_full( ) {
+            mcontrol.write(motor_L | FULL_REVERSE);
+            mcontrol.write(motor_R | FULL_REVERSE);
+            DIRECTION = RIGHT;
+        }
+        void reverse_full( ) {
+            mcontrol.write(motor_L | FULL_FORWARD);
+            mcontrol.write(motor_R | FULL_FORWARD);
+            DIRECTION = LEFT;
+        }
+
+
+
+
         /* here, we're using angle alpha as a turning reference.
          *    the angle supplied can be arbitrarily large. why
          *    it's a long is ridiculous.
          */
-        void turn_right( long alpha ) {
+        /*
+		void turn_right( long alpha ) {
             mcontrol.write(motor_L | HALF_FORWARD);
             mcontrol.write(motor_R | HALF_REVERSE);
             DIRECTION = RIGHT;
@@ -173,6 +222,7 @@ class motor_cmd {
             mcontrol.write(ALL_STOP);
             DIRECTION = STOPPED;
         }
+		*/
         void all_stop( ) {
         	Serial.println("   ::CMD:: stopping");
             mcontrol.write(ALL_STOP);
