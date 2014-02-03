@@ -1,6 +1,6 @@
 #include <motor_cmd.h>
 #include <QuadEncoder.h>
-
+//#include "PID_v1.h"
 //now testing how to turn 90 degrees (turn ccw)
 //a 360 degree turn gives -> 
 //FR: 8075
@@ -75,12 +75,43 @@ BL: 11184
 
 turn left 
 FL: 0
-
  BL: 0
-
  FR: -7679
-
  BR: -8745
+ 
+ verifying my sabertooth code
+se
+turn right(20) with my code, set on a block... sending it 59/27 H... 
+
+ : FL: 39104
+ BL: 38488
+ FR: -35552
+ BR: -35095
+ 
+ now eric's just turn_right set on a block sending it 50/10 H
+FL: 48728
+ BL: 48008
+ FR: -46312
+ BR: -46128
+ 
+  now forward full... 
+FL: -62872
+ BL: -61848
+ FR: -60528
+ BR: -60841
+ 
+ now forward reverse
+ FL: 39504
+ BL: 38776
+ FR: 39008
+ BR: 40064
+
+my conclusion ->
+the motors are haunted. gonna use a pid to bring them into line. 
+
+
+Matt's Conclusion... Combination of Mechanical and Electrical and Magnetic Inefficiencies.  
+Can be fixed to a degree on that end, but still requires software for ultimate fine-tuning
 
 */
 
@@ -94,6 +125,7 @@ FL: 0
 QuadEncoder encoders;
 motor_cmd sabertooth;
 
+// i'm a little teapot, SHORT and STOUT!
 
 void setup() {
 
@@ -105,7 +137,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly: 
-  sabertooth.turn_left(50);
+  //sabertooth.turn_right();
+  sabertooth.reverse_full();
   //sabertooth.forward(20);
   //sabertooth.reverse();
   Serial.print("FL: ");
