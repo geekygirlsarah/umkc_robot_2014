@@ -113,6 +113,56 @@ the motors are haunted. gonna use a pid to bring them into line.
 Matt's Conclusion... Combination of Mechanical and Electrical and Magnetic Inefficiencies.  
 Can be fixed to a degree on that end, but still requires software for ultimate fine-tuning
 
+
+------
+switching the placement on the breakout board - > run for one minute going full speed ahead
+
+flipped back left and back right
+
+back left and front right are on same side (voltage wise for the breaout board)
+backr right and front left are on the same side
+
+FL: 577320 - 2% difference between front/bacl
+ BL: 566088
+ FR: 583336 - .3% difference between fron/back
+ BR: 584905
+
+-> conclusion 
+-> the breakout board is not the problem. it's the motors
+
+
+
+
+//TESTING TESTING TESTING... are our encoders even ok
+
+Going forward. Just going forward ON THE BOARD
+FL: -20369
+ BL: -20440
+ FR: -20024
+ BR: -20032
+ 
+ conclusion: encoders are working fine. 
+ 
+ ... it lists 4 inches.. th eleft side is a bit stronger than the right side
+
+//on the block. 
+FL: -23496  (A)
+ BL: -23312 (B)
+ FR: -20888 (C)
+ BR: -20480 (D)
+
+FL; (weaker) D
+BL: (stronger) B
+FR: (weaker) C
+BR (stronger) A
+
+
+
+
+290 ticks per linear inch
+
+
+
 */
 
 
@@ -138,9 +188,38 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly: 
   //sabertooth.turn_right();
-  sabertooth.reverse_full();
+  //sabertooth.reverse_full();
   //sabertooth.forward(20);
   //sabertooth.reverse();
+  
+  /* comment out for testing */
+  /*
+	if (Serial.available() > 0) {
+		// process incoming commands from console
+		const byte cmd = Serial.read();
+		switch(cmd) {
+			case 'w':
+				Serial.println("forward");
+				sabertooth.forward(20);
+			//	sabertooth.forward();
+				break;
+			case 's':
+				Serial.println("reverse");
+				sabertooth.reverse(20);
+			//	sabertooth.reverse();
+				break;
+			case 'x':
+			default:
+				Serial.println("allstop");
+				sabertooth.all_stop();
+				break;
+		}
+	}	*/
+
+  byte command = mapFloat(1, -1, 1, 0x00, 0x7F);
+  sabertooth.rightMotorCommand(command);
+  sabertooth.leftMotorCommand(0x50);
+  
   Serial.print("FL: ");
   Serial.println(positionFL);
   Serial.print(" BL: ");
@@ -152,4 +231,10 @@ void loop() {
   
 }
 
+byte mapFloat(float x, float in_min, float in_max, float out_min, float out_max)
+{
+  //my hard coding - assuming in_min = -1, in_max = 1...hardcoding 0 to output 0x40 - specific to our motor controller command for stop
+  if(x == 0) return 0x40;
+  return (byte) (  (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min );
+}
 
