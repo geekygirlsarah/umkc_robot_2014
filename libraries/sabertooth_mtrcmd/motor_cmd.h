@@ -81,6 +81,24 @@ class motor_cmd {
 
 			mcontrol.begin(9600);
         }
+
+		//pid shenanigans. 
+		//send it something from 0x00 to 0x7F for speed and direction (TODO look at provided pid code.. how to account for direction?)
+		void rightMotorCommand(byte motor_speed)	{
+            mcontrol.write(motor_R | motor_speed);
+			if(motor_speed < 0x40)
+					DIRECTION = REVERSE;
+			else
+					DIRECTION = FORWARD;
+		}
+
+		void leftMotorCommand(byte motor_speed)	{
+            mcontrol.write(motor_L | motor_speed);
+			if(motor_speed < 0x40)
+					DIRECTION = REVERSE;
+			else
+					DIRECTION = FORWARD;
+		}
         // when calling movement commands, use and integer
         //    between 0  -- stop
         //    and    50  -- full tilt
