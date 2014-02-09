@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <Servo.h>
 
 #define topulse(a)     map(a, 0,  180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
