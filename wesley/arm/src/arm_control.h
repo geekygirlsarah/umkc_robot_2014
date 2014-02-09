@@ -5,7 +5,7 @@
 
 #define BASE_HGT 69.85      // base hight 2 3/4"
 #define HUMERUS 146.05      // shoulder-to-elbow 5 3/4"
-#define ULNA 187.325        // elbow-to-wrist 7 3/8"
+#define ULNA 215.9          // elbow-to-wrist 7 3/8"
 #define GRIPPER 88.9        // gripper length 3 1/2"
                             // this gripper measure is to the outside
                             // screw-hole, not the tip of the hand.
