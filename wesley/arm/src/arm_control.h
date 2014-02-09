@@ -1,11 +1,40 @@
+/* arm_control.h
+ * written by: Eric Gonzalez, Sarah Withee, Julia Allen
+ * date: 2014-01-18
+ *
+ * PURPOSE: Define and describe a control interface for the robotic arm
+ *
+ * TODO:
+ * - give [Eric] a visual representation of the arms co-ordinate frame; which 
+ *   way are the axes oriented. From this, I should be able to position the claw 
+ *   as needed by issuing simple move_to(x, y, z, p) calls.
+ *   (This is in person, not in code, but we still need to do it)      
+ * - alter put(byte, byte) and p_put(byte, short) to work correctly.
+ * - add in angle limits so that if anything goes beyond the range of the 
+ *   allowed pulse widths it defaults to the min or max pulse width 
+ *   appropriately.
+ * - need a forward kinematic.
+ *   -- sadly, this [Eric] did not add this in to the re-written code so you'll 
+ *      need to find an old copy.
+ * - Move internal 'helper' functions to private area
+ * - Remove extraneous commented out code
+ * - Make any 'magic' numbers precompiler constants for optimization
+ *     
+ */
+
+
+// Remove Arduino.h if compiling with gcc or avr-gcc. Leave in if compiling
+// with Arduino IDE
 #include <Arduino.h>
 #include <Servo.h>
 
+// Converts angle to pulse width for writing to a servo
 #define topulse(a)     map(a, 0,  180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
 
+// Values in millimeters
 #define BASE_HGT 69.85      // base hight 2 3/4"
 #define HUMERUS 146.05      // shoulder-to-elbow 5 3/4"
-#define ULNA 215.9          // elbow-to-wrist 7 3/8"
+#define ULNA 215.9          // elbow-to-wrist 8 1/2"
 #define GRIPPER 88.9        // gripper length 3 1/2"
                             // this gripper measure is to the outside
                             // screw-hole, not the tip of the hand.
@@ -18,15 +47,20 @@ class arm_control {
 	private:
 		byte no_of_joints;
 
+        // Dynamic array of servos
 		Servo* arm;
 
 		short* p_destination;
 		short* p_position;
 
 	public:
-		enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
+        enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
 
-
+        /* arm_control()
+         * Constructor
+         * PRE:
+         * POST:
+         */                         
 		arm_control() {
 			no_of_joints = 6;
 			p_position = new short[no_of_joints];
@@ -38,6 +72,13 @@ class arm_control {
 				p_position[joint] = 0;
 			}
 		}
+
+
+        /* arm_control(byte joints)
+         * Parameterized constructor
+         * PRE:
+         * POST:
+         */                         
 		arm_control(byte joints) {
 			no_of_joints = joints;
 			p_position = new short[no_of_joints];
@@ -49,13 +90,25 @@ class arm_control {
 				p_position[joint] = 0;
 			}
 		}
+
+
+        /* ~arm_control()
+         * Deconstructor
+         * PRE:
+         * POST:
+         */                         
 		~arm_control() {
 			delete(p_destination);
 			delete(p_position);
 			delete(arm);
 		}
 
-		// attachs a set of pins to the servos
+
+        /* void connect(byte argc, ...) {
+		 * Attaches a set of pins to the servos
+         * PRE:
+         * POST:
+         */                         
 		void connect(byte argc, ...) {
 		//	Serial.println("ARM :: connect --> entering");
 			va_list argv;
@@ -75,9 +128,14 @@ class arm_control {
 		//	Serial.println("ARM :: connect --> leaving");
 		}
 
-		// this needs to be called immediately after connect.
-		//    this sets the arm into a sane, locked position.
-		//    these values can be adjusted as necessary.
+
+        /* void initial_park()
+		 * This needs to be called immediately after connect.
+		 * this sets the arm into a sane, locked position.
+		 * these values can be adjusted as necessary.
+         * PRE:
+         * POST:
+         */                         
 		void initial_park() {
 		//	Serial.println("ARM :: park() --> entering");
 			Serial.flush();
@@ -102,6 +160,11 @@ class arm_control {
 		}
 			
 
+        /* void park()
+		 * Puts the arm in a good resting (parked) position
+         * PRE:
+         * POST:
+         */                         
 		void park() {
 		//	Serial.println("ARM :: park() --> entering");
 			Serial.flush();
@@ -129,9 +192,14 @@ class arm_control {
 		//	Serial.flush();
 		}
 
-		// this locks the arm in much the same position as park()
-		//    the difference is that the wrist is pointing up to
-		//    carry the tool across the field.
+
+
+        /* void carry()
+		 * This puts the arm in a good position to carry a tool as the bot 
+		 * drives around. Wrist will point up.
+		 * PRE:
+         * POST:
+         */                         
 		void carry() {
 			Serial.println("ARM :: carry() --> entering");
 			Serial.flush();
@@ -150,19 +218,37 @@ class arm_control {
 			Serial.flush();
 		}
 
-		// return the angle value of the servo
+
+
+        /* byte read(const byte joint)
+		 * Returns the angle value of the servo
+         * PRE:
+         * POST:
+         */                         
 		byte read(const byte joint) {
 			return arm[joint].read();
 		}
 
+
+
+        /* void p_put(const byte joint, short pulse)
+		 * Directly write a pulse to the servo, would take the place of the 
+		 * function put (byte, byte)         
+         * PRE:
+         * POST:
+         */                         
 		void p_put(const byte joint, short pusle) {
-			// this function should be a direct write by pulse to
-			//    the servo. this would take the place of the 
-			//    following function, put(byte, byte);
+            // TODO
 		}
 
-		// directly put the given joint to the given angle,
-		//    converting first to pulse width
+
+
+        /* void put(const byte joint, const byte angle)
+		 * Directly put the given joint to the given angle,
+		 * converting first to pulse width
+         * PRE:
+         * POST:
+         */                         
 		void put(const byte joint, const byte angle) {
 			// this function currently writes the pulse to the motor
 			//    from a given angle. this should translate the angle
@@ -171,7 +257,13 @@ class arm_control {
 			p_position[joint] = arm[joint].readMicroseconds();
 		}
 
-		// call update with update(NO_OF_JOINTS, <a list of joints to mov
+
+
+        /* void update(const byte arc, ...)
+         * Call update with update(NO_OF_JOINTS, <a list of joints to mov
+         * PRE:
+         * POST:
+         */                           
 		void update(const byte argc, ...) {
 			Serial.println("ARM :: update(...) --> entering");
 			Serial.flush();
@@ -254,17 +346,23 @@ class arm_control {
 			Serial.flush();
 		}
 
-		/* place at (x, y, z) - this is an inverse kinematic
+
+
+        /* void move_to( float x, float y, float z, float grip_angle_d )
+		 * Places at (x, y, z) - this is an inverse kinematic
 		 *    equation that translates the (x, y, z) into
 		 *    angualr measures from an origin defined at the
 		 *    base of the arm.
-		 *
-		 * this function is borrowed from:
-http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
-		 * which, conincedentilelery is the same arm as the one we have
-		 * */
+		 * PRE:
+		 * POST:
+		 */                  
 		void move_to( float x, float y, float z, float grip_angle_d )
 		{
+            /* this function is borrowed from:
+             * http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
+		     * which, conincedentilelery is the same arm as the one we have
+		     */
+
 			Serial.print("ARM :: put(xyz) --> (");
 			Serial.print(x), Serial.print(", ");
 			Serial.print(y), Serial.print(", ");
