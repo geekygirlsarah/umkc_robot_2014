@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
 	namedWindow("image raw", CV_WINDOW_AUTOSIZE);
 	namedWindow("match_frame", CV_WINDOW_AUTOSIZE);
 	namedWindow("image thresh", CV_WINDOW_AUTOSIZE);
+	namedWindow("image contours", CV_WINDOW_AUTOSIZE);
 
 	Mat match_frame;
 	vector<vector<Point> > contours_match;
@@ -47,14 +48,15 @@ int main(int argc, char* argv[]) {
 	
 	//	cvtColor(frame, thresh, CV_RGB2GRAY);
 	//	imshow("image grey", grey);
-		viewport = frame(Rect(0, 150, frame.cols, 250));
+		viewport = frame(Rect(0, 160, frame.cols, 240));
 		cvtColor(viewport, thresh, CV_RGB2GRAY);
 		
-		threshold(thresh, thresh, 60, 255, CV_THRESH_BINARY);
+		threshold(thresh, thresh, 80, 255, CV_THRESH_BINARY);
 		bitwise_xor(thresh, Scalar(255, 0, 0), thresh);
 		Canny(thresh, thresh, 50, 400, 5);
-		imshow("image thresh", thresh);
-		findContours(thresh, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+	//	imshow("image thresh", thresh);
+		findContours(thresh, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+		imshow("image contours", thresh);
 	//	findContours(thresh, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
 
 	//	vector<double> areas(contours.size());
