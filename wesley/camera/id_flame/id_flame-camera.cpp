@@ -150,28 +150,34 @@ int main(int argc, char* argv[]) {
 		std::cout << shape << ": " << minVal << std::endl;
 
 		// display both viewport and result to user, wait to continue
-		namedWindow("viewport", CV_WINDOW_AUTOSIZE);
+	/*	namedWindow("viewport", CV_WINDOW_AUTOSIZE);
 		imshow("viewport", viewport);
 		namedWindow("result", CV_WINDOW_AUTOSIZE);
 		imshow("result", result);
 		while(waitKey() != 27);
-		destroyAllWindows();
+		destroyAllWindows();	*/
 	//*/
 	}
 
 //	std::cout << "best confidence: " << best_confidence << std::endl;
+	// .025 is STRONGLY confident
+	// .050 is moderately confidenct.
+	// .075 is adequate.
 	// or .1000 if you want to be safe
 	if (best_confidence < 0.075000) {
 		std::cout << "WESLEY :: id_flame --> I see a ";
 		switch(matched_rig) {
 			case SQUARE:
 				std::cout << "SQUARE";
+			//	matched_rig = SQUARE;
 				break;
 			case TRIANGLE:
 				std::cout << "TRIANGLE";
+			//	matched_rig = TRIANGLE;
 				break;
 			case CIRCLE:
 				std::cout << "CIRCLE";
+			//	matched_rig = CIRCLE;
 				break;
 			default:
 				std::cout << "MISTAKE -- should not have gotten here.";
@@ -179,7 +185,8 @@ int main(int argc, char* argv[]) {
 		}
 		std::cout << std::endl;
 	} else {
-		matched_rig == NONE;
+		std::cout << "no confidence." << std::endl;
+		matched_rig = NONE;
 	}
 	return(matched_rig);
 }
