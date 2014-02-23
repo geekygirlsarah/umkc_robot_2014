@@ -83,7 +83,7 @@ class arm_control {
 		//    equation that translates the (x, y, z) into
 		//    angualr measures from an origin defined at the
 		//    base of the arm.
-		void move_to( float x, float y, float z, float grip_angle_d );
+		void move_to( float x, float y, float z, float grip_angle_d, bool moveSmooth = true);
 };
 
 // EOF
