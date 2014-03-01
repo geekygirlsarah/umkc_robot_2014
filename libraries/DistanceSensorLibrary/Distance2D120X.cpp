@@ -8,12 +8,14 @@
 /// Constructor
 Distance2D120X::Distance2D120X()
 {
+	prevDistance = 0;
 }
 
 //Spec sheet says from 4CM to 30CM accuracy -> experimentally verify?
 /// getDistanceCentimeter(): Returns the distance in centimeters
 int Distance2D120X::getDistanceCentimeter()
 {
+  
   int adcValue=getDistanceRaw();
   if (adcValue > 600)                             // lower boundary: 4 cm (3 cm means under the boundary)
   {
@@ -27,8 +29,17 @@ int Distance2D120X::getDistanceCentimeter()
 
   else
   {
-	//SPREADSHEET + FORMULA IS IN INCHES D:
 	float inches_to_cm = 2.54;
  	return ( inches_to_cm *5059.11401 * pow((float)adcValue,  -1.29861 )); //the in house one IN INCHES iNCHES INCHES
   }
+}
+
+int Distance2D120X::getSmoothedDistanceCM(float alpha)	{
+	int count = 3;
+	while(count -- > 0)	{
+			currentDistance = (alpha * getDistanceCentimeter()) + ((1-alpha)* prevDistance);
+			prevDistance = currentDistance;
+	}
+	return currentDistance;
+
 }

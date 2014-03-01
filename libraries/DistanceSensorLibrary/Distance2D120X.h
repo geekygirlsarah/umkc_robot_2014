@@ -20,8 +20,13 @@
 
 class Distance2D120X: public AnalogDistanceSensor
 {
-  public:
+
+private:
+	int prevDistance;
+	int currentDistance;
+public:
     Distance2D120X();
     int getDistanceCentimeter();
+	int getSmoothedDistanceCM(float alpha);
 };
 #endif
