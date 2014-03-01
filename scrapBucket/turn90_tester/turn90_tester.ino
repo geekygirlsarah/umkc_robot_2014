@@ -1,7 +1,7 @@
 #include <motor_cmd.h>
 #include <QuadEncoder.h>
 
-
+#include "movement.h"
 
 /*
 
@@ -38,13 +38,23 @@ BL: 12791
  FR: -11064
  BR: -13848
 12665/4
+
+
+turning clockwise 360 degrees
+FL: -15136
+ BL: -14599
+ FR: 14472
+ BR: 13151
+ 
+ 14339average
+ 3585 = 90 degrees
 -
 */
 
 
 motor_cmd sabertooth;
 QuadEncoder encoders;
-
+movement mov;
 
 
 
@@ -55,6 +65,7 @@ void setup()
   Serial.begin(9600);
   Serial.println("begin");
   sabertooth.begin(2); 
+  mov.init(&sabertooth);
   encoders.init();
   
 }
@@ -98,18 +109,19 @@ void loop()
 				break;
                         case 'r':
                                 Serial.println("turnCW");
-                                turn90degreesCW(0x60,0x20);
+                                mov.turn90degreesCW(0x60,0x20);
     				//sabertooth.rightMotorCommand(0x60);
 				//sabertooth.leftMotorCommand(0x20);
                                 break;
                                 
                         case 'f':
                                 Serial.println("turnCW");
-                                turn90degreesCW(0x20,0x60);
+                                mov.turn90degreesCW(0x20,0x60);
     				//sabertooth.rightMotorCommand(0x60);
 				//sabertooth.leftMotorCommand(0x20);
                                 break;
                                 
+                       /*
                         case 't':
                                 Serial.println("turnCCW faster");
                                 turn90degreesCW_frontback(0x20,0x60);
@@ -123,6 +135,7 @@ void loop()
     				//sabertooth.rightMotorCommand(0x60);
 				//sabertooth.leftMotorCommand(0x20);
                                 break;
+                        */        
 			case 'x':
 			default:
 				Serial.println("allstop");
@@ -132,7 +145,7 @@ void loop()
 	}
 
 
-/*
+
   Serial.print("FL: ");
   Serial.println(positionFL);
   Serial.print(" BL: ");
@@ -141,67 +154,17 @@ void loop()
   Serial.println(positionFR);
   Serial.print(" BR: ");
   Serial.println(positionBR);
-  */
+ 
 }
 
 //right = 0x50, left = 0x30 for clock wise
 //turn 90 degrees... in 10 degree increments in order to combat the slip
-void turn90degreesCW(byte right, byte left)  {
-    //need to find out current ticks
-    int32_t ticksFor90 = 3000;  //ticks that right or left side to turn 90 degrees, if both right and left turn in opp directions
-    int32_t rightTicks_start = getCurrentRightTicks();
-    int32_t leftTicks_start = getCurrentLeftTicks();
-    
-    //this code will be UGLY :(
-    //turn!
-    Serial.println("TURn");
-    sabertooth.rightMotorCommand(right);
-    sabertooth.leftMotorCommand(left);
-    
-    
-    
-    int turning_state = 0;  
-    int average_interval;
-    int32_t right_interval = 0;
-    int32_t left_interval = 0;
-    
-    
 
-    while ( true)  {
-      right_interval = abs(getCurrentRightTicks() - rightTicks_start);
-      left_interval = abs(getCurrentLeftTicks() - leftTicks_start);      
-      
-      
-      //as soon as the abs value of all the ticks > 3807      
-      average_interval = (right_interval + left_interval) /2.0; 
-      
-      Serial.print("intervals:");
-      Serial.print("\t");
-      Serial.print(right_interval);
-      Serial.print("\t");
-      Serial.print(left_interval); 
-      Serial.print("\t");
-      Serial.print(average_interval); 
-      Serial.println();    
-      
-      if(average_interval > (ticksFor90))  {
-        break;
-      }
-    }
-    
-    //SOTTOP   
-    Serial.println("STOP");
-    sabertooth.all_stop();
-    
-}
-
-
-//right = 0x50, left = 0x30 for clock wise
-//turn 90 degrees... in 10 degree increments in order to combat the slip
-void turn90degreesCW_frontback(byte right, byte left)  {
+/*void turn90degreesCW_frontback(byte right, byte left)  {
     //need to find out current ticks
    // int32_t ticksFor90 = 3807;  //ticks that right or left side to turn 90 degrees, if both right and left turn in opp directions
-    int32_t ticksFor90 = 3166;  //big wheel ones
+    //int32_t ticksFor90 = 3166;  //big wheel ones
+    int32_t ticksFor90 = 3580;  //green wheels with tape
     int32_t frontTicks_start = getCurrentFrontTicks();
     int32_t backTicks_start = getCurrentBackTicks();
     
@@ -247,24 +210,6 @@ void turn90degreesCW_frontback(byte right, byte left)  {
     sabertooth.all_stop();
     
 }
+*/
 
-
-
-
-int32_t getCurrentRightTicks()  {
-  return (positionFR + positionBR) / 2.0;
-}
-
-int32_t getCurrentLeftTicks()  {
-  return (positionFL + positionBL) / 2.0;
-}
-
-
-int32_t getCurrentFrontTicks()  {
-  return (abs(positionFR) + abs(positionFL)) / 2.0;
-}
-
-int32_t getCurrentBackTicks()  {
-  return (abs(positionBL) + abs(positionBR)) / 2.0;
-}
 
