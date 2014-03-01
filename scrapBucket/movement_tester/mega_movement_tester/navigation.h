@@ -15,6 +15,7 @@
 #include <irsensor_tester.h>
 #include <magellan_edgesensors.h>
 #include <fronteyes.h>
+#include <parallelpark.h>
 
 #include <motor_cmd.h>
 
@@ -36,15 +37,17 @@ class Navigation {
                 FrontEyes eyes;
                 movement mov;
                 GapFinder gapfind;
-                QuadEncoder encoders; 
+                QuadEncoder encoders;
+                ParallelPark par; 
     public:
                 void init()  {
                   sabertooth.begin(2);        //motor controller on serial2
                   encoders.init();
                   mov.init(&sabertooth);
                   Serial.println("ready");
-                  gapfind.init(A5,A6,A7);
-                  eyes.init(A0,11);
+                  gapfind.init(A0,A1,A2);
+                  eyes.init(A7,15);
+                  par.init(A2,A1,A0);
                 }
                 
                 
@@ -73,7 +76,8 @@ class Navigation {
                   //sabertooth.forward(20);
                   //console.println("moving \t checking gap");
                   //check if a gap has been found
-                  
+                  gapfind.printDebug();
+                  gapfind.printGapStatus();
                   //gap found? move forward a set amount to center self
                   if(gapfind.gapPresent())  {
                     //Serial.println("moving \t GAP FOUND!!");
@@ -99,6 +103,8 @@ class Navigation {
                 
                 bool crossGap()  {
                   sabertooth.reverse(20);
+                   eyes.update();
+                   eyes.printDebug();
                    if(eyes.obstaclePresent())  {
                      sabertooth.all_stop();
                      Serial.println("dont crash");
@@ -107,8 +113,48 @@ class Navigation {
                    return false;
                 }
                 
+                void parallelpark()  {
+                 /*
+                  while(true)    { 
+                   par.printDebug(); 
+                   par.update();
+                   //par.printStatus();
+                 }
+                 */
+                  
+                  //WHOAAAAH
+                  //change of paradigm.
+                  //instead of going until you stop, you should stop a bit and then go if it's bad. so default to stopping
+                  
+                  mov.turn(0x60,0x20);
+                  while(!par.isParallel())  {
+                    mov.turn(0x60,0x20);
+                    //keep going
+                    par.printDebug();
+                    par.printStatus();
+                    par.update();
+                  }
+                  
+                  /*
+                  sabertooth.all_stop();
+                  
+                  while(par.needToTurnCW())  {
+                     mov.turn(0x20,0x60);
+                     par.printDebug();
+                     par.printStatus();
+                     par.update();
+                     delay(100);
+                     sabertooth.all_stop(); 
+                  }
+                  */
+                  
+                  //sabertooth.all_stop();
+                  
+                  //jump out when it is parallel hopefully
+                }
                 void sleep()  {
                   sabertooth.all_stop();
+                  delay(500);
                 }
                
                 

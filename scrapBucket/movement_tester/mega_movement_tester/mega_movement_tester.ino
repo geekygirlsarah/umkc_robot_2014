@@ -10,6 +10,8 @@
  
  * .... pro tip: if you get the error "serial2 is not declared in this scope" check that the board you're programming for IS THE MEGA
  * -> first starting. .the motors just go crazy  a bit 
+ 
+ * next -> turn in place until parallel!! 
  */
 
 #include "navigation.h"
@@ -22,7 +24,7 @@
 #include <irsensor_tester.h>
 #include <magellan_edgesensors.h>
 #include <fronteyes.h>
-
+#include <parallelpark.h>
 #include <motor_cmd.h>
 
 #include <movement.h>
@@ -31,7 +33,8 @@
 
 Navigation nav;
 
-enum state_top { start, moving, gapfound, crossingwave, theend };
+
+enum state_top { start, moving, gapfound, crossingwave, realignParallel, gapfound_pt2, theend };
 state_top current_status;
 
 void setup() {
@@ -41,7 +44,52 @@ void setup() {
 }
 
 void loop() {
-            
+      
+  
+       switch (current_status)  {
+        case start:
+          Serial.println("start");
+//          current_status = crossingwave;
+            current_status = gapfound_pt2;
+          break;
+        
+        case crossingwave:
+             Serial.println("crossingwave");
+             if(nav.crossGap())  {
+               current_status = realignParallel;
+               //current_status = theend;
+               nav.sleep();
+             }
+             
+             
+              
+            break;
+         case realignParallel:
+             Serial.println("realignparalell");
+             nav.parallelpark();
+             Serial.println("its parallel!");
+             current_status = gapfound_pt2;
+             nav.sleep();
+         break;
+        case gapfound_pt2:
+            if(nav.lookingForGap())  {
+              current_status = theend;
+              nav.sleep();
+            }
+            //nav.sleep();
+            break;
+        break;
+        case theend:
+          nav.sleep();
+         break;
+ 
+ 
+       }
+  
+ 
+
+         
+/*  
         switch (current_status) {
           case start:
             //let's keep going
@@ -62,8 +110,7 @@ void loop() {
             break;
           case crossingwave:
              if(nav.crossGap())
-               current_status = theend;
-             
+               current_status = theend; 
             break;
           case theend:
             nav.sleep();
@@ -72,7 +119,7 @@ void loop() {
             
         
         }
-       
+ */      
         //delay(50);  //make it readable
         //gapfind.printDebug();
       
