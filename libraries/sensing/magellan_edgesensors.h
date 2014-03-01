@@ -1,3 +1,4 @@
+
 /**
  * Magellan - Edge sensor class 
  * Jan 2014
@@ -22,7 +23,7 @@ class Magellan {
 public:
 
 
-  //detectEdges returns this enum. 
+  //findEdge returns this enum. 
   //ok - we're good. no edges about to run over
   //front_danger - STOP! front sensor detects an edge
   //back_danger - STOP! back sensor detects an edge
@@ -32,7 +33,7 @@ public:
  
   //initializer that only takes in pin #s, defaults to 15CM threshold
   void init(int pin1, int pin2) {
-    init(15, pin1, pin2);
+    init(25, pin1, pin2);
   }
 
   //takes in pin numbers of the front, and back sensor 
@@ -51,11 +52,11 @@ public:
     distance1 = front.getDistanceCentimeter();
     distance2 = back.getDistanceCentimeter();
 
-    Serial.print("dist(cm) #front: ");
-    Serial.println(distance1);
-    Serial.print("dist(cm) #back: ");
+    Serial.print("dist(cm) #f|b :\t ");
+    Serial.print(distance1);
+    Serial.print("\t ");
     Serial.println(distance2);    
-    delay(500); //make it readable
+//	delay(50);
   }
   
   void printEdgeStatus()  {
@@ -68,22 +69,33 @@ public:
     Serial.println();
   }
   
-  edge_danger_state detectEdges()  {
+  bool isFrontSafe()	{
+ 	return !(danger_status == front_danger); 
+  }
+
+  bool isBackSafe()	{
+  	return !(danger_status == back_danger);
+  }
+  
+  
+  //returns true if it's ok.
+  //false if noot ok
+  bool update()  {
 
  
     //note to self - i hope the front + back sensors DON"T read edge at the same time :( then we have no where to go, no where!!
     switch(danger_status)  {
       //Want to be quick and jumpy. As soon as sensor reads upsafe, jump. Rather a false positive than a false negative.
       case ok:
-        if(!isFrontSafe())
+        if(!isFrontSensorSafe())
           danger_status = front_danger;
-        else if (!isBackSafe())
+        else if (!isBackSensorSafe())
           danger_status = back_danger;
         break;
         
       //Must read a safe reading for at least "check" counts in a row.
       case front_danger:
-        if(isFrontSafe())  {
+        if(isFrontSensorSafe())  {
           if(currentSafeCount == check)  {
             danger_status = ok;
             currentSafeCount = 0;
@@ -95,7 +107,7 @@ public:
           currentSafeCount = 0;
         break;
       case back_danger:
-        if(isBackSafe())  {
+        if(isBackSensorSafe())  {
           if(currentSafeCount == check)  {
             danger_status = ok;
             currentSafeCount = 0;
@@ -109,7 +121,10 @@ public:
        
     } 
 
-    return danger_status;
+	if(danger_status == ok)
+    	return true;
+	else
+		return false;
     
   
   }
@@ -127,11 +142,11 @@ private:
 
 
  
-  bool isFrontSafe()  {
+  bool isFrontSensorSafe()  {
    return front.isCloser(threshold);
   }
   
-  bool isBackSafe()  {
+  bool isBackSensorSafe()  {
    return back.isCloser(threshold);
   }
  

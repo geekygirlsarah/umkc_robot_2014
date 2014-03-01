@@ -1,7 +1,5 @@
 
 
-//Test program to find a gap among the waves.
-//Author: Vicky Wu + Andrew Cunningham
 
 //Currently
 //organizing this out into a classs thingy (done)
@@ -22,21 +20,22 @@ IRSensorTester tester;
 void setup()
 {
   Serial.begin(9600); 
-  tester.init(1,A0,A1,A2); 
+ // tester.init(1,A0,A1,A2); 
   //gapf.init(A0,A1,A2);
-  //mag.init(A0,A1);
+  mag.init(25,A0,A2);  //testing with a 25 cm threshold
 }
 
 void loop()
 {
-  tester.printDebugRaw();
-  tester.printDebugCM();
-  /*
-  Magellan::edge_danger_state edge_status;
+ // tester.printDebugRaw();
+ // tester.printDebugCM();
+  
+
    mag.printDebug();
-   mag.printEdgeStatus();
-   edge_status = mag.detectEdges();
-   */
+   //mag.printEdgeStatus();
+   mag.update();
+   if(!mag.isFrontSafe())  Serial.println("EDGE FRONT");
+   if(!mag.isBackSafe())  Serial.println("EDGE BACK");
    /*
    GapFinder::ternary gap_status;
    gapf.printDebug();
