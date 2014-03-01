@@ -39,6 +39,9 @@
   //	MORE PROEBLSMSDLFKJDSL:Fd
   //	TODO - CCW -> CW... too fast. it skips the parallel, and just keeps being stuck in CCW stage
   //
+  //	now it oesn't even work :(
+  //
+  //
  **/
 #include <Distance2D120X.h>
 
@@ -68,6 +71,7 @@ private:
   int distance1,distance2,distance3;  //used for debugging
 //  double prevDistance1, prevDistance3;	//trying out the running average
 
+  bool isPar;
   Distance2D120X Dist1;
   Distance2D120X Dist2;  
   Distance2D120X Dist3;
@@ -75,53 +79,65 @@ private:
   const static int difference = 5;  //the minimum difference between far left and far right sensor to indicate not parallel
   const static int upperBound= 25;	//Distrust all readings above this value, will switch to confused mode.  (note our sensors will max out on 35cm).
   const static float alpha = .80;	//used for exponential moving avg filter						
-  const static float countInARow= 10;	//test - used to set the check for each stage, how many times checkCW () in a row it must be good
+  const static float countInARow= 5;	//test - used to set the check for each stage, how many times checkCW () in a row it must be good
 
 
+  const static int countExecution= 5;	//how many times in a row to take a reading from a sensor to determine if it is safe 
+  int runningCountExecution;	//count of how many times ive taken reading when determining safeness
  
   
   //checks side IR sensors - do I need to turn clockwise? (listing CCW) 
   bool checkClockwise()  {
    // distance1 = Dist1.getDistanceCentimeter();
    // distance3 = Dist3.getDistanceCentimeter();
-	  distance1 = Dist1.getSmoothedDistanceCM(alpha);
-      distance3 = Dist3.getSmoothedDistanceCM(alpha);
+	runningCountExecution = 0;	
+	isPar = true;
+	while(runningCountExecution++ < countExecution)	{
+		  
+			distance1 = Dist1.getSmoothedDistanceCM(alpha);
+			distance3 = Dist3.getSmoothedDistanceCM(alpha);
 
-	if(distance1 - distance3 > difference)
-		return true;
-	else
-		return false;
+			if(!(distance1 - distance3 > difference))
+				isPar = false;
+	}
+	return isPar;
   }
 
   //checks side IR sensors - do I need to turn counter clockwise? (listing CW) 
   bool checkCounterClockwise()	{
- 	  distance1 = Dist1.getSmoothedDistanceCM(alpha);
-      distance3 = Dist3.getSmoothedDistanceCM(alpha);
+	runningCountExecution = 0;	
+	isPar = true;
+	while(runningCountExecution++ < countExecution)	{
+			  distance1 = Dist1.getSmoothedDistanceCM(alpha);
+			  distance3 = Dist3.getSmoothedDistanceCM(alpha);
 
-	if(distance3 - distance1 > difference)
-		return true;
-	else
-		return false;
+			if(! (distance3 - distance1 > difference))
+				isPar =false;
+	}
+	return isPar;
 
   }
  //checks side ir sensors - am I parallel ish?
  bool checkParallel()	{
-	  distance1 = Dist1.getSmoothedDistanceCM(alpha);
-      distance3 = Dist3.getSmoothedDistanceCM(alpha);
+	runningCountExecution = 0;
+	isPar= true;
+	while(runningCountExecution++ < countExecution)	{
+		  
+			distance1 = Dist1.getSmoothedDistanceCM(alpha);
+			distance3 = Dist3.getSmoothedDistanceCM(alpha);
 
-	if(distance1 >  upperBound|| distance3 > upperBound)
-		return false;
+			if(distance1 >  upperBound|| distance3 > upperBound)
+				return false;
 
-	if(abs(distance3 - distance1)  <  difference)
-		return true;
-	else
-		return false;
-
+			if(! (abs(distance3 - distance1)  <  difference))
+				isPar = false;	
+			}
+	return isPar;
   } 
 
  //if both of my sensors are maxed out, indicate your confusion. 
  bool checkConfused()	{
- 	check = 10;
+ 	check = 5;
 	while(check -- > 0)	{
 			if( distance1 > upperBound && distance3 > upperBound)
 					return true;
@@ -131,13 +147,6 @@ private:
  
 public:
 
-
-  //FindGap returns this enum. 
-  //NO_GAP -> nothing
-  //MAYBE_GAP -> Slow down! There is a gap ahead.
-  //YES_GAP -> Stop, there's definitely a gap right here!
-//  enum ternary {NO_GAP, MAYBE_GAP, YES_GAP};  
-  
 
 
   //Which 3 pins are you using to find this gap?
@@ -213,11 +222,13 @@ public:
 	//so my code works when i call debug(), when i comment it out it doesn't.
 	//so my hunch is i need to call the smoothdistance more often
 
+		  /*
 	distance1 = Dist1.getSmoothedDistanceCM(alpha);
     distance2 = Dist2.getSmoothedDistanceCM(alpha);
     distance3 = Dist3.getSmoothedDistanceCM(alpha);   
+	*/
 	//wrapping this entire thing in a while... hopefully speed this up		  
-	outerloopcount= 5;
+	outerloopcount= 1;
 	while(outerloopcount-- > 0)	{
 			switch (park_status)  {
 			case start:
