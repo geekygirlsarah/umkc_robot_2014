@@ -174,8 +174,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	// open first camera device found in system
-	VideoCapture capture;
-	capture.open(0);
+	VideoCapture capture(0);
 	if (!capture.isOpened()) {
 		std::cerr << "unable to open default camera device (0);" << std::endl;
 		std::cerr << "fatal - bailing." << std::endl;
@@ -220,12 +219,11 @@ int main(int argc, char* argv[]) {
 			case FIND_TOOL: {
 				for(; trial < 5; trial++) {
 					for(; area <= RIGHT; area++) {
-						DBGOUT << "TRIALS :: for(trial:area) --> for(" << trial << ":" << area \
-							   << ")" << std::endl;
+DBGOUT << "TRIALS(FIND_TOOL) :: for(trial:area) --> for(" << trial << ":" << area << ")" << std::endl;
 						// move arm to position[process][area][trial];
 						// acquire a frame to process
-						capture.open(0);
 						capture >> frame;
+						// swallow the next 6 frames from the buffer.
 						for (int i = 0; i < 6; i++) {
 							capture >> swallow;
 						}
@@ -281,11 +279,8 @@ int main(int argc, char* argv[]) {
 
 								break;
 							}	// end switch(tool) for FIND_TOOL
-							imshow("frame", frame);
-							if (waitKey() == 27) {
-								continue;
-							}
 							if (tool_found == true) {
+DBGOUT << "TRIALS(FIND_TOOL) :: found a tool." << std::endl;
 								process = FIND_TOP;
 								break;
 							} else {
@@ -293,14 +288,17 @@ int main(int argc, char* argv[]) {
 								// try next position.
 								continue;
 							}
+							imshow("frame", frame);
+							while(waitKey() != 27);
 						} else {
 							// contour_idx was -1, didn't find a contour. try
 							//    next position.
 							continue;
-						}
+						}	// end if(contour_idx)
 					}	// end for(area) within each trial
-					DBGOUT << "TRIALS :: for(trial) done --> for(" << trial << ")" << std::endl;
+DBGOUT << "TRIALS(FIND_TOOL) :: for(trial) done --> for(" << trial << ")" << std::endl;
 					if (tool_found == true) {
+DBGOUT << "TRIALS(FIND_TOOL) :: found a tool." << std::endl;
 						process = FIND_TOP;
 						break;
 					} else {
@@ -318,10 +316,14 @@ int main(int argc, char* argv[]) {
 			break;
 			case FIND_TOP: {
 				for(pos = 0; pos < 5; pos++) {
+DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> for(" << pos << ")" << std::endl;
 					// move arm to position[process][area][pos];
 					//    process is the main logic handler/tracker
 					//    area follows from the for loop in FIND_TOOL
 					capture >> frame;
+					for (int i = 0; i < 6; i++) {
+						capture >> swallow;
+					}
 					contour_idx = process_frame(frame, thresh, contours);
 					if (contour_idx > -1) {
 						approxPolyDP(contours[contour_idx],
@@ -372,7 +374,13 @@ int main(int argc, char* argv[]) {
 					break;
 				} else {
 					// didn't find the shape 
-					// go back to FIND_TOOL from where we left off.
+					// go back to FIND_TOOL from where we left off + 1;
+					if (area == RIGHT) {
+						area = LEFT;
+						pos += 1;
+					} else {
+						area += 1;
+					}
 					process = FIND_TOOL;
 				}
 			}	// end case(FIND_TOP);
@@ -405,11 +413,9 @@ int main(int argc, char* argv[]) {
 			break;
 		}	// end switch(process)
 		imshow("frame", frame);
-		if (waitKey() == 27) {
-			continue;
-		}
+		while(waitKey() != 27);
 		if (failure == true) {
-			DBGOUT << "TRIALS :: for(EVER) --> couldn't find a tool. bailing." << std::endl;
+DBGOUT << "TRIALS(for(EVER)) --> couldn't find a tool. bailing." << std::endl;
 			// we couldn't anything. THIS IS FATAL TO CONTINUED OPERATION.
 			break;
 		}
