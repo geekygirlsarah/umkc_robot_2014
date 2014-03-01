@@ -1,7 +1,6 @@
 
 
 //Test program to find a gap among the waves.
-//Author: Vicky Wu + Andrew Cunningham
 
 //Currently
 //organizing this out into a classs thingy (done)
@@ -13,8 +12,10 @@
 #include <gapfinder.h>
 #include <irsensor_tester.h>
 #include <magellan_edgesensors.h>
+#include <parallelpark.h>
 
 //WITH THE thigy -> IN INCHES!!! (problem - when you don't have anything... it dfaults to 8 inches
+ParallelPark par;
 GapFinder gapf;
 Magellan mag;
 IRSensorTester tester;
@@ -22,15 +23,16 @@ IRSensorTester tester;
 void setup()
 {
   Serial.begin(9600); 
-  tester.init(1,A0,A1,A2); 
+  //tester.init(1,A0,A1,A2);
+   par.init(A2,A1,A0); 
   //gapf.init(A0,A1,A2);
   //mag.init(A0,A1);
 }
 
 void loop()
 {
-  tester.printDebugRaw();
-  tester.printDebugCM();
+  //tester.printDebugRaw();
+  //tester.printDebugCM();
   /*
   Magellan::edge_danger_state edge_status;
    mag.printDebug();
@@ -43,5 +45,10 @@ void loop()
    gapf.printGapStatus();
    gap_status = gapf.findGap(); 
 */
+  par.printDebug();
+  par.printStatus();
+  par.update();
+
+
 }
 
