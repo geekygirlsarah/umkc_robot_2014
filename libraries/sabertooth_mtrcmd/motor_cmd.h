@@ -139,17 +139,17 @@ class motor_cmd {
          */
         void forward( byte motor_speed ) {
         	// make a conversion from supplied range to the actual
-        	Serial.print("   ::CMD:: forward - at value: ");
-			Serial.print(motor_speed, DEC); Serial.print(" : ");
+        	//Serial.print("   ::CMD:: forward - at value: ");
+			//Serial.print(motor_speed, DEC); Serial.print(" : ");
             motor_speed = ( 1.26)*motor_speed + 64;
-            Serial.println(motor_speed, DEC);
+            //Serial.println(motor_speed, DEC);
             mcontrol.write(motor_L | motor_speed);
             mcontrol.write(motor_R | motor_speed);
             DIRECTION = FORWARD;
         }            
         void reverse( byte motor_speed ) {
-        	Serial.print("   ::CMD:: reverse - at value: ");
-			Serial.print(motor_speed, DEC); Serial.print(" : ");
+        	//Serial.print("   ::CMD:: reverse - at value: ");
+			//Serial.print(motor_speed, DEC); Serial.print(" : ");
             motor_speed = (-1.26)*motor_speed + 64;
             Serial.println(motor_speed, DEC);
             mcontrol.write(motor_L | motor_speed);
