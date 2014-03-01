@@ -235,7 +235,9 @@ DBGOUT << "TRIALS(FIND_TOOL) :: for(trial:area) --> for(" << trial << ":" << are
 										 true);
 							switch(tool) {
 								case SQUARE:
-									if (approx.size() == 6 ||
+									if (approx.size() == 4 ||
+										approx.size() == 5 ||
+										approx.size() == 6 ||
 										approx.size() == 7) {
 										DBGOUT << "match(SQUARE)" << std::endl;
 										// skyblue
