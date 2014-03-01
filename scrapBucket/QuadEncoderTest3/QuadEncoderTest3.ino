@@ -1,4 +1,4 @@
-#include <motor_cmd.h>
+ #include <motor_cmd.h>
 #include <QuadEncoder.h>
 //#include "PID_v1.h"
 //now testing how to turn 90 degrees (turn ccw)
@@ -163,6 +163,50 @@ BR (stronger) A
 
 
 
+
+/with the motor switched out 
+FL - B
+BL -D
+FR - A
+BR -C
+
+
+on block
+//going forwards using reverse(20)
+FL: -16017
+ BL: -16424
+ FR: -14864
+ BR: -15660
+
+
+//going backwards using forward(20)
+FL: 13428
+ BL: 13835
+ FR: 14192
+ BR: 15086
+
+
+on the block, rightMotorCommand(0x60) and left motorCommand(0x60)
+FL: 16616
+ BL: 17031
+ FR: 17687
+ BR: 18344
+
+
+on the block, rightmotorcommand(0x20) and left motorcommmand(0x20)
+FL: -18806
+ BL: -19412
+ FR: -17846
+ BR: -18690
+
+on the block, 0x50
+FL: 14588
+ BL: 15224
+ FR: 15944
+ BR: 16904
+
+
+
 */
 
 
@@ -193,19 +237,38 @@ void loop() {
   //sabertooth.reverse();
   
   /* comment out for testing */
-  /*
+  
+  
+        int32_t start_ticks = 0;
 	if (Serial.available() > 0) {
 		// process incoming commands from console
 		const byte cmd = Serial.read();
 		switch(cmd) {
 			case 'w':
 				Serial.println("forward");
-				sabertooth.forward(20);
+				//sabertooth.forward(0x60);
+				sabertooth.rightMotorCommand(0x60);
+				sabertooth.leftMotorCommand(0x60);
+                                start_ticks = positionFL;
+                                //while(true)  {
+                                //  if(abs(positionFL - start_ticks) > 15000)
+                                //   break; 
+                                //}
+                                //sabertooth.all_stop();
+                              
 			//	sabertooth.forward();
 				break;
 			case 's':
 				Serial.println("reverse");
-				sabertooth.reverse(20);
+                                sabertooth.rightMotorCommand(0x20);
+				sabertooth.leftMotorCommand(0x20);
+                                start_ticks = positionFL;
+                                while(true)  {
+                                  if(abs(positionFL - start_ticks) > 15000)
+                                   break; 
+                                }
+                                sabertooth.all_stop();
+                              
 			//	sabertooth.reverse();
 				break;
 			case 'x':
@@ -214,11 +277,62 @@ void loop() {
 				sabertooth.all_stop();
 				break;
 		}
-	}	*/
+	}	
 
-  byte command = mapFloat(1, -1, 1, 0x00, 0x7F);
-  sabertooth.rightMotorCommand(command);
-  sabertooth.leftMotorCommand(0x50);
+
+
+
+/*
+    if (Serial.available() > 0) {
+		// process incoming commands from console
+		const byte cmd = Serial.read();
+		switch(cmd) {
+			case 'e':
+				Serial.println("full speed ahead, right side motors");
+				sabertooth.rightMotorCommand(0x7F);
+				break;
+			case 'w':
+				Serial.println("full speed ahead, left side motors");
+				sabertooth.leftMotorCommand(0x7F);
+				break;
+                        case 'd':
+				Serial.println("full speed reverse, right side motors");
+				sabertooth.rightMotorCommand(0x00);
+				break;
+			case 's':
+				Serial.println("full speed reverse, left side motors");
+				sabertooth.leftMotorCommand(0x00);
+				break;
+                        
+                        
+                        case 't':
+				Serial.println("half speed forward, right side motors");
+				sabertooth.rightMotorCommand(0x60);
+				break;
+                        case 'r':
+				Serial.println("half speed forward, left side motors");
+				sabertooth.leftMotorCommand(0x60);
+				break;
+                        case  'g':
+				Serial.println("half speed reverse, right side motors");
+				sabertooth.rightMotorCommand(0x32);
+				break;
+                        case 'f':
+				Serial.println("half speed reverse, left side motors");
+				sabertooth.leftMotorCommand(0x32);
+				break;
+                        case 'x':
+			default:
+				Serial.println("allstop");
+				sabertooth.all_stop();
+				break;
+		}
+    }
+    */
+
+  //byte command = mapFloat(1, -1, 1, 0x00, 0x7F);
+  //sabertooth.rightMotorCommand(command);
+  //sabertooth.leftMotorCommand(0x50);
   
   Serial.print("FL: ");
   Serial.println(positionFL);
