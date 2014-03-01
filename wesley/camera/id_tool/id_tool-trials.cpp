@@ -281,27 +281,35 @@ DBGOUT << "TRIALS(FIND_TOOL) :: for(trial:area) --> for(" << trial << ":" << are
 							}	// end switch(tool) for FIND_TOOL
 							if (tool_found == true) {
 DBGOUT << "TRIALS(FIND_TOOL) :: found a tool." << std::endl;
+								imshow("frame", frame);
+								while(waitKey() != 27);
 								process = FIND_TOP;
-								break;
+								break;		// from for(area);
 							} else {
+								imshow("frame", frame);
+								while(waitKey() != 27);
 								// didn't find what we were looking for,
 								// try next position.
-								continue;
+								continue;	// with for(area)
 							}
-							imshow("frame", frame);
-							while(waitKey() != 27);
 						} else {
+DBGOUT << "TRIALS(FIND_TOOL) :: process frame --> contour_idx reports -1" << std::endl;
 							// contour_idx was -1, didn't find a contour. try
 							//    next position.
+							tool_found = false;
 							continue;
 						}	// end if(contour_idx)
 					}	// end for(area) within each trial
 DBGOUT << "TRIALS(FIND_TOOL) :: for(trial) done --> for(" << trial << ")" << std::endl;
+DBGOUT << "TRIALS(FIND_TOOL) --> ending reason(" << tool_found << ")" << std::endl;
 					if (tool_found == true) {
+						destroyWindow("frame");
 DBGOUT << "TRIALS(FIND_TOOL) :: found a tool." << std::endl;
 						process = FIND_TOP;
 						break;
 					} else {
+						destroyWindow("frame");
+						tool_found = false;
 						// didn't find a tool this go-round
 						// reset area and start again.
 						area = LEFT;
@@ -335,6 +343,7 @@ DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> for(" << pos << ")" << std::endl;
 								if (approx.size() == 4) {
 									// goldenrod
 									color = CV_RGB(0xDA, 0xA5, 0x20);
+									DBGOUT << "match_TOP(SQUARE)" << std::endl;
 									top_found = true;
 								}
 							break;
@@ -342,6 +351,7 @@ DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> for(" << pos << ")" << std::endl;
 								if (approx.size() == 3) {
 									// lightpink
 									color = CV_RGB(0xFF, 0xB6, 0xC1);
+									DBGOUT << "match_TOP(TRIANGLE)" << std::endl;
 									top_found = true;
 								}
 							break;
@@ -349,6 +359,7 @@ DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> for(" << pos << ")" << std::endl;
 								if (approx.size() == 8) {
 									// olive
 									color = CV_RGB(0x80, 0x80, 0x00);
+									DBGOUT << "match_TOP(CIRCLE)" << std::endl;
 									top_found = true;
 								}
 							break;
@@ -356,31 +367,47 @@ DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> for(" << pos << ")" << std::endl;
 							break;
 						}	// end switch(tool) for FIND_TOP
 						if (top_found == true) {
+DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> found the top. not finished with loop yet." << std::endl;
+							imshow("frame", frame);
+							while(waitKey() != 27);
 							process = FIND_DISTANCE;
 							break;
 						} else {
+							imshow("frame", frame);
+							while(waitKey() != 27);
 							// go to the next position.
 							continue;
 						}
 					} else {
+						imshow("frame", frame);
+						while(waitKey() != 27);
 						// contour_idx was -1. no contour found.
 						// go to next position.
 						continue;
 					}
 				}	// end for(pos)
 				if (top_found == true) {
+DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> found the top. tool is double-confirmed." << std::endl;
 					process = FIND_DISTANCE;
 
 					break;
 				} else {
+DBGOUT << "TRIALS(FIND_TOP) --> DID NOT FIND TOP. no confidence, restart trials." << std::endl;
 					// didn't find the shape 
 					// go back to FIND_TOOL from where we left off + 1;
-					if (area == RIGHT) {
+					if (area == RIGHT && trial == 4) {
+DBGOUT << "TRIALS(FIND_TOP) --> reached the end of our trials. next will overrun. bail." << std::endl;
+						failure = true;
+					}
+					else if (area == RIGHT && trial < 4) {
 						area = LEFT;
-						pos += 1;
-					} else {
+						trial += 1;
+					}
+					else {
 						area += 1;
 					}
+			
+
 					process = FIND_TOOL;
 				}
 			}	// end case(FIND_TOP);
@@ -401,6 +428,8 @@ DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> for(" << pos << ")" << std::endl;
 					   color,
 					   CV_FILLED);
 
+				imshow("frame", frame);
+				while(waitKey() != 27);
 				// write all of this information to a file.. or, perhaps
 				//    to an ROS service that translates our co-ordinates
 				//    into appropriate movement codes to the arm.
@@ -414,6 +443,10 @@ DBGOUT << "TRIALS(FIND_TOP) :: for(pos) --> for(" << pos << ")" << std::endl;
 		}	// end switch(process)
 		imshow("frame", frame);
 		while(waitKey() != 27);
+		if (tool_found == true && top_found == true) {
+DBGOUT << "TRIALS(for(EVER)) --> CONFIRMED! finishing out." << std::endl;
+			break;
+		}
 		if (failure == true) {
 DBGOUT << "TRIALS(for(EVER)) --> couldn't find a tool. bailing." << std::endl;
 			// we couldn't anything. THIS IS FATAL TO CONTINUED OPERATION.
