@@ -32,6 +32,7 @@
 
 
 Navigation nav;
+int gapsThru;
 
 
 enum state_top { start, moving, gapfound, crossingwave, realignParallel, gapfound_pt2, theend };
@@ -41,16 +42,37 @@ void setup() {
 	Serial.begin(9600);
 	nav.init();
         current_status = start;
+        gapsThru = 0;
 }
 
 void loop() {
       
+  //testing back and forth movement and magellans.
+  //... this kinda works, but its cutting it WAY too close to the edge :( :( :(
+  /*
+  switch(current_status)  {
+    case start:
+      current_status = moving;
+    break;
+    
+    case moving:
+      //if(nav.lookingForGap())
+      //  current_status = gapfound;
+      nav.traveling();
+    break;
+  }
+  */
+  
+  
+  //.. attempting to realign parallel dynamically :( it doesn't work either and oVERshoOOTS
   
        switch (current_status)  {
         case start:
           Serial.println("start");
-//          current_status = crossingwave;
-            current_status = gapfound_pt2;
+          current_status = crossingwave;
+            //current_status = gapfound_pt2;
+          //current_status = realignParallel;
+          
           break;
         
         case crossingwave:
@@ -59,17 +81,15 @@ void loop() {
                current_status = realignParallel;
                //current_status = theend;
                nav.sleep();
-             }
-             
-             
-              
+             }            
             break;
          case realignParallel:
              Serial.println("realignparalell");
              nav.parallelpark();
              Serial.println("its parallel!");
-             current_status = gapfound_pt2;
-             nav.sleep();
+             //current_status = gapfound_pt2;
+             current_status = theend;
+             //nav.sleep();
          break;
         case gapfound_pt2:
             if(nav.lookingForGap())  {
@@ -85,33 +105,58 @@ void loop() {
  
  
        }
+       
   
  
 
          
-/*  
+         /*
+  
         switch (current_status) {
           case start:
             //let's keep going
             //console.println("start \t go forward!");
             nav.takeOff();
             current_status = moving;
+//            current_status = crossingwave;
             break;
           case moving:
-            if(nav.lookingForGap())
+            
+            if(nav.lookingForGap())  {
               current_status = gapfound;
+              delay(300);
+            }
+            //nav.traveling(); //this kind of works. not really :(
             break;
           case gapfound:
             //console.println("gapfound \t ");
 			//now to turn 90 degrees
             Serial.println("starting 90 deg turn");
             nav.turnTowardsGap();
+            delay(300);
             current_status = crossingwave;
+//              current_status = theend;
             break;
           case crossingwave:
-             if(nav.crossGap())
-               current_status = theend; 
+            
+             if(nav.crossGap())  {
+               gapsThru++;
+               if(gapsThru ==2)  {
+                 current_status = theend;
+               }
+               else  {                   
+                 current_status = realignParallel ; 
+               }
+               delay(300);
+//               current_status = theend;
+             }
             break;
+          case realignParallel:
+            //hard coding this thing T.T
+            //HARD CODE THE THINGS
+             nav.turnTowardsLane();
+             current_status = moving;         
+          break;
           case theend:
             nav.sleep();
             
@@ -119,7 +164,9 @@ void loop() {
             
         
         }
- */      
+        
+        */
+          
         //delay(50);  //make it readable
         //gapfind.printDebug();
       
