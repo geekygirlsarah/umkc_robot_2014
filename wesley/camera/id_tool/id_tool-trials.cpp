@@ -64,9 +64,6 @@ using namespace cv;
 
 #include <iostream>		// basic I/O
 
-// personal tally machine - used to find mode of stored data
-#include "tally_box.h"
-
 #define EMGDBG (1)
 #define DBGOUT if EMGDBG std::cout
 
