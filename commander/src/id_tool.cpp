@@ -1,20 +1,20 @@
 #include "id_tool.h"
-#include <unistd.h>
-#include <sys/types.h> /* for pid_t */
-#include <sys/wait.h> /* for wait */
-using namespace std;
+#include <stdio.h>
 
+
+/**
+ * 1 = No error, tool found
+ * -1 = General error
+ */
 int id_tool::execute(){
-	 /*Spawn a child to run the program.*/
-    pid_t pid=fork();
-    if (pid==0) { /* child process */
-        static char *argv[]={"echo","Foo is my name.",NULL};
-        exec("/bin/id_tool");
-        exit(127); /* only if execv fails */
-    }
-    else { /* pid!=0; parent process */
-        waitpid(pid,0,0); /* wait for child to exit */
-    }
-    return 0;
+	FILE * f = popen("./bin/id_tool","r");
+	//Eror while opening file stream
+	if(f == 0){
+		return -1;
+	}
+	//Get return value, don't ask why it's this but it is.
+	return pclose(f)/256;
+
+
 }
 
