@@ -1,0 +1,4 @@
+namespace waitforgo{
+	int exec();
+}
+
