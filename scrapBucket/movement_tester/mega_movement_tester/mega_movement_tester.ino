@@ -24,7 +24,8 @@
 #include <irsensor_tester.h>
 #include <magellan_edgesensors.h>
 #include <fronteyes.h>
-#include <parallelpark.h>
+
+#include <parallelpark_simple.h>
 #include <motor_cmd.h>
 
 #include <movement.h>
@@ -66,6 +67,7 @@ void loop() {
   
   //.. attempting to realign parallel dynamically :( it doesn't work either and oVERshoOOTS
   
+  /*
        switch (current_status)  {
         case start:
           Serial.println("start");
@@ -85,6 +87,7 @@ void loop() {
             break;
          case realignParallel:
              Serial.println("realignparalell");
+             delay(300);
              nav.parallelpark();
              Serial.println("its parallel!");
              //current_status = gapfound_pt2;
@@ -101,16 +104,30 @@ void loop() {
         break;
         case theend:
           nav.sleep();
+          if (Serial.available() > 0) {
+		// process incoming commands from console
+		const byte cmd = Serial.read();
+		switch(cmd) {
+			case 'r':
+				Serial.println("again!");
+				//sabertooth.forward(40);
+                                current_status = start;
+			//	sabertooth.forward();
+				break;
+			
+		
+		}
+	}	//
          break;
  
  
        }
        
-  
+  */
  
 
          
-         /*
+         
   
         switch (current_status) {
           case start:
@@ -118,6 +135,7 @@ void loop() {
             //console.println("start \t go forward!");
             nav.takeOff();
             current_status = moving;
+            current_status = realignParallel;
 //            current_status = crossingwave;
             break;
           case moving:
@@ -152,20 +170,39 @@ void loop() {
              }
             break;
           case realignParallel:
-            //hard coding this thing T.T
-            //HARD CODE THE THINGS
-             nav.turnTowardsLane();
-             current_status = moving;         
+            Serial.println("realignparalell");
+             delay(300);
+             nav.parallelpark();
+             delay(1000);
+             Serial.println("its parallel!");
+             //current_status = gapfound_pt2;
+             current_status = moving;
+             //nav.sleep();       
           break;
           case theend:
             nav.sleep();
+            nav.sleep();
+          if (Serial.available() > 0) {
+		// process incoming commands from console
+		const byte cmd = Serial.read();
+		switch(cmd) {
+			case 'r':
+				Serial.println("again!");
+				//sabertooth.forward(40);
+                                current_status = start;
+			//	sabertooth.forward();
+				break;
+			
+		
+		}
+	}	//*/
             
             break;
             
         
         }
         
-        */
+        
           
         //delay(50);  //make it readable
         //gapfind.printDebug();

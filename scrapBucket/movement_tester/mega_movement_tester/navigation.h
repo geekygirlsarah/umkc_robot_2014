@@ -15,8 +15,8 @@
 #include <irsensor_tester.h>
 #include <magellan_edgesensors.h>
 #include <fronteyes.h>
-#include <parallelpark.h>
-
+//#include <parallelpark.h>
+#include <parallelpark_simple.h>
 #include <motor_cmd.h>
 
 #include <movement.h>
@@ -50,9 +50,9 @@ class Navigation {
                   mov.init(&sabertooth);
                   Serial.println("ready");
                   gapfind.init(A0,A1,A2);
-                  eyes.init(A3,15);
+                  eyes.init(A3,10);
                   mag.init(A6,A7);
-                  par.init(A2,A1,A0);
+                  par.init(A2,A1,A0, &sabertooth);
                   
                   goingForward = true;  //... this is from the point of view of robot. it will always start going forward.
                                         //it's just that the motor library has it as "reverse()" as our going forward XD
@@ -184,15 +184,28 @@ class Navigation {
                   //WHOAAAAH
                   //change of paradigm.
                   //instead of going until you stop, you should stop a bit and then go if it's bad. so default to stopping
+                  // lets be lazy and hack-y. Gonna hard code a turn for 45degrees, then make the par park thing work. 
+                 //mov.turn90degreesCW(0x60,0x20,ticksFor90/2);
+                 //sabertooth.all_stop();
+                 
                   
-                  mov.turn(0x60,0x20);
-                  while(!par.isParallel())  {
-                    mov.turn(0x60,0x20);
+                  //mov.turn(0x60,0x20);
+                  
+                  
+                  //par.parallelPark();
+                  
+                  //while(!par.isParallel())  {
+                    //mov.turn(0x60,0x20);
                     //keep going
                     //par.printDebug();
-                    par.printStatus();
-                    par.update();
+                    //par.printStatus();
+                    //par.update();
+                  //}
+                  while(true)  {
+                    par.printDebug();
                   }
+                  
+                  par.reset();
                   sabertooth.all_stop();
                
        
