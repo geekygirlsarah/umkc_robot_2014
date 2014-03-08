@@ -1,4 +1,4 @@
 #include "waitforgo.h"
 int main(){
-	int waitforgoreturn = waitforgo::exec();
+	int waitforgoreturn = waitforgo::execute();
 }
