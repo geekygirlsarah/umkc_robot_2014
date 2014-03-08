@@ -1,5 +1,5 @@
 #include "waitforgo.h"
 
-int waitforgo::exec(){
+int waitforgo::execute(){
 	return 0;
 }
