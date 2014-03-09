@@ -54,10 +54,10 @@ class DistSmoother	{
 				int baseline;		
 				int halfWidth;	//how wide the gap is for not noisy data [baseline -halfwidth,  baseline + halfwidth]
 
-				const int static numReadings_default = 10;
-				const int static numToleratedOutliers_default = 7;
+				const int static numReadings_default = 5;
+				const int static numToleratedOutliers_default = 3;
 				const float static alpha_default = .8;
-				const int static halfWidth_default= 2;
+				const int static halfWidth_default= 3;
 
 				bool withinBaseline(int current)	{
 					return (current > (baseline - halfWidth) && current < (baseline + halfWidth));	
