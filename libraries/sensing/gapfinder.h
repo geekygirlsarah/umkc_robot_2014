@@ -41,7 +41,7 @@ private:
   Distance2D120X Dist2;  
   Distance2D120X Dist3;
 
-  const static int threshold = 25;  //threshold for ping sensor detecting a hole (cm)
+  const static int threshold = 20;  //threshold for ping sensor detecting a hole (cm)
 
 
   
@@ -89,11 +89,11 @@ public:
     distance3 = Dist3.getDistanceCentimeter();
     //difference = distance1 - distance2;
 
-    Serial.print("dist(cm)#1: ");
-    Serial.println(distance1);
-    Serial.print("dist(cm)#2: ");
-    Serial.println(distance2);    
-    Serial.print("dist(cm)#3: ");
+    Serial.print("dist(cm):\t");
+    Serial.print(distance1);
+    Serial.print("\t");
+    Serial.print(distance2);    
+    Serial.print("\t");
     Serial.println(distance3); 
     //delay(500); //make it readable
   }
