@@ -1,0 +1,7 @@
+general_failure
+false
+false
+false
+false
+true
+true
