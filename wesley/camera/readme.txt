@@ -101,28 +101,3 @@ actual  : 112   97      97      12      95      0
 actual  : 113   97      92      12      95      0
 actual  : 111   86      97      13      95      0
 
-
-
-after doing some work on paper and the white-board I have determined the
-following forward-kinematic equation to produce the position vector R from the
-base of the arm to the tip of the gripper.
-
-	the 'CAPITAL_LETTER' words are the defines used in arm_control.h
-	the 'lower-case' words are the angles received either from:
-		arm[JOINT].read(), or
-		position[JOINT] array
-
-	r = < 0, 0, BASE_HGT > 
-	  + < HUMERUS*cos(base), HUMERUS*cos(shoulder), HUMERUS*sin(shoulder) >
-	  + < ULNA*cos(base),    ULNA*cos(elbow - 90),  ULNA*sin(elbow - 90)  >
-	  + < GRIPPER*cos(base), GRIPPER*cos(wrist_p),  GRIPPER*sin(wrist_p)  >
-
-	from this result, we get:
-
-	r = < sumofpieces(x),
-	      sumofpieces(y),
-	      sumofpieces(z) >
-
-	r = < cos(base) * (HUMERUS, ULNA, GRIPPER), 
-		< sqrt( (HUMERUS*cos(shoulder))^2 + (ULNA*cos(elbow - 90))^2 + (GRIPPER*cos(wrist_p))^2 ),
-		< sqrt( (HUMERUS*sin(shoulder))^2 + (ULNA*sin(elbow - 90))^2 + (GRIPPER*sin(wrist_p))^2 + BASE_HGT^2 ) >
