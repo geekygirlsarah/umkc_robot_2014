@@ -61,25 +61,44 @@ private:
   //if countAcceptable out of countCheck readings are "valid" or parallel -> then we assume it is
   int countAcceptableActual;	//how many readings I have seen that are acceptable
   const static int countAcceptableRequired = 5;	//how many readings I must be over to be acceptable overall
-  const static int groupCount= 7;	//how many readings (grouped) to take in total 
+  const static int numGroupReadings = 7;	//how many readings (grouped) to take in total 
 
+  bool readings[numGroupReadings];	//instead of taking groups of readings at once -> take a running set
+  int indexReadings;	
+  
+  bool actuallyParallel()	{
+	
+	readings[indexReadings] = checkParallel();
+	indexReadings++;
+	if(indexReadings >= numGroupReadings)	//if we're at end of array, wrap around
+		indexReadings = 0;
+
+	//now let's count the # of parallel readings
+	countAcceptableActual = 0;
+	for(int i = 0; i< numGroupReadings; i++)	{
+		if(readings[indexReadings])
+			countAcceptableActual++;
+	}
+	return (countAcceptableActual> countAcceptableRequired);
+  }
 
   //calls checkParallel() multiple times... sees from there 
   //call THIS ONE from the outside
-  bool actuallyParallel()	{
+/*
+   bool actuallyParallel()	{
 	countAcceptableActual = 0;
-	for(int i =0; i< groupCount; i++)	{
+	for(int i =0; i< numGroupReadings; i++)	{
 		if(checkParallel()) 	{
 			countAcceptableActual++;	
 		}
 		else	{
-			//spin and do nothing		
+			//spin and do nothin
 		}
   
 	}
 	return (countAcceptableActual> countAcceptableRequired);
   }
-  
+  */
  //checks side ir sensors - am I parallel ish?
  //
  //nope . no hackyness ok EVEN MORE HACK-Y. ASSUMING I am turning Clockwise... I am "parallel" as SOON AS they are kinda similar OR one sensor > greater than another. 
@@ -213,7 +232,12 @@ public:
   //must be in order. pin1 must be the leftmost sensor facing out, pin3 must be rightmost sensor facing out 
   
  void init(int pin1, int pin2, int pin3, motor_cmd* s)  {
-    Dist1.init(pin1);
+    
+	//init reading array
+	for(int i = 0; i<  numGroupReadings; i++)	{
+		readings[i] = false;	
+	}
+	Dist1.init(pin1);
     Dist2.init(pin2);
     Dist3.init(pin3);
     check = 3;
