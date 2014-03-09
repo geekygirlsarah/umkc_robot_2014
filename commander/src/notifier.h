@@ -1,13 +1,21 @@
-//This is the object for handling exceptions and transforming them into leds
+  /* Notifier.h
+   * written by: Chris Denniston
+   * date:  Sun Mar  9 15:12:14 CDT 2014
+   *
+   * PURPOSE: To allow ease of use when throwing Led status notifications
+   *
+   * TODOs: Need to implement lightLeds 
+   *
+   */
 #include <map>
 #include <string>
 using std::map;
 using std::string;
 
 
-#ifndef EXCEPTOR_H
-#define EXCEPTOR_H
-class Exceptor{
+#ifndef LedNotifier_H
+#define LedNotifier_H
+class LedNotifier{
 private:
 	struct LedArray{
 		bool green0;
@@ -20,12 +28,12 @@ private:
 		LedArray(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1) : green0(green0), green1(green1),yellow0(yellow0),yellow1(yellow1),red0(red0),red1(red1) {}
 	};
 
-	map<string,LedArray> errorMap;
+	map<string,LedArray> notificationMap;
 
 	static void lightLeds(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1);
 
 public:
-	Exceptor(bool parseOnConstruction=false);
+	LedNotifier(bool parseOnConstruction=false);
 	/**
 	 * Parses the text file "error_id.txt"
 	 *
@@ -39,8 +47,10 @@ public:
 	 * red led1
 	 * 
 	 * in the event of a parse failure the leds will throw a general failure
+	 *
+	 * multiple files can be parsed. If there are overlaps than the most recently parsed code will stay.
 	 */
-	void parse();
+	void parse(const char* parseFileName="notify_id.txt");
 
 	/**
 	 * Throws a new led code based on previously parsed file. if throwGeneralErrorOnFailure is true then if no code is found the function will return false and light the general failure led

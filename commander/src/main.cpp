@@ -1,16 +1,15 @@
 #include "waitforgo.h"
-#include "exceptor.h"
+#include "notifier.h"
 
 int main(){
 	try{
-	Exceptor exceptor(true);
-
+	LedNotifier ledNotifier(true);
 
 
 
 	}
 	catch(...){
-		Exceptor::throwGeneralFailure();
+		LedNotifier::throwGeneralFailure();
 	}
 
 }
