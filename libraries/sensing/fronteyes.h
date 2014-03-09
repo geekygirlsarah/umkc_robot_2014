@@ -9,6 +9,10 @@
  * ONe IR sensor. I donw' want to crash into a wave/oil right.  
  * written for the 2014 ieee region 5 comp
  *
+ *
+ * TODO TODO :
+ * - > shouldn't just be a straight up <less than>. Should really be keeping tack of previous data points
+ *
  **/
 #include <Distance2D120X.h>
 
@@ -29,12 +33,14 @@ private:
   int outerloopcount;	//how many times the update() method will run thru the state loop
   int distance1;  //used for debugging
 
+  const static float alpha = 0.60; 
   Distance2D120X Dist1;
 
   int threshold;  //threshold for ping sensor detecting an obstacle (cm), dfaults to 10cm
 
   bool checkObst() {
-  	return Dist1.isCloser(threshold); 
+	return (Dist1.getSmoothedDistanceCM(alpha) < threshold);
+//  	return Dist1.isCloser(threshold); 
   }
  
 public:
