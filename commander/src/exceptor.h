@@ -22,7 +22,7 @@ private:
 
 	map<string,LedArray> errorMap;
 
-	void lightLeds(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1);
+	static void lightLeds(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1);
 
 public:
 	Exceptor(bool parseOnConstruction=false);
@@ -53,6 +53,6 @@ public:
 	 * A function that will light the general failure leds
 	 * note: doesn't rely on a successful parse
 	 */
-	void throwGeneralFailure(){lightLeds(false,false,false,false,true,true);}
+	static void throwGeneralFailure(){lightLeds(false,false,false,false,true,true);}
 };
 #endif

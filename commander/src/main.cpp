@@ -2,7 +2,15 @@
 #include "exceptor.h"
 
 int main(){
+	try{
 	Exceptor exceptor(true);
-	int waitforgoreturn = waitforgo::execute();
+
+
+
+
+	}
+	catch(...){
+		Exceptor::throwGeneralFailure();
+	}
 
 }
