@@ -56,9 +56,29 @@ private:
   const static float countInARow= 5;	//test - used to set the check for each stage, how many times checkCW () in a row it must be good
 
 
-  const static int countExecution= 2;	//how many times in a row to take a reading from a sensor to determine if it is safe 
-  int runningCountExecution;	//count of how many times ive taken reading when determining safeness
+  const static int countAverage= 2;	//how many times  to average readings from distsmoother
 
+  //if countAcceptable out of countCheck readings are "valid" or parallel -> then we assume it is
+  int countAcceptableActual;	//how many readings I have seen that are acceptable
+  const static int countAcceptableRequired = 5;	//how many readings I must be over to be acceptable overall
+  const static int groupCount= 7;	//how many readings (grouped) to take in total 
+
+
+  //calls checkParallel() multiple times... sees from there 
+  //call THIS ONE from the outside
+  bool actuallyParallel()	{
+	countAcceptableActual = 0;
+	for(int i =0; i< groupCount; i++)	{
+		if(checkParallel()) 	{
+			countAcceptableActual++;	
+		}
+		else	{
+			//spin and do nothing		
+		}
+  
+	}
+	return (countAcceptableActual> countAcceptableRequired);
+  }
   
  //checks side ir sensors - am I parallel ish?
  //
@@ -68,12 +88,12 @@ private:
 	//take average of a couple readings just to be sure
 	distance1 = 0;
 	distance3 = 0;
-	for(int i = 0; i< countExecution; i++)	{	
+	for(int i = 0; i< countAverage; i++)	{	
 		distance1 += Dist1.getFilteredDistanceCM();
 		distance3 += Dist3.getFilteredDistanceCM();
 	}
-	distance1 /= countExecution;
-	distance3 /= countExecution;
+	distance1 /= countAverage;
+	distance3 /= countAverage;
 	if(!isDataTrusted(distance1,distance3))
 		return false;
 	return (abs(distance3 - distance1)  <  difference);
@@ -86,12 +106,12 @@ private:
 	//take average of a couple readings just to be sure
 	distance1 = 0;
 	distance3 = 0;
-	for(int i = 0; i< countExecution; i++)	{	
+	for(int i = 0; i< countAverage; i++)	{	
 		distance1 += Dist1.getFilteredDistanceCM();
 		distance3 += Dist3.getFilteredDistanceCM();
 	}
-	distance1 /= countExecution;
-	distance3 /= countExecution;
+	distance1 /= countAverage;
+	distance3 /= countAverage;
 	if(!isDataTrusted(distance1,distance3))
 		return false;
 	return distance1 < distance3;
@@ -103,12 +123,12 @@ private:
 	//take average of a couple readings just to be sure
 	distance1 = 0;
 	distance3 = 0;
-	for(int i = 0; i< countExecution; i++)	{	
+	for(int i = 0; i< countAverage; i++)	{	
 		distance1 += Dist1.getFilteredDistanceCM();
 		distance3 += Dist3.getFilteredDistanceCM();
 	}
-	distance1 /= countExecution;
-	distance3 /= countExecution;
+	distance1 /= countAverage;
+	distance3 /= countAverage;
 	if(!isDataTrusted(distance1,distance3))
 		return false;
 	return distance1 > distance3;
@@ -151,7 +171,7 @@ private:
 			break;
 
 			case turn_cw:
-				if(checkParallel())
+				if(actuallyParallel())
 					park_status = parallel;
 				else if (needToTurnCCW())
 					park_status = turn_ccw;
@@ -160,7 +180,7 @@ private:
 			break;
 			
 			case turn_ccw:
-				if(checkParallel())
+				if(actuallyParallel())
 					park_status = parallel;
 				else if (needToTurnCW())
 					park_status = turn_cw;
@@ -249,7 +269,6 @@ public:
   //will take care of the movement junk as well
   void parallelPark()	{
  		 //keep turning.. until you are parallel
-
 
 		//... so it's like a little state machine consuming the other machine T.T 
 		saber->turnCW();	//arbitraily just turn cw
