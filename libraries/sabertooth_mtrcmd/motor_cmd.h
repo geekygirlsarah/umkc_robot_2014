@@ -26,9 +26,11 @@ class motor_cmd {
         static const byte ALL_STOP     = 0x00;
         static const byte FULL_REVERSE = 0x01;
         static const byte HALF_REVERSE = 0x10;
+        static const byte QUARTER_REVERSE = 0x20;
         static const byte TURN_REVERSE = 0x30;
         static const byte FULL_STOP    = 0x40;
         static const byte TURN_FORWARD = 0x50;
+        static const byte QUARTER_FORWARD = 0x60;
         static const byte HALF_FORWARD = 0x70;
         static const byte FULL_FORWARD = 0x7F;
 
@@ -151,7 +153,7 @@ class motor_cmd {
         	//Serial.print("   ::CMD:: reverse - at value: ");
 			//Serial.print(motor_speed, DEC); Serial.print(" : ");
             motor_speed = (-1.26)*motor_speed + 64;
-            Serial.println(motor_speed, DEC);
+//            Serial.println(motor_speed, DEC);
             mcontrol.write(motor_L | motor_speed);
             mcontrol.write(motor_R | motor_speed);
             DIRECTION = REVERSE;
@@ -246,7 +248,24 @@ class motor_cmd {
             mcontrol.write(ALL_STOP);
             DIRECTION = STOPPED;
         }
+
+		void turnCCW()	{
+			turn(QUARTER_REVERSE, QUARTER_FORWARD);
+//			turn(HALF_REVERSE, HALF_FORWARD);
+		}
+
+		void turnCW()	{
+			turn(QUARTER_FORWARD, QUARTER_REVERSE);
+//			turn(HALF_FORWARD, HALF_REVERSE);
+		}
         
+		void turn(byte right, byte left)	{
+					Serial.println("movement::forever turn");
+					rightMotorCommand(right);
+					leftMotorCommand(left);
+				
+				}
+
         byte state() {
             return DIRECTION;
         }
