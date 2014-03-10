@@ -47,100 +47,25 @@ void setup() {
 }
 
 void loop() {
-      
-  //testing back and forth movement and magellans.
-  //... this kinda works, but its cutting it WAY too close to the edge :( :( :(
-  /*
-  switch(current_status)  {
-    case start:
-      current_status = moving;
-    break;
-    
-    case moving:
-      //if(nav.lookingForGap())
-      //  current_status = gapfound;
-      nav.traveling();
-    break;
-  }
-  */
-  
-  
-  //.. attempting to realign parallel dynamically :( it doesn't work either and oVERshoOOTS
-  
-  /*
-       switch (current_status)  {
-        case start:
-          Serial.println("start");
-          current_status = crossingwave;
-            //current_status = gapfound_pt2;
-          //current_status = realignParallel;
-          
-          break;
         
-        case crossingwave:
-             Serial.println("crossingwave");
-             if(nav.crossGap())  {
-               current_status = realignParallel;
-               //current_status = theend;
-               nav.sleep();
-             }            
-            break;
-         case realignParallel:
-             Serial.println("realignparalell");
-             delay(300);
-             nav.parallelpark();
-             Serial.println("its parallel!");
-             //current_status = gapfound_pt2;
-             current_status = theend;
-             //nav.sleep();
-         break;
-        case gapfound_pt2:
-            if(nav.lookingForGap())  {
-              current_status = theend;
-              nav.sleep();
-            }
-            //nav.sleep();
-            break;
-        break;
-        case theend:
-          nav.sleep();
-          if (Serial.available() > 0) {
-		// process incoming commands from console
-		const byte cmd = Serial.read();
-		switch(cmd) {
-			case 'r':
-				Serial.println("again!");
-				//sabertooth.forward(40);
-                                current_status = start;
-			//	sabertooth.forward();
-				break;
-			
-		
-		}
-	}	//
-         break;
- 
- 
-       }
-       
-  */
- 
-
-         
          
   
         switch (current_status) {
           case start:
             //let's keep going
             //console.println("start \t go forward!");
-            nav.takeOff();
-            current_status = moving;
-            current_status = realignParallel;
-//            current_status = crossingwave;
+            //
+            Serial.println("start!");
+            delay(5000);
+            //current_status = moving;
+             current_status = realignParallel;
+            //current_status = crossingwave;
             break;
           case moving:
-            
+            Serial.println("state moving");
+            nav.takeOff();
             if(nav.lookingForGap())  {
+              Serial.println("GAP FOUND!");
               current_status = gapfound;
               delay(300);
             }
@@ -173,10 +98,14 @@ void loop() {
             Serial.println("realignparalell");
              delay(300);
              nav.parallelpark();
-             delay(1000);
+             //delay(1000);
              Serial.println("its parallel!");
              //current_status = gapfound_pt2;
-             current_status = moving;
+             
+             //current_status = moving;
+             
+             
+             current_status = theend;
              //nav.sleep();       
           break;
           case theend:
@@ -195,7 +124,7 @@ void loop() {
 			
 		
 		}
-	}	//*/
+	}	//
             
             break;
             

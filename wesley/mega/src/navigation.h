@@ -50,14 +50,27 @@ class Navigation {
                   mov.init(&sabertooth);
                   Serial.println("ready");
                   gapfind.init(A0,A1,A2);
-                  eyes.init(A3,10);
+                  eyes.init(A3,5);
                   mag.init(A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
                   
                   goingForward = true;  //... this is from the point of view of robot. it will always start going forward.
-                                        //it's just that the motor library has it as "reverse()" as our going forward XD
+                                        //it'xs just that the motor library has it as "reverse()" as our going forward XD
                 }
                 
+                
+                //used to test basic power reqs
+                void simpleMovementTest()  {
+                  Serial.println("simple movement test");
+                  //delay(5000);  //wait 5 seconds
+                  sabertooth.reverse(20);
+                  delay(500);  //go for 2 secs
+                  sabertooth.all_stop();
+                  delay(2000);
+                  sabertooth.forward(20);
+                  delay(500);
+                  sabertooth.all_stop();
+                }
                 
                 //Stuff that needs to be updated goes in here.
                 //NO NO NO NO NONONONONONONO
@@ -79,6 +92,7 @@ class Navigation {
                 */
                 
                 void takeOff()  {
+                  Serial.println("takeoff");
                   sabertooth.reverse(20);
                   goingForward = true;
                 }
@@ -137,7 +151,7 @@ class Navigation {
                   
                   //gap found? move forward a set amount to center self
                   if(gapfind.gapPresent())  {
-                    //Serial.println("moving \t GAP FOUND!!");
+                    Serial.println("moving \t GAP FOUND!!");
       
                     
                     int32_t start_ticks = positionFL;
@@ -192,7 +206,7 @@ class Navigation {
                   //mov.turn(0x60,0x20);
                   
                   
-                  //par.parallelPark();
+                  par.parallelPark();
                   
                   //while(!par.isParallel())  {
                     //mov.turn(0x60,0x20);
@@ -201,9 +215,12 @@ class Navigation {
                     //par.printStatus();
                     //par.update();
                   //}
+                  
+                  /*
                   while(true)  {
                     par.printDebug();
                   }
+                  */
                   
                   par.reset();
                   sabertooth.all_stop();
