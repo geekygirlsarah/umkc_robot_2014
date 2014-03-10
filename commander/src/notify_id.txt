@@ -1,7 +1,7 @@
 general_failure
-false
-false
-false
-false
-true
-true
+0
+0
+0
+0
+1
+1
