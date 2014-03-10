@@ -88,7 +88,7 @@ void loop()
 				break;
                         case 'p':
 				Serial.println("forward");
-				//sabertooth.forward(20);
+			
 
                                 sabertooth.rightMotorCommand(0x60);
                                 sabertooth.leftMotorCommand(0x20);
