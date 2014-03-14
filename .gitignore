@@ -16,6 +16,18 @@ Icon
 # Thumbnails
 ._*
 
+#vim swap files
+.swp
+.swo
+
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+# ros/catkin specific ones
+cmake_install.cmake
+build/
+bin/
+lib/
+msg_gen/
+srv_gen/
