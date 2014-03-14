@@ -29,5 +29,7 @@ cmake_install.cmake
 build/
 bin/
 lib/
+#not sure if we need devel or not O.o
+devel/
 msg_gen/
 srv_gen/
