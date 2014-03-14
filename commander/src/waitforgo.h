@@ -1,4 +1,0 @@
-namespace waitforgo{
-	int execute();
-}
-
