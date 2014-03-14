@@ -5,11 +5,13 @@ int main(){
 	try{
 	LedNotifier ledNotifier(true);
 
-
+	
 
 	}
 	catch(...){
 		LedNotifier::throwGeneralFailure();
 	}
+	
+	// main process list start here
 
 }
