@@ -17,6 +17,7 @@ namespace mega_gatekeeper	{
 					
 					ros::NodeHandle node;
 
+					void setup();
 			public:
 					void init(ros::NodeHandle n);
 		};
