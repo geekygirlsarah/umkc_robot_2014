@@ -13,5 +13,8 @@ int main(){
 	}
 	
 	// main process list start here
-
+	// 1) id_flame
+	// 2) id_tool
+	// 3) -------
+	// 4) -------
 }
