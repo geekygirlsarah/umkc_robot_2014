@@ -4,7 +4,7 @@
    *
    * PURPOSE: To allow ease of use when throwing Led status notifications
    *
-   * TODOs: Need to implement lightLeds 
+   * 
    *
    */
 #include <map>
