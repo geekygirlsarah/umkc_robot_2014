@@ -16,6 +16,7 @@ namespace mega_gatekeeper	{
 			private:
 					
 					ros::NodeHandle node;
+					ros::Publisher megaTalker;
 
 					void setup();
 			public:
