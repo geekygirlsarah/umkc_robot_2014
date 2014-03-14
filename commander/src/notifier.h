@@ -9,6 +9,8 @@
    */
 #include <map>
 #include <string>
+#include <ros/ros.h>
+
 using std::map;
 using std::string;
 
@@ -17,6 +19,9 @@ using std::string;
 #define LedNotifier_H
 class LedNotifier{
 private:
+	ros::nodeHandle nh;
+	ros::Publisher pub;
+	
 	struct LedArray{
 		bool green0;
 		bool green1;

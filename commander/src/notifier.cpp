@@ -42,10 +42,50 @@ bool LedNotifier::throwLedCode(string code, bool throwGeneralErrorOnFailure){
 }
 
 void LedNotifier::lightLeds(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1){
-	return; //todo implement this
+	
+	byte lightbyte = 0x00;
+	std_msgs::byte msg;
+	
+	if(green0)
+	{
+		lightbyte += 0x20;
+	}
+	if(green1)
+	{
+		lightbyte += 0x10;
+	}
+	if(yellow0)
+	{
+		lightbyte += 0x08;
+	}
+	if(yellow1)
+	{
+		lightbyte += 0x04;
+	}
+	if(red0)
+	{
+		lightbyte += 0x02;
+	}
+	if(red1)
+	{
+		lightbyte += 0x01;
+	}
+	
+	msg.data = lightbyte;
+	
+	pub.publish(msg);
+	
+	ros::spinOnce();
+	
+	return;
 }
 LedNotifier::LedNotifier(bool parseOnConstruction){
+	
+	ros::init(0,NULL,"lednotifier");
+	pub = nh.advertise<std_msgs::byte>("/master/leds", 1000);
+	
 	if(parseOnConstruction)
 		parse();
 }
+
 
