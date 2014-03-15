@@ -9,4 +9,4 @@ public:
 
 	void id_flame(int);
 	void id_tool(int);
-}
+};
