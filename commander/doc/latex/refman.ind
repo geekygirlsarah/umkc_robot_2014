@@ -1,0 +1,27 @@
+\begin{theindex}
+
+  \item {Exit\discretionary {-}{}{}Handler}, \hyperpage{3}
+
+  \indexspace
+
+  \item {Led\discretionary {-}{}{}Notifier}, \hyperpage{3}
+    \subitem {parse}, \hyperpage{3}
+    \subitem {throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}, 
+		\hyperpage{3}
+    \subitem {throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code}, 
+		\hyperpage{4}
+  \item {Logger}, \hyperpage{4}
+
+  \indexspace
+
+  \item {parse}
+    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{3}
+
+  \indexspace
+
+  \item {throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}
+    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{3}
+  \item {throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code}
+    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{4}
+
+\end{theindex}
