@@ -48,14 +48,15 @@ bool LedNotifier::throwLedCode(string code, bool throwGeneralErrorOnFailure){
 
 //this function could be called as follows with object led_notif (of LedNotifier class):
 
-// led_notif.lightLeds(0,1,0,1,1,0); 
+// 	led_notif.lightLeds(0,1,0,1,1,0); 
+
 // this would turn on the second green light, second yellow light, and first red light
 void LedNotifier::lightLeds(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1){
 	
 	
 	//create a byte, where we will ignore the first two bits.
-	//each digit of the byte will represent one of our six lights
-	//if a digit is a 1, that light will be told to turn on
+	//each bit of the byte will represent one of our six lights
+	//if a bit is a 1, that light will be told to turn on
 	//for example xx000000 will represent all lights being off
 	//whereas xx010001 will represent g1 and r1 being on.
 	byte lightbyte = 0x00; 
@@ -63,7 +64,8 @@ void LedNotifier::lightLeds(bool green0, bool green1, bool yellow0, bool yellow1
 	//create a message that we will use to send the byte to the topic
 	std_msgs::byte msg;
 	
-	//if loops check our bools, if any of them are true change the corresponding of the byte to a 1 instead of a 0
+	//if statements check our bools, if any of them are true change the corresponding
+	//   bit to a 1 instead of a 0
 	if(green0) //first green light
 	{
 		lightbyte += 0x20; //add byte xx100000
