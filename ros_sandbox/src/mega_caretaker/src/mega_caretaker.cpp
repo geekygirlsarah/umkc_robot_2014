@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include <ros/console.h>
 
 #include <sstream>
 
@@ -11,9 +12,15 @@
 using namespace mega_gatekeeper;
 
 
+void MegaGatekeeper::heardFromMegaSimple(const std_msgs::String &packet)	{
+	ROS_INFO("Heard from the mega!1");
+
+}
+
 void MegaGatekeeper::setup()	{
 //	motorCommandTopic = n.subscribe(geometry_msgs/
-//	megaTalker = node.advertise<MegaPacket>("boardToArduino", 10);
+	megaTalker = node.advertise<std_msgs::String>("boardToArduino", 10);
+	megaListener = node.subscribe("arduinoToBoard", 10, &MegaGatekeeper::heardFromMegaSimple, this);
 }
 
 void MegaGatekeeper::init(ros::NodeHandle n)	{

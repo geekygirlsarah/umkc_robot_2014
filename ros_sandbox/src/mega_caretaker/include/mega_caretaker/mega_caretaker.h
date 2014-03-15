@@ -4,9 +4,9 @@
 #include "ros/ros.h"
 #include "ros/package.h"
 #include "std_msgs/String.h"
-
+#include <ros/console.h>
 //msg includes
-//#include "mega_caretaker/Mega.h"
+#include "mega_caretaker/MegaPacket.h"
 
 
 
@@ -17,10 +17,14 @@ namespace mega_gatekeeper	{
 					
 					ros::NodeHandle node;
 					ros::Publisher megaTalker;
+					ros::Subscriber megaListener;
 
 					void setup();
+					//void heardFromMega(const mega_caretaker::MegaPacket &packet);
+					void heardFromMegaSimple(const std_msgs::String &packet);
 			public:
 					void init(ros::NodeHandle n);
+					void run();
 		};
 
 
