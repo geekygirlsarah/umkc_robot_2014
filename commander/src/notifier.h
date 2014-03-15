@@ -38,9 +38,14 @@ private:
 	void lightLeds(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1);
 
 public:
+	/**
+	 * Constructor for LedNotifier.
+	 *
+	 * @param parseOnConstruction if set to true, will parse default file on construction
+	 */
 	LedNotifier(bool parseOnConstruction=false);
 	/**
-	 * Parses the text file "error_id.txt"
+	 * Parses a text file
 	 *
 	 * The format of this file goes 
 	 * failure_id (Needs to be one word)
@@ -54,6 +59,8 @@ public:
 	 * in the event of a parse failure the leds will throw a general failure
 	 *
 	 * multiple files can be parsed. If there are overlaps than the most recently parsed code will stay.
+	 *
+	 * @param parseFileName The text file to parse
 	 */
 	void parse(const char* parseFileName="notify_id.txt");
 

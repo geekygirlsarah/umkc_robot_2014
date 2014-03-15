@@ -4,18 +4,31 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classLedNotifier_a5abac8bb469264cf43c4cc50dd238cba}{{\bfseries Led\-Notifier} (bool parse\-On\-Construction=false)}\label{classLedNotifier_a5abac8bb469264cf43c4cc50dd238cba}
-
+\hyperlink{classLedNotifier_a5abac8bb469264cf43c4cc50dd238cba}{Led\-Notifier} (bool parse\-On\-Construction=false)
 \item 
 void \hyperlink{classLedNotifier_aa15c73574d2724e99666ec0ab36dc371}{parse} (const char $\ast$parse\-File\-Name=\char`\"{}notify\-\_\-id.\-txt\char`\"{})
 \item 
 bool \hyperlink{classLedNotifier_ac8db4f4b7628a10a15407f7cd908a2b9}{throw\-Led\-Code} (string code, bool throw\-General\-Error\-On\-Failure=false)
-\end{DoxyCompactItemize}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
 \item 
-static void \hyperlink{classLedNotifier_aa49dc743d5d8eabd1d5e9c30126ec2b2}{throw\-General\-Failure} ()
+void \hyperlink{classLedNotifier_a33dbd28a9a9623fe4e7279cd4dbf596e}{throw\-General\-Failure} ()
 \end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classLedNotifier_a5abac8bb469264cf43c4cc50dd238cba}{\index{Led\-Notifier@{Led\-Notifier}!Led\-Notifier@{Led\-Notifier}}
+\index{Led\-Notifier@{Led\-Notifier}!LedNotifier@{Led\-Notifier}}
+\subsubsection[{Led\-Notifier}]{\setlength{\rightskip}{0pt plus 5cm}Led\-Notifier\-::\-Led\-Notifier (
+\begin{DoxyParamCaption}
+\item[{bool}]{parse\-On\-Construction = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classLedNotifier_a5abac8bb469264cf43c4cc50dd238cba}
+Constructor for \hyperlink{classLedNotifier}{Led\-Notifier}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parse\-On\-Construction} & if set to true, will parse default file on construction \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
@@ -26,19 +39,26 @@ static void \hyperlink{classLedNotifier_aa49dc743d5d8eabd1d5e9c30126ec2b2}{throw
 \item[{const char $\ast$}]{parse\-File\-Name = {\ttfamily \char`\"{}notify\-\_\-id.txt\char`\"{}}}
 \end{DoxyParamCaption}
 )}}\label{classLedNotifier_aa15c73574d2724e99666ec0ab36dc371}
-Parses the text file \char`\"{}error\-\_\-id.\-txt\char`\"{}
+Parses a text file
 
 The format of this file goes failure\-\_\-id (Needs to be one word) green led0 green led1 yellow led0 yellow led1 red led0 red led1
 
 in the event of a parse failure the leds will throw a general failure
 
-multiple files can be parsed. If there are overlaps than the most recently parsed code will stay. \hypertarget{classLedNotifier_aa49dc743d5d8eabd1d5e9c30126ec2b2}{\index{Led\-Notifier@{Led\-Notifier}!throw\-General\-Failure@{throw\-General\-Failure}}
+multiple files can be parsed. If there are overlaps than the most recently parsed code will stay.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parse\-File\-Name} & The text file to parse \\
+\hline
+\end{DoxyParams}
+\hypertarget{classLedNotifier_a33dbd28a9a9623fe4e7279cd4dbf596e}{\index{Led\-Notifier@{Led\-Notifier}!throw\-General\-Failure@{throw\-General\-Failure}}
 \index{throw\-General\-Failure@{throw\-General\-Failure}!LedNotifier@{Led\-Notifier}}
-\subsubsection[{throw\-General\-Failure}]{\setlength{\rightskip}{0pt plus 5cm}static void Led\-Notifier\-::throw\-General\-Failure (
+\subsubsection[{throw\-General\-Failure}]{\setlength{\rightskip}{0pt plus 5cm}void Led\-Notifier\-::throw\-General\-Failure (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classLedNotifier_aa49dc743d5d8eabd1d5e9c30126ec2b2}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classLedNotifier_a33dbd28a9a9623fe4e7279cd4dbf596e}
 A function that will light the general failure leds note\-: doesn't rely on a successful parse \hypertarget{classLedNotifier_ac8db4f4b7628a10a15407f7cd908a2b9}{\index{Led\-Notifier@{Led\-Notifier}!throw\-Led\-Code@{throw\-Led\-Code}}
 \index{throw\-Led\-Code@{throw\-Led\-Code}!LedNotifier@{Led\-Notifier}}
 \subsubsection[{throw\-Led\-Code}]{\setlength{\rightskip}{0pt plus 5cm}bool Led\-Notifier\-::throw\-Led\-Code (

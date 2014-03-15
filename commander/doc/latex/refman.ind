@@ -1,26 +1,45 @@
 \begin{theindex}
 
   \item {Exit\discretionary {-}{}{}Handler}, \hyperpage{3}
+    \subitem {Exit\discretionary {-}{}{}Handler}, \hyperpage{3}
+    \subitem {Exit\discretionary {-}{}{}Handler}, \hyperpage{3}
+    \subitem {id\discretionary {-}{}{}\_\discretionary {-}{}{}flame}, 
+		\hyperpage{3}
+    \subitem {id\discretionary {-}{}{}\_\discretionary {-}{}{}tool}, 
+		\hyperpage{3}
+
+  \indexspace
+
+  \item {id\discretionary {-}{}{}\_\discretionary {-}{}{}flame}
+    \subitem {Exit\discretionary {-}{}{}Handler}, \hyperpage{3}
+  \item {id\discretionary {-}{}{}\_\discretionary {-}{}{}tool}
+    \subitem {Exit\discretionary {-}{}{}Handler}, \hyperpage{3}
 
   \indexspace
 
   \item {Led\discretionary {-}{}{}Notifier}, \hyperpage{3}
-    \subitem {parse}, \hyperpage{3}
+    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{4}
+    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{4}
+    \subitem {parse}, \hyperpage{4}
     \subitem {throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}, 
-		\hyperpage{3}
+		\hyperpage{4}
     \subitem {throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code}, 
 		\hyperpage{4}
+  \item {log\discretionary {-}{}{}Status}
+    \subitem {Logger}, \hyperpage{5}
   \item {Logger}, \hyperpage{4}
+    \subitem {log\discretionary {-}{}{}Status}, \hyperpage{5}
+    \subitem {Logger}, \hyperpage{5}
 
   \indexspace
 
   \item {parse}
-    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{3}
+    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{4}
 
   \indexspace
 
   \item {throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}
-    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{3}
+    \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{4}
   \item {throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code}
     \subitem {Led\discretionary {-}{}{}Notifier}, \hyperpage{4}
 

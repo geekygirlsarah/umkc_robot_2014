@@ -90,16 +90,68 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5f0285c81ef992c1e7c0baebb3a1f91b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f0285c81ef992c1e7c0baebb3a1f91b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ExitHandler</b> (<a class="el" href="classLogger.html">Logger</a> *logger_)</td></tr>
+<tr class="memitem:a5f0285c81ef992c1e7c0baebb3a1f91b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExitHandler.html#a5f0285c81ef992c1e7c0baebb3a1f91b">ExitHandler</a> (<a class="el" href="classLogger.html">Logger</a> *logger_)</td></tr>
 <tr class="separator:a5f0285c81ef992c1e7c0baebb3a1f91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a315678b4d15101a2c934885e9174c51e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a315678b4d15101a2c934885e9174c51e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>id_flame</b> (int)</td></tr>
+<tr class="memitem:a315678b4d15101a2c934885e9174c51e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExitHandler.html#a315678b4d15101a2c934885e9174c51e">id_flame</a> (int)</td></tr>
 <tr class="separator:a315678b4d15101a2c934885e9174c51e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a333723de1f5da55e04011362e57133f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a333723de1f5da55e04011362e57133f7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>id_tool</b> (int)</td></tr>
+<tr class="memitem:a333723de1f5da55e04011362e57133f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExitHandler.html#a333723de1f5da55e04011362e57133f7">id_tool</a> (int)</td></tr>
 <tr class="separator:a333723de1f5da55e04011362e57133f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a5f0285c81ef992c1e7c0baebb3a1f91b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ExitHandler::ExitHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classLogger.html">Logger</a> *&#160;</td>
+          <td class="paramname"><em>logger_</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Construcs an exithandler class</p>
+<p>This class should be used to handle the return codes for wesleys binaries </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a315678b4d15101a2c934885e9174c51e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ExitHandler::id_flame </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>returnCode</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Handles the ID flame codes 0 - throws id_flame_notfound led and sets flame to 0 1 - sets flame to 1 and throws id_flame_square 2 - sets flame to 2 and throws id_flame_triangle 3 - sets flame to 3 and throws id_flame_circle otherwise - throws cant_find_file </p>
+
+</div>
+</div>
+<a class="anchor" id="a333723de1f5da55e04011362e57133f7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ExitHandler::id_tool </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>returnCode</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Handles the id_tool binary</p>
+<p>0 - throw id_tool_failure else - set tool to returnCode </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/<a class="el" href="exit__handlers_8h_source.html">exit_handlers.h</a></li>
 <li>src/exit_handlers.cpp</li>
@@ -107,7 +159,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>id_tool</b> (int)</td
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 15:23:46 for WesleyCommander by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 15 2014 16:30:45 for WesleyCommander by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

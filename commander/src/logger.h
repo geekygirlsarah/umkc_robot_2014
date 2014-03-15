@@ -18,7 +18,19 @@ private:
 	//The name of this logging unit
 	string name;
 public:
+	/**
+	 * Constructs the Logger class
+	 *
+	 * Starts ros publishing node "commanderloggerpub"
+	 * Publishes to node /master/logger
+	 */
 	Logger();
+	/**
+	 * Writes a message to the logging topic
+	 * 
+	 * Message format is:
+	 * 	(name of node) (randomly chosen id for this commander session) (message number) message
+	 */
 	void logStatus(string message);
 };
 
