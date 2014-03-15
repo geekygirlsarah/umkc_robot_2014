@@ -160,3 +160,7 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+
+add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/logger.cpp src/notifier.cpp)
+target_link_libraries(cmdr ${catkin_LIBRARIES})
