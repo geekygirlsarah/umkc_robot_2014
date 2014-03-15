@@ -1,11 +1,12 @@
 #include "exit_handlers.h"
-ExitHandler::ExitHandler(){
+ExitHandler::ExitHandler(Logger* logger_){
 	try{
 		LedNotifier ledNotifier(true);
 	}
 	catch(...){
 		LedNotifier::throwGeneralFailure();
 	}
+	logger = logger_;
 }
 
 //id_flame will take our return code from id_flame and throw led 
