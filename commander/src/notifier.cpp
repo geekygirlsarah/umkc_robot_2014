@@ -41,40 +41,61 @@ bool LedNotifier::throwLedCode(string code, bool throwGeneralErrorOnFailure){
 	return true;
 }
 
+
+//lightLeds sends a message to our arduino telling it which lights to turn on.
+//It accepts 6 booleans, one for each of the lights.
+//For example if green0 (the first argument) is true then the first green light will be turned on
+
+//this function could be called as follows with object led_notif (of LedNotifier class):
+
+// led_notif.lightLeds(0,1,0,1,1,0); 
+// this would turn on the second green light, second yellow light, and first red light
 void LedNotifier::lightLeds(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1){
 	
-	byte lightbyte = 0x00;
+	
+	//create a byte, where we will ignore the first two bits.
+	//each digit of the byte will represent one of our six lights
+	//if a digit is a 1, that light will be told to turn on
+	//for example xx000000 will represent all lights being off
+	//whereas xx010001 will represent g1 and r1 being on.
+	byte lightbyte = 0x00; 
+	
+	//create a message that we will use to send the byte to the topic
 	std_msgs::byte msg;
 	
-	if(green0)
+	//if loops check our bools, if any of them are true change the corresponding of the byte to a 1 instead of a 0
+	if(green0) //first green light
 	{
-		lightbyte += 0x20;
+		lightbyte += 0x20; //add byte xx100000
 	}
-	if(green1)
+	if(green1) //second green light
 	{
-		lightbyte += 0x10;
+		lightbyte += 0x10; //add byte xx010000
 	}
-	if(yellow0)
+	if(yellow0) //first yellow light
 	{
-		lightbyte += 0x08;
+		lightbyte += 0x08; //add byte xx001000 
 	}
-	if(yellow1)
+	if(yellow1) //second yellow light
 	{
-		lightbyte += 0x04;
+		lightbyte += 0x04; //add byte xx000100
 	}
-	if(red0)
+	if(red0) //first red light
 	{
-		lightbyte += 0x02;
+		lightbyte += 0x02; //add byte xx000010
 	}
-	if(red1)
+	if(red1) //secoond red light
 	{
-		lightbyte += 0x01;
+		lightbyte += 0x01; //add byte xx000001
 	}
 	
+	//set our message byte to be equal to the byte we made
 	msg.data = lightbyte;
 	
+	//publish the message we just set onto our topic
 	pub.publish(msg);
 	
+	//spin once to wait properly
 	ros::spinOnce();
 	
 	return;
