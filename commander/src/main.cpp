@@ -21,14 +21,17 @@ int executeBinary(string path,string prefix="./bin/", string mode="r");
  * Fucntions should be written to handle the exit codes from the binarys
  */
 int main(){
-	ExitHandler exithandler();
-	
+	Logger * logger = new logger();
+	ExitHandler exithandler(*logger);
+		
 	// main process list start here
 	// 1) id_flame
 	// 2) id_tool
 	// 3) -------
 	// 4) -------
+	logger->logStatus("Executing ID flame");
 	exithandler.id_flame(executeBinary("id_flame"));
+	logger->logStatus("Executing ID tool");
 	exithandler.id_tool(executeBinary("id_tool"));
 }
 

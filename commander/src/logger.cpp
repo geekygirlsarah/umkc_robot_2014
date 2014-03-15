@@ -4,7 +4,7 @@
 using std::rand;
 using std::ostream;
 Logger::Logger(){
-	ros::init(0,NULL,"logger");
+	ros::init(0,NULL,"commanderloggerpub");
 	pub = nh.advertise<std_msgs::string>("/master/logger",1000);
 	ID = rand();
 	messageNumber = 0;
