@@ -10,8 +10,8 @@
 #include "mega_caretaker/MegaPacket.h"
 
 using namespace mega_caretaker;
-/*
-void MegaCaretaker::heardFromMega(const MegaCaretaker::MegaPacket &packet)	{
+
+void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	ROS_INFO("Heard from the mega!1");
 
 	//stupid simple. if it hears HEY from the mega, it will send back an ack
@@ -19,7 +19,7 @@ void MegaCaretaker::heardFromMega(const MegaCaretaker::MegaPacket &packet)	{
 			
 
 }
-*/
+
 
 
 void MegaCaretaker::heardFromMegaSimple(const std_msgs::Int8 &packet)	{
