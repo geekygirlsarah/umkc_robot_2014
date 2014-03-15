@@ -10,7 +10,7 @@ ros::NodeHandle  nh;
 
 
 std_msgs::String str_msg;
-ros::Publisher chatter("chatter", &str_msg);
+ros::Publisher chatter("arduinoToBoard", &str_msg);
 
 char hello[13] = "hello world!";
 
@@ -23,7 +23,6 @@ char fatal[] = "fatalities";
 
 void setup()
 {
-  pinMode(13, OUTPUT);
   nh.initNode();
   nh.advertise(chatter);
 }
