@@ -1,7 +1,8 @@
-#include "waitforgo.h"
-#include "notifier.h"
+#include "exit_handlers.h"
 #include <string>
 using std::string;
+
+
 /**
  * Executes a binary file at path and returns the exit code.
  *
@@ -12,21 +13,23 @@ using std::string;
  * @return The integer exit code from the binary
  */
 int executeBinary(string path,string prefix="./bin/", string mode="r");
+/**
+ * The main function. Contains an instance of the LedNotifier object
+ *
+ * All binaries should be handled in this function. 
+ *
+ * Fucntions should be written to handle the exit codes from the binarys
+ */
 int main(){
-	try{
-	LedNotifier ledNotifier(true);
-	}
-	catch(...){
-		LedNotifier::throwGeneralFailure();
-	}
+	ExitHandler exithandler();
 	
 	// main process list start here
 	// 1) id_flame
 	// 2) id_tool
 	// 3) -------
 	// 4) -------
-	executeBinary("id_flame");
-	executeBinary("id_tool");
+	exithandler.id_flame(executeBinary("id_flame"));
+	exithandler.id_tool(executeBinary("id_tool"));
 }
 
 int executeBinary(string binaryName, string prefix, string mode ){
@@ -38,3 +41,4 @@ int executeBinary(string binaryName, string prefix, string mode ){
 	}
 	//Get return value, don't ask why it's this but it is. It's from the stack overflow on popen. 
 	return pclose(f)/256;
+}
