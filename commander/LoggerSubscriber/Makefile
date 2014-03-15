@@ -1,11 +1,9 @@
-NAME = Commander
+NAME = LoggerSubscriber
 
 CPP_FILES := $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
-LIBRARIES := /opt/ros/hyrdo/lib/
-
-LD_FLAGS := -l $(LIBRARIES)
+LD_FLAGS :=
 CC_FLAGS := -MMD -Wall  
 
 debug: CC_FLAGS += -g -ggdb
@@ -20,7 +18,7 @@ $(NAME): $(OBJ_FILES)
 	   g++ $(LD_FLAGS) -o $@ $^
 
 obj/%.o: src/%.cpp
-	   g++ $(CC_FLAGS) -c -o -$@ $< 
+	   g++ $(CC_FLAGS) -c -o $@ $<
 
 clean:
 	rm -rf obj/*.o obj/*.d
