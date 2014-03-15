@@ -16,12 +16,19 @@ namespace mega_gatekeeper	{
 			private:
 					
 					ros::NodeHandle node;
-					ros::Publisher megaTalker;
-					ros::Subscriber megaListener;
+
+					//talking to the arduino
+					ros::Publisher megaTalker;		//publishes to boardToArduino
+					ros::Subscriber megaListener;	//subscribes to arduinoToBoard
+
+
+					//interfacing with the rest of the board
+					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
 
 					void setup();
 					//void heardFromMega(const mega_caretaker::MegaPacket &packet);
 					void heardFromMegaSimple(const std_msgs::String &packet);
+					void heardFromOrientation(const std_msgs::String &packet);
 			public:
 					void init(ros::NodeHandle n);
 					void run();

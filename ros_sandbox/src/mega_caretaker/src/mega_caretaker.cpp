@@ -17,10 +17,16 @@ void MegaGatekeeper::heardFromMegaSimple(const std_msgs::String &packet)	{
 
 }
 
+void MegaGatekeeper::heardFromOrientation(const std_msgs::String &packet)	{
+	ROS_INFO("Heard from the IMU!");
+}
+
 void MegaGatekeeper::setup()	{
 //	motorCommandTopic = n.subscribe(geometry_msgs/
 	megaTalker = node.advertise<std_msgs::String>("boardToArduino", 10);
 	megaListener = node.subscribe("arduinoToBoard", 10, &MegaGatekeeper::heardFromMegaSimple, this);
+
+	orientationListener = node.subscribe("Orientation_data", 10, &MegaGatekeeper::heardFromOrientation, this);
 }
 
 void MegaGatekeeper::init(ros::NodeHandle n)	{
