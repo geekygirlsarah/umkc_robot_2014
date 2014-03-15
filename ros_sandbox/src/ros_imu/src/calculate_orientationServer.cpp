@@ -20,6 +20,7 @@ IMUfilter imuFilter(seconds_from_ms(DATA_RATE), gyroscopeErrorRate);
 
 //takes in IMU readings and plugs them into filter.
 bool calculate(ros_imu::imu_filter::Request &request, ros_imu::imu_filter::Response &response);
+bool query(ros_imu::imu_filter::Request &request, ros_imu::imu_filter::Response &response);
 bool tacit = false;		// for the --quiet flag. defaults to false to display calculated values
 
 #define VERBOSE if (!tacit)
@@ -45,6 +46,7 @@ int main(int argc, char* argv[])
 	
 	imuFilter.reset();
 	ros::ServiceServer service = berk.advertiseService("Calculate_Orientation", calculate );
+	ros::ServiceServer query_srv = berk.advertiseService("Get_Orientation", query);
 	VERBOSE ROS_INFO("Ready to calculate orientation.");
 	VERBOSE ROS_INFO("Roll: %f, Pitch: %f, Yaw: %f", deg_from_rad(imuFilter.getRoll()),
 		deg_from_rad(imuFilter.getPitch()), deg_from_rad(imuFilter.getYaw()));
@@ -101,3 +103,9 @@ bool calculate(ros_imu::imu_filter::Request &request, ros_imu::imu_filter::Respo
 }
 
 
+bool query(ros_imu::imu_filter::Request &request, ros_imu::imu_filter::Response &response) {
+  	response.rpy.roll = deg_from_rad(imuFilter.getRoll());
+  	response.rpy.pitch  = deg_from_rad(imuFilter.getPitch());
+  	response.rpy.yaw = deg_from_rad(imuFilter.getYaw());
+	return true;
+}

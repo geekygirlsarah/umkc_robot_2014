@@ -19,6 +19,7 @@ add_message_files(
 add_service_files(
 	FILES
 	imu_filter.srv
+	GetOrientation.srv
 )
 
 generate_messages(
