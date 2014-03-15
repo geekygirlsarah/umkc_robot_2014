@@ -27,9 +27,14 @@ namespace mega_caretaker	{
 					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
 
 					void setup();
+
+					//callbacks galore
 					void heardFromMega(const mega_caretaker::MegaPacket &packet);
 					void heardFromMegaSimple(const std_msgs::Int8 &packet);
 					void heardFromOrientation(const std_msgs::String &packet);
+
+					//logic functions
+					void make90DegreeTurn();
 			public:
 					void init(ros::NodeHandle n);
 					void run();
