@@ -4,6 +4,7 @@
 #include "ros/ros.h"
 #include "ros/package.h"
 #include "std_msgs/String.h"
+#include "std_msgs/Int8.h"
 #include <ros/console.h>
 //msg includes
 #include "mega_caretaker/MegaPacket.h"
@@ -27,7 +28,7 @@ namespace mega_gatekeeper	{
 
 					void setup();
 					//void heardFromMega(const mega_caretaker::MegaPacket &packet);
-					void heardFromMegaSimple(const std_msgs::String &packet);
+					void heardFromMegaSimple(const std_msgs::Int8 &packet);
 					void heardFromOrientation(const std_msgs::String &packet);
 			public:
 					void init(ros::NodeHandle n);

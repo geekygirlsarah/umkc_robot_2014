@@ -12,8 +12,18 @@
 using namespace mega_gatekeeper;
 
 
-void MegaGatekeeper::heardFromMegaSimple(const std_msgs::String &packet)	{
+void MegaGatekeeper::heardFromMegaSimple(const std_msgs::Int8 &packet)	{
 	ROS_INFO("Heard from the mega!1");
+
+	//stupid simple. if it hears HEY from the mega, it will send back an ack
+	//then send back a nother stop when 90 degrees change has been reached
+	if(packet.data == 1)	{
+		ROS_INFO("msg1");
+	}
+	else if(packet.data == 2)	{
+		ROS_INFO("msg2");	
+	}
+				
 
 }
 
