@@ -4,16 +4,44 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classExitHandler_a5f0285c81ef992c1e7c0baebb3a1f91b}{{\bfseries Exit\-Handler} (\hyperlink{classLogger}{Logger} $\ast$logger\-\_\-)}\label{classExitHandler_a5f0285c81ef992c1e7c0baebb3a1f91b}
-
+\hyperlink{classExitHandler_a5f0285c81ef992c1e7c0baebb3a1f91b}{Exit\-Handler} (\hyperlink{classLogger}{Logger} $\ast$logger\-\_\-)
 \item 
-\hypertarget{classExitHandler_a315678b4d15101a2c934885e9174c51e}{void {\bfseries id\-\_\-flame} (int)}\label{classExitHandler_a315678b4d15101a2c934885e9174c51e}
-
+void \hyperlink{classExitHandler_a315678b4d15101a2c934885e9174c51e}{id\-\_\-flame} (int)
 \item 
-\hypertarget{classExitHandler_a333723de1f5da55e04011362e57133f7}{void {\bfseries id\-\_\-tool} (int)}\label{classExitHandler_a333723de1f5da55e04011362e57133f7}
-
+void \hyperlink{classExitHandler_a333723de1f5da55e04011362e57133f7}{id\-\_\-tool} (int)
 \end{DoxyCompactItemize}
 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classExitHandler_a5f0285c81ef992c1e7c0baebb3a1f91b}{\index{Exit\-Handler@{Exit\-Handler}!Exit\-Handler@{Exit\-Handler}}
+\index{Exit\-Handler@{Exit\-Handler}!ExitHandler@{Exit\-Handler}}
+\subsubsection[{Exit\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}Exit\-Handler\-::\-Exit\-Handler (
+\begin{DoxyParamCaption}
+\item[{{\bf Logger} $\ast$}]{logger\-\_\-}
+\end{DoxyParamCaption}
+)}}\label{classExitHandler_a5f0285c81ef992c1e7c0baebb3a1f91b}
+Construcs an exithandler class
+
+This class should be used to handle the return codes for wesleys binaries 
+
+\subsection{Member Function Documentation}
+\hypertarget{classExitHandler_a315678b4d15101a2c934885e9174c51e}{\index{Exit\-Handler@{Exit\-Handler}!id\-\_\-flame@{id\-\_\-flame}}
+\index{id\-\_\-flame@{id\-\_\-flame}!ExitHandler@{Exit\-Handler}}
+\subsubsection[{id\-\_\-flame}]{\setlength{\rightskip}{0pt plus 5cm}void Exit\-Handler\-::id\-\_\-flame (
+\begin{DoxyParamCaption}
+\item[{int}]{return\-Code}
+\end{DoxyParamCaption}
+)}}\label{classExitHandler_a315678b4d15101a2c934885e9174c51e}
+Handles the I\-D flame codes 0 -\/ throws id\-\_\-flame\-\_\-notfound led and sets flame to 0 1 -\/ sets flame to 1 and throws id\-\_\-flame\-\_\-square 2 -\/ sets flame to 2 and throws id\-\_\-flame\-\_\-triangle 3 -\/ sets flame to 3 and throws id\-\_\-flame\-\_\-circle otherwise -\/ throws cant\-\_\-find\-\_\-file \hypertarget{classExitHandler_a333723de1f5da55e04011362e57133f7}{\index{Exit\-Handler@{Exit\-Handler}!id\-\_\-tool@{id\-\_\-tool}}
+\index{id\-\_\-tool@{id\-\_\-tool}!ExitHandler@{Exit\-Handler}}
+\subsubsection[{id\-\_\-tool}]{\setlength{\rightskip}{0pt plus 5cm}void Exit\-Handler\-::id\-\_\-tool (
+\begin{DoxyParamCaption}
+\item[{int}]{return\-Code}
+\end{DoxyParamCaption}
+)}}\label{classExitHandler_a333723de1f5da55e04011362e57133f7}
+Handles the id\-\_\-tool binary
+
+0 -\/ throw id\-\_\-tool\-\_\-failure else -\/ set tool to return\-Code 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 

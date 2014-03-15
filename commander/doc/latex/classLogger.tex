@@ -8,13 +8,38 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classLogger_a01b37cb598485659cbe4dc0769fe066f}{void {\bfseries log\-Status} (string message)}\label{classLogger_a01b37cb598485659cbe4dc0769fe066f}
-
+\hyperlink{classLogger_abc41bfb031d896170c7675fa96a6b30c}{Logger} ()
+\item 
+void \hyperlink{classLogger_a01b37cb598485659cbe4dc0769fe066f}{log\-Status} (string message)
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Class to log status to status node. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classLogger_abc41bfb031d896170c7675fa96a6b30c}{\index{Logger@{Logger}!Logger@{Logger}}
+\index{Logger@{Logger}!Logger@{Logger}}
+\subsubsection[{Logger}]{\setlength{\rightskip}{0pt plus 5cm}Logger\-::\-Logger (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classLogger_abc41bfb031d896170c7675fa96a6b30c}
+Constructs the \hyperlink{classLogger}{Logger} class
+
+Starts ros publishing node \char`\"{}commanderloggerpub\char`\"{} Publishes to node /master/logger 
+
+\subsection{Member Function Documentation}
+\hypertarget{classLogger_a01b37cb598485659cbe4dc0769fe066f}{\index{Logger@{Logger}!log\-Status@{log\-Status}}
+\index{log\-Status@{log\-Status}!Logger@{Logger}}
+\subsubsection[{log\-Status}]{\setlength{\rightskip}{0pt plus 5cm}void Logger\-::log\-Status (
+\begin{DoxyParamCaption}
+\item[{string}]{message}
+\end{DoxyParamCaption}
+)}}\label{classLogger_a01b37cb598485659cbe4dc0769fe066f}
+Writes a message to the logging topic
+
+Message format is\-: (name of node) (randomly chosen id for this commander session) (message number) message 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 

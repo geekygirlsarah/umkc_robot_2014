@@ -8,6 +8,7 @@ ExitHandler::ExitHandler(Logger* logger_){
 //notification based on the outcome
 void ExitHandler::id_flame(int returnCode){
 	//switch based on return code 
+	flame = 0;
 	switch(returnCode)
 	{
 	case 0:
@@ -16,14 +17,17 @@ void ExitHandler::id_flame(int returnCode){
 	}
 	case 1:
 	{
+		flame = 1; 
 		ledNotifier.throwLedCode("id_flame_square");
 	}
 	case 2:
 	{
+		flame = 2;
 		ledNotifier.throwLedCode("id_flame_triangle");
 	}
 	case 3:
 	{
+		flame = 3;
 		ledNotifier.throwLedCode("id_flame_circle");
 	}
 	case 10:

@@ -92,20 +92,58 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a01b37cb598485659cbe4dc0769fe066f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01b37cb598485659cbe4dc0769fe066f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>logStatus</b> (string message)</td></tr>
+<tr class="memitem:abc41bfb031d896170c7675fa96a6b30c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogger.html#abc41bfb031d896170c7675fa96a6b30c">Logger</a> ()</td></tr>
+<tr class="separator:abc41bfb031d896170c7675fa96a6b30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01b37cb598485659cbe4dc0769fe066f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogger.html#a01b37cb598485659cbe4dc0769fe066f">logStatus</a> (string message)</td></tr>
 <tr class="separator:a01b37cb598485659cbe4dc0769fe066f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class to log status to status node. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="abc41bfb031d896170c7675fa96a6b30c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Logger::Logger </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructs the <a class="el" href="classLogger.html">Logger</a> class</p>
+<p>Starts ros publishing node "commanderloggerpub" Publishes to node /master/logger </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a01b37cb598485659cbe4dc0769fe066f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Logger::logStatus </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>message</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Writes a message to the logging topic</p>
+<p>Message format is: (name of node) (randomly chosen id for this commander session) (message number) message </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/<a class="el" href="logger_8h_source.html">logger.h</a></li>
 <li>src/logger.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 15:23:46 for WesleyCommander by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 15 2014 16:30:45 for WesleyCommander by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

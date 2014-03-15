@@ -1,9 +1,21 @@
 \indexentry{Exit\discretionary {-}{}{}Handler@{Exit\discretionary {-}{}{}Handler}|hyperpage}{3}
+\indexentry{Exit\discretionary {-}{}{}Handler@{Exit\discretionary {-}{}{}Handler}!Exit\discretionary {-}{}{}Handler@{Exit\discretionary {-}{}{}Handler}|hyperpage}{3}
+\indexentry{Exit\discretionary {-}{}{}Handler@{Exit\discretionary {-}{}{}Handler}!ExitHandler@{Exit\discretionary {-}{}{}Handler}|hyperpage}{3}
+\indexentry{Exit\discretionary {-}{}{}Handler@{Exit\discretionary {-}{}{}Handler}!id\discretionary {-}{}{}\_\discretionary {-}{}{}flame@{id\discretionary {-}{}{}\_\discretionary {-}{}{}flame}|hyperpage}{3}
+\indexentry{id\discretionary {-}{}{}\_\discretionary {-}{}{}flame@{id\discretionary {-}{}{}\_\discretionary {-}{}{}flame}!ExitHandler@{Exit\discretionary {-}{}{}Handler}|hyperpage}{3}
+\indexentry{Exit\discretionary {-}{}{}Handler@{Exit\discretionary {-}{}{}Handler}!id\discretionary {-}{}{}\_\discretionary {-}{}{}tool@{id\discretionary {-}{}{}\_\discretionary {-}{}{}tool}|hyperpage}{3}
+\indexentry{id\discretionary {-}{}{}\_\discretionary {-}{}{}tool@{id\discretionary {-}{}{}\_\discretionary {-}{}{}tool}!ExitHandler@{Exit\discretionary {-}{}{}Handler}|hyperpage}{3}
 \indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{3}
-\indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}!parse@{parse}|hyperpage}{3}
-\indexentry{parse@{parse}!LedNotifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{3}
-\indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}!throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure@{throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}|hyperpage}{3}
-\indexentry{throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure@{throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}!LedNotifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{3}
+\indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}!Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{4}
+\indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}!LedNotifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{4}
+\indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}!parse@{parse}|hyperpage}{4}
+\indexentry{parse@{parse}!LedNotifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{4}
+\indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}!throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure@{throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}|hyperpage}{4}
+\indexentry{throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure@{throw\discretionary {-}{}{}General\discretionary {-}{}{}Failure}!LedNotifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{4}
 \indexentry{Led\discretionary {-}{}{}Notifier@{Led\discretionary {-}{}{}Notifier}!throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code@{throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code}|hyperpage}{4}
 \indexentry{throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code@{throw\discretionary {-}{}{}Led\discretionary {-}{}{}Code}!LedNotifier@{Led\discretionary {-}{}{}Notifier}|hyperpage}{4}
 \indexentry{Logger@{Logger}|hyperpage}{4}
+\indexentry{Logger@{Logger}!Logger@{Logger}|hyperpage}{5}
+\indexentry{Logger@{Logger}!Logger@{Logger}|hyperpage}{5}
+\indexentry{Logger@{Logger}!log\discretionary {-}{}{}Status@{log\discretionary {-}{}{}Status}|hyperpage}{5}
+\indexentry{log\discretionary {-}{}{}Status@{log\discretionary {-}{}{}Status}!Logger@{Logger}|hyperpage}{5}
