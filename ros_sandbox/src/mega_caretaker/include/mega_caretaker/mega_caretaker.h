@@ -11,9 +11,9 @@
 
 
 
-namespace mega_gatekeeper	{
+namespace mega_caretaker	{
 
-		class MegaGatekeeper	{
+		class MegaCaretaker	{
 			private:
 					
 					ros::NodeHandle node;
@@ -27,7 +27,7 @@ namespace mega_gatekeeper	{
 					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
 
 					void setup();
-					//void heardFromMega(const mega_caretaker::MegaPacket &packet);
+					void heardFromMega(const mega_caretaker::MegaPacket &packet);
 					void heardFromMegaSimple(const std_msgs::Int8 &packet);
 					void heardFromOrientation(const std_msgs::String &packet);
 			public:
