@@ -23,7 +23,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 	
 	//tell mega to keep turning 90 degrees		
 	mega_caretaker::MegaPacket packet;
-	packet.msgType = 2;		//command 
+	packet.msgType = 3;		//command 
 	packet.payload = 10;	//turn
 	megaTalker.publish(packet);
 
@@ -31,7 +31,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 	//
 	//once it IS 90 degrees... tell the mega to STOP ! we're done
 	//
-	packet.msgType = 2;		//command 
+	packet.msgType = 3;		//command 
 	packet.payload = 0;	//STOP RIGHT NOW
 	megaTalker.publish(packet);
 
@@ -47,7 +47,16 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	//HEY LET"S START THE 90 degree thing! Tell them motors what to do!
 	
 	if(packet.msgType == 0)	{
+		//tell the mega i'm taking control
+			mega_caretaker::MegaPacket packet;
+			packet.msgType = 1;		//ros_control started
+			megaTalker.publish(packet);
+
+
 		make90DegreeTurn();			
+
+		packet.msgType = 2;	//ros control finished
+		megaTalker.publish(packet);
 	}
 }
 
