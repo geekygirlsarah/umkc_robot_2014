@@ -41,5 +41,6 @@ target_link_libraries(orientation_server ${catkin_LIBRARIES})
 add_dependencies(orientation_server ros_imu_generate_messages_cpp)
 
 add_executable(rawIMUPublisher src/publishIMU.cpp src/phidget_headers/spatial_helper.cpp)
-target_link_libraries(rawIMUPublisher /usr/local/lib/libphidget21.so ${catkin_LIBRARIES})
+#target_link_libraries(rawIMUPublisher /usr/local/lib/libphidget21.so ${catkin_LIBRARIES})
+target_link_libraries(rawIMUPublisher /usr/lib/libphidget21.so ${catkin_LIBRARIES})
 add_dependencies(rawIMUPublisher ros_imu_generate_messages_cpp)
