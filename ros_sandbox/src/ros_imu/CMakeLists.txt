@@ -36,9 +36,13 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(orientation_server src/calculate_orientationServer.cpp src/orientation_headers/imuFilter.cpp)
-target_link_libraries(orientation_server ${catkin_LIBRARIES})
-add_dependencies(orientation_server ros_imu_generate_messages_cpp)
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  PATTERN ".svn" EXCLUDE)
+
+add_executable(orientationServer src/calculate_orientationServer.cpp src/orientation_headers/imuFilter.cpp)
+target_link_libraries(orientationServer ${catkin_LIBRARIES})
+add_dependencies(orientationServer ros_imu_generate_messages_cpp)
 
 add_executable(rawIMUPublisher src/publishIMU.cpp src/phidget_headers/spatial_helper.cpp)
 #target_link_libraries(rawIMUPublisher /usr/local/lib/libphidget21.so ${catkin_LIBRARIES})
