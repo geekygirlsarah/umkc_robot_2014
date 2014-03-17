@@ -2,7 +2,7 @@
 #include "std_msgs/String.h"
 #include <ros/console.h>
 
-#include <sstream>
+#include <math.h> //fabs
 
 #include "mega_caretaker/mega_caretaker.h"
 
@@ -18,18 +18,34 @@ using namespace mega_caretaker;
 //wait until its 90 degrees from the IMU, 
 //then tell the motors to stop.
 //Then it will send an ack back to indicate it's done.
+//--> will only take care of TURNING and back. should be able to work with both turnign CW and CCW, only looking for the CHANGE
 void MegaCaretaker::make90DegreeTurn()	{
 
 	//this will assume the mega already stopped stuff before requesting the eturn 90 
 	//get current orientation...
-	
+	imu_filter_madgwick::imu_yaw srv; 
+	double init_yaw;
+	if(client.call(srv))	{
+		ROS_INFO("Mega:: Current Yaw: %f", srv.response.yaw);
+		init_yaw = srv.response.yaw;
+	}
+	else	{
+		ROS_INFO("Mega:: unsuccessful call for yaw");
+	}
 	//tell mega to keep turning 90 degrees		
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = 3;		//command 
 	packet.payload = 10;	//turn
 	megaTalker.publish(packet);
+	
+	//keep checking until it's 90
+	bool turned90 = false;
+	while(!turned90)	{
+		if(client.call(srv))	{
+			turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+		}
+	}
 
-	//if there is no ack, keep sending it until there is an ack?? (future ack-ing just assume that it goes through)
 	//
 	//once it IS 90 degrees... tell the mega to STOP ! we're done
 	//
