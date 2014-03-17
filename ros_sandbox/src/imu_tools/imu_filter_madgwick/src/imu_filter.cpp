@@ -73,7 +73,10 @@ ImuFilter::ImuFilter(ros::NodeHandle nh, ros::NodeHandle nh_private):
 
   yaw_publisher_ = nh_.advertise<std_msgs::Float64>(
     "imu/yaw", 5);
-  
+ 
+  // **** advertise service
+
+  //requestYaw_ = nh_.advertiseService("getCurrentYaw", &ImuFilter::getCurrentYaw, this);
   // **** register subscribers
 
   // Synchronize inputs. Topic subscriptions happen on demand in the connection callback.
@@ -101,6 +104,12 @@ ImuFilter::~ImuFilter()
 {
   ROS_INFO ("Destroying ImuFilter");
 }
+/*
+bool IMUFilter::getCurrentYaw(const imu_yaw::Request& request, imu_yaw::Response& response)	{
+
+	return true;
+}
+*/
 
 void ImuFilter::imuCallback(const ImuMsg::ConstPtr& imu_msg_raw)
 {

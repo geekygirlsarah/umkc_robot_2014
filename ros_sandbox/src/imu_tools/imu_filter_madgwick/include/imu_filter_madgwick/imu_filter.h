@@ -38,6 +38,9 @@
 #include <message_filters/sync_policies/approximate_time.h>
 #include <dynamic_reconfigure/server.h>
 
+#include "imu_filter_madgwick/imu_yaw.h"
+//#include "imu_filter_madgwick/test.h"
+
 #include "imu_filter_madgwick/ImuFilterMadgwickConfig.h"
 
 class ImuFilter
@@ -72,6 +75,7 @@ class ImuFilter
     ros::Publisher imu_publisher_;
     ros::Publisher yaw_publisher_;
     tf::TransformBroadcaster tf_broadcaster_;
+	ros::ServiceServer requestYaw_;
 
     FilterConfigServer config_server_;
     
@@ -95,6 +99,7 @@ class ImuFilter
 
     // **** member functions
 
+	//bool getCurrentYaw(const imu_yaw::Request& request, imu_yaw::Response& response); 
     void imuMagCallback(const ImuMsg::ConstPtr& imu_msg_raw,
                         const MagMsg::ConstPtr& mav_msg);
 
