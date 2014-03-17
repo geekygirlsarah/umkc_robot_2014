@@ -5,10 +5,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs geometry_msgs tf node
 
 find_package(Boost REQUIRED COMPONENTS system thread signals)
 
-add_message_files	(
-	FILES
-	test.msg
-)
+
 
 
 #create srv files
