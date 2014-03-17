@@ -99,7 +99,8 @@ class ImuFilter
 
     // **** member functions
 
-	//bool getCurrentYaw(const imu_yaw::Request& request, imu_yaw::Response& response); 
+	//srv request
+	bool getCurrentYaw(imu_filter_madgwick::imu_yaw::Request& request, imu_filter_madgwick::imu_yaw::Response& response); 
     void imuMagCallback(const ImuMsg::ConstPtr& imu_msg_raw,
                         const MagMsg::ConstPtr& mav_msg);
 
