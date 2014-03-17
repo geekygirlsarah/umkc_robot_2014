@@ -239,7 +239,7 @@ void ImuFilter::publishFilteredMsg(const ImuMsg::ConstPtr& imu_msg_raw)
   
   //ok time to see if this works -i just want the yaw .. lets start small
   std_msgs::Float64 meat;
-  meat.data = tf::getYaw(q);
+  meat.data = 57.2957795*tf::getYaw(q); //convert from rad to angle
  // just publish yaw
 
   yaw_publisher_.publish(meat);
