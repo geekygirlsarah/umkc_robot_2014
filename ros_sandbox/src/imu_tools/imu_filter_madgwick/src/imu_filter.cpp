@@ -71,6 +71,9 @@ ImuFilter::ImuFilter(ros::NodeHandle nh, ros::NodeHandle nh_private):
   imu_publisher_ = nh_.advertise<sensor_msgs::Imu>(
     "imu/data", 5);
 
+  yaw_publisher_ = nh_.advertise<std_msgs::Float64>(
+    "imu/yaw", 5);
+  
   // **** register subscribers
 
   // Synchronize inputs. Topic subscriptions happen on demand in the connection callback.
@@ -223,6 +226,8 @@ void ImuFilter::publishFilteredMsg(const ImuMsg::ConstPtr& imu_msg_raw)
   // q0 is the angle, q1, q2, q3 are the axes  
   tf::Quaternion q(q1, q2, q3, q0);   
 
+
+ 
   // create and publish fitlered IMU message
   boost::shared_ptr<ImuMsg> imu_msg = 
     boost::make_shared<ImuMsg>(*imu_msg_raw);
@@ -230,6 +235,15 @@ void ImuFilter::publishFilteredMsg(const ImuMsg::ConstPtr& imu_msg_raw)
   imu_msg->header.frame_id = fixed_frame_;
   tf::quaternionTFToMsg(q, imu_msg->orientation);  
   imu_publisher_.publish(imu_msg);
+
+  
+  //ok time to see if this works -i just want the yaw .. lets start small
+  std_msgs::Float64 meat;
+  meat.data = tf::getYaw(q);
+ // just publish yaw
+
+  yaw_publisher_.publish(meat);
+
 }
 
 void ImuFilter::madgwickAHRSupdate(

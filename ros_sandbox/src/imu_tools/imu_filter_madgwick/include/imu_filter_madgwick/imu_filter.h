@@ -29,6 +29,7 @@
 
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
+#include <std_msgs/Float64.h>
 #include <geometry_msgs/Vector3Stamped.h>
 #include <tf/transform_datatypes.h>
 #include <tf/transform_broadcaster.h>
@@ -69,6 +70,7 @@ class ImuFilter
     boost::shared_ptr<MagSubscriber> mag_subscriber_;
 
     ros::Publisher imu_publisher_;
+    ros::Publisher yaw_publisher_;
     tf::TransformBroadcaster tf_broadcaster_;
 
     FilterConfigServer config_server_;
