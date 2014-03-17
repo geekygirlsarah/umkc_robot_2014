@@ -23,6 +23,8 @@ void MegaCaretaker::make90DegreeTurn()	{
 
 	//this will assume the mega already stopped stuff before requesting the eturn 90 
 	//get current orientation...
+	
+	/*	
 	imu_filter_madgwick::imu_yaw srv; 
 	double init_yaw;
 	if(client.call(srv))	{
@@ -32,12 +34,15 @@ void MegaCaretaker::make90DegreeTurn()	{
 	else	{
 		ROS_INFO("Mega:: unsuccessful call for yaw");
 	}
+
+	*/
 	//tell mega to keep turning 90 degrees		
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = 3;		//command 
 	packet.payload = 10;	//turn
 	megaTalker.publish(packet);
 	
+	/*
 	//keep checking until it's 90
 	bool turned90 = false;
 	while(!turned90)	{
@@ -45,7 +50,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 			turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
 		}
 	}
-
+*/
 	//
 	//once it IS 90 degrees... tell the mega to STOP ! we're done
 	//
