@@ -25,6 +25,7 @@ namespace mega_caretaker	{
 
 					//interfacing with the rest of the board
 					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
+					ros::ServiceClient client;				//client for getCurrentYaw service
 
 					void setup();
 

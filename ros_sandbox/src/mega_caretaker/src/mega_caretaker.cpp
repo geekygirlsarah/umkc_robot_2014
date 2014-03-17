@@ -9,6 +9,8 @@
 //message handles
 #include "mega_caretaker/MegaPacket.h"
 
+//srv handle - getting yaw
+#include <imu_filter_madgwick/imu_yaw.h>
 using namespace mega_caretaker;
 
 //Called when mega requests it.
@@ -88,6 +90,7 @@ void MegaCaretaker::setup()	{
 	megaListener = node.subscribe("arduinoToBoard", 10, &MegaCaretaker::heardFromMegaSimple, this);
 
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
+	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
 }
 
 void MegaCaretaker::init(ros::NodeHandle n)	{

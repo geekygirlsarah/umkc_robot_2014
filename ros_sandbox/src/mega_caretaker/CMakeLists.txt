@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  imu_filter_madgwick
 )
 
 ## System dependencies are found with CMake's conventions
@@ -109,7 +110,7 @@ include_directories(
 #add_executable(mega_gatekeeper_node src/mega_gatekeeper.cpp include/mega_gatekeeper/mega_gatekeeper.h )
 add_executable(mega_caretaker_node src/mega_caretaker.cpp)
 target_link_libraries(mega_caretaker_node ${catkin_LIBRARIES})
-add_dependencies(mega_caretaker_node mega_caretaker_generate_messages_cpp)
+add_dependencies(mega_caretaker_node mega_caretaker_generate_messages_cpp imu_filter_madgwick_generate_messages_cpp )
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
