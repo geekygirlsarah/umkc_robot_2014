@@ -3,5 +3,5 @@
 obj/*.d
 obj/*.o
 
-
+*.swp
  
