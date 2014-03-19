@@ -6,9 +6,14 @@ Binaries to be run should be put in the bin subdirectory
 
 The final structure for the commander should be set up as follows:
 
-|Commander binary' \n
-|./bin/ \n
-||All of the binaries needed by commander \n
-||All of their requried components such as pictures or other files \n
-|./res/ \n
-||The notifiy_id.txt document and other resources needed by commander \n
+|Commander binary'  
+
+|./bin/  
+
+||All of the binaries needed by commander 
+
+||All of their requried components such as pictures or other files 
+
+|./res/ 
+
+||The notifiy_id.txt document and other resources needed by commander 
