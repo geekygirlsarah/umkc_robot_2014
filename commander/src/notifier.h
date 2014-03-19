@@ -62,7 +62,7 @@ public:
 	 *
 	 * @param parseFileName The text file to parse
 	 */
-	void parse(const char* parseFileName="notify_id.txt");
+	void parse(const char* parseFileName="./res/notify_id.txt");
 
 	/**
 	 * Throws a new led code based on previously parsed file. if throwGeneralErrorOnFailure is true then if no code is found the function will return false and light the general failure led
