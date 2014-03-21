@@ -198,8 +198,7 @@ void arm_control::park() {
 //		arm[joint].writeMicroseconds(p_destination[joint]);
 //	}
 	
-	update(6, BASE, SHOULDER, ELBOW, \
-			  WRIST_P, WRIST_R, HAND);
+	update();
 //	Serial.println("ARM :: park() --> leaving");
 //	Serial.flush();
 }
@@ -226,8 +225,7 @@ void arm_control::carry() {
 	p_destination[WRIST_R]	= 544;
 	p_destination[HAND]		= 1472;
 
-	update(6, BASE, SHOULDER, ELBOW, \
-			  WRIST_P, WRIST_R, HAND);
+	update();
 #ifdef DEBUG
 	Serial.println("ARM :: carry() --> leaving");
 	Serial.flush();
@@ -280,31 +278,18 @@ void arm_control::put(const byte joint, const byte angle) {
  * PRE:
  * POST:
  */                           
-void arm_control::update(const byte argc, ...) {
+void arm_control::update() {
 #ifdef DEBUG
 	Serial.println("ARM :: update(...) --> entering");
 	Serial.flush();
 #endif
-	va_list argv;
-	va_start(argv, argc);
-
-	// collect the queue of joints to move;
-	byte* arm_queue = new byte[argc];
-	for (byte ith = 0; ith < argc; ith++) {
-		arm_queue[ith] = va_arg(argv, int);
-	}
-
-	va_end(argv);
-#ifdef DEBUG
-	Serial.println("ARM :: update(...) --> armqueue created");
-	Serial.flush();
-#endif
 	// destroy the argument list - we're done.
 	
-	short* step = new short[argc];
+//	short* step = new short[argc];
+	short step[no_of_joints];
 	// this is likely unneccessary.
 	// clean up a new array
-	for (byte jth = 0; jth < argc; jth++) {
+	for (byte jth = 0; jth < no_of_joints; jth++) {
 		step[jth] = 0;
 	}
 #ifdef DEBUG
@@ -313,9 +298,8 @@ void arm_control::update(const byte argc, ...) {
 #endif
 	// find the width of the distance for each joint to be moved
 	short max_distance = 0;
-	for (byte jth = 0; jth < argc; jth++) {
-		step[jth] = abs(p_destination[arm_queue[jth]] \
-						- p_position[arm_queue[jth]]);
+	for (byte jth = 0; jth < no_of_joints; jth++) {
+		step[jth] = abs(p_destination[jth] - p_position[jth]);
 		if (step[jth] > max_distance) {
 			max_distance = step[jth];
 		}
@@ -326,7 +310,7 @@ void arm_control::update(const byte argc, ...) {
 #endif
 
 	// calculate the step value for each other moving joint
-	for (byte jth = 0; jth < argc; jth++) {
+	for (byte jth = 0; jth < no_of_joints; jth++) {
 		step[jth] = (step[jth] / (max_distance / 10));
 #ifdef DEBUG
 		Serial.print("\tstep: [");
@@ -338,7 +322,7 @@ void arm_control::update(const byte argc, ...) {
 	// lower the number of movement steps that will be taken
 	max_distance /= 10;
 	for (; max_distance > 0; max_distance--) {
-		for (byte jth = 0; jth < argc; jth++) {
+		for (byte jth = 0; jth < no_of_joints; jth++) {
 			// adjust position in the correct direction.
 			// if dest > position,
 			//    position increases
@@ -348,13 +332,15 @@ void arm_control::update(const byte argc, ...) {
 			// this is due to the arc of movement is absolute
 			//    from 0 to 180
 			//    or 544 to 2400
-			p_position[arm_queue[jth]] = p_destination[arm_queue[jth]] > p_position[arm_queue[jth]] ?
-											p_position[arm_queue[jth]] += step[jth] :
-											p_position[arm_queue[jth]] -= step[jth] ;
-			// write this change to the servo.
-			// this should be changed to p_put
-			arm[arm_queue[jth]].writeMicroseconds(p_position[arm_queue[jth]]);
-			delay(TIMER_DELAY);
+			if (p_position[jth] != p_destinationp[jth]) {
+				p_position[jth] = p_destination[jth] > p_position[jth] ?
+						  p_position[jth] += step[jth] :
+						  p_position[jth] -= step[jth] ;
+				// write this change to the servo.
+				// this should be changed to p_put
+				arm[jth].writeMicroseconds(p_position[jth]);
+				delay(TIMER_DELAY);
+			}
 		}
 	}
 
@@ -362,12 +348,10 @@ void arm_control::update(const byte argc, ...) {
 	//    them to their final position in case any came up
 	//    short after the above step cucles.
 	for (byte joint = 0; joint < no_of_joints; joint++) {
-		arm[joint].writeMicroseconds(p_position[joint]);
+		arm[joint].writeMicroseconds(p_destination[joint]);
 	}
 
 	//*/
-	delete(arm_queue);
-	delete(step);
 #ifdef DEBUG
 	Serial.println("ARM :: update(...) --> leaving");
 	Serial.flush();
@@ -428,7 +412,8 @@ void arm_control::move_to( float x, float y, float z, float grip_angle_d, bool m
 	float elb_angle_d = degrees( elb_angle_r );
 //	float elb_angle_dn = -( 180.0 - elb_angle_d );
 	/* wrist angle */
-	float wri_angle_d = grip_angle_d;// ( grip_angle_d - elb_angle_d ) - shl_angle_d;
+//	float wri_angle_d = grip_angle_d;// ( grip_angle_d - elb_angle_d ) - shl_angle_d;
+	float wri_angle_d = ( wrist_pitch_d + 90 + ( 180 - (shl_angle_d + elb_angle+d )))
 
 	/* Servo pulses */
 //	float bas_servopulse = 1500.0 - (( degrees( bas_angle_r )) * 11.11 );
@@ -453,7 +438,7 @@ void arm_control::move_to( float x, float y, float z, float grip_angle_d, bool m
     	p_destination[WRIST_P] = topulse(wri_angle_d);
     	p_destination[SHOULDER] = topulse(shl_angle_d);
     	p_destination[ELBOW] = topulse(elb_angle_d);
-        update(4, BASE, SHOULDER, ELBOW, WRIST_P);
+        update();
     }
     else
     {
@@ -468,3 +453,40 @@ void arm_control::move_to( float x, float y, float z, float grip_angle_d, bool m
 
 // EOF
 
+struct point getxyz() {
+// this function should return the XYZ position of the arm.
+// do we worry about the roll of the wrist? shouldn't have to.
+//    the point of consideration lies along the wrists roll axis.
+//	Serial.println("ARM :: getxyz() --> entering");
+	double  cosB,  sinB;
+	double hcosS, hsinS, sumofpiecesX;
+	double ucosE, usinE, sumofpiecesY;
+	double gcosW, gsinW, sumofpiecesZ;
+
+	int B = arm[BASE].read();					double B_r = radians(B);
+	int S = arm[SHOULDER].read();				double S_r = radians(S);
+//	int E = -(169 - S - arm[ELBOW].read());		double E_r = radians(E);
+	int E = -(180 - S - arm[ELBOW].read());		double E_r = radians(E);
+	int W = -(90 - arm[WRIST_P].read() - E);	double W_r = radians(W);
+
+	cosB = cos(B_r);
+	sinB = sin(B_r);
+
+	// x and y components of various bones
+	hcosS = HUMERUS * cos(S_r);
+	ucosE = ULNA * cos(E_r);
+	gcosW = GRIPPER * cos(W_r);
+
+	// z components
+	hsinS = HUMERUS * sin(S_r);
+	usinE = ULNA * sin(E_r);
+	gsinW = GRIPPER * sin(W_r);
+
+	sumofpiecesX = cosB * (hcosS + ucosE + gcosW);
+	sumofpiecesY = sinB * (hcosS + ucosE + gcosW);
+	sumofpiecesZ = BASE_HGT + hsinS + usinE + gsinW;
+
+	struct point pillow(-sumofpiecesX, sumofpiecesY, sumofpiecesZ);
+
+	return(pillow);
+}
