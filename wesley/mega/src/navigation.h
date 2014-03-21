@@ -5,6 +5,9 @@
  * look at the state diagram
  * 2014 umkc robotics 
  */
+//woohoo ros time !!!
+#include <ros.h>
+#include <mega_caretaker/MegaPacket.h>
 
 
 #include <AnalogDistanceSensor.h>
@@ -41,6 +44,8 @@ class Navigation {
                 ParallelPark par; 
                 Magellan mag;
                 
+          
+                
                 const static int32_t ticksFor90 = 3450;
                 bool goingForward;
     public:
@@ -53,6 +58,7 @@ class Navigation {
                   eyes.init(A3,5);
                   mag.init(A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
+                
                   
                   goingForward = true;  //... this is from the point of view of robot. it will always start going forward.
                                         //it'xs just that the motor library has it as "reverse()" as our going forward XD
@@ -205,7 +211,7 @@ class Navigation {
                   
                   //mov.turn(0x60,0x20);
                   
-                  
+// T.T tears. this doesn't work... not now... nooooo                
                   par.parallelPark();
                   
                   //while(!par.isParallel())  {
@@ -223,16 +229,33 @@ class Navigation {
                   */
                   
                   par.reset();
+                  
+                  
+                  
                   sabertooth.all_stop();
                
        
+                }
+                
+                
+                
+                
+                void turnClockwiseForever()  {
+                  sabertooth.turnCW();
+                }
+                void stopNow()  {
+                  sabertooth.all_stop();
                 }
                 void sleep()  {
                   sabertooth.all_stop();
                   delay(500);
                 }
                
-                
+                 //ROS STUFF HEY HEY LISTEN HEY LISTEN
+               void turn90()  {
+                 
+                          
+                } 
 		
 			
 };
