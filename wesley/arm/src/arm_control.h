@@ -39,7 +39,12 @@ class arm_control {
 		short* p_position;
 
 	public:
-        enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
+        	enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
+        	struct point {
+        		int x, y, z;
+        		point(int x = 0, int y = 0, int z = 0) :
+        			x(x), y(y), z(z) { };
+        	};
 
         // Constructor
 		arm_control();
