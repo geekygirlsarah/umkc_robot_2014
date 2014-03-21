@@ -40,7 +40,7 @@
 Navigation nav;
 int gapsThru;
 
-enum state_top { start, moving, gapfound, crossingwave, realignParallel, gapfound_pt2, theend };
+enum state_top { testing, start, moving, gapfound, crossingwave, realignParallel, gapfound_pt2, theend };
 state_top current_status;
 
 
@@ -102,7 +102,15 @@ void setup() {
 void loop() {
         
          
+        switch(current_status)  {
+          case start:
+            //looooooooop test forever
+            break;
+        
+        }
   
+  
+  /*
         switch (current_status) {
           case start:
             //let's keep going
@@ -201,7 +209,8 @@ void loop() {
         
         }
         
-        
+       
+       */ 
           
         //delay(50);  //make it readable
         //gapfind.printDebug();
