@@ -14,6 +14,11 @@
  * next -> turn in place until parallel!! 
  */
 
+//woohoo ros time !!!
+#include <ros.h>
+#include <mega_caretaker/MegaPacket.h>
+
+
 #include "navigation.h"
 
 #include <AnalogDistanceSensor.h>
@@ -35,15 +40,63 @@
 Navigation nav;
 int gapsThru;
 
-
 enum state_top { start, moving, gapfound, crossingwave, realignParallel, gapfound_pt2, theend };
 state_top current_status;
+
+
+
+    
+ //ros meta
+bool ros_control;  //is ros in control?
+ 
+ros::NodeHandle  nh;	
+mega_caretaker::MegaPacket temp;
+    
+ 
+    //pubs and subscribers
+ros::Publisher talker("arduinoToBoard", &temp);
+void packet_catch(const mega_caretaker::MegaPacket& packet);  
+ros::Subscriber<mega_caretaker::MegaPacket> listener("boardToArduino", &packet_catch);
+
+//callback
+      
+
+//ros msg catching time!
+void packet_catch(const mega_caretaker::MegaPacket& packet)  {
+    if(packet.msgType == 1)  {
+        //ros_control started
+        ros_control = true;
+    }
+    else if(packet.msgType == 2)  {
+        //ros_control finished
+        ros_control = false;
+    }
+  
+    else if(packet.msgType ==3)  {
+        if(packet.payload ==0)  {
+          //STOP STOP STOP!!!
+          nav.stopNow();  //may need to write in more robust code to keep stopping until...???
+        }
+        else if (packet.payload == 10)  {
+          nav.turnClockwiseForever();
+        }
+    }
+}
+
+void initiateTurn90()  {
+    ros_control = true;
+    temp.msgType = 0;
+    talker.publish(&temp);
+}
+
+
 
 void setup() {
 	Serial.begin(9600);
 	nav.init();
         current_status = start;
         gapsThru = 0;
+        ros_control = true;
 }
 
 void loop() {
@@ -97,14 +150,31 @@ void loop() {
           case realignParallel:
             Serial.println("realignparalell");
              delay(300);
-             nav.parallelpark();
+             //nav.parallelpark();
+             
+             //let's try with ros imu stuff yay
+             
+             //nav.turn90();
+             
              //delay(1000);
              Serial.println("its parallel!");
              //current_status = gapfound_pt2;
              
              //current_status = moving;
-             
-             
+              //send request to board...
+                  //going nto hand over control to ros
+                  initiateTurn90();  //hand control over to ROS
+                  
+                  //board itself will tell motors to GO or to STOP
+                  //will send an OK 
+                  
+                  //gotta wait until i hear back an OK from the ros board
+                  while(ros_control) {
+                    //spin
+                  }              
+                  //hey i heard back!!
+                  //im done.
+         
              current_status = theend;
              //nav.sleep();       
           break;
