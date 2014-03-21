@@ -1,7 +1,0 @@
-#raw spatial message
-spatialRaw rawIMU
----
-#orientation estimate
-geometry_msgs/Quaternion orientation
-orientation rpy  #roll pitch yaw
-rotMatrix rot
