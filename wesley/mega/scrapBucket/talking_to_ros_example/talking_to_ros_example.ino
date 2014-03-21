@@ -11,6 +11,14 @@ ros::NodeHandle  nh;
 
 std_msgs::String str_msg;
 ros::Publisher chatter("arduinoToBoard", &str_msg);
+void packet_catch(const std_msgs::String& packet);  
+ros::Subscriber<std_msgs::String> listener("boardToArduino", &packet_catch);
+
+
+//ros msg catching time!
+void packet_catch(const std_msgs::String& packet)  {
+    
+}
 
 char hello[13] = "hello world!";
 
@@ -25,6 +33,7 @@ void setup()
 {
   nh.initNode();
   nh.advertise(chatter);
+  nh.subscribe(listener);
 }
 
 void loop()

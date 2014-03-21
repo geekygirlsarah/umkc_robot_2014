@@ -83,6 +83,15 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
     }
 }
 
+void initROS()  {
+  nh.initNode();
+  nh.advertise(talker);
+  nh.subscribe(listener);
+
+}
+
+
+
 void initiateTurn90()  {
     ros_control = true;
     temp.msgType = 0;
@@ -97,11 +106,12 @@ void setup() {
         current_status = start;
         gapsThru = 0;
         ros_control = true;
+        initROS();
 }
 
 void loop() {
         
-         
+         nh.spinOnce();
         switch(current_status)  {
           case start:
             //looooooooop test forever
