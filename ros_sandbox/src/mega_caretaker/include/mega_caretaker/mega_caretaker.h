@@ -25,11 +25,17 @@ namespace mega_caretaker	{
 
 					//interfacing with the rest of the board
 					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
+					ros::ServiceClient client;				//client for getCurrentYaw service
 
 					void setup();
+
+					//callbacks galore
 					void heardFromMega(const mega_caretaker::MegaPacket &packet);
 					void heardFromMegaSimple(const std_msgs::Int8 &packet);
 					void heardFromOrientation(const std_msgs::String &packet);
+
+					//logic functions
+					void make90DegreeTurn();
 			public:
 					void init(ros::NodeHandle n);
 					void run();

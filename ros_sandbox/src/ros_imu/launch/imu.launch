@@ -1,0 +1,16 @@
+<launch>
+	<node 	pkg="ros_imu" type="orientationServer"
+		name="IMU_SRV"
+		args="--quiet" 
+		output="screen"	/>
+	<node 	pkg="ros_imu" type="rawIMUPublisher"
+		name="IMU_PUB"
+		args="--quiet" 
+		output="screen"	/>
+	<!-- Gyro bias in deg/s -->
+	<!-- Tested on robot table, avg 10 min. -->
+	<rosparam param="gyro_x_bias">-0.00494777</rosparam>
+	<rosparam param="gyro_y_bias">-0.00370861</rosparam>
+	<rosparam param="gyro_z_bias">-0.0013638</rosparam>
+</launch>
+

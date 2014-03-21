@@ -1,0 +1,4 @@
+#raw spatial message
+---
+#orientation estimate
+orientation rpy  #roll pitch yaw

@@ -2,22 +2,85 @@
 #include "std_msgs/String.h"
 #include <ros/console.h>
 
-#include <sstream>
+#include <math.h> //fabs
 
 #include "mega_caretaker/mega_caretaker.h"
 
 //message handles
 #include "mega_caretaker/MegaPacket.h"
 
+//srv handle - getting yaw
+#include <imu_filter_madgwick/imu_yaw.h>
 using namespace mega_caretaker;
+
+//Called when mega requests it.
+//Will send proper command to turn to motors,
+//wait until its 90 degrees from the IMU, 
+//then tell the motors to stop.
+//Then it will send an ack back to indicate it's done.
+//--> will only take care of TURNING and back. should be able to work with both turnign CW and CCW, only looking for the CHANGE
+void MegaCaretaker::make90DegreeTurn()	{
+
+	//this will assume the mega already stopped stuff before requesting the eturn 90 
+	//get current orientation...
+	
+	/*	
+	imu_filter_madgwick::imu_yaw srv; 
+	double init_yaw;
+	if(client.call(srv))	{
+		ROS_INFO("Mega:: Current Yaw: %f", srv.response.yaw);
+		init_yaw = srv.response.yaw;
+	}
+	else	{
+		ROS_INFO("Mega:: unsuccessful call for yaw");
+	}
+
+	*/
+	//tell mega to keep turning 90 degrees		
+	mega_caretaker::MegaPacket packet;
+	packet.msgType = 3;		//command 
+	packet.payload = 10;	//turn
+	megaTalker.publish(packet);
+	
+	/*
+	//keep checking until it's 90
+	bool turned90 = false;
+	while(!turned90)	{
+		if(client.call(srv))	{
+			turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+		}
+	}
+*/
+	//
+	//once it IS 90 degrees... tell the mega to STOP ! we're done
+	//
+	packet.msgType = 3;		//command 
+	packet.payload = 0;	//STOP RIGHT NOW
+	megaTalker.publish(packet);
+
+
+}
 
 void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	ROS_INFO("Heard from the mega!1");
 
 	//stupid simple. if it hears HEY from the mega, it will send back an ack
 	//then send back a nother stop when 90 degrees change has been reached
-			
+	
+	//HEY LET"S START THE 90 degree thing! Tell them motors what to do!
+	
+	if(packet.msgType == 0)	{
+		//tell the mega i'm taking control
+			mega_caretaker::MegaPacket packet;
+			packet.msgType = 1;		//ros_control started
+			megaTalker.publish(packet);
 
+
+		make90DegreeTurn();			
+
+		packet.msgType = 2;	//ros control finished
+		megaTalker.publish(packet);
+	}
 }
 
 
@@ -48,6 +111,7 @@ void MegaCaretaker::setup()	{
 	megaListener = node.subscribe("arduinoToBoard", 10, &MegaCaretaker::heardFromMegaSimple, this);
 
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
+	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
 }
 
 void MegaCaretaker::init(ros::NodeHandle n)	{
