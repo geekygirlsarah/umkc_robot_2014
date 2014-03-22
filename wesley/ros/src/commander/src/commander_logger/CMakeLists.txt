@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(commander)
+project(commander_logger)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -80,7 +80,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES commander
+#  LIBRARIES commander_logger
 #  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
 )
@@ -97,19 +97,19 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(commander
-#   src/${PROJECT_NAME}/commander.cpp
+# add_library(commander_logger
+#   src/${PROJECT_NAME}/commander_logger.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(commander_node src/commander_node.cpp)
+# add_executable(commander_logger_node src/commander_logger_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(commander_node commander_generate_messages_cpp)
+# add_dependencies(commander_logger_node commander_logger_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(commander_node
+# target_link_libraries(commander_logger_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -128,7 +128,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS commander commander_node
+# install(TARGETS commander_logger commander_logger_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -153,14 +153,12 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_commander.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_commander_logger.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/logger.cpp src/notifier.cpp)
-target_link_libraries(cmdr ${catkin_LIBRARIES})
+add_executable(cmdr_logger src/sub_writer.cpp)
+target_link_libraries(cmdr_logger ${catkin_LIBRARIES})
