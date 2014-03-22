@@ -67,6 +67,9 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
         if(packet.payload == PL_START_WAVE_CROSSING)  {
 	    ros_control = false;
             current_status =  start; 
+            //gotta put out an ack T.T
+            sendAck();
+            
         }
     }
     else if(packet.msgType == MSGTYPE_ACK)  {
@@ -85,6 +88,11 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
           nav.turnClockwiseForever();
         }
     }
+}
+
+void sendAck()  {
+  temp.msgType = MSGTYPE_ACK;
+  temp.payload = PL_GENERAL_ACK;
 }
 
 void advertiseState(state_top now)  {
@@ -142,7 +150,7 @@ void setup() {
 void loop() {
         
          nh.spinOnce();
-        advertiseState(current_status);  //at this point it will FLOOD the channels, but i just want to hear something from you mega!!!!
+        //advertiseState(current_status);  //at this point it will FLOOD the channels, but i just want to hear something from you mega!!!!2   
         switch(current_status)  {
           case waiting:
             //looooooooop test forever
