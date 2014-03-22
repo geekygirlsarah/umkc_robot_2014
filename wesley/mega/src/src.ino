@@ -17,7 +17,7 @@
 //woohoo ros time !!!
 #include <ros.h>
 #include <mega_caretaker/MegaPacket.h>
-
+#include "redux_mega_packet_defs.h"
 
 #include "navigation.h"
 
@@ -34,13 +34,13 @@
 #include <motor_cmd.h>
 
 #include <movement.h>
-
+#include "top_level_state.h"  //silly arduino doesn't let me use enum as parameter unless it's in another header file T.T
 
 
 Navigation nav;
 int gapsThru;
 
-enum state_top { testing, start, moving, gapfound, crossingwave, realignParallel, gapfound_pt2, theend };
+
 state_top current_status;
 
 
@@ -63,24 +63,54 @@ ros::Subscriber<mega_caretaker::MegaPacket> listener("boardToArduino", &packet_c
 
 //ros msg catching time!
 void packet_catch(const mega_caretaker::MegaPacket& packet)  {
-    if(packet.msgType == 1)  {
-        //ros_control started
-        ros_control = true;
+    if(packet.msgType == MSGTYPE_HEY)  {
+        if(packet.payload == PL_START_WAVE_CROSSING)  {
+	    ros_control = false;
+            current_status =  start; 
+        }
     }
-    else if(packet.msgType == 2)  {
-        //ros_control finished
-        ros_control = false;
+    else if(packet.msgType == MSGTYPE_ACK)  {
+        if(packet.payload == PL_FINISHED_TURNING_90)  {
+	    current_status = theend;
+	    ros_control = false;
+        }
     }
   
-    else if(packet.msgType ==3)  {
-        if(packet.payload ==0)  {
+    else if(packet.msgType == MSGTYPE_MOTORCOM)  {
+        if(packet.payload == PL_STOP)  {
           //STOP STOP STOP!!!
           nav.stopNow();  //may need to write in more robust code to keep stopping until...???
         }
-        else if (packet.payload == 10)  {
+        else if (packet.payload == PL_TURNCW)  {
           nav.turnClockwiseForever();
         }
     }
+}
+
+void advertiseState(state_top now)  {
+  temp.msgType = MSGTYPE_STATE;
+  switch(now)    {
+    case waiting:
+		temp.payload = PL_WAITING;
+		break;
+	case start:
+		temp.payload = PL_START;
+		break;
+	case turningCW_init:
+		temp.payload = PL_TURNING_CW_INIT;
+		break;
+	case turningCW_wait:
+		temp.payload = PL_TURNING_CW_WAIT;
+		break;
+	case turningCW_fin:
+		temp.payload = PL_TURNING_CW_FIN;
+		break;
+  	case theend:
+		temp.payload = PL_END;
+		break;
+  }
+  talker.publish(&temp);
+
 }
 
 void initROS()  {
@@ -93,8 +123,8 @@ void initROS()  {
 
 
 void initiateTurn90()  {
-    ros_control = true;
-    temp.msgType = 0;
+    temp.msgType = MSGTYPE_HEY;
+    temp.payload = PL_START_TURNING_90;
     talker.publish(&temp);
 }
 
@@ -103,7 +133,7 @@ void initiateTurn90()  {
 void setup() {
 	Serial.begin(9600);
 	nav.init();
-        current_status = start;
+        current_status = waiting;
         gapsThru = 0;
         ros_control = true;
         initROS();
@@ -112,10 +142,29 @@ void setup() {
 void loop() {
         
          nh.spinOnce();
+        advertiseState(current_status);  //at this point it will FLOOD the channels, but i just want to hear something from you mega!!!!
         switch(current_status)  {
-          case start:
+          case waiting:
             //looooooooop test forever
+            //stay here FOREVER until you hear stuff from board
             break;
+          case start:
+	    //lets just test the turning 90
+	    current_status = turningCW_init;
+	    break;
+          case turningCW_init:
+            //time to ask ros board for help
+			
+	    initiateTurn90();
+	    ros_control = true; //assume that board heard us the first time
+	    current_status = turningCW_wait; 
+          case turningCW_wait:
+            //stay here until ros returns an answer we're good		
+			
+            break;
+          case theend:
+           break;
+          
         
         }
   
