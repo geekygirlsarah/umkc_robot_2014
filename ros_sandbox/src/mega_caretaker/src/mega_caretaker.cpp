@@ -1,5 +1,5 @@
-#include "ros/ros.h"
-#include "std_msgs/String.h"
+#include <ros/ros.h>
+#include <std_msgs/String.h>
 #include <ros/console.h>
 
 #include <math.h> //fabs
@@ -11,6 +11,8 @@
 
 //srv handle - getting yaw
 #include <imu_filter_madgwick/imu_yaw.h>
+
+#include "mega_caretaker/redux_mega_packet_defs.h"
 using namespace mega_caretaker;
 
 //Called when mega requests it.
@@ -38,8 +40,8 @@ void MegaCaretaker::make90DegreeTurn()	{
 	*/
 	//tell mega to keep turning 90 degrees		
 	mega_caretaker::MegaPacket packet;
-	packet.msgType = 3;		//command 
-	packet.payload = 10;	//turn
+	packet.msgType = MSGTYPE_MOTORCOM;		//command 
+	packet.payload = PL_TURNCW;	//turn
 	megaTalker.publish(packet);
 	
 	/*
@@ -54,8 +56,8 @@ void MegaCaretaker::make90DegreeTurn()	{
 	//
 	//once it IS 90 degrees... tell the mega to STOP ! we're done
 	//
-	packet.msgType = 3;		//command 
-	packet.payload = 0;	//STOP RIGHT NOW
+	packet.msgType = MSGTYPE_MOTORCOM;		//command 
+	packet.payload = PL_STOP;	//STOP RIGHT NOW
 	megaTalker.publish(packet);
 
 
@@ -68,50 +70,71 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	//then send back a nother stop when 90 degrees change has been reached
 	
 	//HEY LET"S START THE 90 degree thing! Tell them motors what to do!
-	
-	if(packet.msgType == 0)	{
-		//tell the mega i'm taking control
+
+	//mega wants board to help with 90 degree thing
+	if(packet.msgType == MSGTYPE_HEY)	{
+		ROS_INFO(" MEGA needs help");
+		if(packet.payload == PL_START_TURNING_90)	{
+			ROS_INFO("care:: turning 90 degreees!");
 			mega_caretaker::MegaPacket packet;
-			packet.msgType = 1;		//ros_control started
+			packet.msgType = MSGTYPE_ACK;		//ack to mega
+			packet.payload = PL_GENERAL_ACK;
 			megaTalker.publish(packet);
 
 
-		make90DegreeTurn();			
+			make90DegreeTurn();			
 
-		packet.msgType = 2;	//ros control finished
-		megaTalker.publish(packet);
+			packet.msgType = MSGTYPE_ACK;	//ros control finished
+			packet.payload = PL_FINISHED_TURNING_90;
+			megaTalker.publish(packet);
+		}
+	}
+
+	else if (packet.msgType == MSGTYPE_ACK)	{
+		if(packet.payload == PL_GENERAL_ACK)	{
+			ROS_INFO("care:: Mega acked");
+		}
+		else if (packet.payload == PL_FINISHED_WAVE_CROSSING)	{
+			ROS_INFO("care:: Mega is done with wave crossing!");
+		}
 	}
 }
 
-
-
-void MegaCaretaker::heardFromMegaSimple(const std_msgs::Int8 &packet)	{
-	ROS_INFO("Heard from the mega!1");
-
-	//stupid simple. if it hears HEY from the mega, it will send back an ack
-	//then send back a nother stop when 90 degrees change has been reached
-	if(packet.data == 1)	{
-		ROS_INFO("msg1");
-	}
-	else if(packet.data == 2)	{
-		ROS_INFO("msg2");	
-	}
-				
-
-}
 
 
 void MegaCaretaker::heardFromOrientation(const std_msgs::String &packet)	{
 	ROS_INFO("Heard from the IMU!");
 }
 
+
+void MegaCaretaker::startWaveCrossing()	{
+
+	//send hey to mega...
+	mega_caretaker::MegaPacket packet;
+	packet.msgType = MSGTYPE_ACK;
+	packet.payload = PL_START_WAVE_CROSSING;
+	megaTalker.publish(packet);
+	ROS_INFO("care:: told mega to start wave crossing");
+
+}
+
+
 void MegaCaretaker::setup()	{
 //	motorCommandTopic = n.subscribe(geometry_msgs/
-	megaTalker = node.advertise<std_msgs::String>("boardToArduino", 10);
-	megaListener = node.subscribe("arduinoToBoard", 10, &MegaCaretaker::heardFromMegaSimple, this);
+	megaTalker = node.advertise<mega_caretaker::MegaPacket>("boardToArduino", 10);
+	megaListener = node.subscribe("arduinoToBoard", 10, &MegaCaretaker::heardFromMega, this);
 
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
 	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
+}
+
+
+void MegaCaretaker::run()	{
+
+	startWaveCrossing();
+	ros::spin();
+
+
 }
 
 void MegaCaretaker::init(ros::NodeHandle n)	{
@@ -124,5 +147,5 @@ int main(int argc, char** argv)	{
 	ros::NodeHandle n;
 	MegaCaretaker m;
 	m.init(n);
-	//m.run();
+	m.run();
 }
