@@ -5,12 +5,17 @@
  * PURPOSE: Define and describe a control interface for the robotic arm
  *
  * TODO:
+ * - give [Eric] a visual representation of the arms co-ordinate frame; which 
+ *   way are the axes oriented. From this, I should be able to position the claw 
+ *   as needed by issuing simple move_to(x, y, z, p) calls.
+ *   (This is in person, not in code, but we still need to do it)      
+ * - alter put(byte, byte) and p_put(byte, short) to work correctly.
  * - add in angle limits so that if anything goes beyond the range of the 
  *   allowed pulse widths it defaults to the min or max pulse width 
  *   appropriately.
- * - Fix park()
- * - Determine if carry() is right
- * - ?? Make a "insert position" function. Maybe.  
+ * - need a forward kinematic.
+ *   -- sadly, this [Eric] did not add this in to the re-written code so you'll 
+ *      need to find an old copy.
  * - Move internal 'helper' functions to private area
  * - Remove extraneous commented out code
  * - Make any 'magic' numbers precompiler constants for optimization
@@ -25,33 +30,37 @@
 #include "arm_control.h"
 
 // Print debug info or not, comment out for not
-#define DEBUG
+//#define DEBUG
 
 // Converts angle to pulse width for writing to a servo
 #define topulse(a)     map(a, 0,  180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
 
 // Values in millimeters
-#define BASE_HGT    69.85   // base hight 2 3/4" (69.85). Trying base from ground: 7.625 (193.675)   
-#define HUMERUS     146.05  // shoulder-to-elbow 5 3/4"
-#define ULNA        215.90  // elbow-to-wrist 8 1/2"
-#define GRIPPER     100.00  // gripper length 3 1/2" (old), modifying to 3.94"
+#define BASE_HGT 69.85      // base hight 2 3/4"
+#define HUMERUS 146.05      // shoulder-to-elbow 5 3/4"
+#define ULNA 215.9          // elbow-to-wrist 8 1/2"
+#define GRIPPER 88.9        // gripper length 3 1/2"
                             // this gripper measure is to the outside
                             // screw-hole, not the tip of the hand.
 
 // Park values...  update in one place for both initial_park() and park()
-#define PARK_BASE     90   // 1368;		//  80°
-#define PARK_SHOULDER 165  // 2245;		// 165°
-#define PARK_ELBOW    5    // 600;		// 5.5°
-#define PARK_WRIST_P  0    // 544;		//   0°
-#define PARK_WRIST_R  95   // 1523;		//  95°
-#define PARK_HAND     90   // 1472;		//  90°
+#define PARK_BASE     1368;		//  80°
+#define PARK_SHOULDER 2245;		// 165°
+#define PARK_ELBOW    600;		// 5.5°
+#define PARK_WRIST_P  544;		//   0°
+#define PARK_WRIST_R  1523;		//  95°
+#define PARK_HAND     1472;		//  90°
+
+
 
 // Define the delay length
-#define TIMER_DELAY 10
+#define TIMER_DELAY 5
 
 // squares of certain lengths for later calculations
 float hum_sq = HUMERUS*HUMERUS;
 float uln_sq = ULNA*ULNA;
+
+
 
 
 /* arm_control()
@@ -117,16 +126,13 @@ void arm_control::connect(byte argc, ...) {
 		pin = va_arg(argv, int);
 		arm[joint].attach(pin);
 		p_position[joint] = arm[joint].readMicroseconds();
-// Removed this DEBUG section. Need extra speed upon turning on.
-//#ifdef DEBUG
 //		Serial.print("\tjoint("); Serial.print(joint, DEC);
 //		Serial.print(") at ("); Serial.print(p_position[joint]);
 //		Serial.println(")");
- //       Serial.println("ARM :: connect --> leaving");
-//#endif
 	}
 
 	va_end(argv);
+//	Serial.println("ARM :: connect --> leaving");
 }
 
 
@@ -138,19 +144,18 @@ void arm_control::connect(byte argc, ...) {
  * POST:
  */                         
 void arm_control::initial_park() {
-// Removed this DEBUG as we need the extra speed.
-//#ifdef DEBUG
+#ifdef DEBUG
 //	Serial.println("ARM :: park() --> entering");
-//	Serial.flush();
-//#endif
+	Serial.flush();
+#endif
 	/* here, define, in pulse, what angles to place the
 	 *    servos at. these will then be moved below */
-	p_position[BASE] 	 = topulse(PARK_BASE);
-	p_position[SHOULDER] = topulse(PARK_SHOULDER);
-	p_position[ELBOW]	 = topulse(PARK_ELBOW);
-	p_position[WRIST_P]	 = topulse(PARK_WRIST_P);
-	p_position[WRIST_R]	 = topulse(PARK_WRIST_R);
-	p_position[HAND]	 = topulse(PARK_HAND);
+	p_position[BASE] 	 = PARK_BASE;
+	p_position[SHOULDER] = PARK_SHOULDER;
+	p_position[ELBOW]	 = PARK_ELBOW;
+	p_position[WRIST_P]	 = PARK_WRIST_P;
+	p_position[WRIST_R]	 = PARK_WRIST_R;
+	p_position[HAND]	 = PARK_HAND;
 	
 	/* for testing purposes, this will proceed in order
 	 *    and directly place the successive joints at
@@ -171,7 +176,7 @@ void arm_control::initial_park() {
  */                         
 void arm_control::park() {
 #ifdef DEBUG
-	Serial.println("ARM :: park() --> entering");
+//	Serial.println("ARM :: park() --> entering");
 	Serial.flush();
 #endif
 	/* here, define, in pulse, what angles to place the
@@ -194,10 +199,8 @@ void arm_control::park() {
 //	}
 	
 	update();
-#ifdef DEBUG
-	Serial.println("ARM :: park() --> leaving");
-	Serial.flush();
-#endif
+//	Serial.println("ARM :: park() --> leaving");
+//	Serial.flush();
 }
 
 
@@ -215,12 +218,12 @@ void arm_control::carry() {
 #endif
 	// here, define a secondary park location to use
 	//    while carrying a tool.
-	p_position[BASE] 	 = PARK_BASE;
-	p_position[SHOULDER] = PARK_SHOULDER;
-	p_position[ELBOW]	 = PARK_ELBOW;
-	p_destination[WRIST_P]	= topulse(180);
-	p_destination[WRIST_R]	= topulse(90);
-	//p_destination[HAND]		= 1472;
+	p_destination[BASE] 	= 1368;
+	p_destination[SHOULDER]	= 2245;
+	p_destination[ELBOW]	= 600;
+	p_destination[WRIST_P]	= 2348;
+	p_destination[WRIST_R]	= 544;
+	p_destination[HAND]		= 1472;
 
 	update();
 #ifdef DEBUG
@@ -242,90 +245,36 @@ byte arm_control::read(const byte joint) {
 
 
 
-/* void putPulse(const byte joint, short pulse)
+/* void p_put(const byte joint, short pulse)
  * Directly write a pulse to the servo, would take the place of the 
  * function put (byte, byte)         
  * PRE:
  * POST:
  */                         
-void arm_control::putPulse(const byte joint, const short pulse) {
-    // Prevent the servos from going in a place they're not allowed.
-    /*
-    switch(joint)
-    {
-        case BASE:     // base
-            if(pulse < value)
-                pulse = value;
-            else if (pulse < value)
-                pulse = value;
-            break;        
-
-        case SHOULDER:     // shoulder
-            if(pulse < value)
-                pulse = value;
-            else if (pulse < value)
-                pulse = value;
-            break;        
-
-        case ELBOW:     // elbow
-            if(pulse < value)
-                pulse = value;
-            else if (pulse < value)
-                pulse = value;
-            break;        
-        
-        case WRIST_P:     // wrist pitch
-            if(pulse < value)
-                pulse = value;
-            else if (pulse < value)
-                pulse = value;
-            break;        
-        
-        case WRIST_R:     // wrist roll
-            if(pulse < value)
-                pulse = value;
-            else if (pulse < value)
-                pulse = value;
-            break;        
-        
-        case HAND:     // gripper/hand
-            if(pulse < value)
-                pulse = value;
-            else if (pulse < value)
-                pulse = value;
-            break;        
-        
-        default:
-#ifdef DEBUG
-	Serial.println("ARM :: putPulse(...) --> Unknown servo, you broke it!");
-	Serial.flush();
-#endif
-
-    }
-    */
-    
-    // Write it and save position
-	arm[joint].writeMicroseconds(pulse);
-	p_position[joint] = arm[joint].readMicroseconds();
+void arm_control::p_put(const byte joint, short pusle) {
+    // TODO
 }
 
 
 
-/* void putAngle(const byte joint, const byte angle)
+/* void put(const byte joint, const byte angle)
  * Directly put the given joint to the given angle,
  * converting first to pulse width
  * PRE:
  * POST:
  */                         
-void arm_control::putAngle(const byte joint, const byte angle) {
-    // Basically a wrapper for putPulse that takes an angle instead
-	putPulse(joint, topulse(angle));
+void arm_control::put(const byte joint, const byte angle) {
+	// this function currently writes the pulse to the motor
+	//    from a given angle. this should translate the angle
+	//    and pass both joint and pulse to the above p_put().
+	arm[joint].writeMicroseconds(topulse(angle));
+	p_position[joint] = arm[joint].readMicroseconds();
 }
 
 
 
-/* void update()
- * Smoothly move the arm to the given angles stored internally. 
+/* void update(const byte arc, ...)
+ * Call update with update(NO_OF_JOINTS, <a list of joints to mov
  * PRE:
  * POST:
  */                           
@@ -334,14 +283,10 @@ void arm_control::update() {
 	Serial.println("ARM :: update(...) --> entering");
 	Serial.flush();
 #endif
-
-#ifdef DEBUG
-	Serial.println("ARM :: update(...) --> armqueue created");
-	Serial.flush();
-#endif
 	// destroy the argument list - we're done.
 	
-	short step = new short[argc];
+//	short* step = new short[argc];
+	short step[no_of_joints];
 	// this is likely unneccessary.
 	// clean up a new array
 	for (byte jth = 0; jth < no_of_joints; jth++) {
@@ -354,7 +299,7 @@ void arm_control::update() {
 	// find the width of the distance for each joint to be moved
 	short max_distance = 0;
 	for (byte jth = 0; jth < no_of_joints; jth++) {
-        step[jth] = abs(p_destination[jth] - p_position[jth]);
+		step[jth] = abs(p_destination[jth] - p_position[jth]);
 		if (step[jth] > max_distance) {
 			max_distance = step[jth];
 		}
@@ -388,15 +333,14 @@ void arm_control::update() {
 			//    from 0 to 180
 			//    or 544 to 2400
 			if (p_position[jth] != p_destinationp[jth]) {
-    			p_position[jth] = p_destination[jth] > p_position[jth] ?
-    					  p_position[jth] += step[jth] :
-    					  p_position[jth] -= step[jth] ;
-                // write this change to the servo.
-    			// this should be changed to putPulse
-    			//arm[arm_queue[jth]].writeMicroseconds(p_position[arm_queue[jth]]);
-                putPulse(arm_queue[jth], p_position[arm_queue[jth]]);
-    			delay(TIMER_DELAY);
-            }
+				p_position[jth] = p_destination[jth] > p_position[jth] ?
+						  p_position[jth] += step[jth] :
+						  p_position[jth] -= step[jth] ;
+				// write this change to the servo.
+				// this should be changed to p_put
+				arm[jth].writeMicroseconds(p_position[jth]);
+				delay(TIMER_DELAY);
+			}
 		}
 	}
 
@@ -404,13 +348,10 @@ void arm_control::update() {
 	//    them to their final position in case any came up
 	//    short after the above step cucles.
 	for (byte joint = 0; joint < no_of_joints; joint++) {
-		//arm[joint].writeMicroseconds(p_position[joint]);
-        putPulse(joint, p_position[joint]);
+		arm[joint].writeMicroseconds(p_destination[joint]);
 	}
 
 	//*/
-	delete(arm_queue);
-	delete(step);
 #ifdef DEBUG
 	Serial.println("ARM :: update(...) --> leaving");
 	Serial.flush();
@@ -419,7 +360,7 @@ void arm_control::update() {
 
 
 
-/* void move_to( float x, float y, float z, float grip_angle_d, float grip_rotate_d)
+/* void move_to( float x, float y, float z, float grip_angle_d, bool moveSmooth = true )
  * Places at (x, y, z) - this is an inverse kinematic
  *    equation that translates the (x, y, z) into
  *    angualr measures from an origin defined at the
@@ -427,7 +368,7 @@ void arm_control::update() {
  * PRE:
  * POST:
  */                  
-void arm_control::move_to( float x, float y, float z, float grip_angle_d, float grip_rotate_d)
+void arm_control::move_to( float x, float y, float z, float grip_angle_d, bool moveSmooth)
 {
     /* this function is borrowed from:
      * http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
@@ -435,13 +376,11 @@ void arm_control::move_to( float x, float y, float z, float grip_angle_d, float 
      */
 
 #ifdef DEBUG
-	Serial.print("ARM :: move_to(xyzwr) --> (");
+	Serial.print("ARM :: put(xyz) --> (");
 	Serial.print(x), Serial.print(", ");
 	Serial.print(y), Serial.print(", ");
-	Serial.print(z), Serial.print(", ");
-	Serial.print(grip_angle_d), Serial.print(", ");
-	Serial.print(grip_rotate_d), Serial.print(") ");
-	Serial.println();
+	Serial.print(z), Serial.print(") ");
+	Serial.print(grip_angle_d); Serial.println();
 #endif
 
 	//grip angle in radians for use in calculations
@@ -473,35 +412,49 @@ void arm_control::move_to( float x, float y, float z, float grip_angle_d, float 
 	float elb_angle_d = degrees( elb_angle_r );
 //	float elb_angle_dn = -( 180.0 - elb_angle_d );
 	/* wrist angle */
-    //float wri_angle_d = ( grip_angle_d - elb_angle_d ) - shl_angle_d;
-    float wri_angle_d = ( wrist_pitch_d + 90 + ( 180 - (shl_angle_d + elb_angle+d )))
-    /* wrist rotation */
-    // If we change wrist rotate direction, add it here
-    
+//	float wri_angle_d = grip_angle_d;// ( grip_angle_d - elb_angle_d ) - shl_angle_d;
+	float wri_angle_d = ( wrist_pitch_d + 90 + ( 180 - (shl_angle_d + elb_angle+d )))
 
+	/* Servo pulses */
+//	float bas_servopulse = 1500.0 - (( degrees( bas_angle_r )) * 11.11 );
+//	float shl_servopulse = 1500.0 + (( shl_angle_d - 90.0 ) * 6.6 );
+//	float elb_servopulse = 1500.0 -  (( elb_angle_d - 90.0 ) * 6.6 );
+//	float wri_servopulse = 1500 + ( wri_angle_d  * 11.1 );
+
+	/* Set Servos, using arm*
+	put(BASE, degrees(bas_angle_r) );
+	put(WRIST_P, wri_angle_d );
+	put(SHOULDER, shl_angle_d );
+	put(ELBOW, elb_angle_d );
+	//*/
+	
 	// update the pulse_destination array and then prepare
 	//    to call update 
 
-	p_destination[BASE] = topulse(degrees(bas_angle_r));
-	p_destination[SHOULDER] = topulse(shl_angle_d);
-	p_destination[ELBOW] = topulse(elb_angle_d);
-    p_destination[WRIST_R] = topulse(grip_rotate_d);
-	p_destination[WRIST_P] = topulse(wri_angle_d);
-    
-    update(5, BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R);
+    // Move smoothly or not
+    if(moveSmooth)
+    {
+    	p_destination[BASE] = topulse(degrees(bas_angle_r));
+    	p_destination[WRIST_P] = topulse(wri_angle_d);
+    	p_destination[SHOULDER] = topulse(shl_angle_d);
+    	p_destination[ELBOW] = topulse(elb_angle_d);
+        update();
+    }
+    else
+    {
+        put(BASE, degrees(bas_angle_r));
+        put(SHOULDER, shl_angle_d);
+        put(WRIST_P, wri_angle_d);
+        put(ELBOW, elb_angle_d);
+        
+    }
 	
 }
 
-/* struct point arm_control::getXYZ()
- * Places at (x, y, z) - this is an inverse kinematic
- *    equation that translates the (x, y, z) into
- *    angualr measures from an origin defined at the
- *    base of the arm.
- * PRE:
- * POST:
- */                  
-struct point arm_control::getXYZ() {
-// This function should return the XYZ position of the arm.
+// EOF
+
+struct point getxyz() {
+// this function should return the XYZ position of the arm.
 // do we worry about the roll of the wrist? shouldn't have to.
 //    the point of consideration lies along the wrists roll axis.
 //	Serial.println("ARM :: getxyz() --> entering");
@@ -537,6 +490,3 @@ struct point arm_control::getXYZ() {
 
 	return(pillow);
 }
-
-// EOF
-
