@@ -58,3 +58,32 @@ documentation for that library - https://gp2y0a21yk-library.googlecode.com/hg/Do
 sharp ir sensor diagram - http://www.sharpsma.com/webfm_send/1203
 
 Encoder library - http://pjrc.com/teensy/td_libs_Encoder.html
+
+
+
+DIRECTORY STRUCTURE
+===================
+
+/wesley		: an ROS workspace
+|- /src
+|	|- /arm			: contains all the code for the arm
+|	|	\- /src		: source directory
+|	|
+|	|- /mini		: contains the led and button code
+|	|	\- /src		: source directory
+|	|
+|	|- /mega		: contains the motor_cmd structure
+|	|	\- /src		: source directory
+|	|
+|	|- /mega_b		: contains the backup motor_cmd interface
+|	|	\- /src		: source directory
+|	|
+|	|- /commander	: the master control program and functions
+|	|	\- /src		: source directory
+|	|
+|	\- /camera		: contains all code related to camera
+|		\- /src		: source directory
+|
+|- /build		: ROS specific	
+|- /install		: ROS specific
+\- /devel		: contains the binaries
