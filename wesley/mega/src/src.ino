@@ -93,6 +93,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
 void sendAck()  {
   temp.msgType = MSGTYPE_ACK;
   temp.payload = PL_GENERAL_ACK;
+  talker.publish(&temp);
 }
 
 void advertiseState(state_top now)  {
@@ -128,7 +129,11 @@ void initROS()  {
 
 }
 
-
+void sendMsg_finishedWaveCrossing()  {
+  temp.msgType = MSGTYPE_ACK;
+  temp.payload = PL_FINISHED_WAVE_CROSSING;
+  talker.publish(&temp);
+}
 
 void initiateTurn90()  {
     temp.msgType = MSGTYPE_HEY;
@@ -171,6 +176,7 @@ void loop() {
 			
             break;
           case theend:
+            //sendMsg_finishedWaveCrossing();
            break;
           
         
