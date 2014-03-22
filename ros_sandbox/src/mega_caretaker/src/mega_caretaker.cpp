@@ -26,7 +26,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 	//this will assume the mega already stopped stuff before requesting the eturn 90 
 	//get current orientation...
 	
-	/*	
+		
 	imu_filter_madgwick::imu_yaw srv; 
 	double init_yaw;
 	if(client.call(srv))	{
@@ -37,14 +37,14 @@ void MegaCaretaker::make90DegreeTurn()	{
 		ROS_INFO("Mega:: unsuccessful call for yaw");
 	}
 
-	*/
+	
 	//tell mega to keep turning 90 degrees		
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
 	packet.payload = PL_TURNCW;	//turn
 	megaTalker.publish(packet);
 	
-	/*
+	
 	//keep checking until it's 90
 	bool turned90 = false;
 	while(!turned90)	{
@@ -52,7 +52,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 			turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
 		}
 	}
-*/
+
 	//
 	//once it IS 90 degrees... tell the mega to STOP ! we're done
 	//
@@ -110,8 +110,9 @@ void MegaCaretaker::heardFromOrientation(const std_msgs::String &packet)	{
 void MegaCaretaker::startWaveCrossing()	{
 
 	//send hey to mega...
+	//KEEP SENDING THIS if you don't hear back mate
 	mega_caretaker::MegaPacket packet;
-	packet.msgType = MSGTYPE_ACK;
+	packet.msgType = MSGTYPE_HEY;
 	packet.payload = PL_START_WAVE_CROSSING;
 	megaTalker.publish(packet);
 	ROS_INFO("care:: told mega to start wave crossing");
@@ -131,15 +132,26 @@ void MegaCaretaker::setup()	{
 
 void MegaCaretaker::run()	{
 
+	//tell it to DO STUFF!! and if it doesn't hear an ack KEEP TELLING IT STUFF SD:FKLJSDL:FKJSDL:kj
+	//dont do ANYTHING until tthere's a subscriber listening!!!!
 	startWaveCrossing();
 	ros::spin();
-
 
 }
 
 void MegaCaretaker::init(ros::NodeHandle n)	{
 	node = n;
 	setup();
+
+	//certain things this node needs
+	//make sure arduino is actually listening
+	ros::Rate poll_rate(100);
+	while(megaTalker.getNumSubscribers() == 0) 	{
+		poll_rate.sleep();
+	}
+
+	//make sure the IMU service is up
+	ros::service::waitForService("getCurrentYaw", 5000);
 }
 
 int main(int argc, char** argv)	{
