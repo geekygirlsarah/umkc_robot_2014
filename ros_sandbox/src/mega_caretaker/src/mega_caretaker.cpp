@@ -39,6 +39,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 
 	
 	//tell mega to keep turning 90 degrees		
+	ROS_INFO("board->mega:: Now turn 90 degrees");
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
 	packet.payload = PL_TURNCW;	//turn
@@ -56,6 +57,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 	//
 	//once it IS 90 degrees... tell the mega to STOP ! we're done
 	//
+	ROS_INFO("board->mega:: it's 90 deg stop!!");
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
 	packet.payload = PL_STOP;	//STOP RIGHT NOW
 	megaTalker.publish(packet);
@@ -64,7 +66,6 @@ void MegaCaretaker::make90DegreeTurn()	{
 }
 
 void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
-	ROS_INFO("Heard from the mega!1");
 
 	//stupid simple. if it hears HEY from the mega, it will send back an ack
 	//then send back a nother stop when 90 degrees change has been reached
@@ -73,29 +74,29 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 
 	//mega wants board to help with 90 degree thing
 	if(packet.msgType == MSGTYPE_HEY)	{
-		ROS_INFO(" MEGA needs help");
 		if(packet.payload == PL_START_TURNING_90)	{
-			ROS_INFO("care:: turning 90 degreees!");
+			ROS_INFO("mega->board:: please help turn 90 degrees");
 			mega_caretaker::MegaPacket packet;
 			packet.msgType = MSGTYPE_ACK;		//ack to mega
 			packet.payload = PL_GENERAL_ACK;
 			megaTalker.publish(packet);
-
+			ROS_INFO("board->mega:: turning 90 degreees!");
 
 			make90DegreeTurn();			
 
 			packet.msgType = MSGTYPE_ACK;	//ros control finished
 			packet.payload = PL_FINISHED_TURNING_90;
 			megaTalker.publish(packet);
+			ROS_INFO("board->mega:: sending finished turning 90");
 		}
 	}
 
 	else if (packet.msgType == MSGTYPE_ACK)	{
 		if(packet.payload == PL_GENERAL_ACK)	{
-			ROS_INFO("care:: Mega acked");
+			ROS_INFO("mega->board:: Mega acked");
 		}
 		else if (packet.payload == PL_FINISHED_WAVE_CROSSING)	{
-			ROS_INFO("care:: Mega is done with wave crossing!");
+			ROS_INFO("mega->board:: Mega is done with wave crossing!");
 		}
 	}
 }
@@ -115,13 +116,14 @@ void MegaCaretaker::startWaveCrossing()	{
 	packet.msgType = MSGTYPE_HEY;
 	packet.payload = PL_START_WAVE_CROSSING;
 	megaTalker.publish(packet);
-	ROS_INFO("care:: told mega to start wave crossing");
+	ROS_INFO("board->mega:: start wave crossing");
 
 }
 
 
 void MegaCaretaker::setup()	{
 //	motorCommandTopic = n.subscribe(geometry_msgs/
+	ROS_INFO("care:: setting up subscribers + publishers");
 	megaTalker = node.advertise<mega_caretaker::MegaPacket>("boardToArduino", 10);
 	megaListener = node.subscribe("arduinoToBoard", 10, &MegaCaretaker::heardFromMega, this);
 

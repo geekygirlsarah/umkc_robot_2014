@@ -76,6 +76,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
         if(packet.payload == PL_FINISHED_TURNING_90)  {
 	    current_status = theend;
 	    ros_control = false;
+            sendAck();
         }
     }
   
