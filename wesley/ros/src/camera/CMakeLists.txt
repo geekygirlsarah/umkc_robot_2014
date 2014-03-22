@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(camera)
+set(OpenCV_DIR /opt/ros/hydro/share/OpenCV)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -135,3 +136,5 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+add_executable(id_flame src/id_flame.cpp)
+target_link_libraries(id_flame ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

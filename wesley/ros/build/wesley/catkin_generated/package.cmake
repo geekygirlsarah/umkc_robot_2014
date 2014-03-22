@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "wesley")
+set(wesley_MAINTAINER "umkc <umkc@todo.todo>")
+set(wesley_DEPRECATED "")
+set(wesley_VERSION "0.0.0")
+set(wesley_BUILD_DEPENDS "message_generation" "roscpp" "std_msgs")
+set(wesley_RUN_DEPENDS "message_runtime" "roscpp" "std_msgs")
+set(wesley_BUILDTOOL_DEPENDS "catkin")

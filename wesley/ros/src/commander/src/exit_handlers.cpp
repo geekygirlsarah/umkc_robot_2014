@@ -45,6 +45,7 @@ void ExitHandler::id_flame(int returnCode){
 	case -1:
 		ledNotifier.throwLedCode("general_failure");
 		break;
+	}
 }
 
 //id_tool function will take our return code from id_tool program and 

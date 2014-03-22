@@ -7,6 +7,7 @@ project(wesley)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -23,11 +24,11 @@ find_package(catkin REQUIRED COMPONENTS
 #######################################
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+	FILES
+	arm_point.msg
+	arm_angle.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -37,10 +38,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+	DEPENDENCIES
+	std_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -56,6 +57,8 @@ catkin_package(
 #  LIBRARIES wesley
 #  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
+	CATKIN_DEPENDS
+	message_runtime
 )
 
 ###########

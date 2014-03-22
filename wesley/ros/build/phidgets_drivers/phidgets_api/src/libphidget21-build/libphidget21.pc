@@ -1,0 +1,10 @@
+prefix=/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api
+exec_prefix=/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api
+libdir=/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib
+includedir=/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/include/libphidget21
+
+Name: libphidget
+Description: Phidgets library
+Version: 2.1.8.20130723
+Libs: -L${libdir} -lphidget21
+Cflags: -I${includedir}
