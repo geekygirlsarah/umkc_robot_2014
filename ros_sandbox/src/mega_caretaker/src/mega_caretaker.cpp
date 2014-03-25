@@ -26,17 +26,22 @@ void MegaCaretaker::make90DegreeTurn()	{
 	//this will assume the mega already stopped stuff before requesting the eturn 90 
 	//get current orientation...
 	
-		
+	
 	imu_filter_madgwick::imu_yaw srv; 
 	double init_yaw;
-	if(client.call(srv))	{
-		ROS_INFO("Mega:: Current Yaw: %f", srv.response.yaw);
-		init_yaw = srv.response.yaw;
+
+	if(withIMU)	{
+			if(client.call(srv))	{
+				ROS_INFO("Mega:: Current Yaw: %f", srv.response.yaw);
+				init_yaw = srv.response.yaw;
+			}
+			else	{
+				ROS_INFO("Mega:: unsuccessful call for yaw");
+			}
 	}
 	else	{
-		ROS_INFO("Mega:: unsuccessful call for yaw");
+		ROS_INFO("Mega:: not using IMU");
 	}
-
 	
 	//tell mega to keep turning 90 degrees		
 	ROS_INFO("board->mega:: Now turn 90 degrees");
@@ -45,13 +50,18 @@ void MegaCaretaker::make90DegreeTurn()	{
 	packet.payload = PL_TURNCW;	//turn
 	megaTalker.publish(packet);
 	
-	
-	//keep checking until it's 90
-	bool turned90 = false;
-	while(!turned90)	{
-		if(client.call(srv))	{
-			turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
-		}
+
+	if(withIMU)	{
+			//keep checking until it's 90
+			bool turned90 = false;
+			while(!turned90)	{
+				if(client.call(srv))	{
+					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+				}
+			}
+	}
+	else	{
+		ROS_INFO("Mega:: not using IMU");	
 	}
 
 	//
@@ -144,6 +154,9 @@ void MegaCaretaker::run()	{
 void MegaCaretaker::init(ros::NodeHandle n)	{
 	node = n;
 	setup();
+	
+	//get param for using IMU default to true
+	n.param("useIMU", withIMU, true);
 
 	//certain things this node needs
 	//make sure arduino is actually listening
@@ -153,12 +166,19 @@ void MegaCaretaker::init(ros::NodeHandle n)	{
 	}
 
 	//make sure the IMU service is up
-	ros::service::waitForService("getCurrentYaw", 5000);
+	if(withIMU)	{
+		ros::service::waitForService("getCurrentYaw", 5000);
+	}
+	else	{
+		ROS_INFO("Mega:: not using IMU!");
+	}
 }
 
 int main(int argc, char** argv)	{
 	ros::init(argc, argv, "mega_gatekeeper");
 	ros::NodeHandle n;
+
+	
 	MegaCaretaker m;
 	m.init(n);
 	m.run();

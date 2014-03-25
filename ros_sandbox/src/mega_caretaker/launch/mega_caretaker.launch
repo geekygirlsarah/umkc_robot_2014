@@ -1,4 +1,5 @@
 <launch>
+	<param name="useIMU" value="false" type="bool"/>
 	<include file="$(find rosserial_server)/launch/serial.launch"/>
 	<node 	pkg="mega_caretaker" type="mega_caretaker_node"
 		name="MEGA_CARETAKER"

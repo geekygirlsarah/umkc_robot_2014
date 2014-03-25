@@ -17,6 +17,7 @@ namespace mega_caretaker	{
 			private:
 					
 					ros::NodeHandle node;
+					bool withIMU;	//used for debugging - no imu input
 
 					//talking to the arduino
 					ros::Publisher megaTalker;		//publishes to boardToArduino
@@ -36,6 +37,8 @@ namespace mega_caretaker	{
 					//logic functions
 					void make90DegreeTurn();
 					void startWaveCrossing();
+
+
 			public:
 					void init(ros::NodeHandle n);
 					void run();
