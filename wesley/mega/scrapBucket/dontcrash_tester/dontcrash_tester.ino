@@ -1,13 +1,14 @@
+/*
 #include <AnalogDistanceSensor.h>
 #include <Distance2D120X.h>
 #include <DistanceSensor.h>
 
-
+*/
 
 
 #include <motor_cmd.h>
-//#include <QuadEncoder.h>
-#include <fronteyes.h>
+#include <QuadEncoder.h>
+//#include <fronteyes.h>
 
 
 
@@ -21,7 +22,7 @@ motor_cmd sabertooth;
 
 
 
-FrontEyes eyes;
+//FrontEyes eyes;
 
 
 
@@ -29,17 +30,28 @@ void setup()
 {
   
   Serial.begin(9600);
-  Serial.println("begin");
+  //Serial.println("begin");
+  //delay(5000);
   sabertooth.begin(2); 
   //encoders.init();
-  eyes.init(A2,11);
+  //eyes.init(A2,11);
   
 }
 
 void loop()
 {
-   
-   eyes.update();
+  
+  sabertooth.all_stop();
+  delay(5000);
+  sabertooth.forward();
+  delay(5000);
+  /*
+  sabertooth.forward();
+  delay(5000); 
+  *
+ /* 
+ 
+  eyes.update();
    
    if(eyes.obstaclePresent())
      sabertooth.all_stop();
@@ -90,9 +102,10 @@ void loop()
 		}
 	}
 
-
+*/
 
 /*
+
   Serial.print("FL: ");
   Serial.println(positionFL);
   Serial.print(" BL: ");
