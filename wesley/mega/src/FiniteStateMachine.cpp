@@ -69,7 +69,7 @@ void State::exit(){
 FiniteStateMachine::FiniteStateMachine(State& current){
 	needToTriggerEnter = true;
 	currentState = nextState = &current;
-	stateChangeTime = 0;
+	//stateChangeTime = 0;
 }
 
 FiniteStateMachine& FiniteStateMachine::update() {
@@ -89,7 +89,7 @@ FiniteStateMachine& FiniteStateMachine::update() {
 
 FiniteStateMachine& FiniteStateMachine::transitionTo(State& state){
 	nextState = &state;
-	stateChangeTime = millis();
+	//stateChangeTime = millis();
 	return *this;
 }
 
@@ -97,7 +97,7 @@ FiniteStateMachine& FiniteStateMachine::immediateTransitionTo(State& state){
 	currentState->exit();
 	currentState = nextState = &state;
 	currentState->enter();
-	stateChangeTime = millis();
+	//stateChangeTime = millis();
 	return *this;
 }
 
@@ -115,8 +115,10 @@ boolean FiniteStateMachine::isInState( State &state ) const {
 	}
 }
 
+/*
 unsigned long FiniteStateMachine::timeInCurrentState() { 
 	millis() - stateChangeTime; 
 }
+*/
 //END FINITE STATE MACHINE
 

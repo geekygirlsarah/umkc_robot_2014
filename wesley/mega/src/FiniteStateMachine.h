@@ -89,13 +89,13 @@ class FiniteStateMachine {
 		State& getCurrentState();
 		boolean isInState( State &state ) const;
 		
-		unsigned long timeInCurrentState();
+		//unsigned long timeInCurrentState();
 		
 	private:
 		bool 	needToTriggerEnter;
 		State* 	currentState;
 		State* 	nextState;
-		unsigned long stateChangeTime;
+		//unsigned long stateChangeTime;
 };
 
 #endif
