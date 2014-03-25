@@ -14,7 +14,7 @@
  * next -> turn in place until parallel!! 
  */
 
-//woohoo ros time !!!
+//woohoo ros time !
 #include <ros.h>
 #include <mega_caretaker/MegaPacket.h>
 #include "redux_mega_packet_defs.h"
@@ -39,21 +39,23 @@
 #include "FiniteStateMachine.h"
 
 
+//=========================
+//TOP LEVEL DECLARATIONS
+//=========================
+//... this is terrible. please fix me
+//i need nav declaration to be up here, but FSM declaration needs to go after the state stuff T.T
 Navigation nav;
 int gapsThru;
-
-
+FSM stateMachine; //initialize state machine, start in state: waitForCommand
 state_top current_status;
 
 
-//=======================
-//ALL THE ROS THINGS
-//=======================
  //ros meta
 bool ros_control;  //is ros in control?
  
 ros::NodeHandle  nh;	
 mega_caretaker::MegaPacket temp;
+mega_caretaker::MegaPacket advertising_state;  //specifically for advertising state
     
  
     //pubs and subscribers
@@ -62,35 +64,111 @@ void packet_catch(const mega_caretaker::MegaPacket& packet);
 ros::Subscriber<mega_caretaker::MegaPacket> listener("boardToArduino", &packet_catch);
 
 //callback
-      
+
+
+//=======================
+//STATE things
+//=======================
+
+void updateROS_spin()  {
+  nh.spinOnce();
+}
+
+
+
+//-----
+// waitForCommand = mega is sitting idly, waiting for command from board.
+//-----
+State waitForCommand = State(enterWaitForCommand, updateWaitForCommand, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
+void enterWaitForCommand()  {
+  advertising_state.payload = PL_WAITING;
+  talker.publish(&advertising_state);
+  nav.stopNow();
+}
+
+void updateWaitForCommand()  {
+  updateROS_spin();
+}
+
+//------
+//turn90Degrees = mega needs to turn 90 degrees now. requires help from board too.
+//-------
+State turn90Degrees = State(enterTurn90Degrees, updateTurn90Degrees, exitTurn90Degrees);
+void enterTurn90Degrees()  {
+  advertising_state.payload = PL_TURNING_CW_INIT;
+  talker.publish(&advertising_state);
+  nav.stopNow();
+  
+  //Ask board for help!
+  initiateTurn90();
+}
+
+void updateTurn90Degrees()  {
+  updateROS_spin();
+  //update other code?? sensor code??
+}
+
+void exitTurn90Degrees()  {
+  //?????????
+  ros_control = false; //??????? do i need this???????????????????????????????//
+}
+
+
+
+
+//=======================
+//ALL THE ROS THINGS
+//=======================      
 
 //ros msg catching time!
 void packet_catch(const mega_caretaker::MegaPacket& packet)  {
     if(packet.msgType == MSGTYPE_HEY)  {
         if(packet.payload == PL_START_WAVE_CROSSING)  {
 	    ros_control = false;
-            current_status =  start; 
+            //current_status =  start; 
             //gotta put out an ack T.T
+            
+            sendAck();
+            stateMachine.immediateTransitionTo(turn90Degrees); 
             sendAck();
             
         }
     }
     else if(packet.msgType == MSGTYPE_ACK)  {
         if(packet.payload == PL_FINISHED_TURNING_90)  {
-	    current_status = theend;
+	    //current_status = theend;
 	    ros_control = false;
+
+            //new thing - immediate transition to finished state
+            stateMachine.immediateTransitionTo(waitForCommand); 
+            
             sendAck();
+        }
+        else if(packet.payload == PL_GENERAL_ACK)  {
+          //this is a general ack... depdngin on what state we are in, we are ok
         }
     }
   
     else if(packet.msgType == MSGTYPE_MOTORCOM)  {
         if(packet.payload == PL_STOP)  {
-          //STOP STOP STOP!!!
+          //STOP STOP STOP!
           nav.stopNow();  //may need to write in more robust code to keep stopping until...???
+          sendAck();
         }
         else if (packet.payload == PL_TURNCW)  {
-          nav.turnClockwiseForever();
+          //nav.turnClockwiseForever();
+          sendAck();
         }
+    }
+    else if(packet.msgType == MSGTYPE_HANDSHAKE)    {
+      if(packet.payload == PL_SYN)  {
+        temp.msgType = MSGTYPE_HANDSHAKE;
+        temp.payload = PL_SYN_ACK;
+        talker.publish(&temp);
+      }
+      else if (packet.payload == PL_ACK)  {
+        //connection with board established!      
+      }
     }
 }
 
@@ -100,36 +178,14 @@ void sendAck()  {
   talker.publish(&temp);
 }
 
-void advertiseState(state_top now)  {
-  temp.msgType = MSGTYPE_STATE;
-  switch(now)    {
-    case waiting:
-		temp.payload = PL_WAITING;
-		break;
-	case start:
-		temp.payload = PL_START;
-		break;
-	case turningCW_init:
-		temp.payload = PL_TURNING_CW_INIT;
-		break;
-	case turningCW_wait:
-		temp.payload = PL_TURNING_CW_WAIT;
-		break;
-	case turningCW_fin:
-		temp.payload = PL_TURNING_CW_FIN;
-		break;
-  	case theend:
-		temp.payload = PL_END;
-		break;
-  }
-  talker.publish(&temp);
-
-}
 
 void initROS()  {
   nh.initNode();
   nh.advertise(talker);
   nh.subscribe(listener);
+  
+  advertising_state.msgType = MSGTYPE_STATE;
+
 
 }
 
@@ -146,11 +202,6 @@ void initiateTurn90()  {
 }
 
 
-//=======================
-//STATE things
-//=======================
-//State fade = State(fadeEnter, fadeUpdate, NULL);
-
 
 
 //=======================
@@ -165,12 +216,25 @@ void setup() {
         gapsThru = 0;
         ros_control = true;
         initROS();
+        stateMachine.init(waitForCommand);
 }
 
 void loop() {
         
+        //start out in waitForcommand.
+        //state changes for now (at least) to go to turn90 are handled up there.
+        
+        //send the HEY I"m ready to be listening to stuff!!
+        
+        
+        stateMachine.update();
+  
+  
+ /*
+ 
+         //old code for testing 90 degree with old state machine style OLD HORRIBLE STATE MACHINE STYLE DIIIIIE
          nh.spinOnce();
-        //advertiseState(current_status);  //at this point it will FLOOD the channels, but i just want to hear something from you mega!!!!2   
+        //advertiseState(current_status);  //at this point it will FLOOD the channels, but i just want to hear something from you mega!F2   
         switch(current_status)  {
           case waiting:
             //looooooooop test forever
@@ -196,6 +260,8 @@ void loop() {
           
         
         }
+  */
+  
   
   
   /*

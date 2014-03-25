@@ -26,6 +26,10 @@
 	const static int8_t PL_TURNCW = 11;
 
 
+	const static int8_t MSGTYPE_HANDSHAKE = 4;
+	const static int8_t PL_SYN = 0;
+	const static int8_t PL_SYN_ACK = 1;
+	const static int8_t PL_ACK = 2;
 
 
 #endif

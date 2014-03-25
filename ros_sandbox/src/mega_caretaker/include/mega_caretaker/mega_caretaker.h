@@ -18,6 +18,7 @@ namespace mega_caretaker	{
 					
 					ros::NodeHandle node;
 					bool withIMU;	//used for debugging - no imu input
+					bool megaConnectionOK;	//starts as false. have i establshed comms with mega yet?
 
 					//talking to the arduino
 					ros::Publisher megaTalker;		//publishes to boardToArduino
@@ -29,6 +30,7 @@ namespace mega_caretaker	{
 					ros::ServiceClient client;				//client for getCurrentYaw service
 
 					void setup();
+					void attemptMegaConnection();
 
 					//callbacks galore
 					void heardFromMega(const mega_caretaker::MegaPacket &packet);

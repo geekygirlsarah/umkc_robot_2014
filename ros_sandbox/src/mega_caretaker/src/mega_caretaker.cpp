@@ -44,6 +44,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 	}
 	
 	//tell mega to keep turning 90 degrees		
+	
 	ROS_INFO("board->mega:: Now turn 90 degrees");
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
@@ -109,6 +110,20 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 			ROS_INFO("mega->board:: Mega is done with wave crossing!");
 		}
 	}
+	else if(packet.msgType == MSGTYPE_STATE)	{
+		if(packet.payload == PL_WAITING)	{
+			ROS_INFO("mega->board:: State waiting");
+		}
+		else if(packet.payload == PL_TURNING_CW_INIT)	{
+			ROS_INFO("mega->board:: State turningCw start");
+		}
+	}
+	else if(packet.msgType == MSGTYPE_HANDSHAKE)	{
+		if(packet.payload == PL_SYN_ACK)	{
+			ROS_INFO("mega->board:: Received syn-ack");
+			megaConnectionOK = true;
+		}
+	}
 }
 
 
@@ -151,7 +166,27 @@ void MegaCaretaker::run()	{
 
 }
 
+void MegaCaretaker::attemptMegaConnection()	{
+	ROS_INFO("Attempting to connect with the Mega...");
+	mega_caretaker::MegaPacket packet;
+	packet.msgType = MSGTYPE_HANDSHAKE;
+	packet.payload = PL_SYN;
+	megaTalker.publish(packet);
+
+	//need to wait until you hear the syn-ack from mega
+	while(!megaConnectionOK)	{
+		ros::spinOnce();
+	}
+
+	packet.msgType = MSGTYPE_HANDSHAKE;
+	packet.payload = PL_ACK;
+	megaTalker.publish(packet);
+
+	ROS_INFO("Connection established with mega.");//TODO TODO make this be a timeout thing so it doesn't block here
+}
+
 void MegaCaretaker::init(ros::NodeHandle n)	{
+	megaConnectionOK = false;
 	node = n;
 	setup();
 	
@@ -172,6 +207,11 @@ void MegaCaretaker::init(ros::NodeHandle n)	{
 	else	{
 		ROS_INFO("Mega:: not using IMU!");
 	}
+
+
+	//need to see if mega is actually responding... if not keep trying
+	attemptMegaConnection();
+	
 }
 
 int main(int argc, char** argv)	{
