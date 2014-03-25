@@ -12,21 +12,6 @@ using namespace cv;
 #include <ros/ros.h>
 #include <wesley/arm_point.h>
 
-
-wesley::arm_point t;
-bool waiting = true;
-void arm_get_point(const wesley::arm_point& msg) {
-	t.direct_mode = msg.direct_mode;
-	t.x = msg.x;
-	t.y = msg.y;
-	t.z = msg.z;
-	t.p = msg.p;
-	t.r = msg.r;
-	t.cmd = msg.cmd;
-
-	waiting = false;
-}
-
 double distance(double apparent_area_px, short tool=0) {
 	// formula for this is a linear porpotionality:
 	// 
@@ -104,31 +89,27 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	VideoCapture capture(0);
-	if (!capture.isOpened()) {
-		std::cerr << "unable to open default camera(0)" << std::endl;
-		return(40);
-	}
-
-	const double tool_d[4] = {
-		0.0f,
-		72.4,
-		57.15,
-		50.8,
-	};
+//	VideoCapture capture(0);
+//	if (!capture.isOpened()) {
+//		std::cerr << "unable to open default camera(0)" << std::endl;
+//		return(40);
+//	}
 
 	Mat frame, thresh;
 	namedWindow("frame", CV_WINDOW_AUTOSIZE);
+	frame = imread("snapshot.png");
 
 	ros::NodeHandle nh;
 	ros::Publisher pub = nh.advertise<wesley::arm_point>("/arm/put/point", 1000);
-	ros::Subscriber sub = nh.subscribe("/arm/response", 1000, &arm_get_point);
 
-	ROS_INFO("DIST --> waiting for /arm/response");
-	do {
-		// wait until the arm is in position to take a picture;
-		ros::spinOnce();
-	} while(waiting);
+	wesley::arm_point t;
+	t.direct_mode = true;
+	t.x = -28.8;
+	t.y = 243.0;
+	t.z = 149.0;
+	t.p = -85.0;
+	t.r =  90.0;
+	t.cmd = "grip";
 
 	std::vector<std::vector<Point> > contours;
 	Moments mu;
@@ -139,15 +120,10 @@ int main(int argc, char* argv[]) {
 
 	tally_box tally;
 
-capture:
-	for (int i = 7; i > 0; i--) {
-		capture >> frame;
-	}
 	cvtColor(frame, thresh, CV_RGB2GRAY);
 	threshold(thresh, thresh, 80, 255, CV_THRESH_BINARY);
 	bitwise_xor(thresh, Scalar(255), thresh);
 
-	// find initial contours
 	findContours(thresh,
 				 contours,
 				 CV_RETR_EXTERNAL,
@@ -171,11 +147,9 @@ capture:
 					 approx,
 					 arcLength(contours[biggest_contour], true) * .015,
 					 true);
-		// find the area of the approximated contour
 		max_area = contourArea(approx);
 		tally.append(max_area);
 
-		// display the area on the frame
 		std::stringstream ss;
 		ss << "area: " << max_area;
 		putText(frame,
@@ -186,10 +160,7 @@ capture:
 				CV_RGB(0xFF, 0xDF, 0x00),
 				2);
 		ss.str("");
-
-		// calculate the distance to the object along the camera's z axis
 		double z_dist = distance(max_area, tool);
-		// - and display
 		ss << "dist: " << z_dist;
 		putText(frame,
 				ss.str(),
@@ -200,11 +171,9 @@ capture:
 				2);
 		ss.str("");
 
-		// use moments to find the center of the contour
 		mu = moments(approx, false);
 		mc = Point2f((mu.m10 / mu.m00),
 					 (mu.m01 / mu.m00));
-		// - display the center
 		ss << "cntr: " << mc;
 		putText(frame,
 				ss.str(),
@@ -215,12 +184,11 @@ capture:
 				2);
 		ss.str("");
 
-		// offset of the contour center from the center of the camera's frame
-		//    offset is currently in pixels
-		offset.x = mc.x - center.x;
-		offset.y = -(mc.y - center.y);
-		// - and display the offset
-		ss << "off_c: " << offset;
+	//	mu = moments(contours[biggest_contour], false);
+		offset.x = mc.x - camera.x;
+		offset.y = mc.y - camera.y;
+
+		ss << "offs: " << offset;
 		putText(frame,
 				ss.str(),
 				Point(300, 60),
@@ -230,23 +198,12 @@ capture:
 				2);
 		ss.str("");
 
-		// find the longest edge of the square tool (it's a rectangle)
 		float off_x, off_y;
-		if (( sqrt(pow((approx[0].x - approx[1].x), 2) + pow((approx[0].y - approx[1].y), 2)) ) >
-		    ( sqrt(pow((approx[1].x - approx[2].x), 2) + pow((approx[1].y - approx[2].y), 2)) ) ) {
-			off_x = approx[1].x - approx[0].x;
-			off_y = approx[1].y - approx[0].y;
-			putText(frame, "ha", approx[1], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
-		} else {
-			off_x = approx[2].x - approx[1].x;
-			off_y = approx[2].y - approx[1].y;
-			putText(frame, "ha", approx[2], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
-		}
-		// determine the offset angle of this edge from a straight up and down.
-		//    this will be used to line the grip to the edge of the tool
+		off_x = approx[3].x - approx[2].x;
+		off_y = approx[3].y - approx[2].y;
 		float off_r = atan2(off_y, off_x);
-		float off_d = 90 - (off_r * 180 / 3.14159);
-		// - and display
+		float off_d = 90 - -(off_r * 180 / 3.14159);
+
 		ss << "off_d: " << off_d;
 		putText(frame,
 				ss.str(),
@@ -257,67 +214,13 @@ capture:
 				2);
 		ss.str("");
 
-//			ss << "h_dist: " << sqrt(pow((center.x - mc.x), 2) + pow((center.y - mc.y), 2));
-		double hypot = sqrt(pow((approx[0].x - approx[2].x), 2) + pow((approx[0].y - approx[2].y), 2));
-		ss << "hypot: " << hypot;
-		putText(frame,
-				ss.str(),
-				Point(410, 190),
-				FONT_HERSHEY_PLAIN,
-				1.5,
-				CV_RGB(0xFF, 0xDF, 0x00),
-				2);
-		ss.str("");
-
-		// determine the ratio of mm / px to find the linear distance of the offset.
-		const double ratio = tool_d[tool] / hypot;
-		ss << "ratio: " << ratio;
-		putText(frame,
-				ss.str(),
-				Point(410, 220),
-				FONT_HERSHEY_PLAIN,
-				1.5,
-				CV_RGB(0xFF, 0xDF, 0x00),
-				2);
-		ss.str("");
-
-		// translate the offset of contour center and frame center into mm.
-		offset.x *= ratio;
-		offset.y *= ratio;
-		offset.x += 47 + (20 * cos((off_d * 3.14159 / 180.0)));
-		offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
-		ss << "off_m: " << offset;
-		putText(frame,
-				ss.str(),
-				Point(300, 90),
-				FONT_HERSHEY_PLAIN,
-				1.5,
-				CV_RGB(0xFF, 0xDF, 0x00),
-				2);
-		ss.str("");
-
-		ss << "t: [" << t.x
-		   << ", " << t.y
-		   << ", " << t.z
-		   << ", " << t.p
-		   << ", " << t.r
-		   << "]";
-		putText(frame,
-				ss.str(),
-				Point(20, 450),
-				FONT_HERSHEY_PLAIN,
-				1.5,
-				CV_RGB(0xFF, 0xDF, 0x00),
-				2);
-		ss.str("");
-
 		wesley::arm_point p;
 		p.direct_mode = true;
 		p.x = t.x + offset.x;
 		p.y = t.y + offset.y;
-		p.z = t.z - z_dist - 25;
+		p.z = t.z - z_dist;
 		p.p = t.p;
-		p.r = t.r - off_d;
+		p.r = t.r + off_d;
 		p.cmd = "pick";
 
 		ss << "p: [" << p.x
@@ -339,13 +242,9 @@ capture:
 	//	drawContours(frame, approx, -1, CV_RGB(0xD4, 0x35, 0xCD));
 
 		circle(frame, mc, 5, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
-		circle(frame, approx[0], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
-		putText(frame, "0", approx[0], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
-		circle(frame, approx[1], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
-		circle(frame, approx[2], 2, CV_RGB(0x24, 0x43, 0xD6), CV_FILLED);
 	}
 	imshow("frame", frame);
-	short keypress;
+	short keypress = 0;
 	do {
 		keypress = waitKey();
 		if(keypress == 27) {
@@ -354,10 +253,8 @@ capture:
 			std::cout << approx << std::endl;
 		} else if (keypress == 100) {
 			std::cout << "approx.size(" << approx.size() << ")" << std::endl;
-		} else if (keypress == 99) {
-			goto capture;
 		}
-	} while(keypress != 27);
+	} while (keypress != 27);
 
 	std::cout << "areas: mean[" << tally.mean() << "] and mode[" << tally.mode() << "]" << std::endl;
 	return(0);

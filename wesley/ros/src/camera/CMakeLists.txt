@@ -136,5 +136,15 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+add_executable(id_tool src/id_tool.cpp)
+target_link_libraries(id_tool ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 add_executable(id_flame src/id_flame.cpp)
 target_link_libraries(id_flame ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(distance_loop src/distance_loop.cpp)
+target_link_libraries(distance_loop ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(distance src/distance.cpp)
+target_link_libraries(distance ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(camera_snapshot src/camera_snap.cpp)
+target_link_libraries(camera_snapshot ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(read_file src/read_file.cpp)
+target_link_libraries(read_file ${catkin_LIBRARIES})
