@@ -36,6 +36,8 @@
 #include <movement.h>
 #include "top_level_state.h"  //silly arduino doesn't let me use enum as parameter unless it's in another header file T.T
 
+#include "FiniteStateMachine.h"
+
 
 Navigation nav;
 int gapsThru;
@@ -44,8 +46,9 @@ int gapsThru;
 state_top current_status;
 
 
-
-    
+//=======================
+//ALL THE ROS THINGS
+//=======================
  //ros meta
 bool ros_control;  //is ros in control?
  
@@ -142,6 +145,17 @@ void initiateTurn90()  {
     talker.publish(&temp);
 }
 
+
+//=======================
+//STATE things
+//=======================
+//State fade = State(fadeEnter, fadeUpdate, NULL);
+
+
+
+//=======================
+//MAIn stuff
+//=======================
 
 
 void setup() {
@@ -302,4 +316,5 @@ void loop() {
      */  
      
 }
+
 
