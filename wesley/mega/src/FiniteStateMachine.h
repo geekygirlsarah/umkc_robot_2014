@@ -81,7 +81,11 @@ class State {
 class FiniteStateMachine {
 	public:
 		FiniteStateMachine(State& current);
-		
+                
+                FiniteStateMachine();
+                FiniteStateMachine& init(State& current);
+                		
+
 		FiniteStateMachine& update();
 		FiniteStateMachine& transitionTo( State& state );
 		FiniteStateMachine& immediateTransitionTo( State& state );

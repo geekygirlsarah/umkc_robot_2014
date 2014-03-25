@@ -66,10 +66,23 @@ void State::exit(){
 
 
 //FINITE STATE MACHINE
+FiniteStateMachine::FiniteStateMachine(){
+	needToTriggerEnter = true;
+	//currentState = nextState = &current;
+	//stateChangeTime = 0;
+}
+
 FiniteStateMachine::FiniteStateMachine(State& current){
 	needToTriggerEnter = true;
 	currentState = nextState = &current;
 	//stateChangeTime = 0;
+}
+
+FiniteStateMachine& FiniteStateMachine::init(State& current){
+	needToTriggerEnter = true;
+	currentState = nextState = &current;
+	//stateChangeTime = 0;
+        return *this;
 }
 
 FiniteStateMachine& FiniteStateMachine::update() {
