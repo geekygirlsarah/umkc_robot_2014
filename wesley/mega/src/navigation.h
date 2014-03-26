@@ -249,6 +249,9 @@ class Navigation {
                 void turnClockwiseForever()  {
                   sabertooth.turnCW();
                 }
+                void turnCounterClockwiseForever()  {
+                  sabertooth.turnCCW();
+                }
                 void stopNow()  {
                   sabertooth.all_stop();
                 }

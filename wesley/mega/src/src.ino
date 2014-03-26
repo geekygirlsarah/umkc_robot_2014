@@ -222,6 +222,9 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
           nav.turnClockwiseForever();
           
         }
+        else if (packet.payload == PL_TURNCCW)  {
+           nav.turnCounterClockwiseForever(); 
+        }
     }
     else if(packet.msgType == MSGTYPE_HANDSHAKE)    {
       if(packet.payload == PL_SYN)  {
