@@ -68,6 +68,7 @@ void MegaCaretaker::make90DegreeTurn()	{
 	//
 	//once it IS 90 degrees... tell the mega to STOP ! we're done
 	//
+	ROS_INFO("current yaw: %f", srv.response.yaw);
 	ROS_INFO("board->mega:: it's 90 deg stop!!");
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
 	packet.payload = PL_STOP;	//STOP RIGHT NOW
@@ -112,7 +113,7 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	}
 	else if(packet.msgType == MSGTYPE_STATE)	{
 		if(packet.payload == PL_WAITING)	{
-			ROS_INFO("mega->board:: State waiting");
+			ROS_INFO("mega->board:: mega ready for commands");
 		}
 		else if(packet.payload == PL_TURNING_CW_INIT)	{
 			ROS_INFO("mega->board:: State turningCw start");
@@ -161,7 +162,9 @@ void MegaCaretaker::run()	{
 
 	//tell it to DO STUFF!! and if it doesn't hear an ack KEEP TELLING IT STUFF SD:FKLJSDL:FKJSDL:kj
 	//dont do ANYTHING until tthere's a subscriber listening!!!!
-	startWaveCrossing();
+
+	//need to wait for mega to be in command state!
+startWaveCrossing();
 	ros::spin();
 
 }

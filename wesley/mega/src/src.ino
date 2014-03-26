@@ -74,6 +74,20 @@ void updateROS_spin()  {
   nh.spinOnce();
 }
 
+//-----------
+//initializeComms - this is for the three way handshake-ing
+//-----------
+
+State initializeComms = State(enterInitializeComms, updateInitializeComms, NULL);
+
+void enterInitializeComms()  {
+  nav.stopNow();
+}
+
+void updateInitializeComms()  {
+  updateROS_spin();
+  //no talking. just waiting for syn + ack
+}
 
 
 //-----
@@ -81,13 +95,17 @@ void updateROS_spin()  {
 //-----
 State waitForCommand = State(enterWaitForCommand, updateWaitForCommand, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
 void enterWaitForCommand()  {
+  
   advertising_state.payload = PL_WAITING;
   talker.publish(&advertising_state);
+  
   nav.stopNow();
+  //this is replaced by the board initiated three way handshake
 }
 
 void updateWaitForCommand()  {
   updateROS_spin();
+  
 }
 
 //------
@@ -110,6 +128,7 @@ void updateTurn90Degrees()  {
 
 void exitTurn90Degrees()  {
   //?????????
+  nav.stopNow();
   ros_control = false; //??????? do i need this???????????????????????????????//
 }
 
@@ -128,7 +147,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
             //current_status =  start; 
             //gotta put out an ack T.T
             
-            sendAck();
+           
             stateMachine.immediateTransitionTo(turn90Degrees); 
             sendAck();
             
@@ -156,7 +175,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
           sendAck();
         }
         else if (packet.payload == PL_TURNCW)  {
-          //nav.turnClockwiseForever();
+          nav.turnClockwiseForever();
           sendAck();
         }
     }
@@ -167,7 +186,8 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
         talker.publish(&temp);
       }
       else if (packet.payload == PL_ACK)  {
-        //connection with board established!      
+        //connection with board established! 
+        stateMachine.immediateTransitionTo(waitForCommand);
       }
     }
 }
@@ -216,7 +236,7 @@ void setup() {
         gapsThru = 0;
         ros_control = true;
         initROS();
-        stateMachine.init(waitForCommand);
+        stateMachine.init(initializeComms);
 }
 
 void loop() {
@@ -226,7 +246,7 @@ void loop() {
         
         //send the HEY I"m ready to be listening to stuff!!
         
-        
+       // nh.spinOnce();
         stateMachine.update();
   
   
