@@ -118,6 +118,9 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		else if(packet.payload == PL_TURNING_CW_INIT)	{
 			ROS_INFO("mega->board:: State turningCw start");
 		}
+		else if(packet.payload == PL_LOOKING_FOR_GAP)	{
+			ROS_INFO("mega->board:: Looking for gap");
+		}
 	}
 	else if(packet.msgType == MSGTYPE_HANDSHAKE)	{
 		if(packet.payload == PL_SYN_ACK)	{
