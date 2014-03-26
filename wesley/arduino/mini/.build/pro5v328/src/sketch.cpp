@@ -1,6 +1,13 @@
+#include <Arduino.h>
 #include <ros.h>					// basic ROS objects
 #include <geometry_msgs/Point.h>	// a pre-generated 3 number message
 #include <std_msgs/Bool.h>			// button: true / false
+void setup();
+void loop();
+#line 1 "src/sketch.ino"
+//#include <ros.h>					// basic ROS objects
+//#include <geometry_msgs/Point.h>	// a pre-generated 3 number message
+//#include <std_msgs/Bool.h>			// button: true / false
 
 // majority of code lives in the ROS namespace
 using namespace ros;
