@@ -41,7 +41,8 @@ private:
   Distance2D120X Dist2;  
   Distance2D120X Dist3;
 
-  const static int threshold = 20;  //threshold for ping sensor detecting a hole (cm)
+  const static int threshold_default = 10;  //threshold for ping sensor detecting a hole (cm)
+  int threshold;  //threshold for ping sensor detecting a hole (cm)
 
 
   
@@ -71,14 +72,26 @@ public:
   enum ternary {NO_GAP, MAYBE_GAP, YES_GAP};  
   
 
-
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
-  void init(int pin1, int pin2, int pin3)  {
+  void init(int pin1, int pin2, int pin3 )  {
     Dist1.begin(pin1);
     Dist2.begin(pin2);
     Dist3.begin(pin3);
     check = 3;
+    threshold = threshold_default;
+    gap_status = no_gap;    //we start out assuming no hole
+  }
+
+
+  //Which 3 pins are you using to find this gap?
+  //must be in order, from right or left doesn't matter
+  void init(int pin1, int pin2, int pin3, int thresh)  {
+    Dist1.begin(pin1);
+    Dist2.begin(pin2);
+    Dist3.begin(pin3);
+    check = 3;
+    threshold = thresh;
     gap_status = no_gap;    //we start out assuming no hole
   }
 
@@ -147,8 +160,9 @@ public:
 			 
 			  break;
 			case yes_gap:
-			  if(!checkYesGap())
-				gap_status = no_gap;
+			
+			//  if(!checkYesGap())
+			//	gap_status = no_gap;
 			  break;
 
 			}
