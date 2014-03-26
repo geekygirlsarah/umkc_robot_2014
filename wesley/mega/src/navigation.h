@@ -55,7 +55,7 @@ class Navigation {
                   mov.init(&sabertooth);
                   Serial.println("ready");
                   gapfind.init(A0,A1,A2);
-                  eyes.init(A3,5);
+                  eyes.init(A3,8);
                   mag.init(A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
                 
@@ -151,10 +151,10 @@ class Navigation {
                   //console.println("moving \t checking gap");
                   //check if a gap has been found
                   
-                  /*
+                  
                   gapfind.printDebug();
                   gapfind.printGapStatus();
-                  */
+                  
                   gapfind.update();
                   
                   

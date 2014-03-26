@@ -49,6 +49,9 @@ int gapsThru;
 FSM stateMachine; //initialize state machine, start in state: waitForCommand
 state_top current_status;
 
+//hacky hacky hacky :(
+bool handshakeOK;    //used to sync handshake for old state machine
+
 
  //ros meta
 bool ros_control;  //is ros in control?
@@ -216,7 +219,11 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
       }
       else if (packet.payload == PL_ACK)  {
         //connection with board established! 
+        
         stateMachine.immediateTransitionTo(waitForCommand);
+        
+        //current_state = start;
+        handshakeOK = true;
       }
     }
 }
@@ -258,14 +265,18 @@ void initiateTurn90()  {
 //=======================
 
 
+
+
 void setup() {
 	Serial.begin(9600);
 	nav.init();
-        current_status = waiting;
+        current_status = initComms;  //no synack, no rosssSS!
         gapsThru = 0;
         ros_control = true;
         initROS();
         stateMachine.init(initializeComms);
+        
+        handshakeOK = false;
 }
 
 void loop() {
@@ -276,7 +287,7 @@ void loop() {
         //send the HEY I"m ready to be listening to stuff!!
         
        // nh.spinOnce();
-        stateMachine.update();
+       // stateMachine.update();
   
   
  /*
@@ -313,17 +324,25 @@ void loop() {
   
   
   
-  /*
+       
         switch (current_status) {
+          case initComms:
+            nh.spinOnce();
+            //wait for syn, send syn-ack, wait for ack
+            if(handshakeOK)  {
+               current_status = start;
+            }
+            break;
+          
           case start:
             //let's keep going
             //console.println("start \t go forward!");
             //
             Serial.println("start!");
-            delay(5000);
+             delay(5000);
             //current_status = moving;
-             current_status = realignParallel;
-            //current_status = crossingwave;
+             //current_status = realignParallel;
+            current_status = crossingwave;
             break;
           case moving:
             Serial.println("state moving");
@@ -331,6 +350,7 @@ void loop() {
             if(nav.lookingForGap())  {
               Serial.println("GAP FOUND!");
               current_status = gapfound;
+              //current_status = theend;
               delay(300);
             }
             //nav.traveling(); //this kind of works. not really :(
@@ -355,7 +375,7 @@ void loop() {
                  current_status = realignParallel ; 
                }
                delay(300);
-//               current_status = theend;
+               current_status = theend;
              }
             break;
           case realignParallel:
@@ -413,7 +433,7 @@ void loop() {
         }
         
        
-       */ 
+      
           
         //delay(50);  //make it readable
         //gapfind.printDebug();
