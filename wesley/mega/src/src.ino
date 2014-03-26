@@ -114,14 +114,14 @@ void updateWaitForCommand()  {
 //------
 //turn90Degrees = mega needs to turn 90 degrees now. requires help from board too.
 //-------
-State turn90Degrees = State(enterTurn90Degrees, updateTurn90Degrees, exitTurn90Degrees);
-void enterTurn90Degrees()  {
+State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitTurn90Degrees);
+void enterTurn90Degrees_cw()  {
   advertising_state.payload = PL_TURNING_CW_INIT;
   talker.publish(&advertising_state);
   nav.stopNow();
   
   //Ask board for help!
-  initiateTurn90();
+  initiateTurn90_CW();
 }
 
 void updateTurn90Degrees()  {
@@ -134,6 +134,17 @@ void exitTurn90Degrees()  {
   nav.stopNow();
   ros_control = false; //??????? do i need this???????????????????????????????//
 }
+
+State turn90Degrees_CCW = State(enterTurn90Degrees_ccw, updateTurn90Degrees, exitTurn90Degrees);
+void enterTurn90Degrees_ccw()  {
+  advertising_state.payload = PL_TURNING_CCW_INIT;
+  talker.publish(&advertising_state);
+  nav.stopNow();
+  
+  //Ask board for help!
+  initiateTurn90_CCW();
+}
+
 
 //----------
 //lookForGap - travel straight thru lanes, while looking for gap. Stop once we find a gap.
@@ -179,20 +190,21 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
             //current_status =  start; 
             //gotta put out an ack T.T
             
+            //CHANGE THIS !!!! only for testigngkgadjf;lasdkfjdl;askfj!
            
-            stateMachine.immediateTransitionTo(lookForGap); 
+            stateMachine.immediateTransitionTo(turn90Degrees_CW); 
             
             
         }
     }
     else if(packet.msgType == MSGTYPE_ACK)  {
-        if(packet.payload == PL_FINISHED_TURNING_90)  {
+        if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
 	    //current_status = theend;
 	    ros_control = false;
 
             //new thing - immediate transition to finished state
             stateMachine.immediateTransitionTo(waitForCommand); 
-            
+             
        
         }
         else if(packet.payload == PL_GENERAL_ACK)  {
@@ -251,12 +263,18 @@ void sendMsg_finishedWaveCrossing()  {
   talker.publish(&temp);
 }
 
-void initiateTurn90()  {
+void initiateTurn90_CW()  {
     temp.msgType = MSGTYPE_HEY;
-    temp.payload = PL_START_TURNING_90;
+    temp.payload = PL_START_TURNING_90_CW;
     talker.publish(&temp);
 }
 
+
+void initiateTurn90_CCW()  {
+    temp.msgType = MSGTYPE_HEY;
+    temp.payload = PL_START_TURNING_90_CCW;
+    talker.publish(&temp);
+}
 
 
 
@@ -287,7 +305,7 @@ void loop() {
         //send the HEY I"m ready to be listening to stuff!!
         
        // nh.spinOnce();
-       // stateMachine.update();
+       stateMachine.update();
   
   
  /*
@@ -324,7 +342,7 @@ void loop() {
   
   
   
-       
+       /*
         switch (current_status) {
           case initComms:
             nh.spinOnce();
@@ -394,7 +412,7 @@ void loop() {
              //current_status = moving;
               //send request to board...
                   //going nto hand over control to ros
-                  initiateTurn90();  //hand control over to ROS
+                  initiateTurn90_CW();  //hand control over to ROS
                   
                   //board itself will tell motors to GO or to STOP
                   //will send an OK 
@@ -432,7 +450,7 @@ void loop() {
         
         }
         
-       
+       */
       
           
         //delay(50);  //make it readable

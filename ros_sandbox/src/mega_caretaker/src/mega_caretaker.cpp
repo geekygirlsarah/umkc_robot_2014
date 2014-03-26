@@ -21,7 +21,7 @@ using namespace mega_caretaker;
 //then tell the motors to stop.
 //Then it will send an ack back to indicate it's done.
 //--> will only take care of TURNING and back. should be able to work with both turnign CW and CCW, only looking for the CHANGE
-void MegaCaretaker::make90DegreeTurn()	{
+void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 
 	//this will assume the mega already stopped stuff before requesting the eturn 90 
 	//get current orientation...
@@ -44,11 +44,17 @@ void MegaCaretaker::make90DegreeTurn()	{
 	}
 	
 	//tell mega to keep turning 90 degrees		
-	
-	ROS_INFO("board->mega:: Now turn 90 degrees");
+
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
-	packet.payload = PL_TURNCW;	//turn
+	if(given_payload == PL_START_TURNING_90_CW)	{
+			ROS_INFO("board->mega:: Now turn 90 degrees CW");
+			packet.payload = PL_TURNCW;	//turn
+	}
+	else {
+			ROS_INFO("board->mega:: Now turn 90 degrees CCW");
+			packet.payload = PL_TURNCCW;	//turn
+	}
 	megaTalker.publish(packet);
 	
 
@@ -86,19 +92,19 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 
 	//mega wants board to help with 90 degree thing
 	if(packet.msgType == MSGTYPE_HEY)	{
-		if(packet.payload == PL_START_TURNING_90)	{
+		if(packet.payload == PL_START_TURNING_90_CW || packet.payload == PL_START_TURNING_90_CCW)	{
 			ROS_INFO("mega->board:: please help turn 90 degrees");
-			mega_caretaker::MegaPacket packet;
-			packet.msgType = MSGTYPE_ACK;		//ack to mega
-			packet.payload = PL_GENERAL_ACK;
-			megaTalker.publish(packet);
+			mega_caretaker::MegaPacket temp;
+			temp.msgType = MSGTYPE_ACK;		//ack to mega
+			temp.payload = PL_GENERAL_ACK;
+			megaTalker.publish(temp);
 			ROS_INFO("board->mega:: turning 90 degreees!");
 
-			make90DegreeTurn();			
+			make90DegreeTurn(packet.payload);			
 
-			packet.msgType = MSGTYPE_ACK;	//ros control finished
-			packet.payload = PL_FINISHED_TURNING_90;
-			megaTalker.publish(packet);
+			temp.msgType = MSGTYPE_ACK;	//ros control finished - no need to modify payload, cw and ccw are still same
+			temp.payload = packet.payload;
+			megaTalker.publish(temp);
 			ROS_INFO("board->mega:: sending finished turning 90");
 		}
 	}
@@ -118,6 +124,10 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		else if(packet.payload == PL_TURNING_CW_INIT)	{
 			ROS_INFO("mega->board:: State turningCw start");
 		}
+		else if(packet.payload == PL_TURNING_CCW_INIT)	{
+			ROS_INFO("mega->board:: State turningCCw start");
+		}
+
 		else if(packet.payload == PL_LOOKING_FOR_GAP)	{
 			ROS_INFO("mega->board:: Looking for gap");
 		}

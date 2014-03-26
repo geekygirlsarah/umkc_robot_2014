@@ -37,7 +37,7 @@ namespace mega_caretaker	{
 					void heardFromOrientation(const std_msgs::String &packet);
 
 					//logic functions
-					void make90DegreeTurn();
+					void make90DegreeTurn(int8_t payload);
 					void startWaveCrossing();
 
 
