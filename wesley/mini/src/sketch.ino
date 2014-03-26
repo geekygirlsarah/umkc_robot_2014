@@ -1,5 +1,5 @@
 #include <ros.h>					// basic ROS objects
-#include <geometry_msgs/Point.h>	// a pre-generated 3 number message
+#include <std_msgs/Byte.h>			// leds are condensed into one byte
 #include <std_msgs/Bool.h>			// button: true / false
 
 // majority of code lives in the ROS namespace
@@ -7,9 +7,12 @@ using namespace ros;
 
 // set pins to easy-to-read names
 const byte BTN =  7;
-const byte RED =  8;
-const byte YLW =  9;
-const byte GRN = 10;
+const byte RED1 = A7;
+const byte RED2 = A6;
+const byte YLW1 = A5;
+const byte YLW2 = A4;
+const byte GRN1 = A3;
+const byte GRN2 = A2;
 
 // subscriber call back. as soon as mini has latched into ROS, this topic
 //    is available to be written to. receive a 3 number message and set
@@ -18,10 +21,23 @@ const byte GRN = 10;
 // WESLEY has a 6 LED status block, and so we'll need a custom message.
 //    or, just a byte message and then we can flag out the bits to find
 //    out which LEDs need lit.
-void display_status(const geometry_msgs::Point& status) {
-	digitalWrite(RED, status.x);
-	digitalWrite(YLW, status.y);
-	digitalWrite(GRN, status.z);
+//void display_status(const geometry_msgs::Point& status) {
+void display_status(const std_msgs::Byte& msg) {
+	bool status[6] = {
+		msg.data & 0x01,
+		msg.data & 0x02,
+		msg.data & 0x04,
+		msg.data & 0x08,
+		msg.data & 0x10,
+		msg.data & 0x20,
+	};
+
+	digitalWrite(RED1, status[0]);
+	digitalWrite(RED2, status[1]);
+	digitalWrite(YLW1, status[2]);
+	digitalWrite(YLW2, status[3]);
+	digitalWrite(GRN1, status[4]);
+	digitalWrite(GRN2, status[5]);
 }
 
 // create the node handle for this arduino.
@@ -29,20 +45,20 @@ NodeHandle nh;
 
 // keep track of running_state : this is altered by a button press.
 std_msgs::Bool running_state;
+std_msgs::Byte set_leds;
 
-Publisher                        pub("/master/button", &running_state);
-Subscriber<geometry_msgs::Point> sub("/master/leds",   &display_status);
+Publisher                  pub("/master/button", &running_state);
+Subscriber<std_msgs::Byte> sub("/master/leds",   &display_status);
 
 void setup() {
 	// status display LEDs
-	pinMode(RED, OUTPUT);
-	pinMode(YLW, OUTPUT);
-	pinMode(GRN, OUTPUT);
-	{
-		digitalWrite(RED, HIGH);
-		digitalWrite(YLW, LOW);
-		digitalWrite(GRN, LOW);
-	}
+	pinMode(RED1, OUTPUT);
+	pinMode(RED2, OUTPUT);
+	pinMode(YLW1, OUTPUT);
+	pinMode(YLW2, OUTPUT);
+	pinMode(GRN2, OUTPUT);
+	set_leds.data = 0x03;
+	display_status(set_leds);
 
 	// button and pull-up resistor
 	pinMode(BTN, INPUT);
@@ -59,12 +75,6 @@ void setup() {
 
 	// set initial values of check.
 	running_state.data = false;
-	{
-		delay(200);
-		digitalWrite(RED, LOW);
-		digitalWrite(YLW, HIGH);
-		digitalWrite(GRN, LOW);
-	}
 }
 
 // a check to see if we've published our message yet.
@@ -86,12 +96,9 @@ void loop() {
 		} else {
 	// 5) publish the state of our button
 			pub.publish(&running_state);
-			{
 	// 6) TEMPORARY - the LEDs would be set by another node
-				digitalWrite(RED, LOW);
-				digitalWrite(YLW, LOW);
-				digitalWrite(GRN, HIGH);
-			}
+	 		set_leds.data = 0x30;
+			display_status(set_leds);
 	// 7) set master boolean so we never check this segment again.
 			published = true;
 		}

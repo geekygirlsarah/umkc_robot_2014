@@ -1,4 +1,4 @@
-.build/uno/src/sketch.d .build/uno/src/sketch.o: .build/uno/src/sketch.cpp \
+.build/pro5v328/src/sketch.d .build/pro5v328/src/sketch.o: .build/pro5v328/src/sketch.cpp \
  /usr/share/arduino/hardware/arduino/cores/arduino/Arduino.h \
  /usr/share/arduino/hardware/arduino/cores/arduino/binary.h \
  /usr/share/arduino/hardware/arduino/cores/arduino/WCharacter.h \

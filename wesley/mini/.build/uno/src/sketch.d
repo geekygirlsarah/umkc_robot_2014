@@ -18,4 +18,4 @@
  lib/ros_lib/ros/subscriber.h lib/ros_lib/ros/service_server.h \
  lib/ros_lib/ros/service_client.h lib/ros_lib/ArduinoHardware.h \
  /usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.h \
- lib/ros_lib/geometry_msgs/Point.h lib/ros_lib/std_msgs/Bool.h
+ lib/ros_lib/std_msgs/Byte.h lib/ros_lib/std_msgs/Bool.h
