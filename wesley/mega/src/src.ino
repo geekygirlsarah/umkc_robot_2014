@@ -4,7 +4,7 @@
  * written by: victoria wu
  * date: 1/17/14 
  *
- * what: make the robot keep going until the gap is found. then stop. (going to put it all on the mega, no bridge just yet
+ * what: make the robot Fkeep going until the gap is found. then stop. (going to put it all on the mega, no bridge just yet
  * FIRST - just getting the robot to move. NO comms between mini and mega. just everything on the mega, ignoring encoders right now
  * PURPOSE: 
  
@@ -132,6 +132,34 @@ void exitTurn90Degrees()  {
   ros_control = false; //??????? do i need this???????????????????????????????//
 }
 
+//----------
+//lookForGap - travel straight thru lanes, while looking for gap. Stop once we find a gap.
+//----------
+
+State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
+void enterLookForGap()  {
+  advertising_state.payload = PL_LOOKING_FOR_GAP;
+  talker.publish(&advertising_state);
+  nav.takeOff();
+}
+
+//ignoring falling off for now
+void updateLookForGap()  {
+  //updateROS_spin();  //do i need this??
+  if(nav.lookingForGap())  {
+    stateMachine.immediateTransitionTo(waitForCommand);    
+  }
+  else  {
+   //advertising_state.payload = PL_LOOKING_FOR_GAP;
+   //talker.publish(&advertising_state);
+  }
+
+}
+
+void exitLookForGap()  {
+  nav.stopNow();
+  delay(300);  
+}
 
 
 
@@ -141,6 +169,7 @@ void exitTurn90Degrees()  {
 
 //ros msg catching time!
 void packet_catch(const mega_caretaker::MegaPacket& packet)  {
+    sendAck();
     if(packet.msgType == MSGTYPE_HEY)  {
         if(packet.payload == PL_START_WAVE_CROSSING)  {
 	    ros_control = false;
@@ -148,8 +177,8 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
             //gotta put out an ack T.T
             
            
-            stateMachine.immediateTransitionTo(turn90Degrees); 
-            sendAck();
+            stateMachine.immediateTransitionTo(lookForGap); 
+            
             
         }
     }
@@ -161,7 +190,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
             //new thing - immediate transition to finished state
             stateMachine.immediateTransitionTo(waitForCommand); 
             
-            sendAck();
+       
         }
         else if(packet.payload == PL_GENERAL_ACK)  {
           //this is a general ack... depdngin on what state we are in, we are ok
@@ -172,11 +201,11 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
         if(packet.payload == PL_STOP)  {
           //STOP STOP STOP!
           nav.stopNow();  //may need to write in more robust code to keep stopping until...???
-          sendAck();
+         
         }
         else if (packet.payload == PL_TURNCW)  {
           nav.turnClockwiseForever();
-          sendAck();
+          
         }
     }
     else if(packet.msgType == MSGTYPE_HANDSHAKE)    {
@@ -402,5 +431,6 @@ void loop() {
      */  
      
 }
+
 
 

@@ -146,12 +146,15 @@ class Navigation {
                 
                 //returns if gap is found.
                 bool lookingForGap()  {
-                  sabertooth.reverse(20);
+                  //sabertooth.reverse(20);
                   //sabertooth.forward(20);
                   //console.println("moving \t checking gap");
                   //check if a gap has been found
+                  
+                  /*
                   gapfind.printDebug();
                   gapfind.printGapStatus();
+                  */
                   gapfind.update();
                   
                   
@@ -159,12 +162,15 @@ class Navigation {
                   if(gapfind.gapPresent())  {
                     Serial.println("moving \t GAP FOUND!!");
       
+                     //unfortunately right now i have no ticks.. so it stays here forever
                     
-                    int32_t start_ticks = positionFL;
+                    //500 taped, trying 900 untaped
+                    int32_t start_ticks = positionFR;
                     while(true)  {
-                      if(abs(positionFL - start_ticks) > 500)
+                      if(abs(positionFR - start_ticks) > 900)
                          break; 
                      }
+                     
                     sabertooth.all_stop();
                     return true;
                   }
@@ -264,3 +270,4 @@ class Navigation {
 
 
 #endif
+
