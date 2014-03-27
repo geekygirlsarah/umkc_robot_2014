@@ -90,7 +90,7 @@ class arm_control {
 		//    these values can be adjusted as necessary.
 		void initial_park() {
 		//	Serial.println("ARM :: park() --> entering");
-			Serial.flush();
+		//	Serial.flush();
 			/* here, define, in pulse, what angles to place the
 			 *    servos at. these will then be moved below */
 		//	p_position[BASE] 	= 1368;		//  80°
@@ -115,7 +115,7 @@ class arm_control {
 
 		void park() {
 		//	Serial.println("ARM :: park() --> entering");
-			Serial.flush();
+		//	Serial.flush();
 			/* here, define, in pulse, what angles to place the
 			 *    servos at. these will then be moved below */
 		//	p_destination[BASE] 	= 1368;		//  80°

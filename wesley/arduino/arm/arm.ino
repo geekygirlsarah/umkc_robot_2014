@@ -80,7 +80,7 @@ ros::Subscriber<std_msgs::Empty> sub_carry("/arm/carry", &arm_carry);
 
 
 void setup() {
-	console.begin(9600);
+//	console.begin(9600);
 	arm.connect(NO_OF_JOINTS, 2, 3, 4, 6, 7, 8);
 	arm.initial_park();
 

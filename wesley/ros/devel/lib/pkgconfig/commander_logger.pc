@@ -1,0 +1,8 @@
+prefix=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel
+
+Name: commander_logger
+Description: Description of commander_logger
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib 
+Requires: 
