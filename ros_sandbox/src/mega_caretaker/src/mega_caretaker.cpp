@@ -44,7 +44,8 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 	}
 	
 	//tell mega to keep turning 90 degrees		
-
+	
+	//need to go to either 0 or 90 degrees ish
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
 	if(given_payload == PL_START_TURNING_90_CW)	{
@@ -61,9 +62,18 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 	if(withIMU)	{
 			//keep checking until it's 90
 			bool turned90 = false;
+			bool x_aligned = false;
+			bool y_aligned = false;
+			double diff = 1;	//within 90 or 0 +- this diff
 			while(!turned90)	{
 				if(client.call(srv))	{
-					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+//					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+					if(given_payload == PL_START_TURNING_90_CCW)	{
+						turned90 = (srv.response.yaw > (90 - diff) && srv.response.yaw< (0 + diff));
+					}
+					else	{
+						turned90 = (srv.response.yaw > (0 - diff) && srv.response.yaw < (0 + diff));	
+					}
 				}
 			}
 	}
@@ -183,13 +193,18 @@ startWaveCrossing();
 }
 
 void MegaCaretaker::attemptMegaConnection()	{
+
+	// looooopiness here!! must loop here! 
+	// TODO TODO TODO
 	ROS_INFO("Attempting to connect with the Mega...");
+	
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = MSGTYPE_HANDSHAKE;
 	packet.payload = PL_SYN;
 	megaTalker.publish(packet);
 
 	//need to wait until you hear the syn-ack from mega
+	//need some sort of a time out here to try again some times... 
 	while(!megaConnectionOK)	{
 		ros::spinOnce();
 	}
