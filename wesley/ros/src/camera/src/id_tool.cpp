@@ -749,7 +749,8 @@ int main(int argc, char* argv[]) {
 
 	// well - we're here. at the end of it all.
 	// clean up as needed. c++ destructors will be called automatically.
-	// return true or false (1 or 0) indicating that we found the tool.
+	// return true or false (1 or 0) indicating that we found the tool,
+	//    grasped it, picked it up, and put it in carry.
 	
-	return(tool_found);
+	return(HUA);
 }
