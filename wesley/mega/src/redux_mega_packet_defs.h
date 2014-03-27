@@ -19,6 +19,7 @@
 	const static int8_t PL_LOOKING_FOR_GAP = 1;
 	const static int8_t PL_TURNING_CW_INIT = 2;
 	const static int8_t PL_TURNING_CCW_INIT = 3;
+	const static int8_t PL_GAP_FOUND = 4;
 
 
 

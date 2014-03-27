@@ -1,3 +1,6 @@
+
+//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+
 #include <QuadEncoder.h>
 
 /* mega movement tester
@@ -49,9 +52,12 @@ int gapsThru;
 FSM stateMachine; //initialize state machine, start in state: waitForCommand
 state_top current_status;
 
+
+
+
 //hacky hacky hacky :(
 bool handshakeOK;    //used to sync handshake for old state machine
-
+bool turn90DegreeFinished;
 
  //ros meta
 bool ros_control;  //is ros in control?
@@ -111,11 +117,17 @@ void updateWaitForCommand()  {
   
 }
 
+//-----
+// waveCrossing = HEY start crossing waves mate! (meta state)
+//-----
+State crossingBoard = State(NULL, NULL, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
+
 //------
 //turn90Degrees = mega needs to turn 90 degrees now. requires help from board too.
 //-------
 State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitTurn90Degrees);
 void enterTurn90Degrees_cw()  {
+  turn90DegreeFinished = false;
   advertising_state.payload = PL_TURNING_CW_INIT;
   talker.publish(&advertising_state);
   nav.stopNow();
@@ -132,11 +144,12 @@ void updateTurn90Degrees()  {
 void exitTurn90Degrees()  {
   //?????????
   nav.stopNow();
-  ros_control = false; //??????? do i need this???????????????????????????????//
+  //??????? do i need this???????????????????????????????//
 }
 
 State turn90Degrees_CCW = State(enterTurn90Degrees_ccw, updateTurn90Degrees, exitTurn90Degrees);
 void enterTurn90Degrees_ccw()  {
+  turn90DegreeFinished = false;
   advertising_state.payload = PL_TURNING_CCW_INIT;
   talker.publish(&advertising_state);
   nav.stopNow();
@@ -144,6 +157,16 @@ void enterTurn90Degrees_ccw()  {
   //Ask board for help!
   initiateTurn90_CCW();
 }
+
+//----------
+//GapFound -
+//  -needs to turn 90degree CCW
+//  -then go forward through the gap, stopping at a certain distance away
+//  -then turn 90 degree CW back towards the lane
+//----------
+
+State gapFound = State(NULL,NULL,NULL);
+
 
 
 //----------
@@ -160,19 +183,76 @@ void enterLookForGap()  {
 //ignoring falling off for now
 void updateLookForGap()  {
   //updateROS_spin();  //do i need this??
+  #ifndef DEBUG_COMMS
   if(nav.lookingForGap())  {
-    stateMachine.immediateTransitionTo(waitForCommand);    
+    //stateMachine.immediateTransitionTo(waitForCommand);    
+      stateMachine.immediateTransitionTo(gapFound);    
   }
   else  {
    //advertising_state.payload = PL_LOOKING_FOR_GAP;
    //talker.publish(&advertising_state);
   }
-
+  #endif
+  #ifdef DEBUG_COMMS
+  stateMachine.immediateTransitionTo(gapFound);    
+  #endif
 }
-
 void exitLookForGap()  {
   nav.stopNow();
   delay(300);  
+}
+
+//--------------
+//we are finished crossing the gap! in the next lane now.
+//--------------
+State gapCrossed = State(enterGapCrossed, updateGapCrossed, exitGapCrossed);
+void enterGapCrossed()  {
+
+}
+void updateGapCrossed()  {
+    
+}
+void exitGapCrossed()  {
+
+}
+//-----------
+//crossGap - make the little crossing across the gap 
+//TODO TODO TODO - account for multiple crossings in a row
+//-------------
+State crossGap = State(enterCrossGap, updateCrossGap, exitCrossGap);
+void enterCrossGap()  {
+
+}
+void updateCrossGap()  {
+    //TODO TODO - account for ht elast one nooooooo
+    #ifndef DEBUG_COMMS 
+    if(nav.crossGap())  {
+       stateMachine.transitionTo(gapCrossed);
+       //stateMachine.transitionTo(waitForCommand);
+    }
+    #endif
+    #ifdef DEBUG_COMMS
+     stateMachine.transitionTo(gapCrossed);
+     #endif
+          
+}
+void exitCrossGap()  {
+
+}
+
+//-----------
+//Finished wave crossing! yay
+//-------------
+State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitCrossingBoard);
+void enterFinishedCrossingBoard()  {
+  sendMsg_finishedWaveCrossing(); 
+}
+void updateFinishedCrossingBoard()  {
+   stateMachine.immediateTransitionTo(waitForCommand);
+          
+}
+void exitCrossingBoard()  {
+
 }
 
 
@@ -191,8 +271,10 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
             //gotta put out an ack T.T
             
             //CHANGE THIS !!!! only for testigngkgadjf;lasdkfjdl;askfj!
-           
-            stateMachine.immediateTransitionTo(turn90Degrees_CW); 
+//            start_wave_crossing = true;
+//            stateMachine.immediateTransitionTo(turn90Degrees_CW); 
+            
+            stateMachine.immediateTransitionTo(crossingBoard); 
             
             
         }
@@ -203,7 +285,8 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
 	    ros_control = false;
 
             //new thing - immediate transition to finished state
-            stateMachine.immediateTransitionTo(waitForCommand); 
+            turn90DegreeFinished = true; 
+           // stateMachine.immediateTransitionTo(waitForCommand); 
              
        
         }
@@ -235,7 +318,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
       else if (packet.payload == PL_ACK)  {
         //connection with board established! 
         
-        stateMachine.immediateTransitionTo(waitForCommand);
+        //stateMachine.immediateTransitionTo(waitForCommand);
         
         //current_state = start;
         handshakeOK = true;
@@ -298,6 +381,8 @@ void setup() {
         stateMachine.init(initializeComms);
         
         handshakeOK = false;
+        turn90DegreeFinished = false;
+       
 }
 
 void loop() {
@@ -308,8 +393,78 @@ void loop() {
         //send the HEY I"m ready to be listening to stuff!!
         
        // nh.spinOnce();
+       
+       //state machine starts out in initializeComms. 
+       //-> successfull three way handshake, it goes to 
+      
+      //have state machine transitions OUTSIDE here for my sanity
+      
        stateMachine.update();
-  
+       if(stateMachine.isInState(initializeComms))  {
+           //wait and spin
+           if(handshakeOK)  {
+             stateMachine.immediateTransitionTo(waitForCommand);
+           }
+       }
+       else if(stateMachine.isInState(waitForCommand))  {
+           //spin
+           //will set it to...crossingBoard state
+       }
+       
+       
+       else if(stateMachine.isInState(crossingBoard))  {
+         //spin
+         gapsThru = 0;
+         stateMachine.transitionTo(lookForGap);
+         //stateMachine.transitionTo(gapFound);
+       }
+       
+       else if(stateMachine.isInState(lookForGap))  {
+         //spin.. will transition to gapFound state when its' found
+       }
+       
+       else if(stateMachine.isInState(gapFound))  {
+         //now need to turn90degrees
+         stateMachine.transitionTo(turn90Degrees_CCW);
+       }
+       
+       else if (stateMachine.isInState(turn90Degrees_CCW)) {
+         //spin... 
+         if(turn90DegreeFinished)  {
+           //stateMachine.transitionTo(waitForCommand);    //want to se if this works :(
+           gapsThru++;    //in position to cross yet another gap - if this is the 3rd one.. DON"T CROSS GAP just go forward and stop
+           if(gapsThru == 1)  {
+             stateMachine.transitionTo(finishedCrossingBoard);
+           }
+           else  {
+             stateMachine.transitionTo(crossGap);   
+           }
+           
+         }
+       }
+      
+      //stop here !!
+      else if (stateMachine.isInState(crossGap))  {
+        //spin
+        //the update function in this state will transition once the gap is crossed
+      }
+      else if (stateMachine.isInState(gapCrossed) )  {
+        //need to turn cw back towards lane
+        stateMachine.transitionTo(turn90Degrees_CW);
+      }
+      else if (stateMachine.isInState(turn90Degrees_CW))  {
+        //spin
+        if(turn90DegreeFinished)  {
+           //and back to looking for gap
+           stateMachine.transitionTo(lookForGap);
+         }
+      }
+      /*
+      
+      //  case waveCrossing:
+       //   stateMachine.immediateTransitionTo(lookForGap);  //this will spin until it finds a gap, when it goes immediately to next state
+       // break;
+       
   
  /*
  
