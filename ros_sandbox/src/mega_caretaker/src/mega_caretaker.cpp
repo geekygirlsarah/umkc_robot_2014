@@ -1,3 +1,4 @@
+#include <ros/callback_queue.h>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <ros/console.h>
@@ -197,16 +198,15 @@ void MegaCaretaker::attemptMegaConnection()	{
 	// looooopiness here!! must loop here! 
 	// TODO TODO TODO
 	ROS_INFO("Attempting to connect with the Mega...");
-	
-	mega_caretaker::MegaPacket packet;
-	packet.msgType = MSGTYPE_HANDSHAKE;
-	packet.payload = PL_SYN;
-	megaTalker.publish(packet);
 
+	mega_caretaker::MegaPacket packet;
 	//need to wait until you hear the syn-ack from mega
 	//need some sort of a time out here to try again some times... 
 	while(!megaConnectionOK)	{
-		ros::spinOnce();
+			packet.msgType = MSGTYPE_HANDSHAKE;
+			packet.payload = PL_SYN;
+			megaTalker.publish(packet);
+			ros::getGlobalCallbackQueue()->callAvailable(ros::WallDuration(.5));	//waits every X sec. 
 	}
 
 	packet.msgType = MSGTYPE_HANDSHAKE;
