@@ -167,7 +167,7 @@ class Navigation {
                     //500 taped, trying 900 untaped
                     int32_t start_ticks = positionFR;
                     while(true)  {
-                      if(abs(positionFR - start_ticks) > 900)
+                      if(abs(positionFR - start_ticks) > 1200)
                          break; 
                      }
                      
