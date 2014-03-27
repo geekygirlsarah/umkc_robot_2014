@@ -164,3 +164,5 @@ include_directories(
 
 add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/logger.cpp src/notifier.cpp)
 target_link_libraries(cmdr ${catkin_LIBRARIES})
+add_executable(button_wait src/button_wait.cpp src/notifier.cpp)
+target_link_libraries(button_wait ${catkin_LIBRARIES})

@@ -25,6 +25,7 @@ int main(){
 	ExitHandler exithandler(logger);
 		
 	// main process list start here
+	// 0) button_wait
 	// 1) id_flame
 	// 2) id_tool
 	// 3) -------
@@ -44,5 +45,12 @@ int executeBinary(string binaryName, string prefix, string mode ){
 		return -2;
 	}
 	//Get return value, don't ask why it's this but it is. It's from the stack overflow on popen. 
+	//
+	// http://bytes.com/topic/c/answers/131694-pclose-returning-termination-status-command#post472837
+	//
+	// As specified in the above link, pclose encodes the child process' exit code
+	//    in the high 16bits of an integer. pclose return values are based on wait4,
+	//    which is based on waitpid. reading those two man pages (man 2 wait4, or
+	//    man 2 waitpid) did not shed any extra light on this.
 	return pclose(f)/256;
 }

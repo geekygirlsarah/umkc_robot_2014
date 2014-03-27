@@ -30,7 +30,13 @@ private:
 		bool red0;
 		bool red1;
 		LedArray() : green0(false),green1(false),yellow0(false),yellow1(false),red0(false),red1(false) {}
-		LedArray(bool green0, bool green1, bool yellow0, bool yellow1, bool red0, bool red1) : green0(green0), green1(green1),yellow0(yellow0),yellow1(yellow1),red0(red0),red1(red1) {}
+		LedArray(bool green0, bool green1,
+				 bool yellow0, bool yellow1,
+				 bool red0, bool red1) : 
+			green0(green0),	green1(green1),
+			yellow0(yellow0), yellow1(yellow1),
+			red0(red0), red1(red1)
+		{ };
 	};
 
 	map<string,LedArray> notificationMap;
@@ -44,6 +50,20 @@ public:
 	 * @param parseOnConstruction if set to true, will parse default file on construction
 	 */
 	LedNotifier(bool parseOnConstruction=false);
+	/**
+	 * Constructor for LedNotifier.
+	 *
+	 * @param parseOnConstruction if set to true, will parse default file on construction
+	 *  - can be given any of set of 0 to 6 led status and those will be lit
+	 *    on initial creation of the class.
+	 */
+	LedNotifier(bool grn1, bool grn2,
+				bool ylw1, bool ylw2,
+				bool red1, bool red2,
+				bool parseOnConstruction=false) {
+		lightLeds(grn1, grn2, ylw1, ylw2, red1, red2);
+	}
+		
 	/**
 	 * Parses a text file
 	 *
