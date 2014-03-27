@@ -7,20 +7,9 @@ SET(CMAKE_DEPENDS_LANGUAGES
 SET(CMAKE_TARGET_DEFINITIONS
   "ROS_BUILD_SHARED_LIBS=1"
   "ROS_PACKAGE_NAME=\"phidgets_imu\""
-  "ROS_BUILD_SHARED_LIBS=1"
-  "ROS_PACKAGE_NAME=\"phidgets_imu\""
+  "ROSCONSOLE_BACKEND_LOG4CXX"
   )
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
   )
-
-# The include file search paths:
-SET(CMAKE_C_TARGET_INCLUDE_PATH
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_imu/include"
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include"
-  "/opt/ros/hydro/include"
-  )
-SET(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
-SET(CMAKE_Fortran_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
-SET(CMAKE_ASM_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})

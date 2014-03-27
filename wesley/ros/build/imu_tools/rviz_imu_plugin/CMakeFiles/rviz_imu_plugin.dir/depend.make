@@ -3,9 +3,9 @@
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/XmlRpcDecl.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/XmlRpcValue.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/geometry_msgs/Point.h
@@ -34,6 +34,8 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/callback_queue_interface.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/common.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/console.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/console_backend.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/datatypes.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/duration.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/exception.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/ros/exceptions.h
@@ -138,7 +140,6 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/tf2_ros/buffer.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/tf2_ros/buffer_interface.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /opt/ros/hydro/include/tf2_ros/transform_listener.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /usr/include/qt4/Gentoo/gentoo-qconfig.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /usr/include/qt4/Qt3Support/q3cstring.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /usr/include/qt4/Qt3Support/q3valuelist.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /usr/include/qt4/QtCore/QMap
@@ -230,11 +231,12 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /usr/include/qt4/QtGui/qwindowdefs_win.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: /usr/include/qt4/QtGui/qwmatrix.h
 
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/geometry_msgs/Quaternion.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/geometry_msgs/Vector3.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/ros/builtin_message_traits.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/ros/datatypes.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/ros/duration.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/ros/exception.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/ros/macros.h
@@ -252,7 +254,6 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/rviz/ogre_helpers/object.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/sensor_msgs/Imu.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /opt/ros/hydro/include/std_msgs/Header.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /usr/include/qt4/Gentoo/gentoo-qconfig.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /usr/include/qt4/Qt3Support/q3cstring.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /usr/include/qt4/Qt3Support/q3valuelist.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /usr/include/qt4/QtCore/qalgorithms.h
@@ -309,11 +310,12 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /usr/include/qt4/QtGui/qcolor.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /usr/include/qt4/QtGui/qrgb.h
 
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/geometry_msgs/Quaternion.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/geometry_msgs/Vector3.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/ros/builtin_message_traits.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/ros/datatypes.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/ros/duration.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/ros/exception.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/ros/macros.h
@@ -332,11 +334,11 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/sensor_msgs/Imu.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /opt/ros/hydro/include/std_msgs/Header.h
 
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/XmlRpcDecl.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/XmlRpcValue.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/class_loader/class_loader.h
@@ -372,6 +374,8 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/callback_queue_interface.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/common.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/console.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/console_backend.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/datatypes.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/duration.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/exception.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/ros/exceptions.h
@@ -476,7 +480,6 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/tf2_ros/buffer.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/tf2_ros/buffer_interface.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /opt/ros/hydro/include/tf2_ros/transform_listener.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /usr/include/qt4/Gentoo/gentoo-qconfig.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /usr/include/qt4/Qt3Support/q3cstring.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /usr/include/qt4/Qt3Support/q3valuelist.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /usr/include/qt4/QtCore/QMap
@@ -568,11 +571,12 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /usr/include/qt4/QtGui/qwindowdefs_win.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /usr/include/qt4/QtGui/qwmatrix.h
 
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/geometry_msgs/Quaternion.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/geometry_msgs/Vector3.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/ros/builtin_message_traits.h
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/ros/datatypes.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/ros/duration.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/ros/exception.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/ros/macros.h
@@ -591,7 +595,6 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_vis
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/rviz/ogre_helpers/shape.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/sensor_msgs/Imu.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /opt/ros/hydro/include/std_msgs/Header.h
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /usr/include/qt4/Gentoo/gentoo-qconfig.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /usr/include/qt4/Qt3Support/q3cstring.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /usr/include/qt4/Qt3Support/q3valuelist.h
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /usr/include/qt4/QtCore/qalgorithms.h

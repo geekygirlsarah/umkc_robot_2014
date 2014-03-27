@@ -31,17 +31,11 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Utility rule file for wesley_gencpp.
 
@@ -59,10 +53,10 @@ wesley/CMakeFiles/wesley_gencpp.dir/build: wesley_gencpp
 .PHONY : wesley/CMakeFiles/wesley_gencpp.dir/build
 
 wesley/CMakeFiles/wesley_gencpp.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && $(CMAKE_COMMAND) -P CMakeFiles/wesley_gencpp.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && $(CMAKE_COMMAND) -P CMakeFiles/wesley_gencpp.dir/cmake_clean.cmake
 .PHONY : wesley/CMakeFiles/wesley_gencpp.dir/clean
 
 wesley/CMakeFiles/wesley_gencpp.dir/depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/wesley_gencpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/wesley_gencpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : wesley/CMakeFiles/wesley_gencpp.dir/depend
 

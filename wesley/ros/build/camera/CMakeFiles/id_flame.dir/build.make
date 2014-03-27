@@ -31,17 +31,11 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Include any dependencies generated for this target.
 include camera/CMakeFiles/id_flame.dir/depend.make
@@ -53,18 +47,18 @@ include camera/CMakeFiles/id_flame.dir/progress.make
 include camera/CMakeFiles/id_flame.dir/flags.make
 
 camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o: camera/CMakeFiles/id_flame.dir/flags.make
-camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
+camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/id_flame.dir/src/id_flame.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/id_flame.dir/src/id_flame.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp
 
 camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/id_flame.dir/src/id_flame.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp > CMakeFiles/id_flame.dir/src/id_flame.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp > CMakeFiles/id_flame.dir/src/id_flame.cpp.i
 
 camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/id_flame.dir/src/id_flame.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp -o CMakeFiles/id_flame.dir/src/id_flame.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/camera/src/id_flame.cpp -o CMakeFiles/id_flame.dir/src/id_flame.cpp.s
 
 camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o.requires:
 .PHONY : camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o.requires
@@ -82,86 +76,92 @@ id_flame_OBJECTS = \
 # External object files for target id_flame
 id_flame_EXTERNAL_OBJECTS =
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: camera/CMakeFiles/id_flame.dir/build.make
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_contrib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_core.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_features2d.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_flann.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_gpu.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_highgui.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_imgproc.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_legacy.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_ml.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_nonfree.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_objdetect.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_photo.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_stitching.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_superres.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_video.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_videostab.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libpthread.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_signals-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_filesystem-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_system-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libcpp_common.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp_serialization.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librostime.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_date_time-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_thread-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_regex-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/liblog4cxx.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libxmlrpcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_calib3d.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_contrib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_core.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_features2d.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_flann.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_gpu.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_highgui.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_imgproc.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_legacy.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_ml.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_nonfree.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_objdetect.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_photo.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_stitching.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_superres.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_video.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_videostab.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libpthread.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_signals-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_filesystem-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_system-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libcpp_common.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp_serialization.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librostime.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_date_time-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_thread-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_regex-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/liblog4cxx.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libxmlrpcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_calib3d.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: camera/CMakeFiles/id_flame.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/id_flame.dir/link.txt --verbose=$(VERBOSE)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_calib3d.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_contrib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_core.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_features2d.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_flann.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_gpu.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_highgui.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_imgproc.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_legacy.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_ml.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_nonfree.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_objdetect.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_photo.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_stitching.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_superres.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_video.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_videostab.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_signals-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_filesystem-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole_log4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole_backend_interface.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/liblog4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_regex-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libxmlrpcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp_serialization.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librostime.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_date_time-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_system-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_thread-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/i386-linux-gnu/libpthread.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libcpp_common.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libconsole_bridge.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_calib3d.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_contrib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_core.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_features2d.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_flann.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_gpu.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_highgui.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_imgproc.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_legacy.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_ml.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_nonfree.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_objdetect.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_photo.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_stitching.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_superres.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_video.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libopencv_videostab.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_signals-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_filesystem-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole_log4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librosconsole_backend_interface.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/liblog4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_regex-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libxmlrpcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libroscpp_serialization.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/librostime.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_date_time-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_system-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/libboost_thread-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /usr/lib/i386-linux-gnu/libpthread.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libcpp_common.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: /opt/ros/hydro/lib/libconsole_bridge.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: camera/CMakeFiles/id_flame.dir/build.make
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame: camera/CMakeFiles/id_flame.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/id_flame.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-camera/CMakeFiles/id_flame.dir/build: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame
+camera/CMakeFiles/id_flame.dir/build: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/camera/id_flame
 .PHONY : camera/CMakeFiles/id_flame.dir/build
 
 camera/CMakeFiles/id_flame.dir/requires: camera/CMakeFiles/id_flame.dir/src/id_flame.cpp.o.requires
 .PHONY : camera/CMakeFiles/id_flame.dir/requires
 
 camera/CMakeFiles/id_flame.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera && $(CMAKE_COMMAND) -P CMakeFiles/id_flame.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera && $(CMAKE_COMMAND) -P CMakeFiles/id_flame.dir/cmake_clean.cmake
 .PHONY : camera/CMakeFiles/id_flame.dir/clean
 
 camera/CMakeFiles/id_flame.dir/depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/camera /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera/CMakeFiles/id_flame.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/camera /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera/CMakeFiles/id_flame.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : camera/CMakeFiles/id_flame.dir/depend
 

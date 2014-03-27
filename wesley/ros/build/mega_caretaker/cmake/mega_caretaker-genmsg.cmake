@@ -2,7 +2,7 @@
 
 message(STATUS "mega_caretaker: 2 messages, 0 services")
 
-set(MSG_I_FLAGS "-Imega_caretaker:/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg;-Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Imega_caretaker:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg;-Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -18,15 +18,15 @@ add_custom_target(mega_caretaker_generate_messages ALL)
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(mega_caretaker
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MegaPacket.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/mega_caretaker
 )
 _generate_msg_cpp(mega_caretaker
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MegaPacket.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
   "${MSG_I_FLAGS}"
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/mega_caretaker
 )
 
@@ -53,15 +53,15 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS mega_caretaker_generate_messages_cp
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(mega_caretaker
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MegaPacket.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/mega_caretaker
 )
 _generate_msg_lisp(mega_caretaker
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MegaPacket.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
   "${MSG_I_FLAGS}"
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/mega_caretaker
 )
 
@@ -88,15 +88,15 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS mega_caretaker_generate_messages_li
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(mega_caretaker
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MegaPacket.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/mega_caretaker
 )
 _generate_msg_py(mega_caretaker
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MegaPacket.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
   "${MSG_I_FLAGS}"
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/msg/MotorCommand.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/mega_caretaker
 )
 

@@ -31,17 +31,11 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Include any dependencies generated for this target.
 include commander/CMakeFiles/cmdr.dir/depend.make
@@ -53,18 +47,18 @@ include commander/CMakeFiles/cmdr.dir/progress.make
 include commander/CMakeFiles/cmdr.dir/flags.make
 
 commander/CMakeFiles/cmdr.dir/src/main.cpp.o: commander/CMakeFiles/cmdr.dir/flags.make
-commander/CMakeFiles/cmdr.dir/src/main.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
+commander/CMakeFiles/cmdr.dir/src/main.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object commander/CMakeFiles/cmdr.dir/src/main.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/main.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/main.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp
 
 commander/CMakeFiles/cmdr.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmdr.dir/src/main.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp > CMakeFiles/cmdr.dir/src/main.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp > CMakeFiles/cmdr.dir/src/main.cpp.i
 
 commander/CMakeFiles/cmdr.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmdr.dir/src/main.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp -o CMakeFiles/cmdr.dir/src/main.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp -o CMakeFiles/cmdr.dir/src/main.cpp.s
 
 commander/CMakeFiles/cmdr.dir/src/main.cpp.o.requires:
 .PHONY : commander/CMakeFiles/cmdr.dir/src/main.cpp.o.requires
@@ -76,18 +70,18 @@ commander/CMakeFiles/cmdr.dir/src/main.cpp.o.provides: commander/CMakeFiles/cmdr
 commander/CMakeFiles/cmdr.dir/src/main.cpp.o.provides.build: commander/CMakeFiles/cmdr.dir/src/main.cpp.o
 
 commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o: commander/CMakeFiles/cmdr.dir/flags.make
-commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
+commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp
 
 commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmdr.dir/src/exit_handlers.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp > CMakeFiles/cmdr.dir/src/exit_handlers.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp > CMakeFiles/cmdr.dir/src/exit_handlers.cpp.i
 
 commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmdr.dir/src/exit_handlers.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp -o CMakeFiles/cmdr.dir/src/exit_handlers.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp -o CMakeFiles/cmdr.dir/src/exit_handlers.cpp.s
 
 commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o.requires:
 .PHONY : commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o.requires
@@ -99,18 +93,18 @@ commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o.provides: commander/CMakeF
 commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o.provides.build: commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o
 
 commander/CMakeFiles/cmdr.dir/src/logger.cpp.o: commander/CMakeFiles/cmdr.dir/flags.make
-commander/CMakeFiles/cmdr.dir/src/logger.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
+commander/CMakeFiles/cmdr.dir/src/logger.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object commander/CMakeFiles/cmdr.dir/src/logger.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/logger.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/logger.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp
 
 commander/CMakeFiles/cmdr.dir/src/logger.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmdr.dir/src/logger.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp > CMakeFiles/cmdr.dir/src/logger.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp > CMakeFiles/cmdr.dir/src/logger.cpp.i
 
 commander/CMakeFiles/cmdr.dir/src/logger.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmdr.dir/src/logger.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp -o CMakeFiles/cmdr.dir/src/logger.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp -o CMakeFiles/cmdr.dir/src/logger.cpp.s
 
 commander/CMakeFiles/cmdr.dir/src/logger.cpp.o.requires:
 .PHONY : commander/CMakeFiles/cmdr.dir/src/logger.cpp.o.requires
@@ -122,18 +116,18 @@ commander/CMakeFiles/cmdr.dir/src/logger.cpp.o.provides: commander/CMakeFiles/cm
 commander/CMakeFiles/cmdr.dir/src/logger.cpp.o.provides.build: commander/CMakeFiles/cmdr.dir/src/logger.cpp.o
 
 commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o: commander/CMakeFiles/cmdr.dir/flags.make
-commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_4)
+commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/notifier.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cmdr.dir/src/notifier.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp
 
 commander/CMakeFiles/cmdr.dir/src/notifier.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmdr.dir/src/notifier.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp > CMakeFiles/cmdr.dir/src/notifier.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp > CMakeFiles/cmdr.dir/src/notifier.cpp.i
 
 commander/CMakeFiles/cmdr.dir/src/notifier.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmdr.dir/src/notifier.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp -o CMakeFiles/cmdr.dir/src/notifier.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp -o CMakeFiles/cmdr.dir/src/notifier.cpp.s
 
 commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o.requires:
 .PHONY : commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o.requires
@@ -154,31 +148,34 @@ cmdr_OBJECTS = \
 # External object files for target cmdr
 cmdr_EXTERNAL_OBJECTS =
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/main.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/logger.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/build.make
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libroscpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libpthread.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_signals-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_filesystem-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_system-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libcpp_common.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libroscpp_serialization.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/librostime.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_date_time-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_thread-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/librosconsole.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_regex-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/liblog4cxx.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libxmlrpcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cmdr.dir/link.txt --verbose=$(VERBOSE)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/main.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/logger.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libroscpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_signals-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_filesystem-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/librosconsole.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/librosconsole_log4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/librosconsole_backend_interface.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/liblog4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_regex-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libxmlrpcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libroscpp_serialization.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/librostime.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_date_time-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_system-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/libboost_thread-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /usr/lib/i386-linux-gnu/libpthread.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libcpp_common.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: /opt/ros/hydro/lib/libconsole_bridge.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/build.make
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr: commander/CMakeFiles/cmdr.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cmdr.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-commander/CMakeFiles/cmdr.dir/build: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr
+commander/CMakeFiles/cmdr.dir/build: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/commander/cmdr
 .PHONY : commander/CMakeFiles/cmdr.dir/build
 
 commander/CMakeFiles/cmdr.dir/requires: commander/CMakeFiles/cmdr.dir/src/main.cpp.o.requires
@@ -188,10 +185,10 @@ commander/CMakeFiles/cmdr.dir/requires: commander/CMakeFiles/cmdr.dir/src/notifi
 .PHONY : commander/CMakeFiles/cmdr.dir/requires
 
 commander/CMakeFiles/cmdr.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander && $(CMAKE_COMMAND) -P CMakeFiles/cmdr.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander && $(CMAKE_COMMAND) -P CMakeFiles/cmdr.dir/cmake_clean.cmake
 .PHONY : commander/CMakeFiles/cmdr.dir/clean
 
 commander/CMakeFiles/cmdr.dir/depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander/CMakeFiles/cmdr.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander/CMakeFiles/cmdr.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : commander/CMakeFiles/cmdr.dir/depend
 

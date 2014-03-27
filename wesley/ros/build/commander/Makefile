@@ -35,25 +35,19 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
+	/usr/bin/cmake -i .
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -81,6 +75,16 @@ install/local: preinstall
 # Special rule for the target install/local
 install/local/fast: install/local
 .PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+.PHONY : install/strip/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -113,14 +117,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander/CMakeFiles/progress.marks
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander/CMakeFiles/progress.marks
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/clean
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/clean
 .PHONY : clean
 
 # The main clean target
@@ -129,22 +133,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 commander/CMakeFiles/cmdr.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/cmdr.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/cmdr.dir/rule
 .PHONY : commander/CMakeFiles/cmdr.dir/rule
 
 # Convenience name for target.
@@ -153,7 +157,7 @@ cmdr: commander/CMakeFiles/cmdr.dir/rule
 
 # fast build rule for target.
 cmdr/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/build
 .PHONY : cmdr/fast
 
 src/exit_handlers.o: src/exit_handlers.cpp.o
@@ -161,7 +165,7 @@ src/exit_handlers.o: src/exit_handlers.cpp.o
 
 # target to build an object file
 src/exit_handlers.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.o
 .PHONY : src/exit_handlers.cpp.o
 
 src/exit_handlers.i: src/exit_handlers.cpp.i
@@ -169,7 +173,7 @@ src/exit_handlers.i: src/exit_handlers.cpp.i
 
 # target to preprocess a source file
 src/exit_handlers.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.i
 .PHONY : src/exit_handlers.cpp.i
 
 src/exit_handlers.s: src/exit_handlers.cpp.s
@@ -177,7 +181,7 @@ src/exit_handlers.s: src/exit_handlers.cpp.s
 
 # target to generate assembly for a file
 src/exit_handlers.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/exit_handlers.cpp.s
 .PHONY : src/exit_handlers.cpp.s
 
 src/logger.o: src/logger.cpp.o
@@ -185,7 +189,7 @@ src/logger.o: src/logger.cpp.o
 
 # target to build an object file
 src/logger.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/logger.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/logger.cpp.o
 .PHONY : src/logger.cpp.o
 
 src/logger.i: src/logger.cpp.i
@@ -193,7 +197,7 @@ src/logger.i: src/logger.cpp.i
 
 # target to preprocess a source file
 src/logger.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/logger.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/logger.cpp.i
 .PHONY : src/logger.cpp.i
 
 src/logger.s: src/logger.cpp.s
@@ -201,7 +205,7 @@ src/logger.s: src/logger.cpp.s
 
 # target to generate assembly for a file
 src/logger.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/logger.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/logger.cpp.s
 .PHONY : src/logger.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -209,7 +213,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/main.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -217,7 +221,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/main.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -225,7 +229,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/main.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/notifier.o: src/notifier.cpp.o
@@ -233,7 +237,7 @@ src/notifier.o: src/notifier.cpp.o
 
 # target to build an object file
 src/notifier.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o
 .PHONY : src/notifier.cpp.o
 
 src/notifier.i: src/notifier.cpp.i
@@ -241,7 +245,7 @@ src/notifier.i: src/notifier.cpp.i
 
 # target to preprocess a source file
 src/notifier.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.i
 .PHONY : src/notifier.cpp.i
 
 src/notifier.s: src/notifier.cpp.s
@@ -249,7 +253,7 @@ src/notifier.s: src/notifier.cpp.s
 
 # target to generate assembly for a file
 src/notifier.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.s
 .PHONY : src/notifier.cpp.s
 
 # Help Target
@@ -262,6 +266,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
+	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
@@ -288,6 +293,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

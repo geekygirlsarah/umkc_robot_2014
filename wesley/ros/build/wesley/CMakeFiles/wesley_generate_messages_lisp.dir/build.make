@@ -31,41 +31,35 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Utility rule file for wesley_generate_messages_lisp.
 
 # Include the progress variables for this target.
 include wesley/CMakeFiles/wesley_generate_messages_lisp.dir/progress.make
 
-wesley/CMakeFiles/wesley_generate_messages_lisp: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp
-wesley/CMakeFiles/wesley_generate_messages_lisp: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp
+wesley/CMakeFiles/wesley_generate_messages_lisp: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp
+wesley/CMakeFiles/wesley_generate_messages_lisp: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp: /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from wesley/arm_point.msg"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg -Iwesley:/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg
-
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp: /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp: /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from wesley/arm_angle.msg"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg -Iwesley:/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg -Iwesley:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp: /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from wesley/arm_point.msg"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg -Iwesley:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg
 
 wesley_generate_messages_lisp: wesley/CMakeFiles/wesley_generate_messages_lisp
-wesley_generate_messages_lisp: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp
-wesley_generate_messages_lisp: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp
+wesley_generate_messages_lisp: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_angle.lisp
+wesley_generate_messages_lisp: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp/ros/wesley/msg/arm_point.lisp
 wesley_generate_messages_lisp: wesley/CMakeFiles/wesley_generate_messages_lisp.dir/build.make
 .PHONY : wesley_generate_messages_lisp
 
@@ -74,10 +68,10 @@ wesley/CMakeFiles/wesley_generate_messages_lisp.dir/build: wesley_generate_messa
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_lisp.dir/build
 
 wesley/CMakeFiles/wesley_generate_messages_lisp.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && $(CMAKE_COMMAND) -P CMakeFiles/wesley_generate_messages_lisp.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && $(CMAKE_COMMAND) -P CMakeFiles/wesley_generate_messages_lisp.dir/cmake_clean.cmake
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_lisp.dir/clean
 
 wesley/CMakeFiles/wesley_generate_messages_lisp.dir/depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/wesley_generate_messages_lisp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/wesley_generate_messages_lisp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_lisp.dir/depend
 

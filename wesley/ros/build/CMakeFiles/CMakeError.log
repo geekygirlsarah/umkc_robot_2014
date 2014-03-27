@@ -1,90 +1,103 @@
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec.dir/CheckFunctionExists.c.o
+/usr/bin/gcc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTryCompileExec.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec.dir/link.txt --verbose=1
+/usr/bin/gcc     -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTryCompileExec.dir/CheckFunctionExists.c.o  -o cmTryCompileExec -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: ld returned 1 exit status
+make[1]: *** [cmTryCompileExec] Error 1
+make[1]: Leaving directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
 Determining if the Q_WS_WIN exist failed with the following output:
-Change Dir: /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp
+Change Dir: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/gmake "cmTryCompileExec4085368825/fast"
-/usr/bin/gmake -f CMakeFiles/cmTryCompileExec4085368825.dir/build.make CMakeFiles/cmTryCompileExec4085368825.dir/build
-gmake[1]: Entering directory `/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec4085368825.dir/CheckSymbolExists.cxx.o
-/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec4085368825.dir/CheckSymbolExists.cxx.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_WIN’ was not declared in this scope
-gmake[1]: *** [CMakeFiles/cmTryCompileExec4085368825.dir/CheckSymbolExists.cxx.o] Error 1
-gmake[1]: Leaving directory `/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
-gmake: *** [cmTryCompileExec4085368825/fast] Error 2
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:25: error: ‘Q_WS_WIN’ was not declared in this scope
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
 
-File /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+File /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
 /* */
 #include <QtCore/qglobal.h>
 
-int main(int argc, char** argv)
+void cmakeRequireSymbol(int dummy,...){(void)dummy;}
+int main()
 {
-  (void)argv;
 #ifndef Q_WS_WIN
-  return ((int*)(&Q_WS_WIN))[argc];
-#else
-  (void)argc;
-  return 0;
+  cmakeRequireSymbol(0,&Q_WS_WIN);
 #endif
+  return 0;
 }
 
 Determining if the Q_WS_QWS exist failed with the following output:
-Change Dir: /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp
+Change Dir: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/gmake "cmTryCompileExec3975478325/fast"
-/usr/bin/gmake -f CMakeFiles/cmTryCompileExec3975478325.dir/build.make CMakeFiles/cmTryCompileExec3975478325.dir/build
-gmake[1]: Entering directory `/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec3975478325.dir/CheckSymbolExists.cxx.o
-/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec3975478325.dir/CheckSymbolExists.cxx.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_QWS’ was not declared in this scope
-gmake[1]: *** [CMakeFiles/cmTryCompileExec3975478325.dir/CheckSymbolExists.cxx.o] Error 1
-gmake[1]: Leaving directory `/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
-gmake: *** [cmTryCompileExec3975478325/fast] Error 2
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:25: error: ‘Q_WS_QWS’ was not declared in this scope
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
 
-File /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+File /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
 /* */
 #include <QtCore/qglobal.h>
 
-int main(int argc, char** argv)
+void cmakeRequireSymbol(int dummy,...){(void)dummy;}
+int main()
 {
-  (void)argv;
 #ifndef Q_WS_QWS
-  return ((int*)(&Q_WS_QWS))[argc];
-#else
-  (void)argc;
-  return 0;
+  cmakeRequireSymbol(0,&Q_WS_QWS);
 #endif
+  return 0;
 }
 
 Determining if the Q_WS_MAC exist failed with the following output:
-Change Dir: /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp
+Change Dir: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/gmake "cmTryCompileExec1410717920/fast"
-/usr/bin/gmake -f CMakeFiles/cmTryCompileExec1410717920.dir/build.make CMakeFiles/cmTryCompileExec1410717920.dir/build
-gmake[1]: Entering directory `/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec1410717920.dir/CheckSymbolExists.cxx.o
-/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec1410717920.dir/CheckSymbolExists.cxx.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_MAC’ was not declared in this scope
-gmake[1]: *** [CMakeFiles/cmTryCompileExec1410717920.dir/CheckSymbolExists.cxx.o] Error 1
-gmake[1]: Leaving directory `/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
-gmake: *** [cmTryCompileExec1410717920/fast] Error 2
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:25: error: ‘Q_WS_MAC’ was not declared in this scope
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory `/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
 
-File /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+File /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
 /* */
 #include <QtCore/qglobal.h>
 
-int main(int argc, char** argv)
+void cmakeRequireSymbol(int dummy,...){(void)dummy;}
+int main()
 {
-  (void)argv;
 #ifndef Q_WS_MAC
-  return ((int*)(&Q_WS_MAC))[argc];
-#else
-  (void)argc;
-  return 0;
+  cmakeRequireSymbol(0,&Q_WS_MAC);
 #endif
+  return 0;
 }
 

@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'imu_display.h'
 **
-** Created: Sat Mar 22 16:29:52 2014
-**      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
+** Created: Thu Mar 27 18:40:27 2014
+**      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -11,7 +11,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'imu_display.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 63
-#error "This file was generated using the moc from 4.8.4. It"
+#error "This file was generated using the moc from 4.8.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif

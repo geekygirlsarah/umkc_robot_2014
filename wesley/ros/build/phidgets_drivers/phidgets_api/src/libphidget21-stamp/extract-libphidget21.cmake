@@ -1,7 +1,7 @@
 # Make file names absolute:
 #
-get_filename_component(filename "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/download/libphidget_2.1.8.20130723.tar.gz" ABSOLUTE)
-get_filename_component(directory "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/src/libphidget21" ABSOLUTE)
+get_filename_component(filename "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/download/libphidget_2.1.8.20130723.tar.gz" ABSOLUTE)
+get_filename_component(directory "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/src/libphidget21" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

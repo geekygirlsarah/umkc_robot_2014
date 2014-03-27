@@ -31,17 +31,11 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Include any dependencies generated for this target.
 include imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/depend.make
@@ -52,24 +46,19 @@ include imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/progress.make
 # Include the compile flags for this target's objects.
 include imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/flags.make
 
-imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/rviz_imu_plugin/moc_imu_display.cxx"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/moc -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtCore -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"rviz_imu_plugin\" -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NO_KEYWORDS -o /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
-
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/flags.make
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.i
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.s
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o.requires:
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o.requires
@@ -81,18 +70,18 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o.p
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o.provides.build: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/flags.make
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.i
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.s
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o.requires:
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o.requires
@@ -104,18 +93,18 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_vis
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o.provides.build: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/flags.make
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_4)
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.i
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.s
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o.requires:
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o.requires
@@ -127,18 +116,18 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o.provides.build: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/flags.make
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_5)
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp > CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.i
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp -o CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.s
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o.requires:
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o.requires
@@ -151,17 +140,17 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/flags.make
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o: imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx > CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx > CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.i
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx -o CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx -o CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.s
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o.requires:
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o.requires
@@ -171,6 +160,11 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o.provides
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o.provides.build: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o
+
+imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/rviz_imu_plugin/moc_imu_display.cxx"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && /usr/bin/moc-qt4 -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtCore -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"rviz_imu_plugin\" -DROSCONSOLE_BACKEND_LOG4CXX -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NO_KEYWORDS -o /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
 
 # Object files for target rviz_imu_plugin
 rviz_imu_plugin_OBJECTS = \
@@ -183,82 +177,84 @@ rviz_imu_plugin_OBJECTS = \
 # External object files for target rviz_imu_plugin
 rviz_imu_plugin_EXTERNAL_OBJECTS =
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/qt4/libQtGui.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/qt4/libQtCore.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librviz.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libdefault_plugin.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libOgreMain.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libGLU.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libGL.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libSM.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libICE.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libX11.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libXext.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_sensor.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_model_state.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_model.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_world.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libconsole_bridge.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libcpp_common.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libroscpp_serialization.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librostime.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_date_time-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_system-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_thread-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libimage_geometry.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_calib3d.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_contrib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_core.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_features2d.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_flann.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_gpu.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_highgui.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_imgproc.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_legacy.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_ml.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_nonfree.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_objdetect.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_photo.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_stitching.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_superres.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_video.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_videostab.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libimage_transport.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libmessage_filters.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libroscpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libpthread.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_signals-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_filesystem-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librosconsole.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_regex-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/liblog4cxx.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libxmlrpcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libtinyxml.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libclass_loader.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libPocoFoundation.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libdl.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libroslib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libinteractive_markers.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libtf.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libtf2_ros.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libactionlib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libtf2.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liblaser_geometry.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libresource_retriever.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdf.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librosconsole_bridge.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/rviz_imu_plugin.dir/link.txt --verbose=$(VERBOSE)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libQtGui.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libQtCore.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librviz.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libdefault_plugin.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libOgreMain.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libGLU.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libGL.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libSM.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libICE.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libX11.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libXext.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libimage_geometry.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_calib3d.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_contrib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_core.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_features2d.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_flann.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_gpu.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_highgui.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_imgproc.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_legacy.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_ml.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_nonfree.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_objdetect.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_photo.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_stitching.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_superres.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_video.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libopencv_videostab.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libimage_transport.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libinteractive_markers.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liblaser_geometry.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libtinyxml.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libclass_loader.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libPocoFoundation.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libdl.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libresource_retriever.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libroslib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libtf.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libtf2_ros.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libactionlib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libmessage_filters.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libtf2.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdf.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_sensor.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_model_state.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_model.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/liburdfdom_world.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librosconsole_bridge.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libroscpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_signals-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_filesystem-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librosconsole.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librosconsole_log4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librosconsole_backend_interface.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/liblog4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_regex-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libxmlrpcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libroscpp_serialization.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/librostime.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_date_time-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_system-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/libboost_thread-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /usr/lib/i386-linux-gnu/libpthread.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libcpp_common.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: /opt/ros/hydro/lib/libconsole_bridge.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/rviz_imu_plugin.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so
+imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/librviz_imu_plugin.so
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/requires: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o.requires
@@ -269,10 +265,10 @@ imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/requires: imu_tools/rvi
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/requires
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && $(CMAKE_COMMAND) -P CMakeFiles/rviz_imu_plugin.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin && $(CMAKE_COMMAND) -P CMakeFiles/rviz_imu_plugin.dir/cmake_clean.cmake
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/clean
 
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/depend: imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/depend
 

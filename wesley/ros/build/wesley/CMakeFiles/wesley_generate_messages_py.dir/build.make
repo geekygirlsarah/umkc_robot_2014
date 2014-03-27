@@ -31,50 +31,44 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Utility rule file for wesley_generate_messages_py.
 
 # Include the progress variables for this target.
 include wesley/CMakeFiles/wesley_generate_messages_py.dir/progress.make
 
-wesley/CMakeFiles/wesley_generate_messages_py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_point.py
-wesley/CMakeFiles/wesley_generate_messages_py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_angle.py
-wesley/CMakeFiles/wesley_generate_messages_py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/__init__.py
+wesley/CMakeFiles/wesley_generate_messages_py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_angle.py
+wesley/CMakeFiles/wesley_generate_messages_py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_point.py
+wesley/CMakeFiles/wesley_generate_messages_py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/__init__.py
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_point.py: /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_point.py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Python from MSG wesley/arm_point"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg -Iwesley:/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg
-
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_angle.py: /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_angle.py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_angle.py: /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_angle.py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Python from MSG wesley/arm_angle"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg -Iwesley:/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg -Iwesley:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/__init__.py: /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/__init__.py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_point.py
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/__init__.py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_angle.py
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_point.py: /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_point.py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Python from MSG wesley/arm_point"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg -Iwesley:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg -Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg -p wesley -o /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/__init__.py: /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/__init__.py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_angle.py
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/__init__.py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_point.py
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Python msg __init__.py for wesley"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg --initpy
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/hydro/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg --initpy
 
 wesley_generate_messages_py: wesley/CMakeFiles/wesley_generate_messages_py
-wesley_generate_messages_py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_point.py
-wesley_generate_messages_py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/_arm_angle.py
-wesley_generate_messages_py: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages/wesley/msg/__init__.py
+wesley_generate_messages_py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_angle.py
+wesley_generate_messages_py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/_arm_point.py
+wesley_generate_messages_py: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages/wesley/msg/__init__.py
 wesley_generate_messages_py: wesley/CMakeFiles/wesley_generate_messages_py.dir/build.make
 .PHONY : wesley_generate_messages_py
 
@@ -83,10 +77,10 @@ wesley/CMakeFiles/wesley_generate_messages_py.dir/build: wesley_generate_message
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_py.dir/build
 
 wesley/CMakeFiles/wesley_generate_messages_py.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley && $(CMAKE_COMMAND) -P CMakeFiles/wesley_generate_messages_py.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley && $(CMAKE_COMMAND) -P CMakeFiles/wesley_generate_messages_py.dir/cmake_clean.cmake
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_py.dir/clean
 
 wesley/CMakeFiles/wesley_generate_messages_py.dir/depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/wesley_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/wesley_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_py.dir/depend
 

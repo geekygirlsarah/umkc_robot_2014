@@ -1,8 +1,8 @@
-prefix=/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel
+prefix=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel
 
 Name: phidgets_api
 Description: Description of phidgets_api
 Version: 0.2.0
-Cflags: -I/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include
-Libs: -L/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib -lphidgets_api
+Cflags: -I/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include
+Libs: -L/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib -lphidgets_api
 Requires: 

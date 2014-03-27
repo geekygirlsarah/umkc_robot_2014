@@ -1,8 +1,8 @@
-prefix=/home/umkc/umkc_robot_2014_arduino/wesley/ros/install
+prefix=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install
 
 Name: commander
 Description: Description of commander
 Version: 0.0.0
 Cflags: 
-Libs: -L/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/lib 
+Libs: -L/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/lib 
 Requires: 

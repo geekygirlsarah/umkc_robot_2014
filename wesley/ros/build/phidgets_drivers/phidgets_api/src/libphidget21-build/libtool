@@ -1,8 +1,8 @@
-#! /bin/sh
+#! /bin/bash
 
 # libtool - Provide generalized library-building support services.
 # Generated automatically by config.status (libphidget) 2.1.8.20130723
-# Libtool was configured on host robodevel2:
+# Libtool was configured on host wesley:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -53,10 +53,10 @@ build_old_libs=yes
 pic_mode=default
 
 # Whether or not to optimize for fast installation.
-fast_install=needless
+fast_install=yes
 
 # Shell to use when invoking shell scripts.
-SHELL="/bin/sh"
+SHELL="/bin/bash"
 
 # An echo program that protects backslashes.
 ECHO="printf %s\\n"
@@ -96,7 +96,7 @@ NM="/usr/bin/nm -B"
 LN_S="ln -s"
 
 # What is the maximum length of a command?
-max_cmd_len=1572864
+max_cmd_len=805306365
 
 # Object file suffix (normally "o").
 objext=o
@@ -240,7 +240,7 @@ runpath_var=LD_RUN_PATH
 shlibpath_var=LD_LIBRARY_PATH
 
 # Is shlibpath searched before the hard-coded library search path?
-shlibpath_overrides_runpath=yes
+shlibpath_overrides_runpath=no
 
 # Format of library name prefix.
 libname_spec="lib\$name"
@@ -272,10 +272,10 @@ finish_eval=""
 hardcode_into_libs=yes
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/usr/lib/gcc/i686-pc-linux-gnu/4.7.3 /usr/i686-pc-linux-gnu/lib /usr/lib /lib "
+sys_lib_search_path_spec="/usr/lib/gcc/i686-linux-gnu/4.6 /usr/lib/i386-linux-gnu /usr/lib /lib/i386-linux-gnu /lib "
 
 # Run-time system search path for libraries.
-sys_lib_dlsearch_path_spec="/lib /usr/lib /lib /usr/lib /usr/local/lib /usr/lib/gcc/i686-pc-linux-gnu/4.7.3 /usr/lib/gcc/i686-pc-linux-gnu/4.6.3 /usr/lib/OpenCL/vendors/nvidia /usr/lib/opengl/nvidia/lib /usr/i686-pc-linux-gnu/lib /usr/lib/qt4 /opt/nvidia-cg-toolkit/lib /usr/games/lib /opt/cuda/lib /usr/lib/fltk-1 "
+sys_lib_dlsearch_path_spec="/lib /usr/lib /usr/lib/nvidia-319 /lib/i386-linux-gnu /usr/lib/i386-linux-gnu /lib/i686-linux-gnu /usr/lib/i686-linux-gnu /usr/local/lib /usr/lib/nvidia-settings-319 "
 
 # Whether dlopen is supported.
 dlopen_support=unknown
@@ -292,7 +292,7 @@ striplib="strip --strip-unneeded"
 
 
 # The linker used to build libraries.
-LD="/usr/i686-pc-linux-gnu/bin/ld"
+LD="/usr/bin/ld"
 
 # How to create reloadable object files.
 reload_flag=" -r"

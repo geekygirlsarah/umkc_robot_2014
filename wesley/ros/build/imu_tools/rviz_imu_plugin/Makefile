@@ -35,25 +35,19 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
+	/usr/bin/cmake -i .
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -81,6 +75,16 @@ install/local: preinstall
 # Special rule for the target install/local
 install/local/fast: install/local
 .PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+.PHONY : install/strip/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -113,14 +117,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/CMakeFiles/progress.marks
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/CMakeFiles/progress.marks
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/clean
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/clean
 .PHONY : clean
 
 # The main clean target
@@ -129,22 +133,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -153,12 +157,12 @@ map_msgs_generate_messages_cpp: imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_ge
 
 # fast build rule for target.
 map_msgs_generate_messages_cpp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_cpp.dir/build
 .PHONY : map_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -167,12 +171,12 @@ map_msgs_generate_messages_lisp: imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_g
 
 # fast build rule for target.
 map_msgs_generate_messages_lisp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_lisp.dir/build
 .PHONY : map_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -181,12 +185,12 @@ map_msgs_generate_messages_py: imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_gen
 
 # fast build rule for target.
 map_msgs_generate_messages_py/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/map_msgs_generate_messages_py.dir/build
 .PHONY : map_msgs_generate_messages_py/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -195,12 +199,12 @@ nav_msgs_generate_messages_cpp: imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_ge
 
 # fast build rule for target.
 nav_msgs_generate_messages_cpp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build
 .PHONY : nav_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -209,12 +213,12 @@ nav_msgs_generate_messages_lisp: imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_g
 
 # fast build rule for target.
 nav_msgs_generate_messages_lisp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build
 .PHONY : nav_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -223,12 +227,12 @@ nav_msgs_generate_messages_py: imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_gen
 
 # fast build rule for target.
 nav_msgs_generate_messages_py/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/nav_msgs_generate_messages_py.dir/build
 .PHONY : nav_msgs_generate_messages_py/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/rule
 
 # Convenience name for target.
@@ -237,12 +241,12 @@ rviz_imu_plugin: imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/rule
 
 # fast build rule for target.
 rviz_imu_plugin/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build
 .PHONY : rviz_imu_plugin/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -251,12 +255,12 @@ visualization_msgs_generate_messages_cpp: imu_tools/rviz_imu_plugin/CMakeFiles/v
 
 # fast build rule for target.
 visualization_msgs_generate_messages_cpp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build
 .PHONY : visualization_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -265,12 +269,12 @@ visualization_msgs_generate_messages_lisp: imu_tools/rviz_imu_plugin/CMakeFiles/
 
 # fast build rule for target.
 visualization_msgs_generate_messages_lisp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build
 .PHONY : visualization_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
 .PHONY : imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -279,7 +283,7 @@ visualization_msgs_generate_messages_py: imu_tools/rviz_imu_plugin/CMakeFiles/vi
 
 # fast build rule for target.
 visualization_msgs_generate_messages_py/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/visualization_msgs_generate_messages_py.dir/build
 .PHONY : visualization_msgs_generate_messages_py/fast
 
 include/rviz_imu_plugin/moc_imu_display.o: include/rviz_imu_plugin/moc_imu_display.cxx.o
@@ -287,7 +291,7 @@ include/rviz_imu_plugin/moc_imu_display.o: include/rviz_imu_plugin/moc_imu_displ
 
 # target to build an object file
 include/rviz_imu_plugin/moc_imu_display.cxx.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.o
 .PHONY : include/rviz_imu_plugin/moc_imu_display.cxx.o
 
 include/rviz_imu_plugin/moc_imu_display.i: include/rviz_imu_plugin/moc_imu_display.cxx.i
@@ -295,7 +299,7 @@ include/rviz_imu_plugin/moc_imu_display.i: include/rviz_imu_plugin/moc_imu_displ
 
 # target to preprocess a source file
 include/rviz_imu_plugin/moc_imu_display.cxx.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.i
 .PHONY : include/rviz_imu_plugin/moc_imu_display.cxx.i
 
 include/rviz_imu_plugin/moc_imu_display.s: include/rviz_imu_plugin/moc_imu_display.cxx.s
@@ -303,7 +307,7 @@ include/rviz_imu_plugin/moc_imu_display.s: include/rviz_imu_plugin/moc_imu_displ
 
 # target to generate assembly for a file
 include/rviz_imu_plugin/moc_imu_display.cxx.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/include/rviz_imu_plugin/moc_imu_display.cxx.s
 .PHONY : include/rviz_imu_plugin/moc_imu_display.cxx.s
 
 src/imu_acc_visual.o: src/imu_acc_visual.cpp.o
@@ -311,7 +315,7 @@ src/imu_acc_visual.o: src/imu_acc_visual.cpp.o
 
 # target to build an object file
 src/imu_acc_visual.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.o
 .PHONY : src/imu_acc_visual.cpp.o
 
 src/imu_acc_visual.i: src/imu_acc_visual.cpp.i
@@ -319,7 +323,7 @@ src/imu_acc_visual.i: src/imu_acc_visual.cpp.i
 
 # target to preprocess a source file
 src/imu_acc_visual.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.i
 .PHONY : src/imu_acc_visual.cpp.i
 
 src/imu_acc_visual.s: src/imu_acc_visual.cpp.s
@@ -327,7 +331,7 @@ src/imu_acc_visual.s: src/imu_acc_visual.cpp.s
 
 # target to generate assembly for a file
 src/imu_acc_visual.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_acc_visual.cpp.s
 .PHONY : src/imu_acc_visual.cpp.s
 
 src/imu_axes_visual.o: src/imu_axes_visual.cpp.o
@@ -335,7 +339,7 @@ src/imu_axes_visual.o: src/imu_axes_visual.cpp.o
 
 # target to build an object file
 src/imu_axes_visual.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.o
 .PHONY : src/imu_axes_visual.cpp.o
 
 src/imu_axes_visual.i: src/imu_axes_visual.cpp.i
@@ -343,7 +347,7 @@ src/imu_axes_visual.i: src/imu_axes_visual.cpp.i
 
 # target to preprocess a source file
 src/imu_axes_visual.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.i
 .PHONY : src/imu_axes_visual.cpp.i
 
 src/imu_axes_visual.s: src/imu_axes_visual.cpp.s
@@ -351,7 +355,7 @@ src/imu_axes_visual.s: src/imu_axes_visual.cpp.s
 
 # target to generate assembly for a file
 src/imu_axes_visual.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_axes_visual.cpp.s
 .PHONY : src/imu_axes_visual.cpp.s
 
 src/imu_display.o: src/imu_display.cpp.o
@@ -359,7 +363,7 @@ src/imu_display.o: src/imu_display.cpp.o
 
 # target to build an object file
 src/imu_display.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.o
 .PHONY : src/imu_display.cpp.o
 
 src/imu_display.i: src/imu_display.cpp.i
@@ -367,7 +371,7 @@ src/imu_display.i: src/imu_display.cpp.i
 
 # target to preprocess a source file
 src/imu_display.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.i
 .PHONY : src/imu_display.cpp.i
 
 src/imu_display.s: src/imu_display.cpp.s
@@ -375,7 +379,7 @@ src/imu_display.s: src/imu_display.cpp.s
 
 # target to generate assembly for a file
 src/imu_display.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_display.cpp.s
 .PHONY : src/imu_display.cpp.s
 
 src/imu_orientation_visual.o: src/imu_orientation_visual.cpp.o
@@ -383,7 +387,7 @@ src/imu_orientation_visual.o: src/imu_orientation_visual.cpp.o
 
 # target to build an object file
 src/imu_orientation_visual.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.o
 .PHONY : src/imu_orientation_visual.cpp.o
 
 src/imu_orientation_visual.i: src/imu_orientation_visual.cpp.i
@@ -391,7 +395,7 @@ src/imu_orientation_visual.i: src/imu_orientation_visual.cpp.i
 
 # target to preprocess a source file
 src/imu_orientation_visual.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.i
 .PHONY : src/imu_orientation_visual.cpp.i
 
 src/imu_orientation_visual.s: src/imu_orientation_visual.cpp.s
@@ -399,7 +403,7 @@ src/imu_orientation_visual.s: src/imu_orientation_visual.cpp.s
 
 # target to generate assembly for a file
 src/imu_orientation_visual.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/build.make imu_tools/rviz_imu_plugin/CMakeFiles/rviz_imu_plugin.dir/src/imu_orientation_visual.cpp.s
 .PHONY : src/imu_orientation_visual.cpp.s
 
 # Help Target
@@ -411,6 +415,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
+	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... map_msgs_generate_messages_cpp"
 	@echo "... map_msgs_generate_messages_lisp"
@@ -450,6 +455,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

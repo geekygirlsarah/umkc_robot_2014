@@ -100,38 +100,52 @@ int main(int argc, char* argv[]) {
 	ROS_INFO("ID_FLAME --> camera open.");
 
 	Mat rigs[4];
+	
+	string path = "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/config/";
+	string image_file[4] = {
+		"",
+		"rig_square.png",
+		"rig_triangle.png",
+		"rig_circle.png"
+	};
+	string filename = "";
 
 	// these should eventually be configurable via a launch file
 	struct stat verify;
-	if (stat("./rig_square.png", &verify) == 0) {
-		rigs[SQUARE] = imread("./rig_square.png", CV_LOAD_IMAGE_GRAYSCALE);
+	filename = path + image_file[SQUARE];
+	if (stat(filename.c_str(), &verify) == 0) {
+		rigs[SQUARE] = imread(filename.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
 	} else {
-		ROS_ERROR("could not locate file 'rig_square.png' - fatal; bailing.");
+		ROS_ERROR("could not locate file '%s' - fatal; bailing.", image_file[SQUARE].c_str());
 		return(10);
 	}
-	ROS_INFO("ID_FLAME --> rig_square.png found.");
-	if (stat("./rig_triangle.png", &verify) == 0) {
-		rigs[TRIANGLE] = imread("./rig_triangle.png", CV_LOAD_IMAGE_GRAYSCALE);
+	ROS_INFO("ID_FLAME --> '%s' found.", image_file[SQUARE].c_str());
+	filename = path + image_file[TRIANGLE];
+	if (stat(filename.c_str(), &verify) == 0) {
+		rigs[TRIANGLE] = imread(filename.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
 	} else {
-		ROS_ERROR("could not locate file 'rig_triangle.png' - fatal; bailing.");
-		return(20);
+		ROS_ERROR("could not locate file '%s' - fatal; bailing.", image_file[TRIANGLE].c_str());
+		return(10);
 	}
-	ROS_INFO("ID_FLAME --> rig_triangle.png found.");
-	if (stat("./rig_circle.png", &verify) == 0) {
-		rigs[CIRCLE] = imread("./rig_circle.png", CV_LOAD_IMAGE_GRAYSCALE);
+	ROS_INFO("ID_FLAME --> '%s' found.", image_file[TRIANGLE].c_str());
+	filename = path + image_file[CIRCLE];
+	if (stat(filename.c_str(), &verify) == 0) {
+		rigs[CIRCLE] = imread(filename.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
 	} else {
-		ROS_ERROR("could not locate file 'rig_circle.png' - fatal; bailing.");
-		return(30);
+		ROS_ERROR("could not locate file '%s' - fatal; bailing.", image_file[CIRCLE].c_str());
+		return(10);
 	}
-	ROS_INFO("ID_FLAME --> rig_circle.png found.");
+	ROS_INFO("ID_FLAME --> '%s' found.", image_file[CIRCLE].c_str());
+
 	std::ifstream fin;
-	if (stat("./position_rigs.lst", &verify) == 0) {
-		fin.open("./position_rigs.lst", std::ifstream::in);
+	filename = path + "position_rigs.lst";
+	if (stat(filename.c_str(), &verify) == 0) {
+		fin.open(filename.c_str(), std::ifstream::in);
 	} else {
 		ROS_ERROR("could not locate file 'position_rigs.lst' - fatal; bailing.");
 		return(40);
 	}
-	ROS_INFO("ID_FLAME --> position_rigs.lst found.");
+	ROS_INFO("ID_FLAME --> 'position_rigs.lst' found.");
 
 	vector<wesley::arm_point> hopper;
 	int x, y, z, p, r;

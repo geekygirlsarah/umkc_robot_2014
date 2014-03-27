@@ -31,17 +31,11 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Include any dependencies generated for this target.
 include mega_caretaker/CMakeFiles/mega_caretaker_node.dir/depend.make
@@ -53,18 +47,18 @@ include mega_caretaker/CMakeFiles/mega_caretaker_node.dir/progress.make
 include mega_caretaker/CMakeFiles/mega_caretaker_node.dir/flags.make
 
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/flags.make
-mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
+mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp
 
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp > CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp > CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.i
 
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp -o CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp -o CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.s
 
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o.requires:
 .PHONY : mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o.requires
@@ -82,85 +76,89 @@ mega_caretaker_node_OBJECTS = \
 # External object files for target mega_caretaker_node
 mega_caretaker_node_EXTERNAL_OBJECTS =
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build.make
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libpthread.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_signals-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_filesystem-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_system-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libcpp_common.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp_serialization.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librostime.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_date_time-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_thread-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_regex-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/liblog4cxx.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libxmlrpcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libimu_filter.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libimu_filter_nodelet.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libmessage_filters.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2_ros.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libactionlib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libconsole_bridge.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libnodeletlib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libuuid.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libbondcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libtinyxml.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libclass_loader.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libPocoFoundation.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libdl.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroslib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libdynamic_reconfigure_config_init_mutex.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libimu_filter.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libpthread.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_signals-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_filesystem-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_system-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libcpp_common.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp_serialization.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librostime.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_date_time-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_thread-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_regex-mt.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/liblog4cxx.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libxmlrpcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libmessage_filters.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2_ros.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libactionlib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libconsole_bridge.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libnodeletlib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libuuid.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libbondcpp.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libtinyxml.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libclass_loader.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libPocoFoundation.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libdl.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroslib.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libdynamic_reconfigure_config_init_mutex.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/mega_caretaker_node.dir/link.txt --verbose=$(VERBOSE)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libimu_filter.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libimu_filter_nodelet.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2_ros.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libactionlib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libnodeletlib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libbondcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/i386-linux-gnu/libuuid.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libtinyxml.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libclass_loader.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libPocoFoundation.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/i386-linux-gnu/libdl.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroslib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libmessage_filters.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_signals-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_filesystem-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libxmlrpcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole_log4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole_backend_interface.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/liblog4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_regex-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libdynamic_reconfigure_config_init_mutex.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp_serialization.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librostime.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_date_time-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_system-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_thread-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/i386-linux-gnu/libpthread.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libcpp_common.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libconsole_bridge.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libimu_filter.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2_ros.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libactionlib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libtf2.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libnodeletlib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libbondcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/i386-linux-gnu/libuuid.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libtinyxml.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libclass_loader.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libPocoFoundation.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/i386-linux-gnu/libdl.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroslib.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libmessage_filters.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_signals-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_filesystem-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libxmlrpcpp.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole_log4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librosconsole_backend_interface.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/liblog4cxx.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_regex-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libdynamic_reconfigure_config_init_mutex.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libroscpp_serialization.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/librostime.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_date_time-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_system-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/libboost_thread-mt.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /usr/lib/i386-linux-gnu/libpthread.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libcpp_common.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: /opt/ros/hydro/lib/libconsole_bridge.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build.make
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/mega_caretaker_node.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node
+mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/mega_caretaker/mega_caretaker_node
 .PHONY : mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build
 
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/requires: mega_caretaker/CMakeFiles/mega_caretaker_node.dir/src/mega_caretaker.cpp.o.requires
 .PHONY : mega_caretaker/CMakeFiles/mega_caretaker_node.dir/requires
 
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && $(CMAKE_COMMAND) -P CMakeFiles/mega_caretaker_node.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker && $(CMAKE_COMMAND) -P CMakeFiles/mega_caretaker_node.dir/cmake_clean.cmake
 .PHONY : mega_caretaker/CMakeFiles/mega_caretaker_node.dir/clean
 
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker/CMakeFiles/mega_caretaker_node.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker/CMakeFiles/mega_caretaker_node.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : mega_caretaker/CMakeFiles/mega_caretaker_node.dir/depend
 

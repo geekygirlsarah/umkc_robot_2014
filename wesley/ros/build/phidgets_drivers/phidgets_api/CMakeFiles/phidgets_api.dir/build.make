@@ -31,17 +31,11 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 # Include any dependencies generated for this target.
 include phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/depend.make
@@ -53,18 +47,18 @@ include phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/progress.make
 include phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/flags.make
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/flags.make
-phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
+phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/phidgets_api.dir/src/phidget.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/phidgets_api.dir/src/phidget.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/phidgets_api.dir/src/phidget.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp > CMakeFiles/phidgets_api.dir/src/phidget.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp > CMakeFiles/phidgets_api.dir/src/phidget.cpp.i
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/phidgets_api.dir/src/phidget.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp -o CMakeFiles/phidgets_api.dir/src/phidget.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp -o CMakeFiles/phidgets_api.dir/src/phidget.cpp.s
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o.requires:
 .PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o.requires
@@ -76,18 +70,18 @@ phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o.prov
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o.provides.build: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/flags.make
-phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
+phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/phidgets_api.dir/src/imu.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/phidgets_api.dir/src/imu.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/phidgets_api.dir/src/imu.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp > CMakeFiles/phidgets_api.dir/src/imu.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp > CMakeFiles/phidgets_api.dir/src/imu.cpp.i
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/phidgets_api.dir/src/imu.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp -o CMakeFiles/phidgets_api.dir/src/imu.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp -o CMakeFiles/phidgets_api.dir/src/imu.cpp.s
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o.requires:
 .PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o.requires
@@ -99,18 +93,18 @@ phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o.provides
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o.provides.build: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/flags.make
-phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
+phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/phidgets_api.dir/src/ir.cpp.o -c /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/phidgets_api.dir/src/ir.cpp.o -c /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/phidgets_api.dir/src/ir.cpp.i"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp > CMakeFiles/phidgets_api.dir/src/ir.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp > CMakeFiles/phidgets_api.dir/src/ir.cpp.i
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/phidgets_api.dir/src/ir.cpp.s"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp -o CMakeFiles/phidgets_api.dir/src/ir.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp -o CMakeFiles/phidgets_api.dir/src/ir.cpp.s
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o.requires:
 .PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o.requires
@@ -130,40 +124,18 @@ phidgets_api_OBJECTS = \
 # External object files for target phidgets_api
 phidgets_api_EXTERNAL_OBJECTS =
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/build.make
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidget21.so
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/phidgets_api.dir/link.txt --verbose=$(VERBOSE)
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidget21.so
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/build.make
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so"
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/phidgets_api.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/build: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so
+phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/build: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidgets_api.so
 .PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/build
-
-# Object files for target phidgets_api
-phidgets_api_OBJECTS = \
-"CMakeFiles/phidgets_api.dir/src/phidget.cpp.o" \
-"CMakeFiles/phidgets_api.dir/src/imu.cpp.o" \
-"CMakeFiles/phidgets_api.dir/src/ir.cpp.o"
-
-# External object files for target phidgets_api
-phidgets_api_EXTERNAL_OBJECTS =
-
-phidgets_drivers/phidgets_api/CMakeFiles/CMakeRelink.dir/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o
-phidgets_drivers/phidgets_api/CMakeFiles/CMakeRelink.dir/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o
-phidgets_drivers/phidgets_api/CMakeFiles/CMakeRelink.dir/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/ir.cpp.o
-phidgets_drivers/phidgets_api/CMakeFiles/CMakeRelink.dir/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/build.make
-phidgets_drivers/phidgets_api/CMakeFiles/CMakeRelink.dir/libphidgets_api.so: /home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/libphidget21.so
-phidgets_drivers/phidgets_api/CMakeFiles/CMakeRelink.dir/libphidgets_api.so: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/relink.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library CMakeFiles/CMakeRelink.dir/libphidgets_api.so"
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/phidgets_api.dir/relink.txt --verbose=$(VERBOSE)
-
-# Rule to relink during preinstall.
-phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/preinstall: phidgets_drivers/phidgets_api/CMakeFiles/CMakeRelink.dir/libphidgets_api.so
-.PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/preinstall
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/requires: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/phidget.cpp.o.requires
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/requires: phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/src/imu.cpp.o.requires
@@ -171,10 +143,10 @@ phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/requires: phidgets_dri
 .PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/requires
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && $(CMAKE_COMMAND) -P CMakeFiles/phidgets_api.dir/cmake_clean.cmake
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api && $(CMAKE_COMMAND) -P CMakeFiles/phidgets_api.dir/cmake_clean.cmake
 .PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/clean
 
 phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api /home/umkc/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : phidgets_drivers/phidgets_api/CMakeFiles/phidgets_api.dir/depend
 

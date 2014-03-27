@@ -1,8 +1,8 @@
-# Install script for directory: /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+# Install script for directory: /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install")
+  SET(CMAKE_INSTALL_PREFIX "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -29,91 +29,49 @@ ENDIF(NOT CMAKE_INSTALL_COMPONENT)
 
 # Install shared libraries without execute permission?
 IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  SET(CMAKE_INSTALL_SO_NO_EXE "0")
+  SET(CMAKE_INSTALL_SO_NO_EXE "1")
 ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/.catkin")
-  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-FILE(INSTALL DESTINATION "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.catkin")
+  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/.catkin")
+FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.catkin")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/_setup_util.py")
-  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-FILE(INSTALL DESTINATION "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install" TYPE PROGRAM FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/_setup_util.py")
+  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/_setup_util.py")
+FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE PROGRAM FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/_setup_util.py")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/env.sh")
-  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-FILE(INSTALL DESTINATION "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install" TYPE PROGRAM FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/env.sh")
+  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/env.sh")
+FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE PROGRAM FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/env.sh")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/setup.bash")
-  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-FILE(INSTALL DESTINATION "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.bash")
+  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/setup.bash")
+FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.bash")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/setup.sh")
-  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-FILE(INSTALL DESTINATION "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.sh")
+  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/setup.sh")
+FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.sh")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/setup.zsh")
-  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-FILE(INSTALL DESTINATION "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.zsh")
+  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/setup.zsh")
+FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.zsh")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/.rosinstall")
-  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-FILE(INSTALL DESTINATION "/home/umkc/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.rosinstall")
+  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/.rosinstall")
+FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.rosinstall")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
@@ -126,25 +84,19 @@ ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unsp
 
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/imu_filter_madgwick/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/imu_tools/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_drivers/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_imu/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_ir/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial_client/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial_msgs/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial_arduino/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial_embeddedlinux/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial_python/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial_server/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/rosserial/rosserial_xbee/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/camera/cmake_install.cmake")
-  INCLUDE("/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/commander/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/gtest/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander_logger/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/imu_filter_madgwick/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/imu_tools/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/mega_caretaker/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_drivers/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_imu/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_ir/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 
@@ -154,7 +106,7 @@ ELSE(CMAKE_INSTALL_COMPONENT)
   SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 ENDIF(CMAKE_INSTALL_COMPONENT)
 
-FILE(WRITE "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/${CMAKE_INSTALL_MANIFEST}" "")
+FILE(WRITE "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/${CMAKE_INSTALL_MANIFEST}" "")
 FOREACH(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  FILE(APPEND "/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  FILE(APPEND "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 ENDFOREACH(file)

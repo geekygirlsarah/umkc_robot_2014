@@ -35,25 +35,19 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
+	/usr/bin/cmake -i .
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -81,6 +75,16 @@ install/local: preinstall
 # Special rule for the target install/local
 install/local/fast: install/local
 .PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+.PHONY : install/strip/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -113,14 +117,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_ir/CMakeFiles/progress.marks
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_ir/CMakeFiles/progress.marks
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/clean
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/clean
 .PHONY : clean
 
 # The main clean target
@@ -129,22 +133,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/rule
 .PHONY : phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/rule
 
 # Convenience name for target.
@@ -153,17 +157,12 @@ phidgets_ir: phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/rule
 
 # fast build rule for target.
 phidgets_ir/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build
 .PHONY : phidgets_ir/fast
-
-# Manual pre-install relink rule for target.
-phidgets_ir/preinstall:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/preinstall
-.PHONY : phidgets_ir/preinstall
 
 # Convenience name for target.
 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/rule
 .PHONY : phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/rule
 
 # Convenience name for target.
@@ -172,20 +171,15 @@ phidgets_ir_node: phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/r
 
 # fast build rule for target.
 phidgets_ir_node/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build
 .PHONY : phidgets_ir_node/fast
-
-# Manual pre-install relink rule for target.
-phidgets_ir_node/preinstall:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/preinstall
-.PHONY : phidgets_ir_node/preinstall
 
 src/ir_ros_i.o: src/ir_ros_i.cpp.o
 .PHONY : src/ir_ros_i.o
 
 # target to build an object file
 src/ir_ros_i.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/src/ir_ros_i.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/src/ir_ros_i.cpp.o
 .PHONY : src/ir_ros_i.cpp.o
 
 src/ir_ros_i.i: src/ir_ros_i.cpp.i
@@ -193,7 +187,7 @@ src/ir_ros_i.i: src/ir_ros_i.cpp.i
 
 # target to preprocess a source file
 src/ir_ros_i.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/src/ir_ros_i.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/src/ir_ros_i.cpp.i
 .PHONY : src/ir_ros_i.cpp.i
 
 src/ir_ros_i.s: src/ir_ros_i.cpp.s
@@ -201,7 +195,7 @@ src/ir_ros_i.s: src/ir_ros_i.cpp.s
 
 # target to generate assembly for a file
 src/ir_ros_i.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/src/ir_ros_i.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir.dir/src/ir_ros_i.cpp.s
 .PHONY : src/ir_ros_i.cpp.s
 
 src/phidgets_ir_node.o: src/phidgets_ir_node.cpp.o
@@ -209,7 +203,7 @@ src/phidgets_ir_node.o: src/phidgets_ir_node.cpp.o
 
 # target to build an object file
 src/phidgets_ir_node.cpp.o:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/src/phidgets_ir_node.cpp.o
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/src/phidgets_ir_node.cpp.o
 .PHONY : src/phidgets_ir_node.cpp.o
 
 src/phidgets_ir_node.i: src/phidgets_ir_node.cpp.i
@@ -217,7 +211,7 @@ src/phidgets_ir_node.i: src/phidgets_ir_node.cpp.i
 
 # target to preprocess a source file
 src/phidgets_ir_node.cpp.i:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/src/phidgets_ir_node.cpp.i
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/src/phidgets_ir_node.cpp.i
 .PHONY : src/phidgets_ir_node.cpp.i
 
 src/phidgets_ir_node.s: src/phidgets_ir_node.cpp.s
@@ -225,7 +219,7 @@ src/phidgets_ir_node.s: src/phidgets_ir_node.cpp.s
 
 # target to generate assembly for a file
 src/phidgets_ir_node.cpp.s:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/src/phidgets_ir_node.cpp.s
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/build.make phidgets_drivers/phidgets_ir/CMakeFiles/phidgets_ir_node.dir/src/phidgets_ir_node.cpp.s
 .PHONY : src/phidgets_ir_node.cpp.s
 
 # Help Target
@@ -237,6 +231,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
+	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... phidgets_ir"
 	@echo "... phidgets_ir_node"
@@ -259,6 +254,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -4,5 +4,5 @@
 # compile CXX with /usr/bin/c++
 CXX_FLAGS = -I/opt/ros/hydro/include   
 
-CXX_DEFINES = -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"commander\"
+CXX_DEFINES = -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"commander\" -DROSCONSOLE_BACKEND_LOG4CXX
 

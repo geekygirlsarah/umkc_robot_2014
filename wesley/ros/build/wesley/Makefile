@@ -35,25 +35,19 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/src
+CMAKE_SOURCE_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/umkc/umkc_robot_2014_arduino/wesley/ros/build
+CMAKE_BINARY_DIR = /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
+	/usr/bin/cmake -i .
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -81,6 +75,16 @@ install/local: preinstall
 # Special rule for the target install/local
 install/local/fast: install/local
 .PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+.PHONY : install/strip/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -113,14 +117,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/progress.marks
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley/CMakeFiles/progress.marks
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/clean
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/clean
 .PHONY : clean
 
 # The main clean target
@@ -129,22 +133,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/preinstall
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 wesley/CMakeFiles/wesley_gencpp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_gencpp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_gencpp.dir/rule
 .PHONY : wesley/CMakeFiles/wesley_gencpp.dir/rule
 
 # Convenience name for target.
@@ -153,12 +157,12 @@ wesley_gencpp: wesley/CMakeFiles/wesley_gencpp.dir/rule
 
 # fast build rule for target.
 wesley_gencpp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_gencpp.dir/build.make wesley/CMakeFiles/wesley_gencpp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_gencpp.dir/build.make wesley/CMakeFiles/wesley_gencpp.dir/build
 .PHONY : wesley_gencpp/fast
 
 # Convenience name for target.
 wesley/CMakeFiles/wesley_generate_messages.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages.dir/rule
 .PHONY : wesley/CMakeFiles/wesley_generate_messages.dir/rule
 
 # Convenience name for target.
@@ -167,12 +171,12 @@ wesley_generate_messages: wesley/CMakeFiles/wesley_generate_messages.dir/rule
 
 # fast build rule for target.
 wesley_generate_messages/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages.dir/build.make wesley/CMakeFiles/wesley_generate_messages.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages.dir/build.make wesley/CMakeFiles/wesley_generate_messages.dir/build
 .PHONY : wesley_generate_messages/fast
 
 # Convenience name for target.
 wesley/CMakeFiles/wesley_generate_messages_cpp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages_cpp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages_cpp.dir/rule
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -181,12 +185,12 @@ wesley_generate_messages_cpp: wesley/CMakeFiles/wesley_generate_messages_cpp.dir
 
 # fast build rule for target.
 wesley_generate_messages_cpp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages_cpp.dir/build.make wesley/CMakeFiles/wesley_generate_messages_cpp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages_cpp.dir/build.make wesley/CMakeFiles/wesley_generate_messages_cpp.dir/build
 .PHONY : wesley_generate_messages_cpp/fast
 
 # Convenience name for target.
 wesley/CMakeFiles/wesley_generate_messages_lisp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages_lisp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages_lisp.dir/rule
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -195,12 +199,12 @@ wesley_generate_messages_lisp: wesley/CMakeFiles/wesley_generate_messages_lisp.d
 
 # fast build rule for target.
 wesley_generate_messages_lisp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages_lisp.dir/build.make wesley/CMakeFiles/wesley_generate_messages_lisp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages_lisp.dir/build.make wesley/CMakeFiles/wesley_generate_messages_lisp.dir/build
 .PHONY : wesley_generate_messages_lisp/fast
 
 # Convenience name for target.
 wesley/CMakeFiles/wesley_generate_messages_py.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages_py.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_generate_messages_py.dir/rule
 .PHONY : wesley/CMakeFiles/wesley_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -209,12 +213,12 @@ wesley_generate_messages_py: wesley/CMakeFiles/wesley_generate_messages_py.dir/r
 
 # fast build rule for target.
 wesley_generate_messages_py/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages_py.dir/build.make wesley/CMakeFiles/wesley_generate_messages_py.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_generate_messages_py.dir/build.make wesley/CMakeFiles/wesley_generate_messages_py.dir/build
 .PHONY : wesley_generate_messages_py/fast
 
 # Convenience name for target.
 wesley/CMakeFiles/wesley_genlisp.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_genlisp.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_genlisp.dir/rule
 .PHONY : wesley/CMakeFiles/wesley_genlisp.dir/rule
 
 # Convenience name for target.
@@ -223,12 +227,12 @@ wesley_genlisp: wesley/CMakeFiles/wesley_genlisp.dir/rule
 
 # fast build rule for target.
 wesley_genlisp/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_genlisp.dir/build.make wesley/CMakeFiles/wesley_genlisp.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_genlisp.dir/build.make wesley/CMakeFiles/wesley_genlisp.dir/build
 .PHONY : wesley_genlisp/fast
 
 # Convenience name for target.
 wesley/CMakeFiles/wesley_genpy.dir/rule:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_genpy.dir/rule
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 wesley/CMakeFiles/wesley_genpy.dir/rule
 .PHONY : wesley/CMakeFiles/wesley_genpy.dir/rule
 
 # Convenience name for target.
@@ -237,7 +241,7 @@ wesley_genpy: wesley/CMakeFiles/wesley_genpy.dir/rule
 
 # fast build rule for target.
 wesley_genpy/fast:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_genpy.dir/build.make wesley/CMakeFiles/wesley_genpy.dir/build
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f wesley/CMakeFiles/wesley_genpy.dir/build.make wesley/CMakeFiles/wesley_genpy.dir/build
 .PHONY : wesley_genpy/fast
 
 # Help Target
@@ -249,6 +253,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
+	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
@@ -270,6 +275,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/umkc/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

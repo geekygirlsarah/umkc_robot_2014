@@ -2,7 +2,7 @@
 
 message(STATUS "wesley: 2 messages, 0 services")
 
-set(MSG_I_FLAGS "-Iwesley:/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg;-Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Iwesley:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg;-Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -18,13 +18,13 @@ add_custom_target(wesley_generate_messages ALL)
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(wesley
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/wesley
 )
 _generate_msg_cpp(wesley
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/wesley
@@ -53,13 +53,13 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS wesley_generate_messages_cpp)
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(wesley
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/wesley
 )
 _generate_msg_lisp(wesley
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/wesley
@@ -88,13 +88,13 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS wesley_generate_messages_lisp)
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(wesley
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/wesley
 )
 _generate_msg_py(wesley
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_angle.msg"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley/msg/arm_point.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/wesley

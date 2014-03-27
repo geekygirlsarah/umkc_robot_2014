@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/include/imu_filter_madgwick/imu_yaw.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/include/imu_filter_madgwick/imu_yaw.h
 ros/service_traits.h
 -
 imu_filter_madgwick/imu_yawRequest.h
@@ -14,7 +14,7 @@ imu_filter_madgwick/imu_yawRequest.h
 imu_filter_madgwick/imu_yawResponse.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/include/imu_filter_madgwick/imu_yawRequest.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/include/imu_filter_madgwick/imu_yawRequest.h
 string
 -
 vector
@@ -30,7 +30,7 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/include/imu_filter_madgwick/imu_yawResponse.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/include/imu_filter_madgwick/imu_yawResponse.h
 string
 -
 vector
@@ -46,7 +46,7 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/include/mega_caretaker/MegaPacket.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/include/mega_caretaker/MegaPacket.h
 string
 -
 vector
@@ -64,7 +64,7 @@ ros/message_operations.h
 mega_caretaker/MotorCommand.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/include/mega_caretaker/MotorCommand.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/include/mega_caretaker/MotorCommand.h
 string
 -
 vector
@@ -80,23 +80,23 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/mega_caretaker.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/mega_caretaker.h
 ros/ros.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/ros/ros.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/ros/ros.h
 ros/package.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/ros/package.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/ros/package.h
 std_msgs/String.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/std_msgs/String.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/std_msgs/String.h
 std_msgs/Int8.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/std_msgs/Int8.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/std_msgs/Int8.h
 ros/console.h
 -
 mega_caretaker/MegaPacket.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/mega_caretaker/MegaPacket.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/mega_caretaker/MegaPacket.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/redux_mega_packet_defs.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include/mega_caretaker/redux_mega_packet_defs.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker.cpp
 ros/ros.h
 -
 std_msgs/String.h
@@ -106,13 +106,13 @@ ros/console.h
 math.h
 -
 mega_caretaker/mega_caretaker.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker/mega_caretaker.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker/mega_caretaker.h
 mega_caretaker/MegaPacket.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker/MegaPacket.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker/MegaPacket.h
 imu_filter_madgwick/imu_yaw.h
 -
 mega_caretaker/redux_mega_packet_defs.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker/redux_mega_packet_defs.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/src/mega_caretaker/redux_mega_packet_defs.h
 
 /opt/ros/hydro/include/XmlRpcDecl.h
 ros/macros.h
@@ -187,6 +187,8 @@ ros/macros.h
 -
 
 /opt/ros/hydro/include/ros/console.h
+console_backend.h
+/opt/ros/hydro/include/ros/console_backend.h
 cstdio
 -
 sstream
@@ -197,10 +199,28 @@ cstdarg
 -
 ros/macros.h
 -
-log4cxx/logger.h
+map
 -
+log4cxx/level.h
+/opt/ros/hydro/include/ros/log4cxx/level.h
 rosconsole/macros_generated.h
 /opt/ros/hydro/include/ros/rosconsole/macros_generated.h
+
+/opt/ros/hydro/include/ros/console_backend.h
+
+/opt/ros/hydro/include/ros/datatypes.h
+string
+-
+vector
+-
+map
+-
+set
+-
+list
+-
+boost/shared_ptr.hpp
+-
 
 /opt/ros/hydro/include/ros/duration.h
 iostream
@@ -247,6 +267,8 @@ ros/macros.h
 -
 exceptions.h
 /opt/ros/hydro/include/ros/exceptions.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 
 /opt/ros/hydro/include/ros/init.h
 ros/forwards.h
@@ -283,11 +305,9 @@ stdint.h
 -
 
 /opt/ros/hydro/include/ros/message_event.h
-ros/forwards.h
-/opt/ros/hydro/include/ros/ros/forwards.h
 ros/time.h
 /opt/ros/hydro/include/ros/ros/time.h
-ros/assert.h
+ros/datatypes.h
 -
 ros/message_traits.h
 -
@@ -309,6 +329,8 @@ boost/make_shared.hpp
 -
 
 /opt/ros/hydro/include/ros/message_forward.h
+memory
+-
 
 /opt/ros/hydro/include/ros/message_operations.h
 ostream
@@ -495,7 +517,11 @@ ros/builtin_message_traits.h
 /opt/ros/hydro/include/ros/ros/builtin_message_traits.h
 ros/exception.h
 /opt/ros/hydro/include/ros/ros/exception.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 vector
+-
+map
 -
 boost/array.hpp
 -

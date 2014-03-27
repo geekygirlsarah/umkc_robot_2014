@@ -6,23 +6,51 @@
 
 #IncludeRegexTransform: 
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp
 exit_handlers.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
 notifier.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
 logger.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.cpp
+logger.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.h
+cstdlib
+-
+iostream
+-
+std_msgs/String.h
+-
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.h
 ros/ros.h
 -
 string
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp
+exit_handlers.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
+string
+-
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp
+notifier.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
+iostream
+-
+fstream
+-
+string
+-
+std_msgs/Byte.h
+-
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
 map
 -
 string
@@ -103,6 +131,8 @@ ros/macros.h
 -
 
 /opt/ros/hydro/include/ros/console.h
+console_backend.h
+/opt/ros/hydro/include/ros/console_backend.h
 cstdio
 -
 sstream
@@ -113,10 +143,28 @@ cstdarg
 -
 ros/macros.h
 -
-log4cxx/logger.h
+map
 -
+log4cxx/level.h
+/opt/ros/hydro/include/ros/log4cxx/level.h
 rosconsole/macros_generated.h
 /opt/ros/hydro/include/ros/rosconsole/macros_generated.h
+
+/opt/ros/hydro/include/ros/console_backend.h
+
+/opt/ros/hydro/include/ros/datatypes.h
+string
+-
+vector
+-
+map
+-
+set
+-
+list
+-
+boost/shared_ptr.hpp
+-
 
 /opt/ros/hydro/include/ros/duration.h
 iostream
@@ -163,6 +211,8 @@ ros/macros.h
 -
 exceptions.h
 /opt/ros/hydro/include/ros/exceptions.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 
 /opt/ros/hydro/include/ros/init.h
 ros/forwards.h
@@ -199,11 +249,9 @@ stdint.h
 -
 
 /opt/ros/hydro/include/ros/message_event.h
-ros/forwards.h
-/opt/ros/hydro/include/ros/ros/forwards.h
 ros/time.h
 /opt/ros/hydro/include/ros/ros/time.h
-ros/assert.h
+ros/datatypes.h
 -
 ros/message_traits.h
 -
@@ -225,6 +273,12 @@ boost/make_shared.hpp
 -
 
 /opt/ros/hydro/include/ros/message_forward.h
+memory
+-
+
+/opt/ros/hydro/include/ros/message_operations.h
+ostream
+-
 
 /opt/ros/hydro/include/ros/message_traits.h
 message_forward.h
@@ -399,7 +453,11 @@ ros/builtin_message_traits.h
 /opt/ros/hydro/include/ros/ros/builtin_message_traits.h
 ros/exception.h
 /opt/ros/hydro/include/ros/ros/exception.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 vector
+-
+map
 -
 boost/array.hpp
 -
@@ -639,4 +697,36 @@ ros/forwards.h
 /opt/ros/hydro/include/ros/ros/forwards.h
 
 /opt/ros/hydro/include/rosconsole/macros_generated.h
+
+/opt/ros/hydro/include/std_msgs/Byte.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
+/opt/ros/hydro/include/std_msgs/String.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
 

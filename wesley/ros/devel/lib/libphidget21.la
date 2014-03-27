@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib'
+libdir='/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib'

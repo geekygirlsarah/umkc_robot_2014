@@ -6,15 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/imu.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/imu.h
 phidgets_api/phidget.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidgets_api/phidget.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidgets_api/phidget.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/ir.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/ir.h
 phidgets_api/phidget.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidgets_api/phidget.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidgets_api/phidget.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidget.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidget.h
 phidgets_api/phidget21.h
 -
 iostream
@@ -28,17 +28,17 @@ cstring
 stdio.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidget21.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/include/phidgets_api/phidget21.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/imu.cpp
 phidgets_api/imu.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidgets_api/imu.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidgets_api/imu.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/ir.cpp
 phidgets_api/ir.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidgets_api/ir.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidgets_api/ir.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidget.cpp
 phidgets_api/phidget.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidgets_api/phidget.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/phidgets_drivers/phidgets_api/src/phidgets_api/phidget.h
 

@@ -7,12 +7,8 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel:$CMAKE_PREFIX_PATH"
-export CPATH="/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/include:$CPATH"
-export LD_LIBRARY_PATH="/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib:$LD_LIBRARY_PATH"
-export PATH="/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/bin:$PATH"
-export PKG_CONFIG_PATH="/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PWD="/home/umkc/umkc_robot_2014_arduino/wesley/ros/build"
-export PYTHONPATH="/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages:$PYTHONPATH"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/umkc/umkc_robot_2014_arduino/wesley/ros/devel/share/common-lisp"
-export ROS_PACKAGE_PATH="/home/umkc/umkc_robot_2014_arduino/wesley/ros/src:$ROS_PACKAGE_PATH"
+export CATKIN_TEST_RESULTS_DIR="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/test_results"
+export PWD="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build"
+export PYTHONPATH="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages:/opt/ros/hydro/lib/python2.7/dist-packages:/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/lib/python2.7/dist-packages:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages:/opt/ros/hydro/lib/python2.7/site-packages:/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/lib/python2.7/site-packages"
+export ROS_PACKAGE_PATH="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src:$ROS_PACKAGE_PATH"
+export ROS_TEST_RESULTS_DIR="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/test_results"

@@ -20,7 +20,7 @@ add_custom_target(imu_filter_madgwick_generate_messages ALL)
 
 ### Generating Services
 _generate_srv_cpp(imu_filter_madgwick
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/imu_filter_madgwick/srv/imu_yaw.srv"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/imu_filter_madgwick/srv/imu_yaw.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/imu_filter_madgwick
@@ -49,7 +49,7 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS imu_filter_madgwick_generate_messag
 
 ### Generating Services
 _generate_srv_lisp(imu_filter_madgwick
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/imu_filter_madgwick/srv/imu_yaw.srv"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/imu_filter_madgwick/srv/imu_yaw.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/imu_filter_madgwick
@@ -78,7 +78,7 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS imu_filter_madgwick_generate_messag
 
 ### Generating Services
 _generate_srv_py(imu_filter_madgwick
-  "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/imu_filter_madgwick/srv/imu_yaw.srv"
+  "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/imu_filter_madgwick/srv/imu_yaw.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/imu_filter_madgwick

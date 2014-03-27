@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
 message_filters/subscriber.h
 -
 tf/message_filter.h
@@ -40,17 +40,17 @@ rviz/properties/ros_topic_property.h
 rviz/display_group.h
 -
 rviz_imu_plugin/imu_axes_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_axes_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_axes_visual.h
 rviz_imu_plugin/imu_orientation_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_orientation_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_orientation_visual.h
 rviz_imu_plugin/imu_acc_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_acc_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_acc_visual.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/moc_imu_display.cxx
 ../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/../../../../../src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_acc_visual.h
 sensor_msgs/Imu.h
 -
 OGRE/OgreVector3.h
@@ -64,7 +64,7 @@ rviz/ogre_helpers/arrow.h
 QColor
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_axes_visual.h
 sensor_msgs/Imu.h
 -
 OGRE/OgreSceneNode.h
@@ -74,7 +74,7 @@ OGRE/OgreSceneManager.h
 rviz/ogre_helpers/axes.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_display.h
 message_filters/subscriber.h
 -
 tf/message_filter.h
@@ -108,13 +108,13 @@ rviz/properties/ros_topic_property.h
 rviz/display_group.h
 -
 rviz_imu_plugin/imu_axes_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_axes_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_axes_visual.h
 rviz_imu_plugin/imu_orientation_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_orientation_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_orientation_visual.h
 rviz_imu_plugin/imu_acc_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_acc_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/rviz_imu_plugin/imu_acc_visual.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/include/rviz_imu_plugin/imu_orientation_visual.h
 sensor_msgs/Imu.h
 -
 OGRE/OgreSceneNode.h
@@ -128,25 +128,25 @@ rviz/helpers/color.h
 QColor
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_acc_visual.cpp
 rviz_imu_plugin/imu_acc_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_acc_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_acc_visual.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_axes_visual.cpp
 rviz_imu_plugin/imu_axes_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_axes_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_axes_visual.h
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_display.cpp
 rviz_imu_plugin/imu_display.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_display.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_display.h
 rviz/properties/status_property.h
 -
 pluginlib/class_list_macros.h
 -
 
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/imu_orientation_visual.cpp
 rviz_imu_plugin/imu_orientation_visual.h
-/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_orientation_visual.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/rviz_imu_plugin/src/rviz_imu_plugin/imu_orientation_visual.h
 
 /opt/ros/hydro/include/XmlRpcDecl.h
 ros/macros.h
@@ -611,6 +611,8 @@ ros/macros.h
 -
 
 /opt/ros/hydro/include/ros/console.h
+console_backend.h
+/opt/ros/hydro/include/ros/console_backend.h
 cstdio
 -
 sstream
@@ -621,10 +623,28 @@ cstdarg
 -
 ros/macros.h
 -
-log4cxx/logger.h
+map
 -
+log4cxx/level.h
+/opt/ros/hydro/include/ros/log4cxx/level.h
 rosconsole/macros_generated.h
 /opt/ros/hydro/include/ros/rosconsole/macros_generated.h
+
+/opt/ros/hydro/include/ros/console_backend.h
+
+/opt/ros/hydro/include/ros/datatypes.h
+string
+-
+vector
+-
+map
+-
+set
+-
+list
+-
+boost/shared_ptr.hpp
+-
 
 /opt/ros/hydro/include/ros/duration.h
 iostream
@@ -671,6 +691,8 @@ ros/macros.h
 -
 exceptions.h
 /opt/ros/hydro/include/ros/exceptions.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 
 /opt/ros/hydro/include/ros/init.h
 ros/forwards.h
@@ -707,11 +729,9 @@ stdint.h
 -
 
 /opt/ros/hydro/include/ros/message_event.h
-ros/forwards.h
-/opt/ros/hydro/include/ros/ros/forwards.h
 ros/time.h
 /opt/ros/hydro/include/ros/ros/time.h
-ros/assert.h
+ros/datatypes.h
 -
 ros/message_traits.h
 -
@@ -733,6 +753,8 @@ boost/make_shared.hpp
 -
 
 /opt/ros/hydro/include/ros/message_forward.h
+memory
+-
 
 /opt/ros/hydro/include/ros/message_operations.h
 ostream
@@ -911,7 +933,11 @@ ros/builtin_message_traits.h
 /opt/ros/hydro/include/ros/ros/builtin_message_traits.h
 ros/exception.h
 /opt/ros/hydro/include/ros/ros/exception.h
+ros/datatypes.h
+/opt/ros/hydro/include/ros/ros/datatypes.h
 vector
+-
+map
 -
 boost/array.hpp
 -
@@ -1816,8 +1842,6 @@ tf2_ros/buffer.h
 boost/thread.hpp
 /opt/ros/hydro/include/tf2_ros/boost/thread.hpp
 
-/usr/include/qt4/Gentoo/gentoo-qconfig.h
-
 /usr/include/qt4/Qt3Support/q3cstring.h
 QtCore/qbytearray.h
 -
@@ -2045,8 +2069,6 @@ QtCore/qglobal.h
 -
 
 /usr/include/qt4/QtCore/qconfig.h
-Gentoo/gentoo-qconfig.h
--
 
 /usr/include/qt4/QtCore/qcoreevent.h
 QtCore/qnamespace.h
@@ -2074,8 +2096,6 @@ QtCore/qconfig.h
 algorithm
 -
 AvailabilityMacros.h
--
-utility
 -
 e32def.h
 -
