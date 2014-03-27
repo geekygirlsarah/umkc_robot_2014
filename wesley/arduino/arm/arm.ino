@@ -1,3 +1,5 @@
+#include <Servo.h>
+
 #include <ros.h>
 //#include <ArduinoHardware.h>
 #include <wesley/arm_angle.h>
@@ -7,8 +9,7 @@
 #include "arm_control.h"
 
 #define console Serial
-const byte NO_OF_JOINTS = 6;
-arm_control arm(NO_OF_JOINTS);
+arm_control arm;
 
 ros::NodeHandle nh;
 wesley::arm_point res;

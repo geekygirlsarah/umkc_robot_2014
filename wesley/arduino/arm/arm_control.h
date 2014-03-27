@@ -29,16 +29,16 @@
 float hum_sq = HUMERUS*HUMERUS;
 float uln_sq = ULNA*ULNA;
 
+const byte NO_OF_JOINTS = 6;
+
 class arm_control {
 	private:
-		byte no_of_joints;
+//		byte NO_OF_JOINTS;
 
-		Servo* arm;
+		Servo arm[NO_OF_JOINTS];
 
-		short* p_destination;
-		short* p_position;
-
-		const byte STRAIN = 5;
+		short p_destination[NO_OF_JOINTS];
+		short p_position[NO_OF_JOINTS];
 
 	public:
 		enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
@@ -50,35 +50,19 @@ class arm_control {
 		};
 
 		arm_control() {
-			no_of_joints = 6;
-			p_position = new short[no_of_joints];
-			p_destination = new short[no_of_joints];
-			arm = new Servo[no_of_joints];
+//			NO_OF_JOINTS = 6;
+//			p_position = new short[NO_OF_JOINTS];
+//			p_destination = new short[NO_OF_JOINTS];
+//			arm = new Servo[NO_OF_JOINTS];
 			
 			struct point pos_xyz(0, 0, 0);
 
-			pinMode(STRAIN, INPUT);
-			for (byte joint = 0; joint < no_of_joints; joint++) {
-				p_destination[joint] = 0;
-				p_position[joint] = 0;
-			}
-		}
-		arm_control(byte joints) {
-			no_of_joints = joints;
-			p_position = new short[no_of_joints];
-			p_destination = new short[no_of_joints];
-			arm = new Servo[no_of_joints];
-			
-			pinMode(STRAIN, INPUT);
-			for (byte joint = 0; joint < no_of_joints; joint++) {
+			for (byte joint = 0; joint < NO_OF_JOINTS; joint++) {
 				p_destination[joint] = 0;
 				p_position[joint] = 0;
 			}
 		}
 		~arm_control() {
-			delete(p_destination);
-			delete(p_position);
-			delete(arm);
 		}
 
 		// attachs a set of pins to the servos
@@ -123,7 +107,7 @@ class arm_control {
 			 * the ORDER in which these are placed is not set in
 			 *    stone. it may prove useful in the future to set
 			 *    a specific order. something like: 5 3 4 0 2 1 */
-			for (byte joint = 0; joint < no_of_joints; joint++) {
+			for (byte joint = 0; joint < NO_OF_JOINTS; joint++) {
 				arm[joint].writeMicroseconds(p_position[joint]);
 			}
 		}
@@ -147,7 +131,7 @@ class arm_control {
 			 * the ORDER in which these are placed is not set in
 			 *    stone. it may prove useful in the future to set
 			 *    a specific order. something like: 5 3 4 0 2 1 */
-		//	for (byte joint = 0; joint < no_of_joints; joint++) {
+		//	for (byte joint = 0; joint < NO_OF_JOINTS; joint++) {
 		//		arm[joint].writeMicroseconds(p_destination[joint]);
 		//	}
 			
@@ -217,18 +201,18 @@ class arm_control {
 		//	Serial.flush();
 			// destroy the argument list - we're done.
 			
-//			short* step = new short[no_of_joints];
-			short step[no_of_joints];
+//			short* step = new short[NO_OF_JOINTS];
+			short step[NO_OF_JOINTS];
 			// this is likely unneccessary.
 			// clean up a new array
-			for (byte jth = 0; jth < no_of_joints; jth++) {
+			for (byte jth = 0; jth < NO_OF_JOINTS; jth++) {
 				step[jth] = 0;
 			}
 		//	Serial.println("ARM :: update(...) --> step cleared");
 		//	Serial.flush();
 			// find the width of the distance for each joint to be moved
 			short max_distance = 0;
-			for (byte jth = 0; jth < no_of_joints; jth++) {
+			for (byte jth = 0; jth < NO_OF_JOINTS; jth++) {
 				step[jth] = abs(p_destination[jth] \
 								- p_position[jth]);
 				if (step[jth] > max_distance) {
@@ -239,7 +223,7 @@ class arm_control {
 		//	Serial.flush();
 
 			// calculate the step value for each other moving joint
-			for (byte jth = 0; jth < no_of_joints; jth++) {
+			for (byte jth = 0; jth < NO_OF_JOINTS; jth++) {
 				step[jth] = (step[jth] / (max_distance / 10));
 		//		Serial.print("\t"); Serial.print(jth, DEC);
 		//		Serial.print(") step: [");
@@ -250,7 +234,7 @@ class arm_control {
 			// lower the number of movement steps that will be taken
 			max_distance /= 10;
 			for (; max_distance > 0; max_distance--) {
-				for (byte jth = 0; jth < no_of_joints; jth++) {
+				for (byte jth = 0; jth < NO_OF_JOINTS; jth++) {
 					// adjust position in the correct direction.
 					// if dest > position,
 					//    position increases
@@ -275,7 +259,7 @@ class arm_control {
 			// run through the joints one more time and directly put
 			//    them to their final position in case any came up
 			//    short after the above step cucles.
-			for (byte joint = 0; joint < no_of_joints; joint++) {
+			for (byte joint = 0; joint < NO_OF_JOINTS; joint++) {
 				arm[joint].writeMicroseconds(p_destination[joint]);
 			}
 
@@ -423,7 +407,6 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 		}
 
 		float grasp() {
-			int tension = analogRead(STRAIN);
 		//	Serial.print("ARM --> grasp :: tension: (");
 		//	Serial.print(tension); Serial.println(")");
 		//	if (tension >= 25);
