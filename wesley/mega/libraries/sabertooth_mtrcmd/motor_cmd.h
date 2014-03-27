@@ -25,14 +25,22 @@ class motor_cmd {
         // speed
         static const byte ALL_STOP     = 0x00;
         static const byte FULL_REVERSE = 0x01;
+	static const byte FULL_REVERSE_LEFT = 0x03;
+	static const byte FULL_REVERSE_RIGHT = 0x01;
         static const byte HALF_REVERSE = 0x10;
         static const byte QUARTER_REVERSE = 0x20;
+	static const byte QUARTER_REVERSE_LEFT = 0x23;
+	static const byte QUARTER_REVERSE_RIGHT = 0x20;
+	
         static const byte TURN_REVERSE = 0x30;
         static const byte FULL_STOP    = 0x40;
         static const byte TURN_FORWARD = 0x50;
         static const byte QUARTER_FORWARD = 0x60;
+	static const byte QUARTER_FORWARD_RIGHT = 0x5E;
+	static const byte QUARTER_FORWARD_LEFT = 0X60;
         static const byte HALF_FORWARD = 0x70;
         static const byte FULL_FORWARD = 0x7F;
+	 
 
         // translate angle into a duration
         // the calculations here need better work. find out how
@@ -144,7 +152,7 @@ class motor_cmd {
         	//Serial.print("   ::CMD:: forward - at value: ");
 			//Serial.print(motor_speed, DEC); Serial.print(" : ");
             motor_speed = ( 1.26)*motor_speed + 64;
-            //Serial.println(motor_speed, DEC);
+            Serial.println(motor_speed, DEC);
             mcontrol.write(motor_L | motor_speed);
             mcontrol.write(motor_R | motor_speed);
             DIRECTION = FORWARD;
@@ -162,14 +170,15 @@ class motor_cmd {
         void forward() {
         	// make a conversion from supplied range to the actual
         	Serial.println("   ::CMD:: forward - at HALF_ value");
-            mcontrol.write(motor_L | HALF_FORWARD);
-            mcontrol.write(motor_R | HALF_FORWARD);
+            mcontrol.write(motor_L | QUARTER_FORWARD_LEFT);
+            mcontrol.write(motor_R | QUARTER_FORWARD_RIGHT);
             DIRECTION = FORWARD;
-        }            
+}
+ 	           
         void reverse() {
         	Serial.println("   ::CMD:: reverse - at HALF_ value");
-            mcontrol.write(motor_L | HALF_REVERSE);
-            mcontrol.write(motor_R | HALF_REVERSE);
+            mcontrol.write(motor_L | QUARTER_REVERSE_LEFT);
+            mcontrol.write(motor_R | QUARTER_REVERSE_RIGHT);
             DIRECTION = REVERSE;
         }
 
@@ -208,14 +217,14 @@ class motor_cmd {
         }
 
 		void forward_full( ) {
-            mcontrol.write(motor_L | FULL_REVERSE);
-            mcontrol.write(motor_R | FULL_REVERSE);
-            DIRECTION = RIGHT;
+            mcontrol.write(motor_L | FULL_REVERSE_LEFT);
+            mcontrol.write(motor_R | FULL_REVERSE_RIGHT);
+            DIRECTION = FORWARD;
         }
         void reverse_full( ) {
             mcontrol.write(motor_L | FULL_FORWARD);
             mcontrol.write(motor_R | FULL_FORWARD);
-            DIRECTION = LEFT;
+            DIRECTION = REVERSE;
         }
 
 
