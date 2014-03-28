@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "commander_logger")
-set(commander_logger_MAINTAINER "umkc <umkc@todo.todo>")
-set(commander_logger_DEPRECATED "")
-set(commander_logger_VERSION "0.0.0")
-set(commander_logger_BUILD_DEPENDS "roscpp" "std_msgs")
-set(commander_logger_RUN_DEPENDS "roscpp" "std_msgs")
-set(commander_logger_BUILDTOOL_DEPENDS "catkin")

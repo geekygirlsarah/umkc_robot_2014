@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "commander")
-set(commander_MAINTAINER "umkc <umkc@todo.todo>")
-set(commander_DEPRECATED "")
-set(commander_VERSION "0.0.0")
-set(commander_BUILD_DEPENDS "roscpp" "std_msgs")
-set(commander_RUN_DEPENDS "roscpp" "std_msgs")
-set(commander_BUILDTOOL_DEPENDS "catkin")
