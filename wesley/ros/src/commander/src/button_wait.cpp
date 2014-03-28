@@ -14,10 +14,12 @@ void button_wait(const std_msgs::Bool &msg) {
 
 int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "button_wait");
+	ROS_INFO("BTN --> intializing - waiting for user input.");
+	ros::NodeHandle nh;
 
 	// start a lednotifier and set both yellow
 	//    lights on to indicate wait status.
-	LedNotifier ledn(0, 0, 1, 1, 0, 0);
+	LedNotifier ledn(&nh, 0, 0, 1, 1, 0, 0);
 	string status_code_file = "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/config/notify_id.txt";
 	if (!ledn.parse(status_code_file.c_str())) {
 		ROS_ERROR("BTN_WAIT :: parse --> unable to parse file. please check validity. non-fatal, bailing.");
@@ -28,7 +30,6 @@ int main(int argc, char* argv[]) {
 	string codes = ledn.cat_codes();
 	ROS_INFO("BTN_WAIT --> known LED codes: [%s]", codes.c_str());
 
-	ros::NodeHandle nh;
 	ros::Subscriber sub = nh.subscribe("/master/button", 1000, &button_wait);
 
 	do {
@@ -39,5 +40,6 @@ int main(int argc, char* argv[]) {
 //	ledn.throwLedCode("ready_set_go");
 //	ledn.lightLeds(1, 1, 0, 0, 0, 0);
 
+	ROS_INFO("BTN --> START ME UP!");
 	return(0);
 }

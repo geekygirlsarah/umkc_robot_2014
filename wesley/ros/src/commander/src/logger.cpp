@@ -4,13 +4,19 @@
 #include <std_msgs/String.h>
 using std::rand;
 using std::ostringstream;
-Logger::Logger(){
-	int zero = 0;
-	ros::init(zero,NULL,"commanderloggerpub");
-	pub = nh.advertise<std_msgs::String>("/master/logger",1000);
+Logger::Logger(ros::NodeHandle* handle){
+	ROS_INFO("LOGGER :: (nh) --> entering.");
+//	int zero = 0;
+//	ros::init(zero,NULL,"commanderloggerpub");
+	nh = handle;
+	pub = nh->advertise<std_msgs::String>("/master/logger",1000);
+//	while (pub.getNumSubscribers() <= 0) {
+//		std::cout << ".";
+//	}
 	ID = rand();
 	messageNumber = 0;
 	name = "Commander";
+	ROS_INFO("LOGGER :: (nh) --> handle initialized. leaving.");
 }
 
 void Logger::logStatus(string message){

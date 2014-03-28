@@ -9,7 +9,7 @@ using std::string;
  */
 class Logger{
 private:
-	ros::NodeHandle nh;
+	ros::NodeHandle* nh;
 	ros::Publisher pub;
 	//Used to put the messages in order
 	long messageNumber;
@@ -24,7 +24,7 @@ public:
 	 * Starts ros publishing node "commanderloggerpub"
 	 * Publishes to node /master/logger
 	 */
-	Logger();
+	Logger(ros::NodeHandle* handle);
 	/**
 	 * Writes a message to the logging topic
 	 * 

@@ -1,3 +1,4 @@
+#include <ros/ros.h>
 #include "exit_handlers.h"
 #include <string>
 using std::string;
@@ -12,7 +13,7 @@ using std::string;
  *
  * @return The integer exit code from the binary
  */
-int executeBinary(string path,string prefix="./bin/", string mode="r");
+int executeBinary(string path,string prefix="/home/umkc/wesley/lib/", string mode="r");
 /**
  * The main function. Contains an instance of the LedNotifier object
  *
@@ -20,9 +21,15 @@ int executeBinary(string path,string prefix="./bin/", string mode="r");
  *
  * Fucntions should be written to handle the exit codes from the binarys
  */
-int main(){
-	Logger * logger = new Logger();
-	ExitHandler exithandler(logger);
+int main(int argc, char* argv[]) {
+	ros::init(argc, argv, "cmdr");
+	ros::NodeHandle nh;
+	ROS_INFO("CMDR :: main --> commander initializing");
+
+	Logger * logger = new Logger(&nh);
+	string parse_file = "/home/umkc/wesley/config/notify_id.txt";
+	ExitHandler exithandler(logger, &nh, parse_file);
+	ROS_INFO("CMDR :: main --> logger and handler set up.");
 
 	// here -- the recommended manner in calling the binaries is as follows:
 	//
@@ -42,10 +49,12 @@ int main(){
 	// 6) align_on_rig
 	// 7) 
 	logger->logStatus("Executing button_wait");
-	exithandler.button_wait(executeBinary("button_wait"));
-	logger->logStatus("Executing ID flame");
+	ROS_WARN("CMDR :: main --> launching: button_wait");
+	exithandler.button_wait(executeBinary("rosrun commander button_wait", ""));
+//	exithandler.button_wait(executeBinary("button_wait"));
+//	logger->logStatus("Executing ID flame");
 	exithandler.id_flame(executeBinary("id_flame"));
-	logger->logStatus("Executing ID tool");
+//	logger->logStatus("Executing ID tool");
 	exithandler.id_tool(executeBinary("id_tool"));
 }
 

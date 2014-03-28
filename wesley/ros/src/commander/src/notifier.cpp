@@ -126,18 +126,18 @@ void LedNotifier::lightLeds(bool green0, bool green1, bool yellow0, bool yellow1
 	return;
 }
 LedNotifier::LedNotifier(bool parseOnConstruction){
-	int zero = 0;	
-	ros::init(zero,NULL,"lednotifier");
-	pub = nh.advertise<std_msgs::Byte>("/master/leds", 1000);
+//	int zero = 0;	
+//	ros::init(zero,NULL,"lednotifier");
+//	pub = nh->advertise<std_msgs::Byte>("/master/leds", 1000);
 	
-	while(pub.getNumSubscribers() <= 0) {
-		// spin on nothing waiting for subscribers.
-		// this is a safe, sane thing to do to prevent
-		//    publishing on an invalied topic
-	}
+//	while(pub.getNumSubscribers() <= 0) {
+//		// spin on nothing waiting for subscribers.
+//		// this is a safe, sane thing to do to prevent
+//		//    publishing on an invalied topic
+//	}
 
-	if(parseOnConstruction)
-		parse();
+//	if(parseOnConstruction)
+//		parse();
 }
 
 
@@ -147,7 +147,7 @@ LedNotifier::LedNotifier(bool grn1, bool grn2,
 						 bool parseOnConstruction) {
 	int zero = 0;	
 	ros::init(zero,NULL,"lednotifier");
-	pub = nh.advertise<std_msgs::Byte>("/master/leds", 1000);
+	pub = nh->advertise<std_msgs::Byte>("/master/leds", 1000);
 
 	while(pub.getNumSubscribers() <= 0) {
 		// spin on nothing waiting for subscribers.
@@ -162,3 +162,32 @@ LedNotifier::LedNotifier(bool grn1, bool grn2,
 }
 
 
+LedNotifier::LedNotifier(ros::NodeHandle* handle,
+						 bool grn1, bool grn2,
+						 bool ylw1, bool ylw2,
+						 bool red1, bool red2,
+						 bool parseOnConstruction) {
+//	int zero = 0;	
+//	ros::init(zero,NULL,"lednotifier");
+	nh = handle;
+	pub = nh->advertise<std_msgs::Byte>("/master/leds", 1000);
+
+	while(pub.getNumSubscribers() <= 0) {
+		// spin on nothing waiting for subscribers.
+		// this is a safe, sane thing to do to prevent
+		//    publishing on an invalied topic
+	}
+
+	lightLeds(grn1, grn2, ylw1, ylw2, red1, red2);
+	
+	if(parseOnConstruction)
+		parse();
+}
+
+ros::NodeHandle* LedNotifier::init_handle(ros::NodeHandle* handle) {
+	nh = handle;
+	pub = nh->advertise<std_msgs::Byte>("/master/leds", 1000);
+//	while (pub.getNumSubscribers() <= 0) {
+//		// sit and spin
+//	}
+}

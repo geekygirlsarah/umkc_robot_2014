@@ -19,7 +19,7 @@ using std::string;
 #define LedNotifier_H
 class LedNotifier{
 private:
-	ros::NodeHandle nh;
+	ros::NodeHandle* nh;
 	ros::Publisher pub;
 	
 	struct LedArray{
@@ -57,6 +57,12 @@ public:
 	 *  - can be given any of set of 0 to 6 led status and those will be lit
 	 *    on initial creation of the class.
 	 */
+	LedNotifier(ros::NodeHandle* handle,
+				bool grn1, bool grn2,
+				bool ylw1, bool ylw2,
+				bool red1, bool red2,
+				bool parseOnConstruction=false);
+		
 	LedNotifier(bool grn1, bool grn2,
 				bool ylw1, bool ylw2,
 				bool red1, bool red2,
@@ -101,5 +107,7 @@ public:
 	 *  does not work..?
 	 */
 	string cat_codes();
+
+	ros::NodeHandle* init_handle(ros::NodeHandle* handle);
 };
 #endif

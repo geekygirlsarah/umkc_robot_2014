@@ -12,6 +12,7 @@ public:
 	 * This class should be used to handle the return codes for wesleys binaries
 	 */
 	ExitHandler(Logger* logger_);
+	ExitHandler(Logger* logger_, ros::NodeHandle* handle, string parse_file);
 	/**
 	 * Handle for button_wait
 	 */
