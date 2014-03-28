@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
 		ros::spinOnce();
 	} while(waiting);
 
+//	the following throw call is handled by the an exithandler.
 //	ledn.throwLedCode("ready_set_go");
 //	ledn.lightLeds(1, 1, 0, 0, 0, 0);
 

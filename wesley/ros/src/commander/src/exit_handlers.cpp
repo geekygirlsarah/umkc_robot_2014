@@ -1,9 +1,29 @@
 #include "exit_handlers.h"
 ExitHandler::ExitHandler(Logger* logger_){
-	LedNotifier ledNotifier(true);
+	// this initializer has changed somewhat - the default parse() does not
+	//    point to a valid file at the moment.
+//	LedNotifier ledNotifier(true);
+//	LedNotifier ledNotifier;
+	// this is the currently correct location of the file.
+	ledNotifier.parse("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/config/notify_id.txt");
 	logger = logger_;
 }
 
+//button_wait will call button_wait and wait for it to unblock.
+//currently, it only returns one error code: 99 on can't find file
+void ExitHandler::button_wait(int returnCode) {
+	switch(returnCode) {
+		case 99:
+			ledNotifier.throwLedCode("cant_find_file");
+			break;
+		case 0:
+			ledNotifier.throwLedCode("ready_set_go");
+			break;
+		default:
+			ledNotifier.throwLedCode("general_failure");
+			break;
+	}
+}
 //id_flame will take our return code from id_flame and throw led 
 //notification based on the outcome
 void ExitHandler::id_flame(int returnCode){

@@ -6,19 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/button_wait.cpp
+ros/ros.h
+-
+std_msgs/Bool.h
+-
 notifier.h
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
-iostream
--
-fstream
--
-string
--
-sstream
--
-std_msgs/Byte.h
--
 
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
 map
@@ -668,7 +662,7 @@ ros/forwards.h
 
 /opt/ros/hydro/include/rosconsole/macros_generated.h
 
-/opt/ros/hydro/include/std_msgs/Byte.h
+/opt/ros/hydro/include/std_msgs/Bool.h
 string
 -
 vector

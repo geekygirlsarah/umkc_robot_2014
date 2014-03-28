@@ -30,6 +30,8 @@ int main(){
 	// 2) id_tool
 	// 3) -------
 	// 4) -------
+	logger->logStatus("Executing button_wait");
+	exithandler.button_wait(executeBinary("button_wait"));
 	logger->logStatus("Executing ID flame");
 	exithandler.id_flame(executeBinary("id_flame"));
 	logger->logStatus("Executing ID tool");

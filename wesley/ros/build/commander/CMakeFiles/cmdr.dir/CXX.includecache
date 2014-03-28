@@ -6,18 +6,26 @@
 
 #IncludeRegexTransform: 
 
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.cpp
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.cpp
+exit_handlers.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
 notifier.h
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
-iostream
--
-fstream
+logger.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.h
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/logger.h
+ros/ros.h
 -
 string
 -
-sstream
--
-std_msgs/Byte.h
+
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/main.cpp
+exit_handlers.h
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/exit_handlers.h
+string
 -
 
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/commander/src/notifier.h
@@ -244,10 +252,6 @@ boost/make_shared.hpp
 
 /opt/ros/hydro/include/ros/message_forward.h
 memory
--
-
-/opt/ros/hydro/include/ros/message_operations.h
-ostream
 -
 
 /opt/ros/hydro/include/ros/message_traits.h
@@ -667,20 +671,4 @@ ros/forwards.h
 /opt/ros/hydro/include/ros/ros/forwards.h
 
 /opt/ros/hydro/include/rosconsole/macros_generated.h
-
-/opt/ros/hydro/include/std_msgs/Byte.h
-string
--
-vector
--
-map
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
 
