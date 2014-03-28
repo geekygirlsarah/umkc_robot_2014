@@ -1,13 +1,6 @@
-#include <Arduino.h>
 #include <ros.h>					// basic ROS objects
 #include <std_msgs/Byte.h>			// leds are condensed into one byte
 #include <std_msgs/Bool.h>			// button: true / false
-void setup();
-void loop();
-#line 1 "src/sketch.ino"
-//#include <ros.h>					// basic ROS objects
-//#include <std_msgs/Byte.h>			// leds are condensed into one byte
-//#include <std_msgs/Bool.h>			// button: true / false
 
 // majority of code lives in the ROS namespace
 using namespace ros;
