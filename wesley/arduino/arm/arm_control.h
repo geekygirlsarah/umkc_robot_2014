@@ -1,25 +1,37 @@
-#include <Servo.h>
-#include <math.h>
+/* arduino/arm/arm_control.h
+ *
+ * provides the low-level access to the arm.
+ * also contains some abstraction such as park, carry, and grasp.
+ *
+ * two functions of note are put_point and get_xyz.
+ *    put_point, as written below is a translation using trig from
+ *               an (x, y, z, pitch, roll) to arm angles. this allows
+ *               ease of translation of the hand in the real world.
+ *    get_xyz was designed to be the inverse of the above function,
+ *            didn't return the same values.
+ *
+ *    both of these functions use an (x, y, z) co-oridinate frame
+ *       set in millimeters.
+ */
+#include <math.h> 		// various trig functions
 
-
-#define topulse(a)     map(a, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
+// these maps translate angles into servo pulses and vice-versa.
+//    the _f() maps expose the pulses finest granularaty of .1 degree.
+#define topulse(a)      map(a, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
 #define topulsef(a)     map((a*10), 0, 1800, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH)
-#define toangle(p)     map(p, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH, 0, 180)
+#define toangle(p)      map(p, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH, 0, 180)
 #define toanglef(p)    (map(p, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH, 0, 1800) / 10)
 
-/*
-#define BASE_HGT 69.85      // base hight 2 3/4"
-#define HUMERUS 146.05      // shoulder-to-elbow 5 3/4"
-#define ULNA 187.325        // elbow-to-wrist 7 3/8"
-#define GRIPPER 88.9        // gripper length 3 1/2"
-                            // this gripper measure is to the outside
-                            // screw-hole, not the tip of the hand.
-*/
-
 #ifndef M_PI_2 // (pi / 2) = radians(90)
+// used in put_point to set the X=0 axis along the midline of the arm
 #define M_PI_2 1.57079632679489661923
 #endif
 
+// various measures of the arm from joint to joint.
+// these are all in millimeters.
+//
+// more accuracy could be had, but not necessary now. too much code
+//    and location data has been gathered with these measures.
 #define BASE_HGT	80.5
 #define HUMERUS		146.5
 #define ULNA		216.0
@@ -29,6 +41,7 @@
 float hum_sq = HUMERUS*HUMERUS;
 float uln_sq = ULNA*ULNA;
 
+// here, define a constant to use in loops and array initializers.
 const byte NO_OF_JOINTS = 6;
 
 class arm_control {
@@ -65,22 +78,41 @@ class arm_control {
 		~arm_control() {
 		}
 
-		// attachs a set of pins to the servos
+		// attachs a set of pins to the servos -- this is a nifty
+		//    little function. but pointless really.
+		//
+		// the ... is a variable list of arguments -- think printf().
+		// the first argument to the function is a count of the arguments
+		//    that are provided. NO SANITY is checked with this list. it
+		//    is assumed that the caller is not lying to us.
+		//
+		// this function attaches a list of pins to joints in a specific
+		//    order:
+		//
+		//       BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND
+		//
+		// but, really this is only so because of the JOINTS enum above.
+		//    this is really arbitrary and can be whatever is needed.
 		void connect(byte argc, ...) {
 		//	Serial.println("ARM :: connect --> entering");
+			// create a list of the arguments
 			va_list argv;
 			va_start(argv, argc);
 
 			int pin = 0;
+			// for each argumnt given ..
 			for (byte joint = 0; joint < argc; joint++) {
 				pin = va_arg(argv, int);
+				// .. attach the next joint in order to that pin ..
 				arm[joint].attach(pin);
+				// .. and store that servos current position.
 				p_position[joint] = arm[joint].readMicroseconds();
 		//		Serial.print("\tjoint("); Serial.print(joint, DEC);
 		//		Serial.print(") at ("); Serial.print(p_position[joint]);
 		//		Serial.println(")");
 			}
 
+			// destroy the argument list.
 			va_end(argv);
 		//	Serial.println("ARM :: connect --> leaving");
 		}
@@ -92,13 +124,16 @@ class arm_control {
 		//	Serial.println("ARM :: park() --> entering");
 		//	Serial.flush();
 			/* here, define, in pulse, what angles to place the
-			 *    servos at. these will then be moved below */
-		//	p_position[BASE] 	= 1368;		//  80°
-			p_position[BASE] 	= 1472;		//  90°
+			 *    servos at. these will then be moved below
+			 * to be correctly readable, this should be set using
+			 *    topulse() or topulsef().
+			 */
+		//	p_position[BASE] 		= 1368;		//  80°
+			p_position[BASE] 		= 1472;		//  90°
 			p_position[SHOULDER]	= 2245;		// 165°
-			p_position[ELBOW]	= 600;		//   5.5°
-			p_position[WRIST_P]	= 544;		//   0°
-			p_position[WRIST_R]	= 1523;		//  95°
+			p_position[ELBOW]		= 600;		//   5.5°
+			p_position[WRIST_P]		= 544;		//   0°
+			p_position[WRIST_R]		= 1523;		//  95°
 			p_position[HAND]		= 1472;		//  90°
 			
 			/* for testing purposes, this will proceed in order
@@ -112,7 +147,12 @@ class arm_control {
 			}
 		}
 			
-
+		// as above, but this function is less specific. it will
+		//    use the p_destionation --> update() method for a
+		//    cleaner park.
+		//
+		// NEVER CALL THIS WITH A TOOL IN HAND!
+		//
 		void park() {
 		//	Serial.println("ARM :: park() --> entering");
 		//	Serial.flush();
@@ -123,17 +163,9 @@ class arm_control {
 			p_destination[SHOULDER]	= 2245;		// 165°
 			p_destination[ELBOW]	= 600;		//   5.5°
 			p_destination[WRIST_P]	= 544;		//   0°
-			p_destination[WRIST_R]	= 1523;		//  95°			p_destination[HAND]		= 1472;		//  90°
-			
-			/* for testing purposes, this will proceed in order
-			 *    and directly place the successive joints at
-			 *    the prescribed angle defined above.
-			 * the ORDER in which these are placed is not set in
-			 *    stone. it may prove useful in the future to set
-			 *    a specific order. something like: 5 3 4 0 2 1 */
-		//	for (byte joint = 0; joint < NO_OF_JOINTS; joint++) {
-		//		arm[joint].writeMicroseconds(p_destination[joint]);
-		//	}
+			p_destination[WRIST_R]	= 1523;		//  95°
+			// do not mess with the hand. leave to that grasp/release
+		//	p_destination[HAND]		= 1472;		//  90°
 			
 			update();
 		//	Serial.println("ARM :: park() --> leaving");
@@ -154,6 +186,7 @@ class arm_control {
 			p_destination[ELBOW]	= 600;
 			p_destination[WRIST_P]	= 2348;
 			p_destination[WRIST_R]	= 544;
+			// as in park, leave the hand alone.
 		//	p_destination[HAND]		= 1472;
 
 			update();
@@ -178,11 +211,28 @@ class arm_control {
 			// this function currently writes the pulse to the motor
 			//    from a given angle. this should translate the angle
 			//    and pass both joint and pulse to the above p_put().
-			arm[joint].writeMicroseconds(topulse(angle));
+			// use topulsef for higher resolution.
+			arm[joint].writeMicroseconds(topulsef(angle));
 			p_position[joint] = arm[joint].readMicroseconds();
 		}
 
-		// call update with update(NO_OF_JOINTS, <a list of joints to mov
+		// so, update is no longer a variable list funciton.
+		//
+		// this still needs a little work in order to make it really
+		//
+		// as well, this makes no attempt to travel along a straight
+		//    line. this is due to the method of determining how to
+		//    move from one point to another by a direct subtraction
+		//    and ratio of two points based on their p_position and
+		//    p_destition pulse widths.
+		//
+		// a better, saner, and perhaps less error prone method would
+		//    be to store the arms location and destination as (x, y, z)
+		//    co-ordinates and use a function generator to determine the
+		//    straight-line equation between p_position and p_destination.
+		//    then, on each update, the arm can be put to the next 
+		//    successive point along that line, resulting in smoother,
+		//    more geometric motion. -- an excersize for another day.
 //		void update(const byte argc, ...) {
 		void update() {
 		//	Serial.println("ARM :: update(...) --> entering");
