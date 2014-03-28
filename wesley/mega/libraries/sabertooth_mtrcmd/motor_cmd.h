@@ -31,13 +31,17 @@ class motor_cmd {
         static const byte QUARTER_REVERSE = 0x20;
 	static const byte QUARTER_REVERSE_LEFT = 0x23;
 	static const byte QUARTER_REVERSE_RIGHT = 0x20;
-	
+	static const byte QUARTER_REVERSE_COURSECORRECT_LEFT = 0x24;
+	static const byte QUARTER_REVERSE_COURSECORRECT_RIGHT = 0x21;	
+
         static const byte TURN_REVERSE = 0x30;
         static const byte FULL_STOP    = 0x40;
         static const byte TURN_FORWARD = 0x50;
         static const byte QUARTER_FORWARD = 0x60;
 	static const byte QUARTER_FORWARD_RIGHT = 0x5E;
 	static const byte QUARTER_FORWARD_LEFT = 0X60;
+	static const byte QUARTER_FORWARD_COURSECORRECT_LEFT = 0x5F;   //USE THIS WHEN WANTING TO TURN LEFT
+	static const byte QUARTER_FORWARD_COURSECORRECT_RIGHT = 0x5D; //USE THIS WHEN WANTING TO TURN RIGHT
         static const byte HALF_FORWARD = 0x70;
         static const byte FULL_FORWARD = 0x7F;
 	 
@@ -181,6 +185,17 @@ class motor_cmd {
             mcontrol.write(motor_R | QUARTER_REVERSE_RIGHT);
             DIRECTION = REVERSE;
         }
+	void reverse_correct_left() {
+		Serial.println("   ::CMD:: correcting to the left");
+	    mcontrol.write(motor_L | QUARTER_REVERSE_COURSECORRECT_LEFT);
+	    mcontrol.write(motor_R | QUARTER_REVERSE_RIGHT);
+	}
+
+	void reverse_correct_right() {
+		Serial.println("   ::CMD:: correcting to the right");
+	    mcontrol.write(motor_L | QUARTER_REVERSE_LEFT);
+	    mcontrol.write(motor_R | QUARTER_REVERSE_COURSECORRECT_RIGHT);
+	}
 
 		//turn right forever
 		void turn_right(byte motor_speed) {
