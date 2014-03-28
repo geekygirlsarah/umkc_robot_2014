@@ -111,6 +111,84 @@ class DistSmoother	{
 					}
 					return baseline;
 				}
+
+//taken from ->, just substututing in our own function to getnice distances
+/// Arduino library for distance sensors
+// Copyright 2011-2013 Jeroen Doggen (jeroendoggen@gmail.com)
+/// isCloser: check whether the distance to the detected object is smaller than a given threshold
+boolean isCloser(int threshold)
+{
+  if (threshold>getAccurateDistCM())
+  {
+    return (true);
+  }
+  else
+  {
+    return (false);
+  }
+}
+
+/// isFarther: check whether the distance to the detected object is bigger than a given threshold
+boolean isFarther(int threshold)
+{
+  if (threshold<getAccurateDistCM())
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+
+int getAccurateDistCM()
+				{
+					int size = 10;
+					int size2 = 10;
+					float SD;
+					float mean;
+					float SDsum = 0;
+					float meanRef = 0;
+					float readingArr[size];
+					float finalArr[size2];
+					int j = 0;
+					for(int i = 0; i < size; i++)
+					{
+						readingArr[i] = dist.getDistanceCentimeter();
+					}
+					for(int i = 0; i < size; i++)
+					{
+						meanRef += readingArr[i];
+					}
+					mean = meanRef/size;
+					for(int i = 0; i < size; i++)
+					{
+						SDsum += (readingArr[i] - mean)*(readingArr[i] - mean);
+					}
+					SD = sqrt(0.1*SDsum);
+					for(int i = 0; i < size; i++)
+					{
+						if(readingArr[i] > (mean+2*SD) || readingArr[i] < (mean-2*SD))
+						{
+							size2--;
+						}
+						else
+						{
+							finalArr[j] = readingArr[i];
+							j++;
+						} 
+					}
+					meanRef = 0;
+					for(int i = 0; i < size2; i++)
+					{
+						meanRef += finalArr[i];
+					}
+					mean = meanRef/size2;
+					return mean;
+				}
+
+
 };
 
 #endif
