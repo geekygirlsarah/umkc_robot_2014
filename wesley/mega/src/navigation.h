@@ -54,8 +54,8 @@ class Navigation {
                   encoders.init();
                   mov.init(&sabertooth);
                   Serial.println("ready");
-                  gapfind.init(A0,A1,A2);
-                  eyes.init(A3,8);
+                  gapfind.init(A0,A1,A2,15);
+                  eyes.init(A4,8);
                   mag.init(A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
                 
@@ -152,8 +152,8 @@ class Navigation {
                   //check if a gap has been found
                   
                   
-                  gapfind.printDebug();
-                  gapfind.printGapStatus();
+                  //gapfind.printDebug();
+                  //gapfind.printGapStatus();
                   
                   gapfind.update();
                   
@@ -260,11 +260,9 @@ class Navigation {
                   delay(500);
                 }
                
-                 //ROS STUFF HEY HEY LISTEN HEY LISTEN
-               void turn90()  {
-                 
-                          
-                } 
+                 bool findEdge()    {
+                   
+                 }
 		
 			
 };

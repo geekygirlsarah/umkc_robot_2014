@@ -165,7 +165,11 @@ void enterTurn90Degrees_ccw()  {
 //  -then turn 90 degree CW back towards the lane
 //----------
 
-State gapFound = State(NULL,NULL,NULL);
+State gapFound = State(enterGapFound,NULL,NULL);
+void enterGapFound()  {
+   advertising_state.payload = PL_GAP_FOUND;
+  talker.publish(&advertising_state);
+}
 
 
 
@@ -183,8 +187,10 @@ void enterLookForGap()  {
 //ignoring falling off for now
 void updateLookForGap()  {
   //updateROS_spin();  //do i need this??
-  #ifndef DEBUG_COMMS
+//  #ifndef DEBUG_COMMS
+
   if(nav.lookingForGap())  {
+    
     //stateMachine.immediateTransitionTo(waitForCommand);    
       stateMachine.immediateTransitionTo(gapFound);    
   }
@@ -192,14 +198,15 @@ void updateLookForGap()  {
    //advertising_state.payload = PL_LOOKING_FOR_GAP;
    //talker.publish(&advertising_state);
   }
-  #endif
-  #ifdef DEBUG_COMMS
-  stateMachine.immediateTransitionTo(gapFound);    
-  #endif
+  
+//  #endif
+//  #ifdef DEBUG_COMMS
+  //stateMachine.immediateTransitionTo(gapFound);    
+//  #endif
 }
 void exitLookForGap()  {
   nav.stopNow();
-  delay(300);  
+ delay(300);  
 }
 
 //--------------
@@ -207,7 +214,8 @@ void exitLookForGap()  {
 //--------------
 State gapCrossed = State(enterGapCrossed, updateGapCrossed, exitGapCrossed);
 void enterGapCrossed()  {
-
+   advertising_state.payload = PL_GAP_CROSSED;
+  talker.publish(&advertising_state);
 }
 void updateGapCrossed()  {
     
@@ -221,6 +229,8 @@ void exitGapCrossed()  {
 //-------------
 State crossGap = State(enterCrossGap, updateCrossGap, exitCrossGap);
 void enterCrossGap()  {
+  advertising_state.payload = PL_CROSSING_GAP;
+  talker.publish(&advertising_state);
 
 }
 void updateCrossGap()  {
@@ -240,12 +250,34 @@ void exitCrossGap()  {
 
 }
 
+
+//-----------
+//findEdge- after crossing to another lane and turned clockwise.. go backwards and find edge. 
+//-------------
+State findEdge = State(enterFindEdge, updateFindEdge, exitFindEdge);
+void enterFindEdge()  {
+  advertising_state.payload = PL_FINDING_EDGE;
+  talker.publish(&advertising_state);
+
+}
+void updateFindEdge()  {
+    //TODO TODO - account for ht elast one nooooooo
+    if(nav.findEdge())  { //go "backwards" and find edge
+      //found edge!!!
+      nav.stopNow();
+    }
+}
+void exitFindEdge()  {
+
+}
+
 //-----------
 //Finished wave crossing! yay
 //-------------
 State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitCrossingBoard);
 void enterFinishedCrossingBoard()  {
-  sendMsg_finishedWaveCrossing(); 
+  advertising_state.payload = PL_FINISHED_WAVE_CROSSING;
+  talker.publish(&advertising_state);
 }
 void updateFinishedCrossingBoard()  {
    stateMachine.immediateTransitionTo(waitForCommand);
@@ -343,11 +375,6 @@ void initROS()  {
 
 }
 
-void sendMsg_finishedWaveCrossing()  {
-  temp.msgType = MSGTYPE_ACK;
-  temp.payload = PL_FINISHED_WAVE_CROSSING;
-  talker.publish(&temp);
-}
 
 void initiateTurn90_CW()  {
     temp.msgType = MSGTYPE_HEY;
@@ -386,7 +413,7 @@ void setup() {
 }
 
 void loop() {
-        
+        //nav.takeOff();
         //start out in waitForcommand.
         //state changes for now (at least) to go to turn90 are handled up there.
         
@@ -398,6 +425,8 @@ void loop() {
        //-> successfull three way handshake, it goes to 
       
       //have state machine transitions OUTSIDE here for my sanity
+      
+      
       
        stateMachine.update();
        if(stateMachine.isInState(initializeComms))  {
@@ -426,12 +455,15 @@ void loop() {
        else if(stateMachine.isInState(gapFound))  {
          //now need to turn90degrees
          stateMachine.transitionTo(turn90Degrees_CCW);
+         //stateMachine.transitionTo(waitForCommand);
+         
        }
        
        else if (stateMachine.isInState(turn90Degrees_CCW)) {
          //spin... 
          if(turn90DegreeFinished)  {
            //stateMachine.transitionTo(waitForCommand);    //want to se if this works :(
+           /*
            gapsThru++;    //in position to cross yet another gap - if this is the 3rd one.. DON"T CROSS GAP just go forward and stop
            if(gapsThru == 1)  {
              stateMachine.transitionTo(finishedCrossingBoard);
@@ -439,6 +471,8 @@ void loop() {
            else  {
              stateMachine.transitionTo(crossGap);   
            }
+           */
+           stateMachine.transitionTo(crossGap);
            
          }
        }
@@ -451,14 +485,26 @@ void loop() {
       else if (stateMachine.isInState(gapCrossed) )  {
         //need to turn cw back towards lane
         stateMachine.transitionTo(turn90Degrees_CW);
+        //stateMachine.transitionTo(waitForCommand);
+        
       }
       else if (stateMachine.isInState(turn90Degrees_CW))  {
         //spin
         if(turn90DegreeFinished)  {
            //and back to looking for gap
-           stateMachine.transitionTo(lookForGap);
+           //stateMachine.transitionTo(waitForCommand);
+           //stateMachine.transitionTo(lookForGap);
+           
+           //-> go backwards until you hit an edge... then look for gap
+           stateMachine.transitionTo(findEdge);
+           
          }
       }
+      else if (stateMachine.isInState(findEdge))  {
+        //???
+      }
+      
+      
       /*
       
       //  case waveCrossing:

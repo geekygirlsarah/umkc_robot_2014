@@ -19,9 +19,10 @@
 	const static int8_t PL_LOOKING_FOR_GAP = 1;
 	const static int8_t PL_TURNING_CW_INIT = 2;
 	const static int8_t PL_TURNING_CCW_INIT = 3;
-	const static int8_t PL_GAP_FOUND = 4;
-
-
+        const static int8_t PL_GAP_FOUND = 4;
+    	const static int8_t PL_CROSSING_GAP = 5;
+    	const static int8_t PL_GAP_CROSSED = 6;
+	const static int8_t PL_FINDING_EDGE = 7;
 
 	const static int8_t MSGTYPE_MOTORCOM = 3;
 	const static int8_t PL_STOP = 0;
