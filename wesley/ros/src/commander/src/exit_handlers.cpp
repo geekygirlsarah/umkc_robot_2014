@@ -47,7 +47,6 @@ void ExitHandler::id_flame(int returnCode){
 		break;
 	}
 }
-
 //id_tool function will take our return code from id_tool program and 
 //throw led notification based on the outcome
 void ExitHandler::id_tool(int returnCode)
