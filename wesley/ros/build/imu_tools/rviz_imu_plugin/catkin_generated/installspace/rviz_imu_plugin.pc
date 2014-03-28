@@ -1,8 +1,8 @@
-prefix=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install
+prefix=/home/umkc/wesley
 
 Name: rviz_imu_plugin
 Description: Description of rviz_imu_plugin
 Version: 0.1.0
 Cflags: 
-Libs: -L/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/lib 
+Libs: -L/home/umkc/wesley/lib 
 Requires: rviz

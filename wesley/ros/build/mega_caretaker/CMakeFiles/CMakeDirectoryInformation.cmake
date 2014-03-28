@@ -12,6 +12,7 @@ SET(CMAKE_FORCE_UNIX_PATHS 1)
 SET(CMAKE_C_INCLUDE_PATH
   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/include"
   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/mega_caretaker/include"
+  "/home/umkc/wesley/include"
   "/opt/ros/hydro/include"
   )
 SET(CMAKE_CXX_INCLUDE_PATH ${CMAKE_C_INCLUDE_PATH})

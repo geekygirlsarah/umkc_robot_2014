@@ -252,7 +252,7 @@ if __name__ == '__main__':
             sys.exit(1)
 
         # environment at generation time
-        CMAKE_PREFIX_PATH = '/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel;/opt/ros/hydro;/home/umkc/umkc_robot_2014_arduino/wesley/ros/install'.split(';')
+        CMAKE_PREFIX_PATH = '/home/umkc/wesley;/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel;/opt/ros/hydro;/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install;/home/umkc/umkc_robot_2014_arduino/wesley/ros/install'.split(';')
         # prepend current workspace if not already part of CPP
         base_path = os.path.dirname(__file__)
         if base_path not in CMAKE_PREFIX_PATH:

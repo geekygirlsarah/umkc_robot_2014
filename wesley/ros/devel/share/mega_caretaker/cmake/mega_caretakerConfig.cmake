@@ -74,7 +74,7 @@ if("TRUE" STREQUAL "TRUE")
 else()
   set(mega_caretaker_SOURCE_PREFIX "")
   set(mega_caretaker_DEVEL_PREFIX "")
-  set(mega_caretaker_INSTALL_PREFIX /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install)
+  set(mega_caretaker_INSTALL_PREFIX /home/umkc/wesley)
   set(mega_caretaker_PREFIX ${mega_caretaker_INSTALL_PREFIX})
 endif()
 
@@ -122,7 +122,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib;/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib;/opt/ros/hydro/lib)
+    foreach(path /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib;/home/umkc/wesley/lib;/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib;/opt/ros/hydro/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

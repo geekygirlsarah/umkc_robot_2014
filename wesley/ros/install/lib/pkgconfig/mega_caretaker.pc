@@ -1,8 +1,0 @@
-prefix=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install
-
-Name: mega_caretaker
-Description: Description of mega_caretaker
-Version: 0.0.0
-Cflags: -I/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/include
-Libs: -L/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/lib 
-Requires: 

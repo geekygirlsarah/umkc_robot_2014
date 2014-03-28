@@ -1,8 +1,0 @@
-prefix=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install
-
-Name: phidgets_imu
-Description: Description of phidgets_imu
-Version: 0.2.0
-Cflags: -I/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/include
-Libs: -L/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/lib -lphidgets_imu
-Requires: geometry_msgs nodelet phidgets_api roscpp sensor_msgs std_msgs std_srvs tf

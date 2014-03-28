@@ -1,2 +1,0 @@
-set(rosserial_msgs_MESSAGE_FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/rosserial/rosserial_msgs/msg/Log.msg;/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/rosserial/rosserial_msgs/msg/TopicInfo.msg")
-set(rosserial_msgs_SERVICE_FILES "/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/rosserial/rosserial_msgs/srv/RequestParam.srv;/home/umkc/umkc_robot_2014_arduino/wesley/ros/src/rosserial/rosserial_msgs/srv/RequestMessageInfo.srv")

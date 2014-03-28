@@ -2,7 +2,7 @@
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install")
+  SET(CMAKE_INSTALL_PREFIX "/home/umkc/wesley")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,44 +34,44 @@ ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/.catkin")
-FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.catkin")
+   "/home/umkc/wesley/.catkin")
+FILE(INSTALL DESTINATION "/home/umkc/wesley" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.catkin")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/_setup_util.py")
-FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE PROGRAM FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/_setup_util.py")
+   "/home/umkc/wesley/_setup_util.py")
+FILE(INSTALL DESTINATION "/home/umkc/wesley" TYPE PROGRAM FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/_setup_util.py")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/env.sh")
-FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE PROGRAM FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/env.sh")
+   "/home/umkc/wesley/env.sh")
+FILE(INSTALL DESTINATION "/home/umkc/wesley" TYPE PROGRAM FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/env.sh")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/setup.bash")
-FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.bash")
+   "/home/umkc/wesley/setup.bash")
+FILE(INSTALL DESTINATION "/home/umkc/wesley" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.bash")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/setup.sh")
-FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.sh")
+   "/home/umkc/wesley/setup.sh")
+FILE(INSTALL DESTINATION "/home/umkc/wesley" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.sh")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/setup.zsh")
-FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.zsh")
+   "/home/umkc/wesley/setup.zsh")
+FILE(INSTALL DESTINATION "/home/umkc/wesley" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/setup.zsh")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/.rosinstall")
-FILE(INSTALL DESTINATION "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.rosinstall")
+   "/home/umkc/wesley/.rosinstall")
+FILE(INSTALL DESTINATION "/home/umkc/wesley" TYPE FILE FILES "/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/catkin_generated/installspace/.rosinstall")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")

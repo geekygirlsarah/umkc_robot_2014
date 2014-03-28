@@ -137,7 +137,7 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=OFF
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install
+CMAKE_INSTALL_PREFIX:PATH=/home/umkc/wesley
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=/usr/bin/ld
@@ -980,7 +980,7 @@ imu_filter_LIB_DEPENDS:STATIC=general;/opt/ros/hydro/lib/libtf.so;general;/opt/r
 imu_filter_madgwick_BINARY_DIR:STATIC=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/imu_filter_madgwick
 
 //The directory containing a CMake configuration file for imu_filter_madgwick.
-imu_filter_madgwick_DIR:PATH=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/imu_filter_madgwick/cmake
+imu_filter_madgwick_DIR:PATH=/home/umkc/wesley/share/imu_filter_madgwick/cmake
 
 //Value Computed by CMake
 imu_filter_madgwick_SOURCE_DIR:STATIC=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/imu_tools/imu_filter_madgwick
@@ -1031,7 +1031,7 @@ nodelet_DIR:PATH=/opt/ros/hydro/share/nodelet/cmake
 phidgets_api_BINARY_DIR:STATIC=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/phidgets_drivers/phidgets_api
 
 //The directory containing a CMake configuration file for phidgets_api.
-phidgets_api_DIR:PATH=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/phidgets_api/cmake
+phidgets_api_DIR:PATH=/home/umkc/wesley/share/phidgets_api/cmake
 
 //Dependencies for the target
 phidgets_api_LIB_DEPENDS:STATIC=general;phidget21;
@@ -1151,7 +1151,7 @@ visualization_msgs_DIR:PATH=/opt/ros/hydro/share/visualization_msgs/cmake
 wesley_BINARY_DIR:STATIC=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley
 
 //The directory containing a CMake configuration file for wesley.
-wesley_DIR:PATH=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/share/wesley/cmake
+wesley_DIR:PATH=/home/umkc/wesley/share/wesley/cmake
 
 //Value Computed by CMake
 wesley_SOURCE_DIR:STATIC=/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src/wesley

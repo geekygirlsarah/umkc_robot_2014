@@ -1,0 +1,10 @@
+<launch>
+	<node name="serial_mini" pkg="rosserial_python" type="serial_node.py"
+		args="/dev/arduino_mini _baud=19200" />
+
+	<node name="serial_arm" pkg="rosserial_python" type="serial_node.py"
+		args="/dev/arm _baud:=57600" />
+
+<!--	<node name="serial_motor" pkg="rosserial_python" type="serial_node.py"
+		args="/dev/arduino_mega _baud:=57600" />	-->
+</launch>

@@ -127,12 +127,6 @@ include_directories(
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-## Mark executables and/or libraries for installation
-# install(TARGETS commander commander_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
@@ -166,3 +160,10 @@ add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/logger.cpp src/notifi
 target_link_libraries(cmdr ${catkin_LIBRARIES})
 add_executable(button_wait src/button_wait.cpp src/notifier.cpp)
 target_link_libraries(button_wait ${catkin_LIBRARIES})
+
+## Mark executables and/or libraries for installation
+install(TARGETS cmdr button_wait
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

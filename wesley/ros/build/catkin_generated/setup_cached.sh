@@ -7,5 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export PATH="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/bin:/opt/ros/hydro/bin:/home/umkc/bin:/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
 export PWD="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build"
