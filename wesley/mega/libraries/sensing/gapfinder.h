@@ -193,6 +193,11 @@ public:
   	return (gap_status == no_gap || gap_status == maybe_gap);
   }
 
+  //reset back to no gap state. 
+  void reset()	{
+ 	gap_status = no_gap; 
+  }
+
 };
 
 #endif
