@@ -140,7 +140,11 @@
 /home/umkc/wesley/share/wesley/cmake/wesleyConfig.cmake
 /home/umkc/wesley/share/wesley/cmake/wesleyConfig-version.cmake
 /home/umkc/wesley/share/wesley/package.xml
+/home/umkc/wesley/share/wesley/serial_nodes.launch
 /home/umkc/wesley/lib/pkgconfig/camera.pc
 /home/umkc/wesley/share/camera/cmake/cameraConfig.cmake
 /home/umkc/wesley/share/camera/cmake/cameraConfig-version.cmake
 /home/umkc/wesley/share/camera/package.xml
+/home/umkc/wesley/lib/camera/id_tool
+/home/umkc/wesley/lib/camera/id_flame
+/home/umkc/wesley/lib/camera/camera_snapshot

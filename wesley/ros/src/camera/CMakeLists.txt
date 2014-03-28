@@ -148,3 +148,6 @@ add_executable(camera_snapshot src/camera_snap.cpp)
 target_link_libraries(camera_snapshot ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 add_executable(read_file src/read_file.cpp)
 target_link_libraries(read_file ${catkin_LIBRARIES})
+install(TARGETS id_tool id_flame camera_snapshot
+	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

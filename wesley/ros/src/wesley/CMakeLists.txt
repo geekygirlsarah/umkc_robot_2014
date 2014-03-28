@@ -136,3 +136,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+install(FILES serial_nodes.launch
+	DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)

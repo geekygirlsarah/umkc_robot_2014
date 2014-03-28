@@ -1201,44 +1201,44 @@ clean: imu_tools/imu_filter_madgwick/CMakeFiles/geometry_msgs_generate_messages_
 # Target rules for target imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir
 
 # All Build rule for target.
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_gencfg.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/roscpp_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/roscpp_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/roscpp_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/std_msgs_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/roscpp_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/std_msgs_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf_generate_messages_lisp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf_generate_messages_cpp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/bond_generate_messages_lisp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/nodelet_generate_messages_lisp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/actionlib_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/nodelet_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/bond_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/actionlib_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/nodelet_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/actionlib_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/nodelet_generate_messages_lisp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/bond_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/bond_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_gencfg.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/bond_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/nodelet_generate_messages_py.dir/all
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/nodelet_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages_cpp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/bond_generate_messages_lisp.dir/all
 	$(MAKE) -f imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/build.make imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/depend
 	$(MAKE) -f imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/build.make imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles  16
@@ -1339,9 +1339,9 @@ clean: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_gencpp.dir/c
 # Target rules for target imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir
 
 # All Build rule for target.
-imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages_cpp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages_lisp.dir/all
 imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages_py.dir/all
+imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages_cpp.dir/all
 	$(MAKE) -f imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/build.make imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/depend
 	$(MAKE) -f imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/build.make imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 
@@ -2075,9 +2075,9 @@ clean: mega_caretaker/CMakeFiles/mega_caretaker_gencpp.dir/clean
 # Target rules for target mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir
 
 # All Build rule for target.
-mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/all: mega_caretaker/CMakeFiles/mega_caretaker_generate_messages_py.dir/all
-mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/all: mega_caretaker/CMakeFiles/mega_caretaker_generate_messages_cpp.dir/all
 mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/all: mega_caretaker/CMakeFiles/mega_caretaker_generate_messages_lisp.dir/all
+mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/all: mega_caretaker/CMakeFiles/mega_caretaker_generate_messages_cpp.dir/all
+mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/all: mega_caretaker/CMakeFiles/mega_caretaker_generate_messages_py.dir/all
 	$(MAKE) -f mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/build.make mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/depend
 	$(MAKE) -f mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/build.make mega_caretaker/CMakeFiles/mega_caretaker_generate_messages.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/CMakeFiles 
@@ -2268,8 +2268,8 @@ clean: mega_caretaker/CMakeFiles/mega_caretaker_genpy.dir/clean
 
 # All Build rule for target.
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_madgwick_generate_messages_cpp.dir/all
-mega_caretaker/CMakeFiles/mega_caretaker_node.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_nodelet.dir/all
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter.dir/all
+mega_caretaker/CMakeFiles/mega_caretaker_node.dir/all: imu_tools/imu_filter_madgwick/CMakeFiles/imu_filter_nodelet.dir/all
 mega_caretaker/CMakeFiles/mega_caretaker_node.dir/all: mega_caretaker/CMakeFiles/mega_caretaker_generate_messages_cpp.dir/all
 	$(MAKE) -f mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build.make mega_caretaker/CMakeFiles/mega_caretaker_node.dir/depend
 	$(MAKE) -f mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build.make mega_caretaker/CMakeFiles/mega_caretaker_node.dir/build
