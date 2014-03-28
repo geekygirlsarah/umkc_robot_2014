@@ -107,6 +107,8 @@ enum tool_area { LEFT, CENTER, RIGHT };
 void program_help(const char* arg_zero) {
 	std::cerr << "please call " << arg_zero << " with one of:" << std::endl;
 	std::cerr << "\t(s or 1), (t or 2), or (c or 3)" << std::endl;
+	std::cerr << "\tand the full path location of 'position_tool.lst'" << std::endl;
+	std::cerr << "ex: id_tool s /home/umkc/wesley/umkc_robot_2014_arduino/wesley/config/position_tool.lst" << std::endl;
 }
 
 bool waiting = true;
@@ -182,7 +184,7 @@ int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "id_tool");
 	
 	// this program must be called with one argument (see switch below)
-	if (argc != 2) {
+	if (argc != 3) {
 		program_help(argv[0]);
 		return(10);
 	}
@@ -213,7 +215,8 @@ int main(int argc, char* argv[]) {
 	// structure for file definition.
 	struct stat verify;
 	std::ifstream fin;
-	string file_position_tool = "./position_tool.lst";
+//	string file_position_tool = "./position_tool.lst";
+	string file_position_tool = argv[2];
 	if (stat(file_position_tool.c_str(), &verify) == 0) {
 		fin.open(file_position_tool.c_str(), std::ifstream::in);
 	} else {
@@ -291,7 +294,7 @@ int main(int argc, char* argv[]) {
 	// create a window and the matrices we'll need to job_state.
 	// the window is for testing and lets the coder see what
 	//    the camera is seeing / looking at.
-	namedWindow("frame", CV_WINDOW_AUTOSIZE);
+//	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 	Mat frame, thresh, viewport, swallow;
 
 	// vectors for the findContours, approxPolyDP and HoughCircles
@@ -366,7 +369,7 @@ int main(int argc, char* argv[]) {
 						// create a rectangle for our region of interest
 						Rect ROI_tool = Rect(160, 80, 300, 360);
 						// draw a red outline around the region of interest
-						rectangle(frame, ROI_tool, CV_RGB(0xF8, 0x00, 0x12), 1);
+//						rectangle(frame, ROI_tool, CV_RGB(0xF8, 0x00, 0x12), 1);
 
 						// apply ROI_tool to frame and copy that section into a new matrix
 						Mat viewport = frame(ROI_tool);
@@ -387,12 +390,12 @@ int main(int argc, char* argv[]) {
 										approx.size() == 7) {
 										ROS_WARN("match(SQUARE)");
 										// skyblue
-										color = CV_RGB(0x87, 0xCE, 0xEB);
+//										color = CV_RGB(0x87, 0xCE, 0xEB);
 										tool_found = true;
 										job_state = FIND_TOP;
 									} else {
 										tool_found = false;
-										color = CV_RGB(0xFF, 0x22, 0x44);
+//										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								case TRIANGLE:
@@ -401,12 +404,12 @@ int main(int argc, char* argv[]) {
 										approx.size() == 5) {
 										ROS_WARN("match(TRIANGLE)");
 										// tomato
-										color = CV_RGB(0xFF, 0x63, 0x47);
+//										color = CV_RGB(0xFF, 0x63, 0x47);
 										tool_found = true;
 										job_state = FIND_TOP;
 									} else {
 										tool_found = false;
-										color = CV_RGB(0xFF, 0x22, 0x44);
+//										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								case CIRCLE:
@@ -415,12 +418,12 @@ int main(int argc, char* argv[]) {
 										approx.size() == 10) {
 										ROS_WARN("match(CIRCLE)");
 										// teal
-										color = CV_RGB(0x00, 0x80, 0x80);
+//										color = CV_RGB(0x00, 0x80, 0x80);
 										tool_found = true;
 										job_state = FIND_TOP;
 									} else {
 										tool_found = false;
-										color = CV_RGB(0xFF, 0x22, 0x44);
+//										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								default:
@@ -429,13 +432,13 @@ int main(int argc, char* argv[]) {
 							}	// end switch(tool) for FIND_TOOL
 							if (tool_found == true) {
 								ROS_INFO("ID_TOOL :: (FIND_TOOL) --> found a tool.");
-								imshow("frame", frame);
-								while(waitKey() != 27);
+//								imshow("frame", frame);
+//								while(waitKey() != 27);
 								job_state = FIND_TOP;
 								break;		// from for(area);
 							} else {
-								imshow("frame", frame);
-								while(waitKey() != 27);
+//								imshow("frame", frame);
+//								while(waitKey() != 27);
 								// didn't find what we were looking for,
 								// try next position.
 								continue;	// with for(area)
@@ -451,12 +454,12 @@ int main(int argc, char* argv[]) {
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) :: for(trial) done --> for(%d", trial);
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> ending reason(%d)", tool_found);
 					if (tool_found == true) {
-						destroyWindow("frame");
+//						destroyWindow("frame");
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) :: found a tool.");
 						job_state = FIND_TOP;
 						break;
 					} else {
-						destroyWindow("frame");
+//						destroyWindow("frame");
 						tool_found = false;
 						// didn't find a tool this go-round
 						// reset area and start again.
@@ -495,7 +498,7 @@ int main(int argc, char* argv[]) {
 							case SQUARE:
 								if (approx.size() == 4) {
 									// goldenrod
-									color = CV_RGB(0xDA, 0xA5, 0x20);
+//									color = CV_RGB(0xDA, 0xA5, 0x20);
 									ROS_WARN("match_TOP(SQUARE)");
 									top_found = true;
 								}
@@ -503,7 +506,7 @@ int main(int argc, char* argv[]) {
 							case TRIANGLE:
 								if (approx.size() == 3) {
 									// lightpink
-									color = CV_RGB(0xFF, 0xB6, 0xC1);
+//									color = CV_RGB(0xFF, 0xB6, 0xC1);
 									ROS_WARN("match_TOP(TRIANGLE)");
 									top_found = true;
 								}
@@ -511,7 +514,7 @@ int main(int argc, char* argv[]) {
 							case CIRCLE:
 								if (approx.size() == 8) {
 									// olive
-									color = CV_RGB(0x80, 0x80, 0x00);
+//									color = CV_RGB(0x80, 0x80, 0x00);
 									ROS_WARN("match_TOP(CIRCLE)");
 									top_found = true;
 								}
@@ -521,19 +524,19 @@ int main(int argc, char* argv[]) {
 						}	// end switch(tool) for FIND_TOP
 						if (top_found == true) {
 						ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. not finished with loop yet.");
-							imshow("frame", frame);
-							while(waitKey() != 27);
+//							imshow("frame", frame);
+//							while(waitKey() != 27);
 							job_state = FIND_DISTANCE;
 							break;
 						} else {
-							imshow("frame", frame);
-							while(waitKey() != 27);
+//							imshow("frame", frame);
+//							while(waitKey() != 27);
 							// go to the next position.
 							continue;
 						}
 					} else {
-						imshow("frame", frame);
-						while(waitKey() != 27);
+//						imshow("frame", frame);
+//						while(waitKey() != 27);
 						// contour_idx was -1. no contour found.
 						// go to next position.
 						continue;
@@ -573,6 +576,7 @@ int main(int argc, char* argv[]) {
 				//    and we're not touching it this go-round.
 				// if we're in FIND_DISTANCE, this should always succeed.
 				
+				// these are the actual lengths of diagonals of the tools in millimeters.
 				const double tool_d[4] = {
 					0.0f,
 					72.4,		// SQUARE diagonal
@@ -676,15 +680,15 @@ int main(int argc, char* argv[]) {
 				job_state = TOOL_GRASP;
 				
 				// light purple
-				color = CV_RGB(0xAD, 0x66, 0xD5);
-				circle(frame,
-					   mc,
-					   5,
-					   color,
-					   CV_FILLED);
+//				color = CV_RGB(0xAD, 0x66, 0xD5);
+//				circle(frame,
+//					   mc,
+//					   5,
+//					   color,
+//					   CV_FILLED);
 
-				imshow("frame", frame);
-				while(waitKey() != 27);
+//				imshow("frame", frame);
+//				while(waitKey() != 27);
 				// write all of this information to a file.. or, perhaps
 				//    to an ROS service that translates our co-ordinates
 				//    into appropriate movement codes to the arm.
@@ -719,8 +723,8 @@ int main(int argc, char* argv[]) {
 				// no known cases that bring us here.
 			break;
 		}	// end switch(job_state)
-		imshow("frame", frame);
-		while(waitKey() != 27);
+//		imshow("frame", frame);
+//		while(waitKey() != 27);
 //		if (tool_found == true && top_found == true) {
 //			ROS_INFO("ID_TOOL(for(EVER)) --> CONFIRMED! finishing out.");
 //			ROS_INFO("ID_TOOL(FIND_TOOL) :: found tool at: (%f, %f, %f, %f, %f)",
