@@ -23,13 +23,24 @@ int executeBinary(string path,string prefix="./bin/", string mode="r");
 int main(){
 	Logger * logger = new Logger();
 	ExitHandler exithandler(logger);
-		
+
+	// here -- the recommended manner in calling the binaries is as follows:
+	//
+	//    rosrun package binary arguments
+	//
+	// more research should be done to determine if we need an argument vector
+	//    to pass through popen, or if it can handle long strings and execute
+	//    those. rosrun will return the error code passed by the called binary.
+
 	// main process list start here
 	// 0) button_wait
 	// 1) id_flame
-	// 2) id_tool
-	// 3) -------
-	// 4) -------
+	// 2) move_to_tools
+	// 3) id_tool
+	// 4) move_through_waves
+	// 5) move_to_rig
+	// 6) align_on_rig
+	// 7) 
 	logger->logStatus("Executing button_wait");
 	exithandler.button_wait(executeBinary("button_wait"));
 	logger->logStatus("Executing ID flame");
