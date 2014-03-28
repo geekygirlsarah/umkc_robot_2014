@@ -7,8 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export CATKIN_TEST_RESULTS_DIR="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/test_results"
+export PATH="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/bin:/opt/ros/hydro/bin:/home/umkc/bin:/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
 export PWD="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build"
-export PYTHONPATH="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/dist-packages:/opt/ros/hydro/lib/python2.7/dist-packages:/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/lib/python2.7/dist-packages:/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/python2.7/site-packages:/opt/ros/hydro/lib/python2.7/site-packages:/home/umkc/umkc_robot_2014_arduino/wesley/ros/install/lib/python2.7/site-packages"
-export ROS_PACKAGE_PATH="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/src:$ROS_PACKAGE_PATH"
-export ROS_TEST_RESULTS_DIR="/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/test_results"

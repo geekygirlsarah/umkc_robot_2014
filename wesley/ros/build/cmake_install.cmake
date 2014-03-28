@@ -85,6 +85,7 @@ ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unsp
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/gtest/cmake_install.cmake")
+  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander/cmake_install.cmake")
   INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander_logger/cmake_install.cmake")
   INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/imu_filter_madgwick/cmake_install.cmake")
   INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/imu_tools/cmake_install.cmake")
@@ -96,7 +97,6 @@ IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/imu_tools/rviz_imu_plugin/cmake_install.cmake")
   INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/wesley/cmake_install.cmake")
   INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/camera/cmake_install.cmake")
-  INCLUDE("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build/commander/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 

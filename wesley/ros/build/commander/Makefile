@@ -147,6 +147,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+commander/CMakeFiles/button_wait.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/button_wait.dir/rule
+.PHONY : commander/CMakeFiles/button_wait.dir/rule
+
+# Convenience name for target.
+button_wait: commander/CMakeFiles/button_wait.dir/rule
+.PHONY : button_wait
+
+# fast build rule for target.
+button_wait/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/build
+.PHONY : button_wait/fast
+
+# Convenience name for target.
 commander/CMakeFiles/cmdr.dir/rule:
 	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/cmdr.dir/rule
 .PHONY : commander/CMakeFiles/cmdr.dir/rule
@@ -159,6 +173,156 @@ cmdr: commander/CMakeFiles/cmdr.dir/rule
 cmdr/fast:
 	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/build
 .PHONY : cmdr/fast
+
+# Convenience name for target.
+commander/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+.PHONY : commander/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_cpp: commander/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+.PHONY : roscpp_generate_messages_cpp
+
+# fast build rule for target.
+roscpp_generate_messages_cpp/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make commander/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+.PHONY : roscpp_generate_messages_cpp/fast
+
+# Convenience name for target.
+commander/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+.PHONY : commander/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_lisp: commander/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+.PHONY : roscpp_generate_messages_lisp
+
+# fast build rule for target.
+roscpp_generate_messages_lisp/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make commander/CMakeFiles/roscpp_generate_messages_lisp.dir/build
+.PHONY : roscpp_generate_messages_lisp/fast
+
+# Convenience name for target.
+commander/CMakeFiles/roscpp_generate_messages_py.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/roscpp_generate_messages_py.dir/rule
+.PHONY : commander/CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_py: commander/CMakeFiles/roscpp_generate_messages_py.dir/rule
+.PHONY : roscpp_generate_messages_py
+
+# fast build rule for target.
+roscpp_generate_messages_py/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/roscpp_generate_messages_py.dir/build.make commander/CMakeFiles/roscpp_generate_messages_py.dir/build
+.PHONY : roscpp_generate_messages_py/fast
+
+# Convenience name for target.
+commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+.PHONY : commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_cpp: commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+.PHONY : rosgraph_msgs_generate_messages_cpp
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_cpp/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+.PHONY : rosgraph_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+.PHONY : commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_lisp: commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+.PHONY : rosgraph_msgs_generate_messages_lisp
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_lisp/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
+.PHONY : rosgraph_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+.PHONY : commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_py: commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+.PHONY : rosgraph_msgs_generate_messages_py
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_py/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+.PHONY : rosgraph_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+.PHONY : commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_cpp: commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+.PHONY : std_msgs_generate_messages_cpp
+
+# fast build rule for target.
+std_msgs_generate_messages_cpp/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+.PHONY : std_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+.PHONY : commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_lisp: commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+.PHONY : std_msgs_generate_messages_lisp
+
+# fast build rule for target.
+std_msgs_generate_messages_lisp/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+.PHONY : std_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+commander/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f CMakeFiles/Makefile2 commander/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+.PHONY : commander/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_py: commander/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+.PHONY : std_msgs_generate_messages_py
+
+# fast build rule for target.
+std_msgs_generate_messages_py/fast:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/std_msgs_generate_messages_py.dir/build.make commander/CMakeFiles/std_msgs_generate_messages_py.dir/build
+.PHONY : std_msgs_generate_messages_py/fast
+
+src/button_wait.o: src/button_wait.cpp.o
+.PHONY : src/button_wait.o
+
+# target to build an object file
+src/button_wait.cpp.o:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/src/button_wait.cpp.o
+.PHONY : src/button_wait.cpp.o
+
+src/button_wait.i: src/button_wait.cpp.i
+.PHONY : src/button_wait.i
+
+# target to preprocess a source file
+src/button_wait.cpp.i:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/src/button_wait.cpp.i
+.PHONY : src/button_wait.cpp.i
+
+src/button_wait.s: src/button_wait.cpp.s
+.PHONY : src/button_wait.s
+
+# target to generate assembly for a file
+src/button_wait.cpp.s:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/src/button_wait.cpp.s
+.PHONY : src/button_wait.cpp.s
 
 src/exit_handlers.o: src/exit_handlers.cpp.o
 .PHONY : src/exit_handlers.o
@@ -237,6 +401,7 @@ src/notifier.o: src/notifier.cpp.o
 
 # target to build an object file
 src/notifier.cpp.o:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/src/notifier.cpp.o
 	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.o
 .PHONY : src/notifier.cpp.o
 
@@ -245,6 +410,7 @@ src/notifier.i: src/notifier.cpp.i
 
 # target to preprocess a source file
 src/notifier.cpp.i:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/src/notifier.cpp.i
 	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.i
 .PHONY : src/notifier.cpp.i
 
@@ -253,6 +419,7 @@ src/notifier.s: src/notifier.cpp.s
 
 # target to generate assembly for a file
 src/notifier.cpp.s:
+	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/src/notifier.cpp.s
 	cd /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/build && $(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/src/notifier.cpp.s
 .PHONY : src/notifier.cpp.s
 
@@ -262,6 +429,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... button_wait"
 	@echo "... cmdr"
 	@echo "... edit_cache"
 	@echo "... install"
@@ -269,7 +437,19 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... roscpp_generate_messages_cpp"
+	@echo "... roscpp_generate_messages_lisp"
+	@echo "... roscpp_generate_messages_py"
+	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... rosgraph_msgs_generate_messages_py"
+	@echo "... std_msgs_generate_messages_cpp"
+	@echo "... std_msgs_generate_messages_lisp"
+	@echo "... std_msgs_generate_messages_py"
 	@echo "... test"
+	@echo "... src/button_wait.o"
+	@echo "... src/button_wait.i"
+	@echo "... src/button_wait.s"
 	@echo "... src/exit_handlers.o"
 	@echo "... src/exit_handlers.i"
 	@echo "... src/exit_handlers.s"

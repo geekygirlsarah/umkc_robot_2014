@@ -97,9 +97,9 @@ void loop() {
 		} else {
 	// 5) publish the state of our button
 			pub.publish(&running_state);
-	// 6) TEMPORARY - the LEDs would be set by another node
-	 		set_leds.data = 0x30;
-			display_status(set_leds);
+//	// 6) TEMPORARY - the LEDs would be set by another node
+//	 		set_leds.data = 0x30;
+//			display_status(set_leds);
 	// 7) set master boolean so we never check this segment again.
 			published = true;
 		}

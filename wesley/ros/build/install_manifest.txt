@@ -7,6 +7,10 @@
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/.rosinstall
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/etc/catkin/profile.d/05.catkin_make.bash
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/etc/catkin/profile.d/05.catkin_make_isolated.bash
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/lib/pkgconfig/commander.pc
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander/cmake/commanderConfig.cmake
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander/cmake/commanderConfig-version.cmake
+/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander/package.xml
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/lib/pkgconfig/commander_logger.pc
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander_logger/cmake/commander_loggerConfig.cmake
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander_logger/cmake/commander_loggerConfig-version.cmake
@@ -138,7 +142,3 @@
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/camera/cmake/cameraConfig.cmake
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/camera/cmake/cameraConfig-version.cmake
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/camera/package.xml
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/lib/pkgconfig/commander.pc
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander/cmake/commanderConfig.cmake
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander/cmake/commanderConfig-version.cmake
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/install/share/commander/package.xml

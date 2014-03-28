@@ -60,9 +60,7 @@ public:
 	LedNotifier(bool grn1, bool grn2,
 				bool ylw1, bool ylw2,
 				bool red1, bool red2,
-				bool parseOnConstruction=false) {
-		lightLeds(grn1, grn2, ylw1, ylw2, red1, red2);
-	}
+				bool parseOnConstruction=false);
 		
 	/**
 	 * Parses a text file
@@ -81,8 +79,9 @@ public:
 	 * multiple files can be parsed. If there are overlaps than the most recently parsed code will stay.
 	 *
 	 * @param parseFileName The text file to parse
+	 * returns true on success, false on failure.
 	 */
-	void parse(const char* parseFileName="./res/notify_id.txt");
+	bool parse(const char* parseFileName="./res/notify_id.txt");
 
 	/**
 	 * Throws a new led code based on previously parsed file. if throwGeneralErrorOnFailure is true then if no code is found the function will return false and light the general failure led
@@ -95,6 +94,12 @@ public:
 	 * A function that will light the general failure leds
 	 * note: doesn't rely on a successful parse
 	 */
-	void throwGeneralFailure(){lightLeds(false,false,false,false,true,true);}
+	void throwGeneralFailure(){lightLeds(false,false,false,true,true,true);}
+
+	/**
+	 * returns a list of the known status codes as parsed from the file.
+	 *  does not work..?
+	 */
+	string cat_codes();
 };
 #endif

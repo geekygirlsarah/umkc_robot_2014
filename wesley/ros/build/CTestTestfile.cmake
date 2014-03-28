@@ -5,6 +5,7 @@
 # This file includes the relevent testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 SUBDIRS(gtest)
+SUBDIRS(commander)
 SUBDIRS(commander_logger)
 SUBDIRS(imu_tools/imu_filter_madgwick)
 SUBDIRS(imu_tools/imu_tools)
@@ -16,4 +17,3 @@ SUBDIRS(phidgets_drivers/phidgets_ir)
 SUBDIRS(imu_tools/rviz_imu_plugin)
 SUBDIRS(wesley)
 SUBDIRS(camera)
-SUBDIRS(commander)

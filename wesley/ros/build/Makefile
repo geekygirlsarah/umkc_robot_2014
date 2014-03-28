@@ -225,17 +225,30 @@ gtest_main/fast:
 .PHONY : gtest_main/fast
 
 #=============================================================================
-# Target rules for targets named cmdr_logger
+# Target rules for targets named button_wait
 
 # Build rule for target.
-cmdr_logger: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 cmdr_logger
-.PHONY : cmdr_logger
+button_wait: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 button_wait
+.PHONY : button_wait
 
 # fast build rule for target.
-cmdr_logger/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/cmdr_logger.dir/build.make commander_logger/CMakeFiles/cmdr_logger.dir/build
-.PHONY : cmdr_logger/fast
+button_wait/fast:
+	$(MAKE) -f commander/CMakeFiles/button_wait.dir/build.make commander/CMakeFiles/button_wait.dir/build
+.PHONY : button_wait/fast
+
+#=============================================================================
+# Target rules for targets named cmdr
+
+# Build rule for target.
+cmdr: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cmdr
+.PHONY : cmdr
+
+# fast build rule for target.
+cmdr/fast:
+	$(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/build
+.PHONY : cmdr/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_cpp
@@ -247,7 +260,7 @@ roscpp_generate_messages_cpp: cmake_check_build_system
 
 # fast build rule for target.
 roscpp_generate_messages_cpp/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make commander_logger/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+	$(MAKE) -f commander/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make commander/CMakeFiles/roscpp_generate_messages_cpp.dir/build
 .PHONY : roscpp_generate_messages_cpp/fast
 
 #=============================================================================
@@ -260,7 +273,7 @@ roscpp_generate_messages_lisp: cmake_check_build_system
 
 # fast build rule for target.
 roscpp_generate_messages_lisp/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make commander_logger/CMakeFiles/roscpp_generate_messages_lisp.dir/build
+	$(MAKE) -f commander/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make commander/CMakeFiles/roscpp_generate_messages_lisp.dir/build
 .PHONY : roscpp_generate_messages_lisp/fast
 
 #=============================================================================
@@ -273,7 +286,7 @@ roscpp_generate_messages_py: cmake_check_build_system
 
 # fast build rule for target.
 roscpp_generate_messages_py/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/roscpp_generate_messages_py.dir/build.make commander_logger/CMakeFiles/roscpp_generate_messages_py.dir/build
+	$(MAKE) -f commander/CMakeFiles/roscpp_generate_messages_py.dir/build.make commander/CMakeFiles/roscpp_generate_messages_py.dir/build
 .PHONY : roscpp_generate_messages_py/fast
 
 #=============================================================================
@@ -286,7 +299,7 @@ rosgraph_msgs_generate_messages_cpp: cmake_check_build_system
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_cpp/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make commander_logger/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+	$(MAKE) -f commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make commander/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
 #=============================================================================
@@ -299,7 +312,7 @@ rosgraph_msgs_generate_messages_lisp: cmake_check_build_system
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make commander_logger/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
+	$(MAKE) -f commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make commander/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 #=============================================================================
@@ -312,7 +325,7 @@ rosgraph_msgs_generate_messages_py: cmake_check_build_system
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_py/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make commander_logger/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+	$(MAKE) -f commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make commander/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
 
 #=============================================================================
@@ -325,7 +338,7 @@ std_msgs_generate_messages_cpp: cmake_check_build_system
 
 # fast build rule for target.
 std_msgs_generate_messages_cpp/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make commander_logger/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+	$(MAKE) -f commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make commander/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 .PHONY : std_msgs_generate_messages_cpp/fast
 
 #=============================================================================
@@ -338,7 +351,7 @@ std_msgs_generate_messages_lisp: cmake_check_build_system
 
 # fast build rule for target.
 std_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make commander_logger/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+	$(MAKE) -f commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make commander/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
 .PHONY : std_msgs_generate_messages_lisp/fast
 
 #=============================================================================
@@ -351,8 +364,21 @@ std_msgs_generate_messages_py: cmake_check_build_system
 
 # fast build rule for target.
 std_msgs_generate_messages_py/fast:
-	$(MAKE) -f commander_logger/CMakeFiles/std_msgs_generate_messages_py.dir/build.make commander_logger/CMakeFiles/std_msgs_generate_messages_py.dir/build
+	$(MAKE) -f commander/CMakeFiles/std_msgs_generate_messages_py.dir/build.make commander/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named cmdr_logger
+
+# Build rule for target.
+cmdr_logger: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cmdr_logger
+.PHONY : cmdr_logger
+
+# fast build rule for target.
+cmdr_logger/fast:
+	$(MAKE) -f commander_logger/CMakeFiles/cmdr_logger.dir/build.make commander_logger/CMakeFiles/cmdr_logger.dir/build
+.PHONY : cmdr_logger/fast
 
 #=============================================================================
 # Target rules for targets named actionlib_generate_messages_cpp
@@ -1394,19 +1420,6 @@ read_file/fast:
 	$(MAKE) -f camera/CMakeFiles/read_file.dir/build.make camera/CMakeFiles/read_file.dir/build
 .PHONY : read_file/fast
 
-#=============================================================================
-# Target rules for targets named cmdr
-
-# Build rule for target.
-cmdr: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 cmdr
-.PHONY : cmdr
-
-# fast build rule for target.
-cmdr/fast:
-	$(MAKE) -f commander/CMakeFiles/cmdr.dir/build.make commander/CMakeFiles/cmdr.dir/build
-.PHONY : cmdr/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1426,7 +1439,8 @@ help:
 	@echo "... tests"
 	@echo "... gtest"
 	@echo "... gtest_main"
-	@echo "... cmdr_logger"
+	@echo "... button_wait"
+	@echo "... cmdr"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... roscpp_generate_messages_py"
@@ -1436,6 +1450,7 @@ help:
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... cmdr_logger"
 	@echo "... actionlib_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_lisp"
 	@echo "... actionlib_generate_messages_py"
@@ -1516,7 +1531,6 @@ help:
 	@echo "... id_flame"
 	@echo "... id_tool"
 	@echo "... read_file"
-	@echo "... cmdr"
 .PHONY : help
 
 

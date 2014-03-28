@@ -2,14 +2,16 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <std_msgs/Byte.h>
 using std::string;
 using std::ifstream;
 
-void LedNotifier::parse(const char* parseFileName){
+bool LedNotifier::parse(const char* parseFileName){
 	ifstream fin(parseFileName);
 	if(!fin){
 		throwGeneralFailure();
+		return(false);
 	}
 	while(fin.good()){
 		string name;
@@ -20,7 +22,7 @@ void LedNotifier::parse(const char* parseFileName){
 		int red0in;
 		int red1in;
 		fin >> name >> green0in>>green1in>>yellow0in >> yellow1in >> red0in >> red1in;
-		//Stupid way to convert these two booleans but yolo
+		//Stupid way to convert these two booleans but yolo <<-- srsly?
 		bool green0 = (green0in == 1);
 		bool green1 = (green1in == 1);
 		bool yellow0 = (yellow0 == 1);
@@ -29,7 +31,27 @@ void LedNotifier::parse(const char* parseFileName){
 		bool red1 = (red1in == 1);
 		notificationMap[name] = LedArray(green0,green1,yellow0,yellow1,red0,red1);
 	}
+	return(true);
 }	
+
+string LedNotifier::cat_codes() {
+	if (notificationMap.size() > 0) {
+		std::stringstream ss;
+
+		std::map<string,LedArray>::iterator it = notificationMap.begin();
+		ss << it->first;
+		it++;
+		for(; it != notificationMap.end(); it++) {
+			ss << ", " << it->first;
+		}
+
+		string codes = ss.str();
+//		ROS_WARN("LEDN :: cat_codes() --> known codes (%s)", codes.c_str());
+		return(ss.str());
+	} else {
+		return("EMPTY");
+	}
+}
 
 bool LedNotifier::throwLedCode(string code, bool throwGeneralErrorOnFailure){
 	if(notificationMap.find(code) == notificationMap.end()){
@@ -107,6 +129,33 @@ LedNotifier::LedNotifier(bool parseOnConstruction){
 	int zero = 0;	
 	ros::init(zero,NULL,"lednotifier");
 	pub = nh.advertise<std_msgs::Byte>("/master/leds", 1000);
+	
+	while(pub.getNumSubscribers() <= 0) {
+		// spin on nothing waiting for subscribers.
+		// this is a safe, sane thing to do to prevent
+		//    publishing on an invalied topic
+	}
+
+	if(parseOnConstruction)
+		parse();
+}
+
+
+LedNotifier::LedNotifier(bool grn1, bool grn2,
+						 bool ylw1, bool ylw2,
+						 bool red1, bool red2,
+						 bool parseOnConstruction) {
+	int zero = 0;	
+	ros::init(zero,NULL,"lednotifier");
+	pub = nh.advertise<std_msgs::Byte>("/master/leds", 1000);
+
+	while(pub.getNumSubscribers() <= 0) {
+		// spin on nothing waiting for subscribers.
+		// this is a safe, sane thing to do to prevent
+		//    publishing on an invalied topic
+	}
+
+	lightLeds(grn1, grn2, ylw1, ylw2, red1, red2);
 	
 	if(parseOnConstruction)
 		parse();

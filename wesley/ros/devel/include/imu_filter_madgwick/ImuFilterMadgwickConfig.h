@@ -279,9 +279,9 @@ double zeta;
 
 
 
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       double gain;
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       double zeta;
 //#line 255 "/opt/ros/hydro/share/dynamic_reconfigure/cmake/../templates/ConfigType.h.template"
 
@@ -418,29 +418,29 @@ double zeta;
     ImuFilterMadgwickConfigStatics()
     {
 ImuFilterMadgwickConfig::GroupDescription<ImuFilterMadgwickConfig::DEFAULT, ImuFilterMadgwickConfig> Default("Default", "", 0, 0, true, &ImuFilterMadgwickConfig::groups);
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __min__.gain = 0.0;
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.gain = 1.0;
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __default__.gain = 0.1;
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(ImuFilterMadgwickConfig::AbstractParamDescriptionConstPtr(new ImuFilterMadgwickConfig::ParamDescription<double>("gain", "double", 0, "Filter gain", "", &ImuFilterMadgwickConfig::gain)));
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __param_descriptions__.push_back(ImuFilterMadgwickConfig::AbstractParamDescriptionConstPtr(new ImuFilterMadgwickConfig::ParamDescription<double>("gain", "double", 0, "Filter gain", "", &ImuFilterMadgwickConfig::gain)));
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __min__.zeta = -1.0;
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.zeta = 1.0;
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __default__.zeta = 0.0;
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(ImuFilterMadgwickConfig::AbstractParamDescriptionConstPtr(new ImuFilterMadgwickConfig::ParamDescription<double>("zeta", "double", 0, "Gyro_drift_gain (approx. rad/s)", "", &ImuFilterMadgwickConfig::zeta)));
-//#line 260 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 260 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __param_descriptions__.push_back(ImuFilterMadgwickConfig::AbstractParamDescriptionConstPtr(new ImuFilterMadgwickConfig::ParamDescription<double>("zeta", "double", 0, "Gyro_drift_gain (approx. rad/s)", "", &ImuFilterMadgwickConfig::zeta)));
-//#line 231 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 231 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.convertParams();
-//#line 231 "/opt/ros/hydro/lib/python2.7/site-packages/dynamic_reconfigure/parameter_generator_catkin.py"
+//#line 231 "/opt/ros/hydro/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __group_descriptions__.push_back(ImuFilterMadgwickConfig::AbstractGroupDescriptionConstPtr(new ImuFilterMadgwickConfig::GroupDescription<ImuFilterMadgwickConfig::DEFAULT, ImuFilterMadgwickConfig>(Default)));
 //#line 390 "/opt/ros/hydro/share/dynamic_reconfigure/cmake/../templates/ConfigType.h.template"
     

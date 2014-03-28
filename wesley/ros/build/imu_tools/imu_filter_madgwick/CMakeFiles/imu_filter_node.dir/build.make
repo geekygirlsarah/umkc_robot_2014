@@ -123,8 +123,6 @@ imu_filter_node_EXTERNAL_OBJECTS =
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /opt/ros/hydro/lib/libroscpp_serialization.so
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /opt/ros/hydro/lib/librostime.so
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /usr/lib/libboost_date_time-mt.so
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /usr/lib/libboost_system-mt.so
-/home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /usr/lib/libboost_thread-mt.so
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /usr/lib/i386-linux-gnu/libpthread.so
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /opt/ros/hydro/lib/libcpp_common.so
 /home/umkc/wesley/umkc_robot_2014_arduino/wesley/ros/devel/lib/imu_filter_madgwick/imu_filter_node: /opt/ros/hydro/lib/libconsole_bridge.so
