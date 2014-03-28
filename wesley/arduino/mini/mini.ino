@@ -84,6 +84,8 @@ void setup() {
 //
 // correctness now, completeness later.
 bool published = false;
+bool reset_held = false;
+unsigned long reset_wait = 0;
 
 // main loop.
 void loop() {
@@ -102,6 +104,19 @@ void loop() {
 //			display_status(set_leds);
 	// 7) set master boolean so we never check this segment again.
 			published = true;
+		}
+	} else {
+		if (reset_held == false) {
+			reset_held = !digitalRead(BTN);
+			reset_wait = millis();
+		} else {
+			while ((millis() - reset_wait) < 5000);
+			published = false;
+			running_state.data = false;
+			set_leds.data = 0x03;
+			display_status(set_leds);
+                        // wait until button is let go.
+                        while(!digitalRead(BTN));
 		}
 	}
 
