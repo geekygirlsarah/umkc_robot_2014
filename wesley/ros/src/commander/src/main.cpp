@@ -1,8 +1,14 @@
 #include <ros/ros.h>
 #include "exit_handlers.h"
 #include <string>
+#include <unistd.h>
+
 using std::string;
 
+#define grasp() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: grasp}'", "");
+#define release() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: release}'", "");
+#define park() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: park}'", "");
+#define carry() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: carry}'", "");
 
 /**
  * Executes a binary file at path and returns the exit code.
@@ -48,14 +54,34 @@ int main(int argc, char* argv[]) {
 	// 5) move_to_rig
 	// 6) align_on_rig
 	// 7) 
+	logger->logStatus("init -- closing hand.");
+	grasp();
+
 	logger->logStatus("Executing button_wait");
 	ROS_WARN("CMDR :: main --> launching: button_wait");
 	exithandler.button_wait(executeBinary("rosrun commander button_wait", ""));
-//	exithandler.button_wait(executeBinary("button_wait"));
-//	logger->logStatus("Executing ID flame");
-	exithandler.id_flame(executeBinary("id_flame"));
-//	logger->logStatus("Executing ID tool");
-	exithandler.id_tool(executeBinary("id_tool"));
+	// sleep for a couple of seconds to allow clearance of hands and feet.
+	sleep(2);
+
+	logger->logStatus("Executing ID flame");
+	int tool = 0;
+	exithandler.id_flame(tool = executeBinary("rosrun camera id_flame", ""));
+	ROS_INFO("ID_FLAME returned value (%d)", tool);
+	if (tool == 60) {
+		ROS_ERROR("CMDR :: id_flame --> return 60! indicates no fire found. no point going on; bailing.");
+		return(tool);
+	}
+
+	logger->logStatus("init -- parking in carry spot.");
+	carry();
+
+	logger->logStatus("init -- opening hand.");
+	release();
+
+	logger->logStatus("Executing ID tool");
+	std::stringstream ss;
+	ss <<  "rosrun camera id_tool " << tool  << " /home/umkc/wesley/config/position_tool.lst";
+	exithandler.id_tool(executeBinary(ss.str(), ""));
 }
 
 int executeBinary(string binaryName, string prefix, string mode ){
