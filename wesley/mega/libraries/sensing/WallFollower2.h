@@ -147,6 +147,7 @@ public:
 						else if(DIRECTION == S->FORWARD)
 							S.forward();
 						}
+					break;
 				case list_left:
 					if(straight() == good)
 						{
@@ -172,6 +173,7 @@ public:
 						else if(DIRECTION == S->FORWARD)
 							S.forward_correct_right();
 						}
+					break;
 				case list_right:
 					if(straight() == good)
 						{
@@ -197,6 +199,7 @@ public:
 						else if(DIRECTION == S->FORWARD)
 							S.forward_correct_left();
 						}
+					break;
 				return straightness;
 			}
 };
