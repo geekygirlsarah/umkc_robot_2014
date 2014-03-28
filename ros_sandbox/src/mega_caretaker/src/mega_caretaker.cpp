@@ -68,13 +68,13 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 			double diff = 1;	//within 90 or 0 +- this diff
 			while(!turned90)	{
 				if(client.call(srv))	{
-//					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
-					if(given_payload == PL_START_TURNING_90_CCW)	{
-						turned90 = (srv.response.yaw > (90 - diff) && srv.response.yaw< (0 + diff));
-					}
-					else	{
-						turned90 = (srv.response.yaw > (0 - diff) && srv.response.yaw < (0 + diff));	
-					}
+					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+//					if(given_payload == PL_START_TURNING_90_CCW)	{
+//						turned90 = (srv.response.yaw > (90 - diff) && srv.response.yaw< (0 + diff));
+//					}
+//					else	{
+//						turned90 = (srv.response.yaw > (0 - diff) && srv.response.yaw < (0 + diff));	
+//					}
 				}
 			}
 	}
@@ -129,19 +129,7 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		}
 	}
 	else if(packet.msgType == MSGTYPE_STATE)	{
-		if(packet.payload == PL_WAITING)	{
-			ROS_INFO("mega->board:: mega ready for commands");
-		}
-		else if(packet.payload == PL_TURNING_CW_INIT)	{
-			ROS_INFO("mega->board:: State turningCw start");
-		}
-		else if(packet.payload == PL_TURNING_CCW_INIT)	{
-			ROS_INFO("mega->board:: State turningCCw start");
-		}
-
-		else if(packet.payload == PL_LOOKING_FOR_GAP)	{
-			ROS_INFO("mega->board:: Looking for gap");
-		}
+		printStateInfo(packet.payload);
 	}
 	else if(packet.msgType == MSGTYPE_HANDSHAKE)	{
 		if(packet.payload == PL_SYN_ACK)	{
@@ -151,6 +139,34 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	}
 }
 
+void MegaCaretaker::printStateInfo(int8_t payload)	{
+	switch(payload)	{
+			case 	PL_WAITING:
+			ROS_INFO("mega->board:: mega ready for commands");
+			break;
+			case	PL_LOOKING_FOR_GAP: 
+			ROS_INFO("mega->board:: Looking for gap");
+			break;
+			case	PL_TURNING_CW_INIT :
+			ROS_INFO("mega->board:: State turningCw start");
+			break;
+			case	PL_TURNING_CCW_INIT:
+			ROS_INFO("mega->board:: State turningCCw start");
+			break;
+			case	PL_GAP_FOUND:
+			ROS_INFO("mega->board:: Gap Found!");
+			break;
+			case	PL_CROSSING_GAP: 
+			ROS_INFO("mega->board:: Crossing gap!");
+			break;
+			case	PL_GAP_CROSSED:
+			ROS_INFO("mega->board:: Gap has been crossed!");
+			break;
+			case	PL_FINDING_EDGE:
+			ROS_INFO("mega->board:: Reversing and finding edge...");
+			break;
+	}
+}
 
 
 void MegaCaretaker::heardFromOrientation(const std_msgs::String &packet)	{
