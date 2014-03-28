@@ -7,12 +7,12 @@ using namespace ros;
 
 // set pins to easy-to-read names
 const byte BTN =  7;
-const byte RED1 = A7;
-const byte RED2 = A6;
-const byte YLW1 = A5;
-const byte YLW2 = A4;
-const byte GRN1 = A3;
-const byte GRN2 = A2;
+const byte RED1 = A5;
+const byte RED2 = A4;
+const byte YLW1 = A3;
+const byte YLW2 = A2;
+const byte GRN1 = A1;
+const byte GRN2 = A0;
 
 // subscriber call back. as soon as mini has latched into ROS, this topic
 //    is available to be written to. receive a 3 number message and set
@@ -56,6 +56,7 @@ void setup() {
 	pinMode(RED2, OUTPUT);
 	pinMode(YLW1, OUTPUT);
 	pinMode(YLW2, OUTPUT);
+	pinMode(GRN1, OUTPUT);
 	pinMode(GRN2, OUTPUT);
 	set_leds.data = 0x03;
 	display_status(set_leds);
