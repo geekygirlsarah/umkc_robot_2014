@@ -75,6 +75,7 @@ using namespace cv;
 // personal debug defines. set to (0) to turn off.
 #define EMGDBG (1)
 #define DBGOUT if EMGDBG std::cout
+#define DBGCV if EMGDBG
 
 // how to keep track of the tool we're looking for
 enum shapes { NONE, SQUARE, TRIANGLE, CIRCLE };
@@ -215,7 +216,6 @@ int main(int argc, char* argv[]) {
 	// structure for file definition.
 	struct stat verify;
 	std::ifstream fin;
-//	string file_position_tool = "./position_tool.lst";
 	string file_position_tool = argv[2];
 	if (stat(file_position_tool.c_str(), &verify) == 0) {
 		fin.open(file_position_tool.c_str(), std::ifstream::in);
@@ -228,7 +228,6 @@ int main(int argc, char* argv[]) {
 
 	wesley::arm_point position[2][3][MAX_ID_TOOL];
 	std::string buffer;
-//	struct coordinate position[2][3][13];
 	for (int area = LEFT; area <= RIGHT; area++) {
 		for (int pos = 0; pos < 13; pos++) {
 			getline(fin, buffer);
@@ -294,7 +293,7 @@ int main(int argc, char* argv[]) {
 	// create a window and the matrices we'll need to job_state.
 	// the window is for testing and lets the coder see what
 	//    the camera is seeing / looking at.
-//	namedWindow("frame", CV_WINDOW_AUTOSIZE);
+DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 	Mat frame, thresh, viewport, swallow;
 
 	// vectors for the findContours, approxPolyDP and HoughCircles
@@ -390,12 +389,12 @@ int main(int argc, char* argv[]) {
 										approx.size() == 7) {
 										ROS_WARN("match(SQUARE)");
 										// skyblue
-//										color = CV_RGB(0x87, 0xCE, 0xEB);
+DBGCV										color = CV_RGB(0x87, 0xCE, 0xEB);
 										tool_found = true;
 										job_state = FIND_TOP;
 									} else {
 										tool_found = false;
-//										color = CV_RGB(0xFF, 0x22, 0x44);
+DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								case TRIANGLE:
@@ -404,12 +403,12 @@ int main(int argc, char* argv[]) {
 										approx.size() == 5) {
 										ROS_WARN("match(TRIANGLE)");
 										// tomato
-//										color = CV_RGB(0xFF, 0x63, 0x47);
+DBGCV										color = CV_RGB(0xFF, 0x63, 0x47);
 										tool_found = true;
 										job_state = FIND_TOP;
 									} else {
 										tool_found = false;
-//										color = CV_RGB(0xFF, 0x22, 0x44);
+DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								case CIRCLE:
@@ -418,12 +417,12 @@ int main(int argc, char* argv[]) {
 										approx.size() == 10) {
 										ROS_WARN("match(CIRCLE)");
 										// teal
-//										color = CV_RGB(0x00, 0x80, 0x80);
+DBGCV										color = CV_RGB(0x00, 0x80, 0x80);
 										tool_found = true;
 										job_state = FIND_TOP;
 									} else {
 										tool_found = false;
-//										color = CV_RGB(0xFF, 0x22, 0x44);
+DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								default:
@@ -432,13 +431,13 @@ int main(int argc, char* argv[]) {
 							}	// end switch(tool) for FIND_TOOL
 							if (tool_found == true) {
 								ROS_INFO("ID_TOOL :: (FIND_TOOL) --> found a tool.");
-//								imshow("frame", frame);
-//								while(waitKey() != 27);
+DBGCV								imshow("frame", frame);
+DBGCV								while(waitKey() != 27);
 								job_state = FIND_TOP;
 								break;		// from for(area);
 							} else {
-//								imshow("frame", frame);
-//								while(waitKey() != 27);
+DBGCV								imshow("frame", frame);
+DBGCV								while(waitKey() != 27);
 								// didn't find what we were looking for,
 								// try next position.
 								continue;	// with for(area)
@@ -498,7 +497,7 @@ int main(int argc, char* argv[]) {
 							case SQUARE:
 								if (approx.size() == 4) {
 									// goldenrod
-//									color = CV_RGB(0xDA, 0xA5, 0x20);
+DBGCV									color = CV_RGB(0xDA, 0xA5, 0x20);
 									ROS_WARN("match_TOP(SQUARE)");
 									top_found = true;
 								}
@@ -506,7 +505,7 @@ int main(int argc, char* argv[]) {
 							case TRIANGLE:
 								if (approx.size() == 3) {
 									// lightpink
-//									color = CV_RGB(0xFF, 0xB6, 0xC1);
+DBGCV									color = CV_RGB(0xFF, 0xB6, 0xC1);
 									ROS_WARN("match_TOP(TRIANGLE)");
 									top_found = true;
 								}
@@ -514,7 +513,7 @@ int main(int argc, char* argv[]) {
 							case CIRCLE:
 								if (approx.size() == 8) {
 									// olive
-//									color = CV_RGB(0x80, 0x80, 0x00);
+DBGCV									color = CV_RGB(0x80, 0x80, 0x00);
 									ROS_WARN("match_TOP(CIRCLE)");
 									top_found = true;
 								}
@@ -524,19 +523,19 @@ int main(int argc, char* argv[]) {
 						}	// end switch(tool) for FIND_TOP
 						if (top_found == true) {
 						ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. not finished with loop yet.");
-//							imshow("frame", frame);
-//							while(waitKey() != 27);
+DBGCV							imshow("frame", frame);
+DBGCV							while(waitKey() != 27);
 							job_state = FIND_DISTANCE;
 							break;
 						} else {
-//							imshow("frame", frame);
-//							while(waitKey() != 27);
+DBGCV							imshow("frame", frame);
+DBGCV							while(waitKey() != 27);
 							// go to the next position.
 							continue;
 						}
 					} else {
-//						imshow("frame", frame);
-//						while(waitKey() != 27);
+DBGCV						imshow("frame", frame);
+DBGCV						while(waitKey() != 27);
 						// contour_idx was -1. no contour found.
 						// go to next position.
 						continue;
@@ -680,15 +679,11 @@ int main(int argc, char* argv[]) {
 				job_state = TOOL_GRASP;
 				
 				// light purple
-//				color = CV_RGB(0xAD, 0x66, 0xD5);
-//				circle(frame,
-//					   mc,
-//					   5,
-//					   color,
-//					   CV_FILLED);
+DBGCV				color = CV_RGB(0xAD, 0x66, 0xD5);
+DBGCV				circle(frame, mc, 5, color, CV_FILLED);
 
-//				imshow("frame", frame);
-//				while(waitKey() != 27);
+DBGCV				imshow("frame", frame);
+DBGCV				while(waitKey() != 27);
 				// write all of this information to a file.. or, perhaps
 				//    to an ROS service that translates our co-ordinates
 				//    into appropriate movement codes to the arm.
@@ -723,8 +718,8 @@ int main(int argc, char* argv[]) {
 				// no known cases that bring us here.
 			break;
 		}	// end switch(job_state)
-//		imshow("frame", frame);
-//		while(waitKey() != 27);
+DBGCV		imshow("frame", frame);
+DBGCV		while(waitKey() != 27);
 //		if (tool_found == true && top_found == true) {
 //			ROS_INFO("ID_TOOL(for(EVER)) --> CONFIRMED! finishing out.");
 //			ROS_INFO("ID_TOOL(FIND_TOOL) :: found tool at: (%f, %f, %f, %f, %f)",
