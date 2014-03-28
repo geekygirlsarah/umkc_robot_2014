@@ -86,6 +86,7 @@ void setup() {
 bool published = false;
 bool reset_held = false;
 unsigned long reset_wait = 0;
+unsigned long release_time = 0;
 
 // main loop.
 void loop() {
@@ -100,8 +101,8 @@ void loop() {
 	// 5) publish the state of our button
 			pub.publish(&running_state);
 //	// 6) TEMPORARY - the LEDs would be set by another node
-//	 		set_leds.data = 0x30;
-//			display_status(set_leds);
+	 		set_leds.data = 0x30;
+			display_status(set_leds);
 	// 7) set master boolean so we never check this segment again.
 			published = true;
 		}
@@ -110,13 +111,24 @@ void loop() {
 			reset_held = !digitalRead(BTN);
 			reset_wait = millis();
 		} else {
-			while ((millis() - reset_wait) < 5000);
-			published = false;
-			running_state.data = false;
-			set_leds.data = 0x03;
-			display_status(set_leds);
-                        // wait until button is let go.
-                        while(!digitalRead(BTN));
+			do {
+				release_time = millis();
+			} while((!digitalRead(BTN)) && (release_time - reset_wait < 4000));
+			if ((!digitalRead(BTN)) && (release_time >= 4000)) {
+				set_leds.data = 0x3F;
+				display_status(set_leds);
+				published = false;
+				running_state.data = false;
+	                        // wait until button is let go.
+        	                while(!digitalRead(BTN));
+                	        set_leds.data = 0x03;
+                        	display_status(set_leds);
+			} else {
+				reset_held = false;
+			}
+			reset_held = false;
+			release_time = 0;
+			reset_wait = 0;
 		}
 	}
 
