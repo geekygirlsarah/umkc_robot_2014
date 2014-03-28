@@ -1,5 +1,5 @@
 
-//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 #define ITERATIONS 2  //how many gaps to cross.. for debugging
 #define PAUSE_DURATION  100  //how many milliseconds between movements
 
@@ -69,9 +69,9 @@ mega_caretaker::MegaPacket advertising_state;  //specifically for advertising st
     
  
     //pubs and subscribers
-ros::Publisher talker("arduinoToBoard", &temp);
+ros::Publisher talker("/mega_caretaker/arduinoToBoard", &temp);
 void packet_catch(const mega_caretaker::MegaPacket& packet);  
-ros::Subscriber<mega_caretaker::MegaPacket> listener("boardToArduino", &packet_catch);
+ros::Subscriber<mega_caretaker::MegaPacket> listener("/mega_caretaker/boardToArduino", &packet_catch);
 
 //callback
 

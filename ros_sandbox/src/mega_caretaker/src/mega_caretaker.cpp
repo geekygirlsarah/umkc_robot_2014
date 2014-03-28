@@ -193,11 +193,13 @@ void MegaCaretaker::startWaveCrossing()	{
 void MegaCaretaker::setup()	{
 //	motorCommandTopic = n.subscribe(geometry_msgs/
 	ROS_INFO("care:: setting up subscribers + publishers");
-	megaTalker = node.advertise<mega_caretaker::MegaPacket>("boardToArduino", 10);
-	megaListener = node.subscribe("arduinoToBoard", 10, &MegaCaretaker::heardFromMega, this);
+	megaTalker = node.advertise<mega_caretaker::MegaPacket>("/mega_caretaker/boardToArduino", 10);
+	megaListener = node.subscribe("/mega_caretaker/arduinoToBoard", 10, &MegaCaretaker::heardFromMega, this);
 
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
 	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
+	
+//	commandListener = node.subscribe("commandMega", 10, &MegaCaretaker::heardFromOrientation, this);
 }
 
 
