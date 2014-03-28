@@ -1,0 +1,3 @@
+[submodule "wesley/ros/src/rosserial"]
+	path = wesley/ros/src/rosserial
+	url = https://github.com/ros-drivers/rosserial.git
