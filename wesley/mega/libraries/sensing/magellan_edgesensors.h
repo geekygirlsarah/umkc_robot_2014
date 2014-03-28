@@ -14,7 +14,7 @@
  *
  **/
 #include <Distance2D120X.h>
-
+#include <DistSmoother.h>
 
 #ifndef MAGELLAN_H 
 #define MAGELLAN_H
@@ -37,37 +37,39 @@ private:
   int distanceFront,distanceBack;	//used for debugging
 
   int previousDistFront, previousDistBack;
-  Distance2D120X front;
-  Distance2D120X back;  
+  DistSmoother front;
+  DistSmoother back;  
 
   
   //using just sa pure (farther than this) threshold
-  int threshold;  //threshold for ping sensor detecting an EDGE (cm)
+  int threshold_front;  
+  int threshold_back;  
 
   int outerloopcount;
 
-  //using a difference, not just a hard coded difference
-  const static int baselineFront = 20;	//the ideal sensor reading for safetey - ie how far the sensor reads usually.  hard coded to our specific thingy
-  const static int baselineBack = 18;	//the ideal sensor reading for safetey - ie how far the sensor reads usually. 
-  const static int difference = 5;	//once a reading reads within +- difference of the baseline, that is an abrupt change and you should stop
-  const static double alpha = 0.80;	//alpha - how much you value current reading over previous readings
+  // using a hard coded distance T
+  const static int threshold_front_default= 20;	//the ideal sensor reading for safetey - ie how far the sensor reads usually.  hard coded to our specific thingy
+  const static int threshold_back_default = 18;	//the ideal sensor reading for safetey - ie how far the sensor reads usually. 
+//  const static int difference = 5;	//once a reading reads within +- difference of the baseline, that is an abrupt change and you should stop
+ // const static double alpha = 0.80;	//alpha - how much you value current reading over previous readings
 
   bool safeness;
-  int runningCountFront;	//running count of how many times a difference is tracked 
-  int runningCountBack;	//running count of how many times a difference is tracked 
-  int runningCountExecution;	//count of how many times ive taken reading when determining safeness
-  const static int countThreshold = 2;	//how many times in a row a difference must be seen in order to say YES it's not safe 
-  const static int countExecution= 5;	//how many times in a row to take a reading from a sensor to determine if it is safe 
+  //int runningCountFront;	//running count of how many times a difference is tracked 
+  //int runningCountBack;	//running count of how many times a difference is tracked 
+  //int runningCountExecution;	//count of how many times ive taken reading when determining safeness
+  //const static int countThreshold = 2;	//how many times in a row a difference must be seen in order to say YES it's not safe 
+  //const static int countExecution= 5;	//how many times in a row to take a reading from a sensor to determine if it is safe 
   
   //registering abruupt CHANGE< not just a a "this is greater than.
-  bool isFrontSensorSafe()  {
+ /*
+ bool isFrontSensorSafe()  {
 	
 	// i want to execute this multiple times	  
 	runningCountExecution = 0;
 	safeness = true;
 	while(runningCountExecution++ < countExecution)	{
 	//how to account for first time prevDistFront
-			distanceFront = front.getSmoothedDistanceCM(alpha);	
+			distanceFront = front.getAccurateDistCM();	
 
 			//if this is the first time that thedistanceFront is triggered by difference, mark a flag and say it's still ok
 			//if this is the SECOND time that the distance front is triggered by difference, IT"S NOT OK ABORT! 
@@ -91,7 +93,7 @@ private:
 	runningCountExecution = 0;
 	safeness = true;
 	while(runningCountExecution++ < countExecution)	{
-			distanceBack = back.getSmoothedDistanceCM(alpha);
+			distanceBack = back.getAccurateDistCM();
 
 			//if this is the first time that thedistanceFront is triggered by difference, mark a flag and say it's still ok
 			//if this is the SECOND time that the distance front is triggered by difference, IT"S NOT OK ABORT! 
@@ -109,43 +111,39 @@ private:
 
    //return back.isCloser(threshold);
   }
-/*
-  bool isFrontSensorSafe()  {
-   return front.isCloser(threshold);
-  }
-  
-  bool isBackSensorSafe()  {
-   return back.isCloser(threshold);
-  }
- */
+  */
+
 
   
 public:
 
+  bool isFrontSensorSafe()  {
+   return front.isCloser(threshold_front);
+  }
+  
+  bool isBackSensorSafe()  {
+   return back.isCloser(threshold_back);
+  }
+ 
  
   //initializer that only takes in pin #s, defaults to 15CM threshold
   void init(int pin1, int pin2) {
-    init(25, pin1, pin2);
+    init(threshold_front_default, threshold_back_default, pin1, pin2);
   }
 
   //takes in pin numbers of the front, and back sensor 
   //as well as the threshold in cm for detecting an edge
-  void init(int thresh, int pin1, int pin2) {
-    front.begin(pin1);
-    back.begin(pin2);
-    check = 3;              //start out needing 3 negative readings to go back to OK state
-    currentSafeCount = 0;
-    danger_status = ok;    //we start out assuming not on the edge
-    threshold = thresh;
-	previousDistFront = 0;
-	previousDistBack = 0;
-	runningCountFront = 0;
-	runningCountBack = 0;
+  void init(int thresh_front, int thresh_back, int pin1, int pin2) {
+    threshold_front = thresh_front;
+    threshold_back= thresh_back;
+    front.init(pin1);
+    back.init(pin2);
+    check =3;
   }
 
   void printDebugDifference()  {
-    distanceFront = front.getSmoothedDistanceCM(alpha);
-    distanceBack = back.getSmoothedDistanceCM(alpha);
+    distanceFront = front.getAccurateDistCM();
+    distanceBack = back.getAccurateDistCM();
 	int localDifference = abs(distanceFront - distanceBack);
     Serial.print("diff(cm) #:\t ");
 
@@ -157,8 +155,8 @@ public:
 
   //find and print the distances
   void printDebug()  {
-    distanceFront = front.getSmoothedDistanceCM(alpha);
-    distanceBack = back.getSmoothedDistanceCM(alpha);
+    distanceFront = front.getAccurateDistCM();
+    distanceBack = back.getAccurateDistCM();
 
     Serial.print("dist(cm) #f|b :\t ");
     Serial.print(distanceFront);
