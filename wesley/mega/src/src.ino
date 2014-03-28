@@ -1,7 +1,7 @@
 
 //#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
-
-#include <QuadEncoder.h>
+#define ITERATIONS 2  //how many gaps to cross.. for debugging
+#define PAUSE_DURATION  100  //how many milliseconds between movements
 
 /* mega movement tester
  * written by: victoria wu
@@ -18,6 +18,7 @@
  */
 
 //woohoo ros time !
+#include <QuadEncoder.h>
 #include <ros.h>
 #include <mega_caretaker/MegaPacket.h>
 #include "redux_mega_packet_defs.h"
@@ -143,7 +144,7 @@ void updateTurn90Degrees()  {
 
 void exitTurn90Degrees()  {
   //?????????
-  nav.stopNow();
+  nav.stop_sleep(PAUSE_DURATION);
   //??????? do i need this???????????????????????????????//
 }
 
@@ -187,7 +188,7 @@ void enterLookForGap()  {
 //ignoring falling off for now
 void updateLookForGap()  {
   //updateROS_spin();  //do i need this??
-//  #ifndef DEBUG_COMMS
+  #ifndef DEBUG_COMMS
 
   if(nav.lookingForGap())  {
     
@@ -199,14 +200,13 @@ void updateLookForGap()  {
    //talker.publish(&advertising_state);
   }
   
-//  #endif
-//  #ifdef DEBUG_COMMS
-  //stateMachine.immediateTransitionTo(gapFound);    
-//  #endif
+  #endif
+  #ifdef DEBUG_COMMS
+  stateMachine.immediateTransitionTo(gapFound);    
+  #endif
 }
 void exitLookForGap()  {
-  nav.stopNow();
- delay(300);  
+  nav.stop_sleep(PAUSE_DURATION);
 }
 
 //--------------
@@ -221,6 +221,7 @@ void updateGapCrossed()  {
     
 }
 void exitGapCrossed()  {
+  nav.stop_sleep(PAUSE_DURATION);
 
 }
 //-----------
@@ -247,7 +248,7 @@ void updateCrossGap()  {
           
 }
 void exitCrossGap()  {
-
+    nav.stop_sleep(PAUSE_DURATION);
 }
 
 
@@ -258,17 +259,38 @@ State findEdge = State(enterFindEdge, updateFindEdge, exitFindEdge);
 void enterFindEdge()  {
   advertising_state.payload = PL_FINDING_EDGE;
   talker.publish(&advertising_state);
+  nav.goBackwardForever();
 
 }
 void updateFindEdge()  {
     //TODO TODO - account for ht elast one nooooooo
+    #ifndef DEBUG_COMMS
     if(nav.findEdge())  { //go "backwards" and find edge
       //found edge!!!
       nav.stopNow();
+      gapsThru++;
+      if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
+        stateMachine.immediateTransitionTo(waitForCommand);
+      }
+      else  {
+        stateMachine.immediateTransitionTo(lookForGap);
+      }
     }
+    #endif
+    #ifdef DEBUG_COMMS
+    gapsThru++;
+      if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
+        stateMachine.immediateTransitionTo(waitForCommand);
+      }
+      else  {
+        stateMachine.immediateTransitionTo(lookForGap);
+      }
+    #endif
 }
 void exitFindEdge()  {
-
+ 
+  nav.stop_sleep(PAUSE_DURATION);
+  
 }
 
 //-----------
@@ -444,7 +466,12 @@ void loop() {
        else if(stateMachine.isInState(crossingBoard))  {
          //spin
          gapsThru = 0;
+         
          stateMachine.transitionTo(lookForGap);
+       
+       //  stateMachine.transitionTo(findEdge);
+         
+         
          //stateMachine.transitionTo(gapFound);
        }
        
@@ -502,6 +529,9 @@ void loop() {
       }
       else if (stateMachine.isInState(findEdge))  {
         //???
+        //... THIS IS SO hACKY D: -> TODO make it so magellans are active all the time?????? ndl;fkasjdfl;jkasd;fkljasfl;kasjdfkl;ajdfkl
+        //spin
+        
       }
       
       
@@ -640,9 +670,9 @@ void loop() {
 		switch(cmd) {
 			case 'r':
 				Serial.println("again!");
-				//sabertooth.forward(40);
+				//sabertooth.reverse(40);
                                 current_status = start;
-			//	sabertooth.forward();
+			//	sabertooth.reverse();
 				break;
 			
 		

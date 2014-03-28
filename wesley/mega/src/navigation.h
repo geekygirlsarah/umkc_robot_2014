@@ -56,7 +56,7 @@ class Navigation {
                   Serial.println("ready");
                   gapfind.init(A0,A1,A2,15);
                   eyes.init(A4,8);
-                  mag.init(A6,A7);
+                  mag.init(10,10,A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
                 
                   
@@ -96,14 +96,9 @@ class Navigation {
                 
                 } 
                 */
-                
-                void takeOff()  {
-                  Serial.println("takeoff");
-                  sabertooth.reverse(20);
-                  goingForward = true;
-                }
-                
+              
                 //toggle in forward or backwards when magellans see seomthing
+                
                 void traveling()  {
                    mag.printDebug();
                    //mag.printDebugDifference();
@@ -161,7 +156,7 @@ class Navigation {
                   //gap found? move forward a set amount to center self
                   if(gapfind.gapPresent())  {
                     Serial.println("moving \t GAP FOUND!!");
-      
+                    gapfind.reset();
                      //unfortunately right now i have no ticks.. so it stays here forever
                     
                     //500 taped, trying 900 untaped
@@ -193,7 +188,7 @@ class Navigation {
                 
                 bool crossGap()  {
                   
-                  sabertooth.reverse(20);
+                  goForwardForever();
                    eyes.update();
                    eyes.printDebug();
                    if(eyes.obstaclePresent())  {
@@ -255,15 +250,39 @@ class Navigation {
                 void stopNow()  {
                   sabertooth.all_stop();
                 }
-                void sleep()  {
+                void goForwardForever()  {
+                  //sabertooth.forward();
+                  sabertooth.reverse();
+                  goingForward = true;
+                }
+                
+                void goBackwardForever()  {
+                  //sabertooth.reverse();
+                  sabertooth.forward();
+                  goingForward = false;
+                }
+                void stop_sleep(int duration)  {
                   sabertooth.all_stop();
-                  delay(500);
+                  delay(duration);
                 }
                
+               //just go backwards and find the edge. 
+               //return true once you foind the edge (this is make it a lot easier to separate so i can find gap separetely find finding edge
+               //TODO optimize :D
                  bool findEdge()    {
+                   mag.update();
+                   return !mag.isSafe();
                    
                  }
-		
+		  
+                void takeOff()  {
+                  Serial.println("takeoff");
+                  goForwardForever();
+                  
+                }
+                
+              
+                
 			
 };
 

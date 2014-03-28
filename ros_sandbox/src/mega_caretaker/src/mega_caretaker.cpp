@@ -140,6 +140,8 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 }
 
 void MegaCaretaker::printStateInfo(int8_t payload)	{
+	ROS_INFO("-------------------------------------");
+	ROS_INFO("MEGA STATE ChANGE!");
 	switch(payload)	{
 			case 	PL_WAITING:
 			ROS_INFO("mega->board:: mega ready for commands");
@@ -166,6 +168,7 @@ void MegaCaretaker::printStateInfo(int8_t payload)	{
 			ROS_INFO("mega->board:: Reversing and finding edge...");
 			break;
 	}
+	ROS_INFO("-------------------------------------");
 }
 
 
