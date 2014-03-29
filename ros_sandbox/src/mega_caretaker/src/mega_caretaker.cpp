@@ -309,8 +309,8 @@ void MegaCaretaker::run()	{
 	//dont do ANYTHING until tthere's a subscriber listening!!!!
 
 	//need to wait for mega to be in command state!
-	startGoToTools();
-//	startWaveCrossing();
+	//startGoToTools();
+	startWaveCrossing();
 	ros::spin();
 
 }

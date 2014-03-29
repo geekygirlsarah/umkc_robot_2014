@@ -1,7 +1,7 @@
 
 #define DEBUG_COMMS  //don't test sensor stuf! just the comms!
-#define ITERATION 2  //how many gaps to cross.. for debugging
-#define LASTGAP 2  //which one to stop at and do the hardcoded one
+#define ITERATION 1  //how many gaps to cross.. for debugging
+#define LASTGAP 1  //which one to stop at and do the hardcoded one
 #define PAUSE_DURATION  100  //how many milliseconds between movements
 
 /* mega movement tester
@@ -72,6 +72,7 @@ bool  commandGoToTools;
 bool  isGapFound;
 bool  isGapCrossed;
 bool  isEdgeFound;
+bool travelingHome;
 
 
 
@@ -406,7 +407,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
       //            stateMachine.immediateTransitionTo(turn90Degrees_CW); 
 
       // 
-      sendNonsense();
+      //sendNonsense();
       crossBoard = true;
       // stateMachine.transitionTo(waitForCommand);
 
@@ -555,6 +556,7 @@ void setup() {
   isGapFound = false;
   isGapCrossed = false;
   isEdgeFound = false;
+  travelingHome = false;
   
   #ifdef DEBUG_COMMS
     pinMode(2, OUTPUT);
@@ -608,10 +610,7 @@ void loop() {
     stateMachine.transitionTo(waitForCommand);
       
   }
-  else if (stateMachine.isInState(transitionToolsToCrossBoard))  {
-     if(isEdgeFound)
-         stateMachine.transitionTo(crossingBoard);
-  }
+ 
     //crossing board state ASSUMES we start from the beginning position     
    else if(stateMachine.isInState(crossingBoard))  {
    //spin
@@ -622,14 +621,26 @@ void loop() {
      //THE VERY FIRST TIME - need to move all the way back to reset.. from looking for tools to going forward. 
      //future optimization - look for Gap 
      
+     //i'm at the tools... and need to get back to home
+     if(!travelingHome)  {
+       stateMachine.transitionTo(transitionToolsToCrossBoard);
+     }
      
-     stateMachine.transitionTo(lookForGap);
+     //TODOTODODO - not traveling home change transition./?/    //
+     
+     
+  
    
    //  stateMachine.transitionTo(findEdge);
    
    
    //stateMachine.transitionTo(gapFound);
    }
+   
+    else if (stateMachine.isInState(transitionToolsToCrossBoard))  {
+     if(isEdgeFound)
+         stateMachine.transitionTo(lookForGap);
+  }
    
    
    else if(stateMachine.isInState(lookForGap))  {
