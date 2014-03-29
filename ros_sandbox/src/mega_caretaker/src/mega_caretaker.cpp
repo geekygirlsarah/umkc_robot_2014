@@ -137,7 +137,7 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	//HEY LET"S START THE 90 degree thing! Tell them motors what to do!
 
 	//mega wants board to help with 90 degree thing
-	ROS_INFO("HEARD FROM MEGA");
+//	ROS_INFO("HEARD FROM MEGA");
 	bool msg_understood = false;
 	if(packet.msgType == 99)	{
 		ROS_INFO("HELLLLLLPPPPPP MEEEEEEEEEE");

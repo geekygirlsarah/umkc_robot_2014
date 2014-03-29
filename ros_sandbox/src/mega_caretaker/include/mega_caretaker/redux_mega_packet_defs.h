@@ -14,17 +14,18 @@
 
 	const static int8_t MSGTYPE_ACK = 1;
 	const static int8_t PL_GENERAL_ACK = 0;
-        /*
-        const static int8_t PL_FINISHED_GO_TO_TOOLS = PL_START_GO_TO_TOOLS;
+        
+    const static int8_t PL_FINISHED_GO_TO_TOOLS = PL_START_GO_TO_TOOLS;
 	const static int8_t PL_FINISHED_WAVE_CROSSING = PL_START_WAVE_CROSSING;
 	const static int8_t PL_FINISHED_TURNING_90_CW = PL_START_TURNING_90_CW;
 	const static int8_t PL_FINISHED_TURNING_90_CCW = PL_START_TURNING_90_CCW;
-*/
-        const static int8_t PL_FINISHED_GO_TO_TOOLS = 10;
+
+		/*
+    const static int8_t PL_FINISHED_GO_TO_TOOLS = 10;
 	const static int8_t PL_FINISHED_WAVE_CROSSING = 11;
 	const static int8_t PL_FINISHED_TURNING_90_CW = 12;
 	const static int8_t PL_FINISHED_TURNING_90_CCW = 13;
-    
+    */
 
 	const static int8_t MSGTYPE_STATE = 2;
 	const static int8_t PL_WAITING = 20;

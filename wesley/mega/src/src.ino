@@ -1,6 +1,6 @@
 
 #define DEBUG_COMMS  //don't test sensor stuf! just the comms!
-#define ITERATIONS 1  //how many gaps to cross.. for debugging
+#define ITERATION 3  //how many gaps to cross.. for debugging
 #define PAUSE_DURATION  100  //how many milliseconds between movements
 
 /* mega movement tester
@@ -374,8 +374,8 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
    	    ros_control = false;
    
    //new thing - immediate transition to finished state
-   turn90DegreeFinished = true; 
-   // stateMachine.immediateTransitionTo(waitForCommand); 
+           turn90DegreeFinished = true; 
+   //stateMachine.immediateTransitionTo(waitForCommand); 
    
    
    }
@@ -494,7 +494,7 @@ void setup() {
   handshakeOK = false;
   turn90DegreeFinished = false;
 
-  crossBoard = false;
+  crossBoard = false; 
   commandGoToTools = false;
   isGapFound = false;
   isGapCrossed = false;
@@ -546,8 +546,8 @@ void loop() {
    //spin
      gapsThru = 0;
       // stateMachine.transitionTo(waitForCommand);
-     stateMachine.transitionTo(finishedCrossingBoard);
-   //  stateMachine.transitionTo(lookForGap);
+     //stateMachine.transitionTo(finishedCrossingBoard);
+     stateMachine.transitionTo(lookForGap);
    
    //  stateMachine.transitionTo(findEdge);
    
@@ -568,6 +568,7 @@ void loop() {
    //now need to turn90degrees
    stateMachine.transitionTo(turn90Degrees_CCW);
    
+   
    }
    
    else if (stateMachine.isInState(turn90Degrees_CCW)) {
@@ -583,23 +584,25 @@ void loop() {
    // stateMachine.transitionTo(crossGap);   
    //}
    
-   stateMachine.transitionTo(crossGap);
-   
-   }
+     stateMachine.transitionTo(crossGap);
+      turn90DegreeFinished = false;
+     }
    }
    
    
    //stop here !!
    else if (stateMachine.isInState(crossGap))  {
    //spin
-   //the update function in this state will transition once the gap is crossed
-   if(isGapCrossed)  {
-     stateMachine.transitionTo(gapCrossed);
-   }
+   //the update function in this state will transition once the gap is crossed and it ses a wave in front //TODO TODO update with sarahs code
+     if(isGapCrossed)  {
+       stateMachine.transitionTo(gapCrossed);
+     }
    }
    else if (stateMachine.isInState(gapCrossed) )  {
-   //need to turn cw back towards lane
-     stateMachine.transitionTo(turn90Degrees_CW);
+       gapsThru++;
+       stateMachine.transitionTo(turn90Degrees_CW);
+   
+     
    //stateMachine.transitionTo(waitForCommand);
    
    }
@@ -621,7 +624,12 @@ void loop() {
    //spin
      //stateMachine.transitionTo(finishedCrossingBoard);
      if(isEdgeFound)  {
-       stateMachine.transitionTo(finishedCrossingBoard);
+       if(gapsThru < ITERATION)  {
+         stateMachine.transitionTo(lookForGap);
+       }
+       else  {
+         stateMachine.transitionTo(finishedCrossingBoard);
+       }
      }
    }
    
