@@ -6,7 +6,7 @@
 
 
 #include <motor_cmd.h>
-//#include <QuadEncoder.h>
+#include <QuadEncoder.h>
 #include <fronteyes.h>
 
 
@@ -17,7 +17,7 @@ working... little problem with wheels listing.
 */
 
 motor_cmd sabertooth;
-//QuadEncoder encoders;
+QuadEncoder encoders;
 
 
 
@@ -31,18 +31,18 @@ void setup()
   Serial.begin(9600);
   Serial.println("begin");
   sabertooth.begin(2); 
-  //encoders.init();
-  eyes.init(A2,11);
+  encoders.init();
+  //eyes.init(A2,11);
   
 }
 
 void loop()
 {
    
-   eyes.update();
+  // eyes.update();
    
-   if(eyes.obstaclePresent())
-     sabertooth.all_stop();
+   //if(eyes.obstaclePresent())
+   //  sabertooth.all_stop();
    //eyes.printDebug();
    //eyes.printObstStatus();
   
@@ -55,27 +55,27 @@ void loop()
 			case 'w':
 				Serial.println("forward");
 				
-                                if(eyes.obstacleNotPresent())
-                                  sabertooth.forward(20);
-                                else  {
-                                  //wat - so the triple exclamation mark is not a thing you should be using T.T
-                                  //note to self
-                                  Serial.println("THERe's a thing O.O !");
-                                  sabertooth.all_stop();
-                                }
+//                                if(eyes.obstacleNotPresent())
+                                  sabertooth.forward();
+//                                else  {
+//                                  //wat - so the triple exclamation mark is not a thing you should be using T.T
+//                                  //note to self
+//                                  Serial.println("THERe's a thing O.O !");
+//                                  sabertooth.all_stop();
+//                                }
                                 //sabertooth.rightMotorCommand(0x60);
                                 //sabertooth.leftMotorCommand(0x20);
 			//	sabertooth.forward();
 				break;
                    
 			case 's':
-				Serial.println("reverse");
-                                if(eyes.obstacleNotPresent())
-                                  sabertooth.reverse(20);
-                                else  {
-                                  Serial.println("THERe's a thing!");
-                                  sabertooth.all_stop();
-                                }
+//				Serial.println("reverse");
+//                                if(eyes.obstacleNotPresent())
+//                                  sabertooth.reverse(20);
+//                                else  {
+//                                  Serial.println("THERe's a thing!");
+//                                  sabertooth.all_stop();
+//                                }
 				
 			//	sabertooth.reverse();
 				break;
@@ -92,15 +92,17 @@ void loop()
 
 
 
-/*
-  Serial.print("FL: ");
-  Serial.println(positionFL);
-  Serial.print(" BL: ");
-  Serial.println(positionBL);
-  Serial.print(" FR: ");
-  Serial.println(positionFR);
-  Serial.print(" BR: ");
+
+  //Serial.print("FL: ");
+  Serial.print(millis());
+  Serial.print("\t");
+  Serial.print(positionFL);
+  Serial.print("\t");
+  Serial.print(positionBL);
+  Serial.print("\t");
+  Serial.print(positionFR);
+  Serial.print("\t");
   Serial.println(positionBR);
-  */
+  
 }
 

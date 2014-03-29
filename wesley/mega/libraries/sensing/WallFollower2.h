@@ -3,25 +3,32 @@
 
 // CHASE PETERSON //
 
-#include <DistSmoother.h>
+
+#include "DistSmoother.h"
 #include <motor_cmd.h>
 #include <stdlib.h>
 
-#ifndef WALLFOLLOWER2_H
-#definite WALLFOLLOWER2_H
 
-class WallFollow{
+#ifndef WALLFOLLOWER2_H
+#define WALLFOLLOWER2_H
+
+
+class WallFollow
+{
 
 private:
-	motor_cmd* saber;
+	motor_cmd* S;
 	enum internal  {good, list_right, list_left};
+	
 	internal straightness;
-	bool straight;
+	
 	DistSmoother front, middle, back;
 	bool notGood;
 	int UPPER_LIMIT, LOWER_LIMIT, MIDDLE;
 	
 public:
+
+	WallFollow() { };
 
 	void setLimits(int far, int mid, int close)
 	{
@@ -35,9 +42,9 @@ public:
 		front.init(pin1);
 		middle.init(pin2);
 		back.init(pin3);
-		saber = s;
+		S = s;
 		straightness = good;
-		stright = true;	
+		
 		notGood = false;
 	}
 	
@@ -47,16 +54,18 @@ public:
 		notGood = false;
 		if(front.getAccurateDistCM() > 25)
 			{
-				
 				if(middle.getAccurateDistCM() > UPPER_LIMIT)
 				{
+					Serial.print("Middle sensor reads: ");
+					Serial.println(middle.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO FAR AWAY");
 					return list_right;
 				}
 				else if(middle.getAccurateDistCM() < LOWER_LIMIT)
 				{
-      
+					Serial.print("Middle sensor reads: ");
+					Serial.println(middle.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO CLOSE");
 					return list_left;
@@ -68,6 +77,8 @@ public:
 			{
 				if(front.getAccurateDistCM() > UPPER_LIMIT)
 				{
+					Serial.print("Front sensor reads: ");
+					Serial.println(front.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO FAR AWAY");
 					return list_right;
@@ -75,6 +86,8 @@ public:
      
 				else if(front.getAccurateDistCM() < LOWER_LIMIT)
 				{
+					Serial.print("Front sensor reads: ");
+					Serial.println(front.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO CLOSE");
 					return list_left;
@@ -84,12 +97,16 @@ public:
 			{
 				if(front.getAccurateDistCM() > UPPER_LIMIT)
 				{
+					Serial.print("Front sensor reads: ");
+					Serial.println(front.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO FAR AWAY");
 					return list_right;
 				}
 				else if(front.getAccurateDistCM() < LOWER_LIMIT)
 				{
+					Serial.print("Front sensor reads: ");
+					Serial.println(front.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO CLOSE");
 					return list_left;
@@ -99,14 +116,18 @@ public:
 	
 		else
 			{
-				if(IR_F.getAccurateDistCM() > UPPER_LIMIT)
+				if(front.getAccurateDistCM() > UPPER_LIMIT)
 				{
+					Serial.print("Front sensor reads: ");
+					Serial.println(front.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO FAR AWAY");
 					return list_right;
 				}
-				else if(IR_F.getAccurateDistCM() < LOWER_LIMIT)
+				else if(front.getAccurateDistCM() < LOWER_LIMIT)
 				{
+					Serial.print("Front sensor reads: ");
+					Serial.println(front.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO CLOSE");
 					return list_left;
@@ -128,24 +149,24 @@ public:
 						{
 						straightness = list_left;
 						if(DIRECTION == S->REVERSE)
-							S.reverse_correct_right();
+							S->reverse_correct_right();
 						else if(DIRECTION == S->FORWARD)
-							S.forward_correct_right();
+							S->forward_correct_right();
 						}
 					else if(straight() == list_right)
 						{
 						straightness = list_right;
 						if(DIRECTION == S->REVERSE)
-							S.reverse_correct_left();
+							S->reverse_correct_left();
 						else if(DIRECTION == S->FORWARD)
-							S.forward_correct_left();
+							S->forward_correct_left();
 						}
 					else
 						{
 						if(DIRECTION == S->REVERSE)
-							S.reverse();
+							S->reverse();
 						else if(DIRECTION == S->FORWARD)
-							S.forward();
+							S->forward();
 						}
 					break;
 				case list_left:
@@ -153,25 +174,25 @@ public:
 						{
 						straightness = good;
 						if(DIRECTION == S->REVERSE)
-							S.reverse();
+							S->reverse();
 						else if(DIRECTION == S->FORWARD)
-							S.forward();
+							S->forward();
 						}
 					else if(straight() == list_right)
 						{
 						straightness = list_right;
 						if(DIRECTION == S->REVERSE)
-							S.reverse_correct_left();
+							S->reverse_correct_left();
 						else if(DIRECTION == S->FORWARD)
-							S.forward_correct_left();
+							S->forward_correct_left();
 						}
 					else
 						{
 						straightness = list_left;
 						if(DIRECTION == S->REVERSE)
-							S.reverse_correct_right();
+							S->reverse_correct_right();
 						else if(DIRECTION == S->FORWARD)
-							S.forward_correct_right();
+							S->forward_correct_right();
 						}
 					break;
 				case list_right:
@@ -179,27 +200,31 @@ public:
 						{
 						straightness = good;
 						if(DIRECTION == S->REVERSE)
-							S.reverse();
+							S->reverse();
 						else if(DIRECTION == S->FORWARD)
-							S.forward();
+							S->forward();
 						}
 					if(straight() == list_left)
 						{
 						straightness = list_left;
 						if(DIRECTION == S->REVERSE)
-							S.reverse_correct_right();
+							S->reverse_correct_right();
 						else if(DIRECTION == S->FORWARD)
-							S.forward_correct_right();
+							S->forward_correct_right();
 						}
 					else 
 						{
 						straightness = list_right;
 						if(DIRECTION == S->REVERSE)
-							S.reverse_correct_left();
+							S->reverse_correct_left();
 						else if(DIRECTION == S->FORWARD)
-							S.forward_correct_left();
+							S->forward_correct_left();
 						}
 					break;
 				return straightness;
 			}
+		}
+	}
 };
+
+#endif
