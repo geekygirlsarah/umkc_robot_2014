@@ -20,6 +20,7 @@ namespace mega_caretaker	{
 					ros::NodeHandle node;
 					bool withIMU;	//used for debugging - no imu input
 					bool megaConnectionOK;	//starts as false. have i establshed comms with mega yet?
+					bool megaReady;			//starts as false. is mega ready to be commanded?
 
 					//talking to the arduino
 					ros::Publisher megaTalker;		//publishes to boardToArduino

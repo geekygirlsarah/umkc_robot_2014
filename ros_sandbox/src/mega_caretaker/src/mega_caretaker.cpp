@@ -137,7 +137,11 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	//HEY LET"S START THE 90 degree thing! Tell them motors what to do!
 
 	//mega wants board to help with 90 degree thing
+	ROS_INFO("HEARD FROM MEGA");
 	bool msg_understood = false;
+	if(packet.msgType == 99)	{
+		ROS_INFO("HELLLLLLPPPPPP MEEEEEEEEEE");
+	}
 	if(packet.msgType == MSGTYPE_HEY)	{
 		if(packet.payload == PL_START_TURNING_90_CW || packet.payload == PL_START_TURNING_90_CCW)	{
 			ROS_INFO("mega->board:: please help turn 90 degrees");
@@ -176,6 +180,9 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		}
 	}
 	else if(packet.msgType == MSGTYPE_STATE)	{
+		if(packet.payload == PL_WAITING)	{
+			megaReady = true;	
+		}
 		printStateInfo(packet.payload);
 		msg_understood = true;
 	}
@@ -300,8 +307,8 @@ void MegaCaretaker::run()	{
 	//dont do ANYTHING until tthere's a subscriber listening!!!!
 
 	//need to wait for mega to be in command state!
-	startGoToTools();
-	//startWaveCrossing();
+//	startGoToTools();
+	startWaveCrossing();
 	ros::spin();
 
 }
@@ -328,6 +335,16 @@ void MegaCaretaker::attemptMegaConnection()	{
 	megaTalker.publish(packet);
 
 	ROS_INFO("Connection established with mega.");//TODO TODO make this be a timeout thing so it doesn't block here
+
+	//Need to wait for mega to say that it is READY to receive comands before issuing commands.
+	ROS_INFO("Waiting for Mega to be ready to receive commands...");	
+	megaReady = false;
+	while(!megaReady)	{
+		//block????	
+		ros::getGlobalCallbackQueue()->callAvailable(ros::WallDuration(.5));	//waits every X sec. 
+	}
+	ROS_INFO("Mega is ready to receive commands.");
+
 }
 
 void MegaCaretaker::init(ros::NodeHandle n)	{
