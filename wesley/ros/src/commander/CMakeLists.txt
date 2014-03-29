@@ -156,15 +156,13 @@ include_directories(
 # catkin_add_nosetests(test)
 
 
-add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/logger.cpp src/notifier.cpp)
+add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/notifier.cpp)
 target_link_libraries(cmdr ${catkin_LIBRARIES})
-add_executable(cmdr_logger src/cmdr_logger.cpp)
-target_link_libraries(cmdr_logger ${catkin_LIBRARIES})
 add_executable(button_wait src/button_wait.cpp src/notifier.cpp)
 target_link_libraries(button_wait ${catkin_LIBRARIES})
 
 ## Mark executables and/or libraries for installation
-install(TARGETS cmdr cmdr_logger button_wait
+install(TARGETS cmdr button_wait
 	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

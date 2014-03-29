@@ -32,9 +32,15 @@ int main(int argc, char* argv[]) {
 	ros::NodeHandle nh;
 	ROS_INFO("CMDR :: main --> commander initializing");
 
-	Logger * logger = new Logger(&nh);
-	string parse_file = "/home/umkc/wesley/config/notify_id.txt";
-	ExitHandler exithandler(logger, &nh, parse_file);
+//	Logger * logger = new Logger(&nh);
+	string parse_file = "/home/umkc/wesley/config";
+	if (argc == 2) {			// someone passed us a leading path to
+		parse_file = argv[1];	//    notify_id.txt
+	}
+
+	parse_file += "/notify_id.txt";
+	//	ExitHandler exithandler(logger, &nh, parse_file);
+	ExitHandler exithandler(&nh, parse_file);
 	ROS_INFO("CMDR :: main --> logger and handler set up.");
 
 	// here -- the recommended manner in calling the binaries is as follows:
@@ -54,16 +60,16 @@ int main(int argc, char* argv[]) {
 	// 5) move_to_rig
 	// 6) align_on_rig
 	// 7) 
-	logger->logStatus("init -- closing hand.");
+//	logger->logStatus("init -- closing hand.");
 	grasp();
 
-	logger->logStatus("Executing button_wait");
+//	logger->logStatus("Executing button_wait");
 	ROS_WARN("CMDR :: main --> launching: button_wait");
 	exithandler.button_wait(executeBinary("rosrun commander button_wait", ""));
 	// sleep for a couple of seconds to allow clearance of hands and feet.
 	sleep(2);
 
-	logger->logStatus("Executing ID flame");
+//	logger->logStatus("Executing ID flame");
 	int tool = 0;
 	exithandler.id_flame(tool = executeBinary("rosrun camera id_flame", ""));
 	ROS_INFO("ID_FLAME returned value (%d)", tool);
@@ -72,13 +78,13 @@ int main(int argc, char* argv[]) {
 		return(tool);
 	}
 
-	logger->logStatus("init -- parking in carry spot.");
+//	logger->logStatus("init -- parking in carry spot.");
 	carry();
 
-	logger->logStatus("init -- opening hand.");
+//	logger->logStatus("init -- opening hand.");
 	release();
 
-	logger->logStatus("Executing ID tool");
+//	logger->logStatus("Executing ID tool");
 	std::stringstream ss;
 	ss <<  "rosrun camera id_tool " << tool  << " /home/umkc/wesley/config/position_tool.lst";
 	exithandler.id_tool(executeBinary(ss.str(), ""));

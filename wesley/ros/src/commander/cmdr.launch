@@ -1,4 +1,5 @@
 <launch>
-	<node name="cmdr_log" pkg="commander" type="cmdr_logger" />
+	<node name="cmdr_log" pkg=ros_comm" type="rosbag"
+		args="record -q -o /home/umkc/wesley/logs/cmdr /rosout" />
 	<node name="cmdr_run" pkg="commander" type="cmdr" />
 </launch>

@@ -1,22 +1,11 @@
 #include "exit_handlers.h"
-ExitHandler::ExitHandler(Logger* logger_, ros::NodeHandle* handle, string parse_file) {
+ExitHandler::ExitHandler(ros::NodeHandle* handle, string parse_file) {
 	ROS_INFO("EXIT :: (log, nh, str) --> entering.");
 	ledNotifier.init_handle(handle);
 	ROS_INFO("EXIT :: (log, nh, str) --> notifier created.");
 	ledNotifier.parse(parse_file.c_str());
 	ROS_INFO("EXIT :: (log, nh, str) --> notifier parsed file..");
-	logger = logger_;
 	ROS_INFO("EXIT :: (log, nh, str) --> leaving.");
-}
-
-ExitHandler::ExitHandler(Logger* logger_){
-	// this initializer has changed somewhat - the default parse() does not
-	//    point to a valid file at the moment.
-//	LedNotifier ledNotifier(true);
-//	LedNotifier ledNotifier;
-	// this is the currently correct location of the file.
-	ledNotifier.parse("/home/umkc/wesley/umkc_robot_2014_arduino/wesley/config/notify_id.txt");
-	logger = logger_;
 }
 
 //button_wait will call button_wait and wait for it to unblock.

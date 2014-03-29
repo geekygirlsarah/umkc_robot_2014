@@ -1,9 +1,7 @@
 #include "notifier.h"
-#include "logger.h"
 class ExitHandler{
 private:
 	LedNotifier ledNotifier;
-	Logger* logger;
 	int flame, tool;
 public:
 	/**
@@ -11,8 +9,7 @@ public:
 	 *
 	 * This class should be used to handle the return codes for wesleys binaries
 	 */
-	ExitHandler(Logger* logger_);
-	ExitHandler(Logger* logger_, ros::NodeHandle* handle, string parse_file);
+	ExitHandler(ros::NodeHandle* handle, string parse_file);
 	/**
 	 * Handle for button_wait
 	 */
