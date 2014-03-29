@@ -1,5 +1,5 @@
 
-//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 #define ITERATION 1  //how many gaps to cross.. for debugging
 #define LASTGAP 1  //which one to stop at and do the hardcoded one
 #define PAUSE_DURATION  100  //how many milliseconds between movements
@@ -133,7 +133,7 @@ void updateWaitForCommand()  {
 State finishedGoToTools = State(enterFinishedGoToTools, NULL, NULL);
 void enterFinishedGoToTools()  {
   sendFinishedGoToTools();
-  stateMachine.transitionTo(waitForCommand);
+  //stateMachine.transitionTo(waitForCommand);
 }
 
 
@@ -163,12 +163,21 @@ void exitGoToTools()  {
 //----
 State transitionToolsToCrossBoard(enterTransitionToolsToCrossBoard, updateTransitionToolsToCrossBoard, exitTransitionToolsToCrossBoard);
 void enterTransitionToolsToCrossBoard()  {
+ isEdgeFound = false;
  advertising_state.payload = PL_TRANSITION_1_2;
  talker.publish(&advertising_state);
+ nav.goBackwardForever();
 }
 
 void updateTransitionToolsToCrossBoard()  {
-
+  //just go backwards until I hit the edge
+   //TODO TODO - account for ht elast one nooooooo
+   #ifndef DEBUG_COMMS
+   isEdgeFound = nav.atEdge();//go "backwards" and find edge
+   #endif
+   #ifdef DEBUG_COMMS
+   isEdgeFound = true;
+   #endif
 }
 
 void exitTransitionToolsToCrossBoard()  {
@@ -562,9 +571,10 @@ void loop() {
        commandGoToTools = false;
      }
   }
-
-
-  
+  else if(stateMachine.isInState(finishedGoToTools))  {
+       if(isEdgeFound)
+         stateMachine.transitionTo(transitionToolsToCrossBoard);
+  }
     //crossing board state ASSUMES we start from the beginning position     
    else if(stateMachine.isInState(crossingBoard))  {
    //spin
@@ -669,162 +679,7 @@ void loop() {
        }
      }
    }
-   
-   
-  /*
-      
-   //  case waveCrossing:
-   //   stateMachine.immediateTransitionTo(lookForGap);  //this will spin until it finds a gap, when it goes immediately to next state
-   // break;
-   
-   
-  /*
-   
-   //old code for testing 90 degree with old state machine style OLD HORRIBLE STATE MACHINE STYLE DIIIIIE
-   nh.spinOnce();
-   //advertiseState(current_status);  //at this point it will FLOOD the channels, but i just want to hear something from you mega!F2   
-   switch(current_status)  {
-   case waiting:
-   //looooooooop test forever
-   //stay here FOREVER until you hear stuff from board
-   break;
-   case start:
-   	    //lets just test the turning 90
-   	    current_status = turningCW_init;
-   	    break;
-   case turningCW_init:
-   //time to ask ros board for help
-   			
-   	    initiateTurn90();
-   	    ros_control = true; //assume that board heard us the first time
-   	    current_status = turningCW_wait; 
-   case turningCW_wait:
-   //stay here until ros returns an answer we're good		
-   			
-   break;
-   case theend:
-   //sendMsg_finishedWaveCrossing();
-   break;
-   
-   
-   }
-   */
 
-
-
-  /*
-        switch (current_status) {
-   case initComms:
-   nh.spinOnce();
-   //wait for syn, send syn-ack, wait for ack
-   if(handshakeOK)  {
-   current_status = start;
-   }
-   break;
-   
-   case start:
-   //let's keep going
-   //console.println("start \t go forward!");
-   //
-   Serial.println("start!");
-   delay(5000);
-   //current_status = moving;
-   //current_status = realignParallel;
-   current_status = crossingwave;
-   break;
-   case moving:
-   Serial.println("state moving");
-   nav.takeOff();
-   if(nav.lookingForGap())  {
-   Serial.println("GAP FOUND!");
-   current_status = gapfound;
-   //current_status = theend;
-   delay(300);
-   }
-   //nav.traveling(); //this kind of works. not really :(
-   break;
-   case gapfound:
-   //console.println("gapfound \t ");
-   			//now to turn 90 degrees
-   Serial.println("starting 90 deg turn");
-   nav.turnTowardsGap();
-   delay(300);
-   current_status = crossingwave;
-   //              current_status = theend;
-   break;
-   case crossingwave:
-   
-   if(nav.crossGap())  {
-   gapsThru++;
-   if(gapsThru ==2)  {
-   current_status = theend;
-   }
-   else  {                   
-   current_status = realignParallel ; 
-   }
-   delay(300);
-   current_status = theend;
-   }
-   break;
-   case realignParallel:
-   Serial.println("realignparalell");
-   delay(300);
-   //nav.parallelpark();
-   
-   //let's try with ros imu stuff yay
-   
-   //nav.turn90();
-   
-   //delay(1000);
-   Serial.println("its parallel!");
-   //current_status = gapfound_pt2;
-   
-   //current_status = moving;
-   //send request to board...
-   //going nto hand over control to ros
-   initiateTurn90_CW();  //hand control over to ROS
-   
-   //board itself will tell motors to GO or to STOP
-   //will send an OK 
-   
-   //gotta wait until i hear back an OK from the ros board
-   while(ros_control) {
-   //spin
-   }              
-   //hey i heard back!!
-   //im done.
-   
-   current_status = theend;
-   //nav.sleep();       
-   break;
-   case theend:
-   nav.sleep();
-   nav.sleep();
-   if (Serial.available() > 0) {
-   		// process incoming commands from console
-   		const byte cmd = Serial.read();
-   		switch(cmd) {
-   			case 'r':
-   				Serial.println("again!");
-   				//sabertooth.reverse(40);
-   current_status = start;
-   			//	sabertooth.reverse();
-   				break;
-   			
-   		
-   		}
-   	}	//
-   
-   break;
-   
-   
-   }
-   
-   */
-
-
-  //delay(50);  //make it readable
-  //gapfind.printDebug();
 
 
   /*
