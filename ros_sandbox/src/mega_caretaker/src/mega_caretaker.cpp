@@ -100,6 +100,7 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 void MegaCaretaker::heardFromMaster(const mega_caretaker::MasterPacket &packet)	{
 	//DEBUGGing stuff! yay!... more easy
 
+/*
 	if(packet.msgType == MASTER_MSGTYPE_COMMAND)	{
 		if(packet.payload == MASTER_PL_GO_TO_TOOLS)	{
 			
@@ -125,7 +126,7 @@ void MegaCaretaker::heardFromMaster(const mega_caretaker::MasterPacket &packet)	
 
 		}
 	}
-	
+*/	
 }
 
 void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
@@ -136,6 +137,7 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 	//HEY LET"S START THE 90 degree thing! Tell them motors what to do!
 
 	//mega wants board to help with 90 degree thing
+	bool msg_understood = false;
 	if(packet.msgType == MSGTYPE_HEY)	{
 		if(packet.payload == PL_START_TURNING_90_CW || packet.payload == PL_START_TURNING_90_CCW)	{
 			ROS_INFO("mega->board:: please help turn 90 degrees");
@@ -151,27 +153,44 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 			temp.payload = packet.payload;
 			megaTalker.publish(temp);
 			ROS_INFO("board->mega:: sending finished turning 90");
+
+			msg_understood = true;
 		}
 	}
 
 	else if (packet.msgType == MSGTYPE_ACK)	{
 		if(packet.payload == PL_GENERAL_ACK)	{
 			ROS_INFO("mega->board:: Mega acked");
+			msg_understood = true;
 		}
 		else if (packet.payload == PL_FINISHED_WAVE_CROSSING)	{
 			ROS_INFO("mega->board:: Mega is done with wave crossing!");
 			informFinishedWaveCrossing();
+			msg_understood = true;
+		}
+		else if (packet.payload == PL_FINISHED_GO_TO_TOOLS)	{
+			ROS_INFO("mega->board:: Mega is done with go to tools!");
+			informFinishedGoToTools();
+			msg_understood = true;
+
 		}
 	}
 	else if(packet.msgType == MSGTYPE_STATE)	{
 		printStateInfo(packet.payload);
+		msg_understood = true;
 	}
 	else if(packet.msgType == MSGTYPE_HANDSHAKE)	{
 		if(packet.payload == PL_SYN_ACK)	{
 			ROS_INFO("mega->board:: Received syn-ack");
 			megaConnectionOK = true;
+			msg_understood = true;
 		}
 	}
+
+	if(!msg_understood)	{
+		ROS_INFO("mega->board:: MSG NOT UNDERSTOOD %d|%d", packet.msgType, packet.payload);
+	}
+	
 }
 
 void MegaCaretaker::printStateInfo(int8_t payload)	{
@@ -212,7 +231,10 @@ void MegaCaretaker::heardFromOrientation(const std_msgs::String &packet)	{
 }
 
 void MegaCaretaker::startGoToTools()	{
-	//Hey! 
+	mega_caretaker::MegaPacket packet;
+	packet.msgType = MSGTYPE_HEY;
+	packet.payload = PL_START_GO_TO_TOOLS;
+	megaTalker.publish(packet);
 	ROS_INFO("mega_caretaker:: START GO TO TOOLS!");
 	ROS_INFO("===================================");
 }
@@ -237,7 +259,7 @@ void MegaCaretaker::informFinishedGoToTools()	{
 	mega_caretaker::MasterPacket temp;
 	temp.msgType = MASTER_MSGTYPE_STATE;
 	temp.payload = MASTER_PL_GO_TO_TOOLS_FIN;
-	commandTalker.publish(temp);
+	//commandTalker.publish(temp);
 	ROS_INFO("mega_caretaker:: FINISHED GO TO TOOLS");
 	ROS_INFO("===================================");
 
@@ -248,7 +270,7 @@ void MegaCaretaker::informFinishedWaveCrossing()	{
 	mega_caretaker::MasterPacket temp;
 	temp.msgType = MASTER_MSGTYPE_STATE;
 	temp.payload = MASTER_PL_CROSS_WAVES_FIN;
-	commandTalker.publish(temp);
+	//commandTalker.publish(temp);
 	ROS_INFO("mega_caretaker:: FINISHED WAVE CROSSING");
 	ROS_INFO("===================================");
 
@@ -263,8 +285,8 @@ void MegaCaretaker::setup()	{
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
 	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
 	
-	commandListener = node.subscribe("/mega/command", 10, &MegaCaretaker::heardFromMaster, this);
-	commandTalker = node.advertise<mega_caretaker::MasterPacket>("/mega/response", 10);
+	//commandListener = node.subscribe("/mega/command", 10, &MegaCaretaker::heardFromMaster, this);
+	//commandTalker = node.advertise<mega_caretaker::MasterPacket>("/mega/response", 10);
 }
 
 
@@ -274,7 +296,8 @@ void MegaCaretaker::run()	{
 	//dont do ANYTHING until tthere's a subscriber listening!!!!
 
 	//need to wait for mega to be in command state!
-startWaveCrossing();
+	startGoToTools();
+	//startWaveCrossing();
 	ros::spin();
 
 }
@@ -292,6 +315,7 @@ void MegaCaretaker::attemptMegaConnection()	{
 			packet.msgType = MSGTYPE_HANDSHAKE;
 			packet.payload = PL_SYN;
 			megaTalker.publish(packet);
+			ROS_DEBUG_THROTTLE(.5, "connecting...");
 			ros::getGlobalCallbackQueue()->callAvailable(ros::WallDuration(.5));	//waits every X sec. 
 	}
 
