@@ -109,7 +109,7 @@ void MegaCaretaker::heardFromMaster(const mega_caretaker::MasterPacket &packet)	
 	
 			//Ack to rest of board
 			mega_caretaker::MasterPacket temp;
-			temp.msgType = MASTER_MSGTYPE_ACK;
+			temp.msgType = MASTER_MSGTYPE_FINISHED;
 			temp.payload = MASTER_PL_GO_TO_TOOLS_ACK;
 			commandTalker.publish(temp);
 
@@ -146,14 +146,16 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		if(packet.payload == PL_START_TURNING_90_CW || packet.payload == PL_START_TURNING_90_CCW)	{
 			ROS_INFO("mega->board:: please help turn 90 degrees");
 			mega_caretaker::MegaPacket temp;
+			/*
 			temp.msgType = MSGTYPE_ACK;		//ack to mega
 			temp.payload = PL_GENERAL_ACK;
 			megaTalker.publish(temp);
+			*/
 			ROS_INFO("board->mega:: turning 90 degreees!");
 
 			make90DegreeTurn(packet.payload);			
 
-			temp.msgType = MSGTYPE_ACK;	//ros control finished - no need to modify payload, cw and ccw are still same
+			temp.msgType = MSGTYPE_FINISHED;	//ros control finished - no need to modify payload, cw and ccw are still same
 			temp.payload = packet.payload;
 			megaTalker.publish(temp);
 			ROS_INFO("board->mega:: sending finished turning 90");
@@ -162,12 +164,9 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		}
 	}
 
-	else if (packet.msgType == MSGTYPE_ACK)	{
-		if(packet.payload == PL_GENERAL_ACK)	{
-			ROS_INFO("mega->board:: Mega acked");
-			msg_understood = true;
-		}
-		else if (packet.payload == PL_FINISHED_WAVE_CROSSING)	{
+	else if (packet.msgType == MSGTYPE_FINISHED)	{
+		
+		if (packet.payload == PL_FINISHED_WAVE_CROSSING)	{
 			ROS_INFO("mega->board:: Mega is done with wave crossing!");
 			informFinishedWaveCrossing();
 			msg_understood = true;
@@ -310,8 +309,8 @@ void MegaCaretaker::run()	{
 	//dont do ANYTHING until tthere's a subscriber listening!!!!
 
 	//need to wait for mega to be in command state!
-//	startGoToTools();
-	startWaveCrossing();
+	startGoToTools();
+//	startWaveCrossing();
 	ros::spin();
 
 }

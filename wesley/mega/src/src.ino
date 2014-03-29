@@ -1,7 +1,7 @@
 
 #define DEBUG_COMMS  //don't test sensor stuf! just the comms!
-#define ITERATION 1  //how many gaps to cross.. for debugging
-#define LASTGAP 1  //which one to stop at and do the hardcoded one
+#define ITERATION 2  //how many gaps to cross.. for debugging
+#define LASTGAP 2  //which one to stop at and do the hardcoded one
 #define PAUSE_DURATION  100  //how many milliseconds between movements
 
 /* mega movement tester
@@ -44,6 +44,11 @@
 #include "FiniteStateMachine.h"
 
 
+
+
+
+
+
 //=========================
 //TOP LEVEL DECLARATIONS
 //=========================
@@ -61,6 +66,7 @@ state_top current_status;
 bool handshakeOK;    //used to sync handshake for old state machine
 bool turn90DegreeFinished;
 
+bool arrivedAtTools;
 bool crossBoard;
 bool  commandGoToTools;
 bool  isGapFound;
@@ -142,13 +148,27 @@ void enterFinishedGoToTools()  {
 //----
 
 State goToTools = State(enterGoToTools, updateGoToTools, exitGoToTools);
-void enterGoToTools()  {
+void enterGoToTools()    {
   //this is a meta state??? bleeeeh
+  #ifdef DEBUG_COMMS
+    digitalWrite(2, HIGH);
+  #endif
+  arrivedAtTools = false;
 }
 void updateGoToTools()  {
   //do the thing! do the thing get the tools the tools
   //say HEY im finished
-  stateMachine.transitionTo(finishedGoToTools);
+  //TODO TODO TDOTODTS:DKLFJ:SDKLFJK:SDLf
+  
+  //
+  #ifndef DEBUG_COMMS
+  //todo - actually mjoving places
+  #endif
+  
+  #ifdef DEBUG_COMMS
+  arrivedAtTools = true;
+  #endif
+ 
 }
 void exitGoToTools()  {
 
@@ -401,7 +421,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
     }
   }
   
-    else if(packet.msgType == MSGTYPE_ACK)  {
+    else if(packet.msgType == MSGTYPE_FINISHED)  {
    if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
    	    //current_status = theend;
    	    ros_control = false;
@@ -412,10 +432,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
    
    
    }
-   
-   else if(packet.payload == PL_GENERAL_ACK)  {
-   //this is a general ack... depdngin on what state we are in, we are ok
-   }
+
    }
    
    else if(packet.msgType == MSGTYPE_MOTORCOM)  {
@@ -461,23 +478,29 @@ void sendNonsense()  {
   temp.payload = 9999;
   talker.publish(&temp);
 }
-
+/*
 void sendAck()  {
   temp.msgType = MSGTYPE_ACK;
   temp.payload = PL_GENERAL_ACK;
   talker.publish(&temp);
 }
+*/
+
+void sendGoToToolsAck()  {
+
+}
+
 
 
 void sendFinishedCrossingWaves()  {
- temp.msgType = MSGTYPE_ACK;
+ temp.msgType = MSGTYPE_FINISHED;
  temp.payload = PL_FINISHED_WAVE_CROSSING;
  talker.publish(&temp);
  }
  
 
 void sendFinishedGoToTools()  {
-  temp.msgType = MSGTYPE_ACK;
+  temp.msgType = MSGTYPE_FINISHED;
   temp.payload = PL_FINISHED_GO_TO_TOOLS;
   talker.publish(&temp);
 }
@@ -526,13 +549,18 @@ void setup() {
 
   handshakeOK = false;
   turn90DegreeFinished = false;
-
+  
+  arrivedAtTools = false;
   crossBoard = false; 
   commandGoToTools = false;
   isGapFound = false;
   isGapCrossed = false;
   isEdgeFound = false;
   
+  #ifdef DEBUG_COMMS
+    pinMode(2, OUTPUT);
+    digitalWrite(2, LOW);
+  #endif
 
 }
 
@@ -571,9 +599,19 @@ void loop() {
        commandGoToTools = false;
      }
   }
+  else if (stateMachine.isInState(goToTools))  {
+    if(arrivedAtTools)  {
+       stateMachine.transitionTo(finishedGoToTools);
+    }
+  }
   else if(stateMachine.isInState(finishedGoToTools))  {
-       if(isEdgeFound)
-         stateMachine.transitionTo(transitionToolsToCrossBoard);
+    
+    stateMachine.transitionTo(waitForCommand);
+      
+  }
+  else if (stateMachine.isInState(transitionToolsToCrossBoard))  {
+     if(isEdgeFound)
+         stateMachine.transitionTo(crossingBoard);
   }
     //crossing board state ASSUMES we start from the beginning position     
    else if(stateMachine.isInState(crossingBoard))  {
@@ -610,11 +648,13 @@ void loop() {
    else if(stateMachine.isInState(gapFound))  {
    //now need to turn90degrees
    
-   if(!nav.atEdge())  {
-     nav.adjustToGap();
-   }
-   stateMachine.transitionTo(turn90Degrees_CCW);
-   
+   #ifndef DEBUG_COMMS
+     if(!nav.atEdge())  {
+       nav.adjustToGap();
+     }
+   #endif
+     stateMachine.transitionTo(turn90Degrees_CCW);
+     
    
    }
    
