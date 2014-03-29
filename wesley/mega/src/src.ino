@@ -75,8 +75,7 @@ bool  isEdgeFound;
 
 
 
-//ros meta
-bool ros_control;  //is ros in control?
+
 
 ros::NodeHandle  nh;	
 mega_caretaker::MegaPacket temp;
@@ -398,7 +397,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
   
   if(packet.msgType == MSGTYPE_HEY)  {
     if(packet.payload == PL_START_WAVE_CROSSING)  {
-      ros_control = false;
+   
       //current_status =  start; 
       //gotta put out an ack T.T
 
@@ -424,7 +423,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
     else if(packet.msgType == MSGTYPE_FINISHED)  {
    if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
    	    //current_status = theend;
-   	    ros_control = false;
+  
    
    //new thing - immediate transition to finished state
            turn90DegreeFinished = true; 
@@ -543,7 +542,7 @@ void setup() {
   nav.init();
   current_status = initComms;  //no synack, no rosssSS!
   gapsThru = 0;
-  ros_control = true;
+  //ros_control = true;
   initROS();
   stateMachine.init(initializeComms);
 
