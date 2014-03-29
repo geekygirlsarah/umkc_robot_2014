@@ -30,7 +30,7 @@ void setup()
   Serial.begin(9600); 
   //tester.init(1,A0,A1,A2);
    //par.init(A2,A1,A0); 
-  gapf.init(A0,A1,A2,15);
+  gapf.init(A0,A1,A2,25);
   //mag.init(A6,A7);
   //dist1.init(A0);
 
