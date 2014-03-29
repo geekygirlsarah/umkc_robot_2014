@@ -1,6 +1,6 @@
 
 #define DEBUG_COMMS  //don't test sensor stuf! just the comms!
-#define ITERATIONS 2  //how many gaps to cross.. for debugging
+#define ITERATIONS 1  //how many gaps to cross.. for debugging
 #define PAUSE_DURATION  100  //how many milliseconds between movements
 
 /* mega movement tester
@@ -193,7 +193,7 @@ void updateLookForGap()  {
   if(nav.lookingForGap())  {
     
     //stateMachine.immediateTransitionTo(waitForCommand);    
-      stateMachine.immediateTransitionTo(gapFound);    
+      stateMachine.transitionTo(gapFound);    
   }
   else  {
    //advertising_state.payload = PL_LOOKING_FOR_GAP;
@@ -202,7 +202,7 @@ void updateLookForGap()  {
   
   #endif
   #ifdef DEBUG_COMMS
-  stateMachine.immediateTransitionTo(gapFound);    
+  stateMachine.transitionTo(gapFound);    
   #endif
 }
 void exitLookForGap()  {
@@ -251,7 +251,20 @@ void exitCrossGap()  {
     nav.stop_sleep(PAUSE_DURATION);
 }
 
+//-----------
+//Finished wave crossing! yay
+//-------------
+State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitCrossingBoard);
+void enterFinishedCrossingBoard()  {
+   sendFinishedCrossingWaves();
+}
+void updateFinishedCrossingBoard()  {
+   stateMachine.transitionTo(waitForCommand);
+          
+}
+void exitCrossingBoard()  {
 
+}
 //-----------
 //findEdge- after crossing to another lane and turned clockwise.. go backwards and find edge. 
 //-------------
@@ -265,26 +278,33 @@ void enterFindEdge()  {
 void updateFindEdge()  {
     //TODO TODO - account for ht elast one nooooooo
     #ifndef DEBUG_COMMS
+   /*
     if(nav.findEdge())  { //go "backwards" and find edge
       //found edge!!!
       nav.stopNow();
       gapsThru++;
       if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
-        stateMachine.immediateTransitionTo(waitForCommand);
+        stateMachine.immediateTransitionTo(finishedCrossingBoard);
       }
       else  {
         stateMachine.immediateTransitionTo(lookForGap);
       }
     }
+    */
+    stateMachine.transitionTo(finishedCrossingBoard);
     #endif
     #ifdef DEBUG_COMMS
+  
+  /*
     gapsThru++;
       if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
-        stateMachine.immediateTransitionTo(waitForCommand);
+        stateMachine.immediateTransitionTo(finishedCrossingBoard);
       }
       else  {
         stateMachine.immediateTransitionTo(lookForGap);
       }
+      */
+      stateMachine.transitionTo(finishedCrossingBoard);
     #endif
 }
 void exitFindEdge()  {
@@ -293,21 +313,7 @@ void exitFindEdge()  {
   
 }
 
-//-----------
-//Finished wave crossing! yay
-//-------------
-State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitCrossingBoard);
-void enterFinishedCrossingBoard()  {
-  advertising_state.payload = PL_FINISHED_WAVE_CROSSING;
-  talker.publish(&advertising_state);
-}
-void updateFinishedCrossingBoard()  {
-   stateMachine.immediateTransitionTo(waitForCommand);
-          
-}
-void exitCrossingBoard()  {
 
-}
 
 
 
@@ -328,7 +334,7 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
 //            start_wave_crossing = true;
 //            stateMachine.immediateTransitionTo(turn90Degrees_CW); 
             
-            stateMachine.immediateTransitionTo(crossingBoard); 
+            stateMachine.transitionTo(crossingBoard); 
             
             
         }
@@ -386,6 +392,11 @@ void sendAck()  {
   talker.publish(&temp);
 }
 
+void sendFinishedCrossingWaves()  {
+  temp.msgType = MSGTYPE_ACK;
+  temp.payload = PL_FINISHED_WAVE_CROSSING;
+  talker.publish(&temp);
+}
 
 void initROS()  {
   nh.initNode();
@@ -454,7 +465,7 @@ void loop() {
        if(stateMachine.isInState(initializeComms))  {
            //wait and spin
            if(handshakeOK)  {
-             stateMachine.immediateTransitionTo(waitForCommand);
+             stateMachine.transitionTo(waitForCommand);
            }
        }
        else if(stateMachine.isInState(waitForCommand))  {
@@ -466,8 +477,8 @@ void loop() {
        else if(stateMachine.isInState(crossingBoard))  {
          //spin
          gapsThru = 0;
-         
-         stateMachine.transitionTo(lookForGap);
+         stateMachine.transitionTo(finishedCrossingBoard);
+         //stateMachine.transitionTo(lookForGap);
        
        //  stateMachine.transitionTo(findEdge);
          

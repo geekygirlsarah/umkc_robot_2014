@@ -2,7 +2,7 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <ros/console.h>
-
+#include <string.h>
 #include <math.h> //fabs
 
 #include "mega_caretaker/mega_caretaker.h"
@@ -13,7 +13,9 @@
 //srv handle - getting yaw
 #include <imu_filter_madgwick/imu_yaw.h>
 
+//message protocol stuff
 #include "mega_caretaker/redux_mega_packet_defs.h"
+#include "mega_caretaker/master_mega_packet_defs.h"
 using namespace mega_caretaker;
 
 //Called when mega requests it.
@@ -94,6 +96,38 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 
 }
 
+
+void MegaCaretaker::heardFromMaster(const mega_caretaker::MasterPacket &packet)	{
+	//DEBUGGing stuff! yay!... more easy
+
+	if(packet.msgType == MASTER_MSGTYPE_COMMAND)	{
+		if(packet.payload == MASTER_PL_GO_TO_TOOLS)	{
+			
+			//tell mega to go to tools
+			startGoToTools();
+	
+			//Ack to rest of board
+			mega_caretaker::MasterPacket temp;
+			temp.msgType = MASTER_MSGTYPE_ACK;
+			temp.payload = MASTER_PL_GO_TO_TOOLS_ACK;
+			commandTalker.publish(temp);
+
+		}
+		else if (packet.payload == MASTER_PL_CROSS_WAVES)	{
+			//tell mega
+			startWaveCrossing();
+			
+			//ACk to rest of board
+			mega_caretaker::MasterPacket temp;
+			temp.msgType = MASTER_MSGTYPE_ACK;
+			temp.payload = MASTER_PL_CROSS_WAVES_ACK;
+			commandTalker.publish(temp);
+
+		}
+	}
+	
+}
+
 void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 
 	//stupid simple. if it hears HEY from the mega, it will send back an ack
@@ -126,6 +160,7 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		}
 		else if (packet.payload == PL_FINISHED_WAVE_CROSSING)	{
 			ROS_INFO("mega->board:: Mega is done with wave crossing!");
+			informFinishedWaveCrossing();
 		}
 	}
 	else if(packet.msgType == MSGTYPE_STATE)	{
@@ -176,6 +211,13 @@ void MegaCaretaker::heardFromOrientation(const std_msgs::String &packet)	{
 	ROS_INFO("Heard from the IMU!");
 }
 
+void MegaCaretaker::startGoToTools()	{
+	//Hey! 
+	ROS_INFO("mega_caretaker:: START GO TO TOOLS!");
+	ROS_INFO("===================================");
+}
+
+
 
 void MegaCaretaker::startWaveCrossing()	{
 
@@ -185,11 +227,33 @@ void MegaCaretaker::startWaveCrossing()	{
 	packet.msgType = MSGTYPE_HEY;
 	packet.payload = PL_START_WAVE_CROSSING;
 	megaTalker.publish(packet);
-	ROS_INFO("board->mega:: start wave crossing");
+	ROS_INFO("mega_caretaker:: START WAVE CROSSING!");
+	ROS_INFO("===================================");
 
 }
 
+//tell teh rest of board i'm done
+void MegaCaretaker::informFinishedGoToTools()	{
+	mega_caretaker::MasterPacket temp;
+	temp.msgType = MASTER_MSGTYPE_STATE;
+	temp.payload = MASTER_PL_GO_TO_TOOLS_FIN;
+	commandTalker.publish(temp);
+	ROS_INFO("mega_caretaker:: FINISHED GO TO TOOLS");
+	ROS_INFO("===================================");
 
+}
+
+//tell teh rest of board i'm done
+void MegaCaretaker::informFinishedWaveCrossing()	{
+	mega_caretaker::MasterPacket temp;
+	temp.msgType = MASTER_MSGTYPE_STATE;
+	temp.payload = MASTER_PL_CROSS_WAVES_FIN;
+	commandTalker.publish(temp);
+	ROS_INFO("mega_caretaker:: FINISHED WAVE CROSSING");
+	ROS_INFO("===================================");
+
+
+}
 void MegaCaretaker::setup()	{
 //	motorCommandTopic = n.subscribe(geometry_msgs/
 	ROS_INFO("care:: setting up subscribers + publishers");
@@ -199,7 +263,8 @@ void MegaCaretaker::setup()	{
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
 	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
 	
-//	commandListener = node.subscribe("commandMega", 10, &MegaCaretaker::heardFromOrientation, this);
+	commandListener = node.subscribe("/mega/command", 10, &MegaCaretaker::heardFromMaster, this);
+	commandTalker = node.advertise<mega_caretaker::MasterPacket>("/mega/response", 10);
 }
 
 

@@ -8,6 +8,7 @@
 #include <ros/console.h>
 //msg includes
 #include "mega_caretaker/MegaPacket.h"
+#include "mega_caretaker/MasterPacket.h"
 
 
 
@@ -26,6 +27,7 @@ namespace mega_caretaker	{
 
 
 					//interfacing with the rest of the board
+					ros::Publisher commandTalker;	//inform the rest of board what the mega is doing
 					ros::Subscriber commandListener;	//tell the mega what to do! from the outside 
 					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
 					ros::ServiceClient client;				//client for getCurrentYaw service
@@ -35,12 +37,21 @@ namespace mega_caretaker	{
 
 					//callbacks galore
 					void heardFromMega(const mega_caretaker::MegaPacket &packet);
+					void heardFromMaster(const mega_caretaker::MasterPacket &packet);
 					void heardFromOrientation(const std_msgs::String &packet);
+
+
+					//talking to rest of board
+					void informFinishedWaveCrossing();
+					void informFinishedGoToTools();
 
 					void printStateInfo(int8_t payload);
 					//logic functions
 					void make90DegreeTurn(int8_t payload);
+
+					//talk to  mega
 					void startWaveCrossing();
+					void startGoToTools();
 
 
 			public:
