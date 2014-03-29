@@ -4,25 +4,32 @@
  *
  * Detect if it's driven through a gap with IR sensors
  **/
-#include "Distance2D120X.h"
+
+// Sarah recommends a tolerance value of 23 cm
+
+#include <Distance2D120X.h>
 
 #ifndef GAPCROSSEDDETECTOR_H 
 #define GAPCROSSEDDETECTOR_H
 
-// Tolerance in CM of how close IR has to detect to determine we drove past 
-// a wave.
-#define TOLERANCE 27
 
 class GapCrossedDetector {
 private:
-    int distance1,distance2,distance3;  //used for debugging
+    // Distances in CM from each sensor 
+    int distance1,distance2,distance3;
     
-    int numSensorsTripped;
+    // T/F flags if each sensor has been tripped
+    bool tripped1, tripped2, tripped3;
     
+    // minimum distance each sensor should read before tripping the flag
+    int tolerance;
+    
+    // Sensors
     Distance2D120X ir1;
     Distance2D120X ir2;  
     Distance2D120X ir3;
     
+    // T/F state if it has crossed the gap
     bool hasCompletedGapDrive;
 
 
@@ -31,12 +38,16 @@ public:
 
     //Which 3 pins are you using to find this gap? (num is how many you will actually use) 
     //must be in order, from right or left doesn't matter
-    void init(int pin1, int pin2, int pin3)  {
+    // Tolerance is minimum CM IR sensors have to reach before setting flags
+    void init(int pin1, int pin2, int pin3, int theTolerance)  {
         ir1.begin(pin1);
         ir2.begin(pin2);
         ir3.begin(pin3);
+        tolerance = theTolerance; 
         
-        numSensorsTripped = 0;
+        tripped1 = false;
+        tripped2 = false;
+        tripped3 = false; 
         hasCompletedGapDrive = false;    
     }
 
@@ -100,14 +111,14 @@ public:
             // The idea is that at this point only one sensor can detect a wave, the others
             // should detect "infinity", so if any of them go below tolerance, count it as 
             // just one            
-            if (distance1 < TOLERANCE ||
-                distance2 < TOLERANCE ||
-                distance3 < TOLERANCE)
-            {
-                numSensorsTripped++;                            
-            }
+            if (distance1 < tolerance)
+                tripped1 = true;
+            else if(distance2 < tolerance) 
+                tripped2 = true;
+            else if (distance3 < tolerance)
+                tripped3 = true;
             
-            if(numSensorsTripped >= 3)
+            if(tripped1 && tripped2 && tripped3)
             {
                 hasCompletedGapDrive = true;            
             } 
@@ -121,7 +132,9 @@ public:
     
     void reset()
     {
-        numSensorsTripped = 0;
+        tripped1 = false;
+        tripped2 = false;
+        tripped3 = false;
         hasCompletedGapDrive = false;        
     }
 
