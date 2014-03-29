@@ -27,8 +27,8 @@ namespace mega_caretaker	{
 
 
 					//interfacing with the rest of the board
-					ros::Publisher commandTalker;	//inform the rest of board what the mega is doing
-					ros::Subscriber commandListener;	//tell the mega what to do! from the outside 
+//					ros::Publisher commandTalker;	//inform the rest of board what the mega is doing
+//					ros::Subscriber commandListener;	//tell the mega what to do! from the outside 
 					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
 					ros::ServiceClient client;				//client for getCurrentYaw service
 

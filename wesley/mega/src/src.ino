@@ -118,14 +118,44 @@ void updateWaitForCommand()  {
   
 }
 
+
+State finishedGoToTools = State(enterFinishedGoToTools, NULL, NULL);
+void enterFinishedGoToTools()  {
+  sendFinishedGoToTools();
+  stateMachine.transitionTo(waitForCommand);
+}
+
+
+//----
+//go to tools! (meta state)
+//----
+
+State goToTools = State(enterGoToTools, updateGoToTools, exitGoToTools);
+void enterGoToTools()  {
+  //this is a meta state??? bleeeeh
+}
+void updateGoToTools()  {
+  //do the thing! do the thing get the tools the tools
+  //say HEY im finished
+  stateMachine.transitionTo(finishedGoToTools);
+}
+void exitGoToTools()  {
+
+}
+
+
+
+
 //-----
 // waveCrossing = HEY start crossing waves mate! (meta state)
 //-----
-State crossingBoard = State(NULL, NULL, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
+
+//State crossingBoard = State(NULL, NULL, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
 
 //------
 //turn90Degrees = mega needs to turn 90 degrees now. requires help from board too.
 //-------
+/*
 State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitTurn90Degrees);
 void enterTurn90Degrees_cw()  {
   turn90DegreeFinished = false;
@@ -158,26 +188,26 @@ void enterTurn90Degrees_ccw()  {
   //Ask board for help!
   initiateTurn90_CCW();
 }
-
+*/
 //----------
 //GapFound -
 //  -needs to turn 90degree CCW
 //  -then go forward through the gap, stopping at a certain distance away
 //  -then turn 90 degree CW back towards the lane
 //----------
-
+/*
 State gapFound = State(enterGapFound,NULL,NULL);
 void enterGapFound()  {
    advertising_state.payload = PL_GAP_FOUND;
   talker.publish(&advertising_state);
 }
-
+*/
 
 
 //----------
 //lookForGap - travel straight thru lanes, while looking for gap. Stop once we find a gap.
 //----------
-
+/*
 State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
 void enterLookForGap()  {
   advertising_state.payload = PL_LOOKING_FOR_GAP;
@@ -250,10 +280,12 @@ void updateCrossGap()  {
 void exitCrossGap()  {
     nav.stop_sleep(PAUSE_DURATION);
 }
-
+*/
 //-----------
 //Finished wave crossing! yay
 //-------------
+
+/*
 State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitCrossingBoard);
 void enterFinishedCrossingBoard()  {
    sendFinishedCrossingWaves();
@@ -265,9 +297,11 @@ void updateFinishedCrossingBoard()  {
 void exitCrossingBoard()  {
 
 }
+*/
 //-----------
 //findEdge- after crossing to another lane and turned clockwise.. go backwards and find edge. 
 //-------------
+/*
 State findEdge = State(enterFindEdge, updateFindEdge, exitFindEdge);
 void enterFindEdge()  {
   advertising_state.payload = PL_FINDING_EDGE;
@@ -275,36 +309,37 @@ void enterFindEdge()  {
   nav.goBackwardForever();
 
 }
+
 void updateFindEdge()  {
     //TODO TODO - account for ht elast one nooooooo
     #ifndef DEBUG_COMMS
-   /*
-    if(nav.findEdge())  { //go "backwards" and find edge
+   
+    //if(nav.findEdge())  { //go "backwards" and find edge
       //found edge!!!
-      nav.stopNow();
-      gapsThru++;
-      if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
-        stateMachine.immediateTransitionTo(finishedCrossingBoard);
-      }
-      else  {
-        stateMachine.immediateTransitionTo(lookForGap);
-      }
-    }
-    */
+    //  nav.stopNow();
+    //  gapsThru++;
+    //  if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
+    //    stateMachine.immediateTransitionTo(finishedCrossingBoard);
+    //  }
+    //  else  {
+    //    stateMachine.immediateTransitionTo(lookForGap);
+    //  }
+    //}
+    
     stateMachine.transitionTo(finishedCrossingBoard);
     #endif
     #ifdef DEBUG_COMMS
   
-  /*
-    gapsThru++;
-      if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
-        stateMachine.immediateTransitionTo(finishedCrossingBoard);
-      }
-      else  {
-        stateMachine.immediateTransitionTo(lookForGap);
-      }
-      */
-      stateMachine.transitionTo(finishedCrossingBoard);
+  
+   // gapsThru++;
+    //  if(gapsThru == ITERATIONS) { //this is the third time I've found the edge and stuff
+    //    stateMachine.immediateTransitionTo(finishedCrossingBoard);
+    // }
+    //  else  {
+    //    stateMachine.immediateTransitionTo(lookForGap);
+    //  }
+      
+    //  stateMachine.transitionTo(finishedCrossingBoard);
     #endif
 }
 void exitFindEdge()  {
@@ -312,7 +347,7 @@ void exitFindEdge()  {
   nav.stop_sleep(PAUSE_DURATION);
   
 }
-
+*/
 
 
 
@@ -323,7 +358,7 @@ void exitFindEdge()  {
 
 //ros msg catching time!
 void packet_catch(const mega_caretaker::MegaPacket& packet)  {
-    sendAck();
+    //sendAck();  //sd;fjklasd;fljkasd;fkljasdfkl; jd you ack T.T
     if(packet.msgType == MSGTYPE_HEY)  {
         if(packet.payload == PL_START_WAVE_CROSSING)  {
 	    ros_control = false;
@@ -334,11 +369,18 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
 //            start_wave_crossing = true;
 //            stateMachine.immediateTransitionTo(turn90Degrees_CW); 
             
-            stateMachine.transitionTo(crossingBoard); 
-            
+           // stateMachine.transitionTo(crossingBoard); 
+           // stateMachine.transitionTo(waitForCommand);
             
         }
+        else if (packet.payload == PL_START_GO_TO_TOOLS)  {
+          //go to do tools
+          //what - when i transition to wait for command here... IT SENDS BACK A SYN ACK WHY
+          //stateMachine.transitionTo(waitForCommand);
+          stateMachine.transitionTo(goToTools);
+        }
     }
+    /*
     else if(packet.msgType == MSGTYPE_ACK)  {
         if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
 	    //current_status = theend;
@@ -369,11 +411,18 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
            nav.turnCounterClockwiseForever(); 
         }
     }
+    */
     else if(packet.msgType == MSGTYPE_HANDSHAKE)    {
       if(packet.payload == PL_SYN)  {
+        
+       // handshakeOK = false;
+       // stateMachine.immediateTransitionTo(intializeComms);
+        
+        
         temp.msgType = MSGTYPE_HANDSHAKE;
         temp.payload = PL_SYN_ACK;
         talker.publish(&temp);
+        
       }
       else if (packet.payload == PL_ACK)  {
         //connection with board established! 
@@ -392,9 +441,17 @@ void sendAck()  {
   talker.publish(&temp);
 }
 
+/*
 void sendFinishedCrossingWaves()  {
   temp.msgType = MSGTYPE_ACK;
   temp.payload = PL_FINISHED_WAVE_CROSSING;
+  talker.publish(&temp);
+}
+*/
+
+void sendFinishedGoToTools()  {
+  temp.msgType = MSGTYPE_ACK;
+  temp.payload = PL_FINISHED_GO_TO_TOOLS;
   talker.publish(&temp);
 }
 
@@ -474,6 +531,8 @@ void loop() {
        }
        
        
+       /*
+       
        else if(stateMachine.isInState(crossingBoard))  {
          //spin
          gapsThru = 0;
@@ -501,19 +560,20 @@ void loop() {
          //spin... 
          if(turn90DegreeFinished)  {
            //stateMachine.transitionTo(waitForCommand);    //want to se if this works :(
-           /*
-           gapsThru++;    //in position to cross yet another gap - if this is the 3rd one.. DON"T CROSS GAP just go forward and stop
-           if(gapsThru == 1)  {
-             stateMachine.transitionTo(finishedCrossingBoard);
-           }
-           else  {
-             stateMachine.transitionTo(crossGap);   
-           }
-           */
+           
+           //gapsThru++;    //in position to cross yet another gap - if this is the 3rd one.. DON"T CROSS GAP just go forward and stop
+           //if(gapsThru == 1)  {
+           //  stateMachine.transitionTo(finishedCrossingBoard);
+           //}
+           //else  {
+           // stateMachine.transitionTo(crossGap);   
+           //}
+           
            stateMachine.transitionTo(crossGap);
            
          }
        }
+      
       
       //stop here !!
       else if (stateMachine.isInState(crossGap))  {
@@ -545,7 +605,7 @@ void loop() {
         
       }
       
-      
+      */
       /*
       
       //  case waveCrossing:

@@ -235,6 +235,7 @@ void MegaCaretaker::startGoToTools()	{
 	packet.msgType = MSGTYPE_HEY;
 	packet.payload = PL_START_GO_TO_TOOLS;
 	megaTalker.publish(packet);
+	ROS_INFO("===================================");
 	ROS_INFO("mega_caretaker:: START GO TO TOOLS!");
 	ROS_INFO("===================================");
 }
@@ -249,6 +250,7 @@ void MegaCaretaker::startWaveCrossing()	{
 	packet.msgType = MSGTYPE_HEY;
 	packet.payload = PL_START_WAVE_CROSSING;
 	megaTalker.publish(packet);
+	ROS_INFO("===================================");
 	ROS_INFO("mega_caretaker:: START WAVE CROSSING!");
 	ROS_INFO("===================================");
 
@@ -260,6 +262,7 @@ void MegaCaretaker::informFinishedGoToTools()	{
 	temp.msgType = MASTER_MSGTYPE_STATE;
 	temp.payload = MASTER_PL_GO_TO_TOOLS_FIN;
 	//commandTalker.publish(temp);
+	ROS_INFO("===================================");
 	ROS_INFO("mega_caretaker:: FINISHED GO TO TOOLS");
 	ROS_INFO("===================================");
 
@@ -271,6 +274,7 @@ void MegaCaretaker::informFinishedWaveCrossing()	{
 	temp.msgType = MASTER_MSGTYPE_STATE;
 	temp.payload = MASTER_PL_CROSS_WAVES_FIN;
 	//commandTalker.publish(temp);
+	ROS_INFO("===================================");
 	ROS_INFO("mega_caretaker:: FINISHED WAVE CROSSING");
 	ROS_INFO("===================================");
 
