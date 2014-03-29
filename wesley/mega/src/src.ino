@@ -1,6 +1,7 @@
 
-#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
-#define ITERATION 3  //how many gaps to cross.. for debugging
+//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+#define ITERATION 1  //how many gaps to cross.. for debugging
+#define LASTGAP 1  //which one to stop at and do the hardcoded one
 #define PAUSE_DURATION  100  //how many milliseconds between movements
 
 /* mega movement tester
@@ -229,10 +230,8 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  //ignoring falling off for now
  void updateLookForGap()  {
  //updateROS_spin();  //do i need this??
- #ifndef DEBUG_COMMS
- 
+ #ifndef DEBUG_COMMS 
  isGapFound = nav.lookingForGap();
- 
  //stateMachine.immediateTransitionTo(waitForCommand);    
  
  #endif
@@ -268,15 +267,24 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  void enterCrossGap()  {
  advertising_state.payload = PL_CROSSING_GAP;
  talker.publish(&advertising_state);
+ gapsThru++;  //gapsThru is the nth gap you have crossed 
  
  }
  void updateCrossGap()  {
  //TODO TODO - account for ht elast one nooooooo
  #ifndef DEBUG_COMMS 
- isGapCrossed = nav.crossGap();
+ if(gapsThru == LASTGAP) { //this is the third gap to cross
+   //hardcode the ticks
+   //block here block block
+    nav.crossLastGap();  //blokc block block once its done it will have crossed hopefully
+    isGapCrossed = true;
+ }
+ else  {
+   isGapCrossed = nav.crossGap();
+ }
  
  //stateMachine.transitionTo(waitForCommand);
- }
+ 
  #endif
  #ifdef DEBUG_COMMS
  isGapCrossed = true;
@@ -319,7 +327,7 @@ State findEdge = State(enterFindEdge, updateFindEdge, exitFindEdge);
  void updateFindEdge()  {
    //TODO TODO - account for ht elast one nooooooo
    #ifndef DEBUG_COMMS
-   isEdgeFound = nav.findEdge();//go "backwards" and find edge
+   isEdgeFound = nav.atEdge();//go "backwards" and find edge
    #endif
    #ifdef DEBUG_COMMS
    isEdgeFound = true;
@@ -547,6 +555,11 @@ void loop() {
      gapsThru = 0;
       // stateMachine.transitionTo(waitForCommand);
      //stateMachine.transitionTo(finishedCrossingBoard);
+     
+     //THE VERY FIRST TIME - need to move all the way back to reset.. from looking for tools to going forward. 
+     //future optimization - look for Gap 
+     
+     
      stateMachine.transitionTo(lookForGap);
    
    //  stateMachine.transitionTo(findEdge);
@@ -559,6 +572,10 @@ void loop() {
    else if(stateMachine.isInState(lookForGap))  {
    //spin.. will transition to gapFound state when its' found
      if(isGapFound)  {
+       
+       //might need to hardcode the ticks if I'm not at an edge.
+       
+       
        isGapFound = false;
        stateMachine.transitionTo(gapFound);
      }
@@ -566,6 +583,10 @@ void loop() {
    
    else if(stateMachine.isInState(gapFound))  {
    //now need to turn90degrees
+   
+   if(!nav.atEdge())  {
+     nav.adjustToGap();
+   }
    stateMachine.transitionTo(turn90Degrees_CCW);
    
    
@@ -599,7 +620,7 @@ void loop() {
      }
    }
    else if (stateMachine.isInState(gapCrossed) )  {
-       gapsThru++;
+       
        stateMachine.transitionTo(turn90Degrees_CW);
    
      

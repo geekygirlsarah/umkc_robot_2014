@@ -6,6 +6,14 @@
  * 2014 umkc robotics 
  */
 //woohoo ros time !!!
+
+
+
+#define HARDCODE_TICKS_LASTGAP 7000
+#define HARDCODE_TICKS_GAP_ADJUST 1200
+#define GAPFINDER_THRESHOLD 25
+
+
 #include <ros.h>
 #include <mega_caretaker/MegaPacket.h>
 
@@ -54,7 +62,7 @@ class Navigation {
                   encoders.init();
                   mov.init(&sabertooth);
                   Serial.println("ready");
-                  gapfind.init(A0,A1,A2,15);
+                  gapfind.init(A0,A1,A2,GAPFINDER_THRESHOLD);
                   eyes.init(A4,8);
                   mag.init(10,10,A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
@@ -159,32 +167,35 @@ class Navigation {
                     gapfind.reset();
                      //unfortunately right now i have no ticks.. so it stays here forever
                     
-                    //500 taped, trying 900 untaped
-                    int32_t start_ticks = positionFR;
-                    while(true)  {
-                      if(abs(positionFR - start_ticks) > 1200)
-                         break; 
-                     }
-                     
+                    
                     sabertooth.all_stop();
                     return true;
                   }
                   return false;
                 }
                 
-                void turnTowardsLane()  {
-                  mov.turn90degreesCW(0x60,0x20,ticksFor90);
-        
-                  sabertooth.all_stop();
-                  delay(500);
+                //use ticks to adjust.. as soon as we find gap, needs to go forward some ticks
+                bool adjustToGap()  {
+                  //500 taped, trying 900 untaped
+                    int32_t start_ticks = positionFR;
+                    while(true)  {
+                      if(abs(positionFR - start_ticks) > HARDCODE_TICKS_GAP_ADJUST)
+                         break; 
+                     }
+                     
                 }
                 
-                void turnTowardsGap()  {
-                  mov.turn90degreesCW(0x20,0x60,ticksFor90);
-        
-                  sabertooth.all_stop();
-                  delay(500);
+                //hardcode the thing T.T
+                bool crossLastGap()  {
+                  goForwardForever();
+                   int32_t start_ticks = positionFR;
+                    while(true)  {
+                      if(abs(positionFR - start_ticks) > HARDCODE_TICKS_LASTGAP)
+                         break; 
+                     }
+                     return true;
                 }
+                
                 
                 bool crossGap()  {
                   
@@ -269,7 +280,7 @@ class Navigation {
                //just go backwards and find the edge. 
                //return true once you foind the edge (this is make it a lot easier to separate so i can find gap separetely find finding edge
                //TODO optimize :D
-                 bool findEdge()    {
+                 bool atEdge()    {
                    mag.update();
                    return !mag.isSafe();
                    
