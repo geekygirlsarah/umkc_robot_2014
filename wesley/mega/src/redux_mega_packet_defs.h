@@ -15,7 +15,7 @@
 	const static int8_t MSGTYPE_ACK = 1;
 	const static int8_t PL_GENERAL_ACK = 0;
         
-    const static int8_t PL_FINISHED_GO_TO_TOOLS = PL_START_GO_TO_TOOLS;
+        const static int8_t PL_FINISHED_GO_TO_TOOLS = PL_START_GO_TO_TOOLS;
 	const static int8_t PL_FINISHED_WAVE_CROSSING = PL_START_WAVE_CROSSING;
 	const static int8_t PL_FINISHED_TURNING_90_CW = PL_START_TURNING_90_CW;
 	const static int8_t PL_FINISHED_TURNING_90_CCW = PL_START_TURNING_90_CCW;
@@ -36,6 +36,8 @@
     	const static int8_t PL_CROSSING_GAP = 25;
     	const static int8_t PL_GAP_CROSSED = 26;
 	const static int8_t PL_FINDING_EDGE = 27;
+        const static int8_t PL_TRANSITION_1_2 = 28;
+
 
 	const static int8_t MSGTYPE_MOTORCOM = 3;
 	const static int8_t PL_STOP = 30;

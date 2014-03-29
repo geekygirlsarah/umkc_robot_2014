@@ -157,6 +157,22 @@ void exitGoToTools()  {
 
 
 
+//----
+//meta state - going from position to pick up tools, back to start position (hopefully just goingo backwards. may need to be more robust to
+//account for straying too far from the board
+//----
+State transitionToolsToCrossBoard(enterTransitionToolsToCrossBoard, updateTransitionToolsToCrossBoard, exitTransitionToolsToCrossBoard);
+void enterTransitionToolsToCrossBoard()  {
+ advertising_state.payload = PL_TRANSITION_1_2;
+ talker.publish(&advertising_state);
+}
+
+void updateTransitionToolsToCrossBoard()  {
+
+}
+
+void exitTransitionToolsToCrossBoard()  {
+}
 //-----
 // waveCrossing = HEY start crossing waves mate! (meta state)
 //-----
@@ -549,7 +565,7 @@ void loop() {
 
 
   
-       
+    //crossing board state ASSUMES we start from the beginning position     
    else if(stateMachine.isInState(crossingBoard))  {
    //spin
      gapsThru = 0;

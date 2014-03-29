@@ -228,6 +228,9 @@ void MegaCaretaker::printStateInfo(int8_t payload)	{
 			case	PL_FINDING_EDGE:
 			ROS_INFO("mega->board:: Reversing and finding edge...");
 			break;
+			case    PL_TRANSITION_1_2:
+			ROS_INFO("mega->board:: Transitioning from finding tools to crossing waves");
+			break;
 	}
 	ROS_INFO("-------------------------------------");
 }
