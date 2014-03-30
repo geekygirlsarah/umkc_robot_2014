@@ -686,13 +686,14 @@ void loop() {
    else if(stateMachine.isInState(lookForGap))  {
    //spin.. will transition to gapFound state when its' found
      if(isGapFound)  {
-       
+       isGapFound = false;
        //might need to hardcode the ticks if I'm not at an edge.
-       
+       #ifndef DEBUG_COMMS
        nav.adjustToGap();
        nav.stop_sleep(PAUSE_DURATION);
-       stateMachine.transitionTo(waitForCommand);
-       isGapFound = false;
+       #endif
+       //stateMachine.transitionTo(waitForCommand);
+   
        stateMachine.transitionTo(gapFound);
      }
    }
