@@ -339,6 +339,7 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 			case FIND_TOOL: {
 				for(; trial < MAX_ID_TOOL; trial++) {
 					for(; area <= RIGHT; area++) {
+						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> switching state to find tool");
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> for(%d:%d)", trial, area);
 						// move arm to position[job_state][area][trial];
 						waiting = true;
@@ -474,7 +475,7 @@ DBGCV								while(waitKey() != 27);
 			break;
 			case FIND_TOP: {
 				for(pos = 0; pos < 5; pos++) {
-					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> for(%d)", pos);
+					ROS_INFO("ID_TOOL :: (FIND_TOP) :: --> switching state to find top of tool");
 					// move arm to position[job_state][area][pos];
 					waiting = true;
 					pub.publish(position[job_state][area][pos]);
@@ -569,6 +570,7 @@ DBGCV						while(waitKey() != 27);
 			break;
 			// FIND_CENTER and FIND_DISTANCE should be the same job_state.
 			case FIND_DISTANCE: {
+				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> switching state to find relation to tool");
 				// use the contour from above (FIND_TOP) and use it
 				//    to judge tool distance from camera
 				// this should work since contours is filled inside the loop
@@ -600,6 +602,7 @@ DBGCV						while(waitKey() != 27);
 				double hypot = 0.0f;
 				switch(tool) {
 					case SQUARE: {
+						// find the longest side in an attempt to pick up the tool in the same manner
 						short ha, hb;
 						if (( sqrt(pow((approx[0].x - approx[1].x), 2) + pow((approx[0].y - approx[1].y), 2)) ) >
 						    ( sqrt(pow((approx[1].x - approx[2].x), 2) + pow((approx[1].y - approx[2].y), 2)) ) ) {
@@ -609,6 +612,7 @@ DBGCV						while(waitKey() != 27);
 							ha = 2;
 							hb = 1;
 						}
+						// calculate the angle offset of the long side.
 						off_x = approx[ha].x - approx[hb].x;
 						off_y = approx[ha].y - approx[hb].y;
 						off_r = atan2(off_y, off_x);
@@ -696,6 +700,7 @@ DBGCV				while(waitKey() != 27);
 			}
 			break;
 			case TOOL_GRASP:
+				ROS_INFO("ID_TOOL :: TOOL_GRASP --> switching state to gather tool.");
 				pickup.direct_mode = false;
 				pickup.cmd = "grasp";
 				pub.publish(pickup);
@@ -712,6 +717,7 @@ DBGCV				while(waitKey() != 27);
 				} while(waiting);
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> tool in possession and carried. exiting.");
 
+// i think this is 				
 				HUA = true;
 			break;				
 			default:
