@@ -359,6 +359,6 @@ capture:
 		}
 	} while(keypress != 27);
 
-	std::cout << "areas: mean[" << tally.mean() << "] and mode[" << tally.mode() << "]" << std::endl;
+//	std::cout << "areas: mean[" << tally.mean() << "] and mode[" << tally.mode() << "]" << std::endl;
 	return(0);
 }
