@@ -100,7 +100,7 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 void MegaCaretaker::heardFromMaster(const mega_caretaker::MasterPacket &packet)	{
 	//DEBUGGing stuff! yay!... more easy
 
-/*
+
 	if(packet.msgType == MASTER_MSGTYPE_COMMAND)	{
 		if(packet.payload == MASTER_PL_GO_TO_TOOLS)	{
 			
@@ -108,25 +108,28 @@ void MegaCaretaker::heardFromMaster(const mega_caretaker::MasterPacket &packet)	
 			startGoToTools();
 	
 			//Ack to rest of board
+		
+			/*
 			mega_caretaker::MasterPacket temp;
-			temp.msgType = MASTER_MSGTYPE_FINISHED;
+			temp.msgType = MASTER_MSGTYPE_STATE;
 			temp.payload = MASTER_PL_GO_TO_TOOLS_ACK;
 			commandTalker.publish(temp);
-
+			*/
 		}
 		else if (packet.payload == MASTER_PL_CROSS_WAVES)	{
 			//tell mega
 			startWaveCrossing();
 			
 			//ACk to rest of board
+			/*
 			mega_caretaker::MasterPacket temp;
 			temp.msgType = MASTER_MSGTYPE_ACK;
 			temp.payload = MASTER_PL_CROSS_WAVES_ACK;
 			commandTalker.publish(temp);
-
+			*/
 		}
 	}
-*/	
+	
 }
 
 void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
@@ -175,7 +178,12 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 			ROS_INFO("mega->board:: Mega is done with go to tools!");
 			informFinishedGoToTools();
 			msg_understood = true;
+		
 
+			//TES:TING TESTINGSL:DKFJKL:SDFJKL:SDFJ:SDKLFJSDKL:FJSDL:FJL:
+			//AS SOON AS IT IS FINISEHD GOING TO TOOLS GO TO WAVE CROSSING 
+			//TODODODOTOTODOTODOTODO
+			//startWaveCrossing();
 		}
 	}
 	else if(packet.msgType == MSGTYPE_STATE)	{
@@ -298,8 +306,8 @@ void MegaCaretaker::setup()	{
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
 	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
 	
-	//commandListener = node.subscribe("/mega/command", 10, &MegaCaretaker::heardFromMaster, this);
-	//commandTalker = node.advertise<mega_caretaker::MasterPacket>("/mega/response", 10);
+	commandListener = node.subscribe("/mega/command", 10, &MegaCaretaker::heardFromMaster, this);
+	commandTalker = node.advertise<mega_caretaker::MasterPacket>("/mega/response", 10);
 }
 
 
@@ -310,7 +318,7 @@ void MegaCaretaker::run()	{
 
 	//need to wait for mega to be in command state!
 	//startGoToTools();
-	startWaveCrossing();
+	//startWaveCrossing();
 	ros::spin();
 
 }
