@@ -6,6 +6,15 @@
  * 2014 umkc robotics 
  */
 //woohoo ros time !!!
+
+
+
+#define HARDCODE_TICKS_LASTGAP 5500
+#define HARDCODE_TICKS_GAP_ADJUST 1000
+#define HARDCODE_TICKS_TRAVEL_TO_TOOLS 20000
+#define GAPFINDER_THRESHOLD 25
+
+
 #include <ros.h>
 #include <mega_caretaker/MegaPacket.h>
 
@@ -54,9 +63,9 @@ class Navigation {
                   encoders.init();
                   mov.init(&sabertooth);
                   Serial.println("ready");
-                  gapfind.init(A0,A1,A2);
-                  eyes.init(A3,5);
-                  mag.init(A6,A7);
+                  gapfind.init(A0,A1,A2,GAPFINDER_THRESHOLD);
+                  eyes.init(A4,8);
+                  mag.init(10,10,A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
                 
                   
@@ -96,14 +105,9 @@ class Navigation {
                 
                 } 
                 */
-                
-                void takeOff()  {
-                  Serial.println("takeoff");
-                  sabertooth.reverse(20);
-                  goingForward = true;
-                }
-                
+              
                 //toggle in forward or backwards when magellans see seomthing
+                
                 void traveling()  {
                    mag.printDebug();
                    //mag.printDebugDifference();
@@ -146,48 +150,60 @@ class Navigation {
                 
                 //returns if gap is found.
                 bool lookingForGap()  {
-                  sabertooth.reverse(20);
+                  //sabertooth.reverse(20);
                   //sabertooth.forward(20);
                   //console.println("moving \t checking gap");
                   //check if a gap has been found
-                  gapfind.printDebug();
-                  gapfind.printGapStatus();
+                  
+                  
+                  //gapfind.printDebug();
+                  //gapfind.printGapStatus();
+                  
                   gapfind.update();
                   
                   
                   //gap found? move forward a set amount to center self
                   if(gapfind.gapPresent())  {
                     Serial.println("moving \t GAP FOUND!!");
-      
+                    gapfind.reset();
+                     //unfortunately right now i have no ticks.. so it stays here forever
                     
-                    int32_t start_ticks = positionFL;
-                    while(true)  {
-                      if(abs(positionFL - start_ticks) > 500)
-                         break; 
-                     }
+                    
                     sabertooth.all_stop();
                     return true;
                   }
                   return false;
                 }
                 
-                void turnTowardsLane()  {
-                  mov.turn90degreesCW(0x60,0x20,ticksFor90);
-        
-                  sabertooth.all_stop();
-                  delay(500);
+                //use ticks to adjust.. as soon as we find gap, needs to go forward some ticks
+                bool adjustToGap()  {
+                  //500 taped, trying 900 untaped
+                    goForwardForever();
+                    int32_t start_ticks = positionFR;
+                    while(true)  {
+                      if(abs(positionFR - start_ticks) > HARDCODE_TICKS_GAP_ADJUST)
+                         break; 
+                     }
+                     stopNow();
+                     
                 }
                 
-                void turnTowardsGap()  {
-                  mov.turn90degreesCW(0x20,0x60,ticksFor90);
-        
-                  sabertooth.all_stop();
-                  delay(500);
+                //hardcode the thing T.T
+                bool crossLastGap()  {
+                  goForwardForever();
+                   int32_t start_ticks = positionFR;
+                    while(true)  {
+                      if(abs(positionFR - start_ticks) > HARDCODE_TICKS_LASTGAP)
+                         break; 
+                     }
+                     return true;
+                     stopNow();
                 }
+                
                 
                 bool crossGap()  {
                   
-                  sabertooth.reverse(20);
+                  goForwardForever();
                    eyes.update();
                    eyes.printDebug();
                    if(eyes.obstaclePresent())  {
@@ -243,20 +259,55 @@ class Navigation {
                 void turnClockwiseForever()  {
                   sabertooth.turnCW();
                 }
+                void turnCounterClockwiseForever()  {
+                  sabertooth.turnCCW();
+                }
                 void stopNow()  {
                   sabertooth.all_stop();
                 }
-                void sleep()  {
+                void goForwardForever()  {
+                  //sabertooth.forward();
+                  sabertooth.reverse();
+                  goingForward = true;
+                }
+                
+                void goBackwardForever()  {
+                  //sabertooth.reverse();
+                  sabertooth.forward();
+                  goingForward = false;
+                }
+                
+                void travelToTools()  {
+                  int32_t start_ticks = positionFR;
+                    while(true)  {
+                      if(abs(positionFR - start_ticks) > HARDCODE_TICKS_TRAVEL_TO_TOOLS)
+                         break; 
+                     }
+                   sabertooth.all_stop();
+                }
+                
+                void stop_sleep(int duration)  {
                   sabertooth.all_stop();
-                  delay(500);
+                  delay(duration);
                 }
                
-                 //ROS STUFF HEY HEY LISTEN HEY LISTEN
-               void turn90()  {
-                 
-                          
-                } 
-		
+               //just go backwards and find the edge. 
+               //return true once you foind the edge (this is make it a lot easier to separate so i can find gap separetely find finding edge
+               //TODO optimize :D
+                 bool atEdge()    {
+                   mag.update();
+                   return !mag.isSafe();
+                   
+                 }
+		  
+                void takeOff()  {
+                  Serial.println("takeoff");
+                  goForwardForever();
+                  
+                }
+                
+              
+                
 			
 };
 
@@ -264,3 +315,4 @@ class Navigation {
 
 
 #endif
+

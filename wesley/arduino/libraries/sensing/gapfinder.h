@@ -15,7 +15,7 @@
  * TODO: interface with the outside world - return a thingy from gapFind (DONE)
  **/
 #include <Distance2D120X.h>
-
+#include <DistSmoother.h>
 
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
@@ -37,11 +37,12 @@ private:
   int outerloopcount;	//how many times the update() method will run thru the state loop
   int distance1,distance2,distance3;  //used for debugging
 
-  Distance2D120X Dist1;
-  Distance2D120X Dist2;  
-  Distance2D120X Dist3;
+  DistSmoother Dist1;
+  DistSmoother Dist2;  
+  DistSmoother Dist3;
 
-  const static int threshold = 20;  //threshold for ping sensor detecting a hole (cm)
+  const static int threshold_default = 10;  //threshold for ping sensor detecting a hole (cm)
+  int threshold;  //threshold for ping sensor detecting a hole (cm)
 
 
   
@@ -71,22 +72,34 @@ public:
   enum ternary {NO_GAP, MAYBE_GAP, YES_GAP};  
   
 
+  //Which 3 pins are you using to find this gap?
+  //must be in order, from right or left doesn't matter
+  void init(int pin1, int pin2, int pin3 )  {
+    Dist1.init(pin1);
+    Dist2.init(pin2);
+    Dist3.init(pin3);
+    check = 3;
+    threshold = threshold_default;
+    gap_status = no_gap;    //we start out assuming no hole
+  }
+
 
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
-  void init(int pin1, int pin2, int pin3)  {
-    Dist1.begin(pin1);
-    Dist2.begin(pin2);
-    Dist3.begin(pin3);
+  void init(int pin1, int pin2, int pin3, int thresh)  {
+    Dist1.init(pin1);
+    Dist2.init(pin2);
+    Dist3.init(pin3);
     check = 3;
+    threshold = thresh;
     gap_status = no_gap;    //we start out assuming no hole
   }
 
   //find and print the distances
   void printDebug()  {
-    distance1 = Dist1.getDistanceCentimeter();
-    distance2 = Dist2.getDistanceCentimeter();
-    distance3 = Dist3.getDistanceCentimeter();
+    distance1 = Dist1.getAccurateDistCM();
+    distance2 = Dist2.getAccurateDistCM();
+    distance3 = Dist3.getAccurateDistCM();
     //difference = distance1 - distance2;
 
     Serial.print("dist(cm):\t");
@@ -147,8 +160,9 @@ public:
 			 
 			  break;
 			case yes_gap:
-			  if(!checkYesGap())
-				gap_status = no_gap;
+			
+			//  if(!checkYesGap())
+			//	gap_status = no_gap;
 			  break;
 
 			}
@@ -177,6 +191,11 @@ public:
 
   bool gapNotPresent()	{
   	return (gap_status == no_gap || gap_status == maybe_gap);
+  }
+
+  //reset back to no gap state. 
+  void reset()	{
+ 	gap_status = no_gap; 
   }
 
 };
