@@ -9,11 +9,11 @@
 
 //THese are just debugging things
 //separating the Crossing Wave state
-#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 //#define TEST_TRANSITION_FROM_TOOLS_ONLY   //this starts from the tool pick up position, then goes back to default home position 
-//#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
+#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
 //#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
-
+#define ROS_SILENT  //No ros stuff! no ros stuff!! just serial stuff D:
 
 /* mega movement tester
  * umkc robotics 2014
@@ -89,7 +89,7 @@ bool travelingHome;
 
 
 
-
+#ifndef ROS_SILENT
 ros::NodeHandle  nh;	
 mega_caretaker::MegaPacket temp;
 mega_caretaker::MegaPacket advertising_state;  //specifically for advertising state
@@ -101,17 +101,19 @@ ros::Publisher talker("/mega_caretaker/arduinoToBoard", &temp);
 void packet_catch(const mega_caretaker::MegaPacket& packet);  
 ros::Subscriber<mega_caretaker::MegaPacket> listener("/mega_caretaker/boardToArduino", &packet_catch);
 
+#endif
+
 //callback
 
 
 //=======================
 //STATE things
 //=======================
-
+#ifndef ROS_SILENT
 void updateROS_spin()  {
   nh.spinOnce();
 }
-
+#endif
 //-----------
 //initializeComms - this is for the three way handshake-ing
 //-----------
@@ -123,7 +125,9 @@ void enterInitializeComms()  {
 }
 
 void updateInitializeComms()  {
+  #ifndef ROS_SILENT
   updateROS_spin();
+  #endif
   //no talking. just waiting for syn + ack
 }
 
@@ -133,24 +137,28 @@ void updateInitializeComms()  {
 //-----
 State waitForCommand = State(enterWaitForCommand, updateWaitForCommand, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
 void enterWaitForCommand()  {
-
+#ifndef ROS_SILENT
   advertising_state.payload = PL_WAITING;
   talker.publish(&advertising_state);
+#endif
 
   nav.stopNow();
   //this is replaced by the board initiated three way handshake
 }
 
 void updateWaitForCommand()  {
-  
+#ifndef ROS_SILENT  
   updateROS_spin();
+#endif
 
 }
 
 
 State finishedGoToTools = State(enterFinishedGoToTools, NULL, NULL);
 void enterFinishedGoToTools()  {
+#ifndef ROS_SILENT  
   sendFinishedGoToTools();
+#endif
   //stateMachine.transitionTo(waitForCommand);
 }
 
@@ -203,9 +211,13 @@ void exitGoToTools()  {
 //----
 State transitionToolsToCrossBoard(enterTransitionToolsToCrossBoard, updateTransitionToolsToCrossBoard, exitTransitionToolsToCrossBoard);
 void enterTransitionToolsToCrossBoard()  {
- isEdgeFound = false;
+ #ifndef ROS_SILENT 
  advertising_state.payload = PL_TRANSITION_1_2;
  talker.publish(&advertising_state);
+#endif
+  
+  isEdgeFound = false;
+
  nav.goBackwardForever();
 }
 
@@ -246,16 +258,22 @@ State test90DegreeTurn = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
 State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitTurn90Degrees);
  void enterTurn90Degrees_cw()  {
  turn90DegreeFinished = false;
+#ifndef ROS_SILENT 
  advertising_state.payload = PL_TURNING_CW_INIT;
  talker.publish(&advertising_state);
- nav.stopNow();
+
+ 
  
  //Ask board for help!
  initiateTurn90_CW();
+ #endif
+ nav.stopNow();
  }
  
  void updateTurn90Degrees()  {
+  #ifndef ROS_SILENT
  updateROS_spin();
+ #endif
  //update other code?? sensor code??
  }
  
@@ -268,12 +286,13 @@ State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
  State turn90Degrees_CCW = State(enterTurn90Degrees_ccw, updateTurn90Degrees, exitTurn90Degrees);
  void enterTurn90Degrees_ccw()  {
  turn90DegreeFinished = false;
+ nav.stopNow();
+ #ifndef ROS_SILENT
  advertising_state.payload = PL_TURNING_CCW_INIT;
  talker.publish(&advertising_state);
- nav.stopNow();
- 
  //Ask board for help!
  initiateTurn90_CCW();
+  #endif
  }
  
 //----------
@@ -285,8 +304,12 @@ State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
 
 State gapFound = State(enterGapFound,NULL,exitGapFound);
  void enterGapFound()  {
+ #ifndef ROS_SILENT  
  advertising_state.payload = PL_GAP_FOUND;
  talker.publish(&advertising_state);
+ #else
+ Serial.println("Entering gapfound state");
+ #endif
  
  }
 void exitGapFound()  {
@@ -301,8 +324,12 @@ void exitGapFound()  {
 State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
     // we now assume we're already going the direction we need to
     void enterLookForGap()  {
+      #ifndef ROS_SILENT
     advertising_state.payload = PL_LOOKING_FOR_GAP;
     talker.publish(&advertising_state);
+    #else
+    Serial.println("Entering lookForGap state");
+    #endif
     // nav.takeOff();   // moving out of here
  }
  
@@ -329,8 +356,10 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  //--------------
  State gapCrossed = State(enterGapCrossed, updateGapCrossed, exitGapCrossed);
  void enterGapCrossed()  {
+  #ifndef ROS_SILENT  
  advertising_state.payload = PL_GAP_CROSSED;
  talker.publish(&advertising_state);
+ #endif
  }
  void updateGapCrossed()  {
  
@@ -345,8 +374,10 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  //-------------
  State crossGap = State(enterCrossGap, updateCrossGap, exitCrossGap);
  void enterCrossGap()  {
+    #ifndef ROS_SILENT
  advertising_state.payload = PL_CROSSING_GAP;
  talker.publish(&advertising_state);
+ #endif
  gapsThru++;  //gapsThru is the nth gap you have crossed 
  
  }
@@ -382,9 +413,12 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
 
 State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitFinishedCrossingBoard);
  void enterFinishedCrossingBoard()  {
+    #ifndef ROS_SILENT
  sendFinishedCrossingWaves();
+#endif
  }
  void updateFinishedCrossingBoard()  {
+   
  stateMachine.transitionTo(waitForCommand);
  
  }
@@ -398,8 +432,10 @@ State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCr
 
 State findEdge = State(enterFindEdge, updateFindEdge, exitFindEdge);
  void enterFindEdge()  {
+    #ifndef ROS_SILENT
  advertising_state.payload = PL_FINDING_EDGE;
  talker.publish(&advertising_state);
+ #endif
  nav.goBackwardForever();
  
  }
@@ -428,6 +464,7 @@ State findEdge = State(enterFindEdge, updateFindEdge, exitFindEdge);
 //ALL THE ROS THINGS
 //=======================      
 
+ #ifndef ROS_SILENT
 //ros msg catching time!
 void packet_catch(const mega_caretaker::MegaPacket& packet)  {
   //sendAck();  //sd;fjklasd;fljkasd;fkljasdfkl; jd you ack T.T
@@ -559,7 +596,7 @@ void initiateTurn90_CCW()  {
   talker.publish(&temp);
 }
 
-
+#endif
 
 //=======================
 //MAIn stuff
@@ -574,9 +611,15 @@ void setup() {
   current_status = initComms;  //no synack, no rosssSS!
   gapsThru = 0;
   //ros_control = true;
+  
+  #ifndef ROS_SILENT
   initROS();
   stateMachine.init(initializeComms);
+  #else
+    stateMachine.init(crossingBoard);
 
+  #endif
+  
   handshakeOK = false;
   turn90DegreeFinished = false;
   
@@ -610,8 +653,9 @@ void loop() {
 
   //have state machine transitions OUTSIDE here for my sanity
 
-
+#ifndef ROS_SILENT
   nh.spinOnce();
+  #endif
   stateMachine.update();
   if(stateMachine.isInState(initializeComms))  {
     //wait and spin
@@ -683,6 +727,7 @@ void loop() {
       
      if(isEdgeFound)  {
          #ifndef TEST_TRANSITION_FROM_TOOLS_ONLY
+         nav.goForwardForever();
          stateMachine.transitionTo(lookForGap);
          #else
          stateMachine.transitionTo(finishedCrossingBoard);
@@ -698,7 +743,8 @@ void loop() {
        isGapFound = false;
        //might need to hardcode the ticks if I'm not at an edge.
        #ifndef DEBUG_COMMS
-       nav.adjustToGap();
+       if(!isDoubleCheckingGap)
+           nav.adjustToGap();
        nav.stop_sleep(PAUSE_DURATION);
        #endif
        //stateMachine.transitionTo(waitForCommand);
@@ -721,9 +767,13 @@ void loop() {
         #endif
         
         if(nav.doubleCheckGap())
+        {
+            isDoubleCheckingGap = false; 
             stateMachine.transitionTo(turn90Degrees_CCW);
+        }
         else
         {
+            isDoubleCheckingGap = true;
             nav.goBackwardForever();
             stateMachine.transitionTo(lookForGap);        
         }
