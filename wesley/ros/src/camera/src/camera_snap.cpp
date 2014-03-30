@@ -3,7 +3,7 @@
 
 using namespace cv;
 
-int main() {
+int main(int argc, char* argv[]) {
 	VideoCapture cap(0);
 	if (!cap.isOpened()) {
 		std::cerr << "unable to open camera\n";
@@ -18,6 +18,18 @@ int main() {
 
 	for (;;) {
 		cap >> frame;
+		if (argc == 2) {
+			switch(argv[1][0]) {
+				case 'f': case 'r':
+					rectangle(frame, Rect(20, 120, 180, 320), CV_RGB(0x34, 0xCE, 0xCE));
+					rectangle(frame, Rect(300, 120, 180, 320), CV_RGB(0x34, 0xCE, 0xCE));
+					rectangle(frame, Rect(480, 120, 160, 320), CV_RGB(0x34, 0xCE, 0xCE));
+					break;
+				case 't': case 'p':
+					rectangle(frame, Rect(160, 80, 300, 360), CV_RGB(0x34, 0xCE, 0xCE));
+					break;
+			}
+		}
 		imshow("image raw", frame);
 		
 		int keypress = waitKey(30);
