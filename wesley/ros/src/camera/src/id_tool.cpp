@@ -73,7 +73,7 @@ using namespace cv;
 #include <unistd.h>		// sleep()
 
 // personal debug defines. set to (0) to turn off.
-#define EMGDBG (1)
+#define EMGDBG (0)
 #define DBGOUT if EMGDBG std::cout
 #define DBGCV if EMGDBG
 

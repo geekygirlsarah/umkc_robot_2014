@@ -9,7 +9,7 @@ using std::string;
 #define release() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: release}'", "");
 #define park() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: park}'", "");
 #define carry() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: carry}'", "");
-#define giveup() executeBinary("rostopic pub -1 /arm/put/angle wesley/arm_angle 90 180 90 90 90 120", "");
+#define giveup() executeBinary("rostopic pub -1 /arm/put/angle wesley/arm_angle 90 90 180 90 90 120", "");
 
 /**
  * Executes a binary file at path and returns the exit code.
@@ -61,8 +61,8 @@ int main(int argc, char* argv[]) {
 	// 5) move_to_rig
 	// 6) align_on_rig
 	// 7) 
-	ROS_INFO("CMDR :: main --> closing hand to avoid collision.");
-	grasp();
+//	ROS_INFO("CMDR :: main --> closing hand to avoid collision.");
+//	grasp();
 
 //	logger->logStatus("Executing button_wait");
 	ROS_WARN("CMDR :: main --> launching: button_wait");
@@ -74,22 +74,38 @@ int main(int argc, char* argv[]) {
 	int tool = 0;
 	exithandler.id_flame(tool = executeBinary("rosrun camera id_flame", ""));
 	ROS_INFO("ID_FLAME returned value (%d)", tool);
-	if (tool == 60) {
-		ROS_ERROR("CMDR :: id_flame --> return 60! indicates no fire found. no point going on; bailing.");
-		giveup();
-		return(tool);
+	switch(tool) {
+		case 60:
+			ROS_ERROR("CMDR :: id_flame --> return 60! indicates no fire found. no point going on; bailing.");
+			giveup();
+			return(tool);
+			break;
+		case 50:
+			ROS_ERROR("CMDR :: id_flame --> return 50! cannot open camera. fatal, but recoverable. bailing.");
+			giveup();
+			return(tool);
+			break;
 	}
 
 //	logger->logStatus("init -- parking in carry spot.");
 	carry();
 
 //	logger->logStatus("init -- opening hand.");
-	release();
+//	release();
+
+	executeBinary("rosrun commander cabman 0 0", "");
 
 //	logger->logStatus("Executing ID tool");
 	std::stringstream ss;
 	ss <<  "rosrun camera id_tool " << tool  << " /home/umkc/wesley/config/position_tool.lst";
 	exithandler.id_tool(executeBinary(ss.str(), ""));
+
+	carry();
+
+
+	executeBinary("rosrun commander cabman 0 1", "");
+
+
 }
 
 int executeBinary(string binaryName, string prefix, string mode ){

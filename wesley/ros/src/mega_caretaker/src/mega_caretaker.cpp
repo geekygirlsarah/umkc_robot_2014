@@ -321,7 +321,6 @@ void MegaCaretaker::run()	{
 	//startWaveCrossing();
 	while(ros::ok())	{
 		ros::spinOnce();
-		ROS_INFO("spinning?");
 	}
 }
 

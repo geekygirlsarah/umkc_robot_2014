@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 #include <mega_caretaker/MasterPacket.h>
 
-using namepsace ros;
+using namespace ros;
 
 bool waiting = true;
 void block_wait_drive(const mega_caretaker::MasterPacket& msg) {
@@ -10,11 +10,15 @@ void block_wait_drive(const mega_caretaker::MasterPacket& msg) {
 
 int main(int argc, char* argv[]) {
 	init(argc, argv, "cabman");
+	ROS_INFO("CABBY --> starting engines.");
 
 	NodeHandle nh;
 	Publisher pub = nh.advertise<mega_caretaker::MasterPacket>("/mega/command", 1000);
-	Subscriber sub = nh.subscrube("/mega/response", 1000, &block_wait_motor);
+	Subscriber sub = nh.subscribe("/mega/response", 1000, &block_wait_drive);
 
+	while(pub.getNumSubscribers() <= 0);
+
+	ROS_INFO("CABBY --> publisher ready.");
 	int cmd, pay;
 
 	if (argc == 3) {
@@ -25,6 +29,7 @@ int main(int argc, char* argv[]) {
 		return(70);
 	}
 
+	ROS_INFO("CABBY --> command: (%d, %d)", cmd, pay);
 	mega_caretaker::MasterPacket drive;
 	drive.msgType = cmd;
 	drive.payload = pay;
@@ -34,5 +39,7 @@ int main(int argc, char* argv[]) {
 		spinOnce();
 	} while(waiting);
 
+	ROS_INFO("CABBY --> unblocked. your destination is on the left.");
+	// i know, that's what i just said!
 	return(0);
 }
