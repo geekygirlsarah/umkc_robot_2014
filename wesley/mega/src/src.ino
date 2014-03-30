@@ -9,7 +9,7 @@
 
 //THese are just debugging things
 //separating the Crossing Wave state
-//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 //#define TEST_TRANSITION_FROM_TOOLS_ONLY   //this starts from the tool pick up position, then goes back to default home position 
 //#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
 //#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
@@ -676,7 +676,7 @@ void loop() {
          #ifndef TEST_TRANSITION_FROM_TOOLS_ONLY
          stateMachine.transitionTo(lookForGap);
          #else
-         stateMachine.transitionTo(waitForCommand);
+         stateMachine.transitionTo(finishedCrossingBoard);
          #endif
      
      }
@@ -686,13 +686,14 @@ void loop() {
    else if(stateMachine.isInState(lookForGap))  {
    //spin.. will transition to gapFound state when its' found
      if(isGapFound)  {
-       
+       isGapFound = false;
        //might need to hardcode the ticks if I'm not at an edge.
-       
+       #ifndef DEBUG_COMMS
        nav.adjustToGap();
        nav.stop_sleep(PAUSE_DURATION);
-       stateMachine.transitionTo(waitForCommand);
-       isGapFound = false;
+       #endif
+       //stateMachine.transitionTo(waitForCommand);
+   
        stateMachine.transitionTo(gapFound);
      }
    }

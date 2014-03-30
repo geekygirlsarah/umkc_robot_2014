@@ -278,7 +278,7 @@ void MegaCaretaker::informFinishedGoToTools()	{
 	mega_caretaker::MasterPacket temp;
 	temp.msgType = MASTER_MSGTYPE_STATE;
 	temp.payload = MASTER_PL_GO_TO_TOOLS_FIN;
-	//commandTalker.publish(temp);
+	commandTalker.publish(temp);
 	ROS_INFO("===================================");
 	ROS_INFO("mega_caretaker:: FINISHED GO TO TOOLS");
 	ROS_INFO("===================================");
@@ -290,7 +290,7 @@ void MegaCaretaker::informFinishedWaveCrossing()	{
 	mega_caretaker::MasterPacket temp;
 	temp.msgType = MASTER_MSGTYPE_STATE;
 	temp.payload = MASTER_PL_CROSS_WAVES_FIN;
-	//commandTalker.publish(temp);
+	commandTalker.publish(temp);
 	ROS_INFO("===================================");
 	ROS_INFO("mega_caretaker:: FINISHED WAVE CROSSING");
 	ROS_INFO("===================================");
@@ -319,8 +319,10 @@ void MegaCaretaker::run()	{
 	//need to wait for mega to be in command state!
 	//startGoToTools();
 	//startWaveCrossing();
-	ros::spin();
-
+	while(ros::ok())	{
+		ros::spinOnce();
+		ROS_INFO("spinning?");
+	}
 }
 
 void MegaCaretaker::attemptMegaConnection()	{
