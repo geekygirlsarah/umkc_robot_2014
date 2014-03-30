@@ -20,7 +20,8 @@
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
 
-
+// For double-checking gap is present
+#define NUM_GAP_CHECKS 5
 
 class GapFinder	{
 private:
@@ -182,7 +183,17 @@ public:
   }
 
   bool gapPresent()	{
- 	return gap_status == yes_gap;	
+    // Before: just return yes_gap
+    // After: double check gap-ness
+    
+    for(int i = 0; i < NUM_GAP_CHECKS; i++)
+    {        
+        if(!checkYesGap())
+            return false; 
+    }    
+ 	 return true;
+     
+     //return gap_status == yes_gap;	
   }
  
   bool maybeGapPresent()	{

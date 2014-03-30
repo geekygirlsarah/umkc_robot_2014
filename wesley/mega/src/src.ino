@@ -16,7 +16,7 @@
 
 
 /* mega movement tester
- * written by: victoria wu
+ * umkc robotics 2014
  * date: 1/17/14 
  *
  * what: make the robot Fkeep going until the gap is found. then stop. (going to put it all on the mega, no bridge just yet
@@ -82,6 +82,7 @@ bool crossBoard;
 bool  commandGoToTools;
 bool  isGapFound;
 bool  isGapCrossed;
+bool isDoubleCheckingGap;
 bool  isEdgeFound;
 bool travelingHome;
 
@@ -225,7 +226,12 @@ void exitTransitionToolsToCrossBoard()  {
 // waveCrossing = HEY start crossing waves mate! (meta state)
 //-----
 
-State crossingBoard = State(NULL, NULL, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
+State crossingBoard = State(NULL, NULL, exitCrossingBoard);  //wait for command from board. either to go somewhere, or start wave crossing.
+
+void exitCrossingBoard()
+{
+ nav.goForwardForever();
+}
 
 //----
 //terrible testing class
@@ -293,10 +299,11 @@ void exitGapFound()  {
 //----------
 
 State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
- void enterLookForGap()  {
- advertising_state.payload = PL_LOOKING_FOR_GAP;
- talker.publish(&advertising_state);
- nav.takeOff();
+    // we now assume we're already going the direction we need to
+    void enterLookForGap()  {
+    advertising_state.payload = PL_LOOKING_FOR_GAP;
+    talker.publish(&advertising_state);
+    // nav.takeOff();   // moving out of here
  }
  
  //ignoring falling off for now
@@ -373,7 +380,7 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
 //-------------
 
 
-State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitCrossingBoard);
+State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCrossingBoard, exitFinishedCrossingBoard);
  void enterFinishedCrossingBoard()  {
  sendFinishedCrossingWaves();
  }
@@ -381,7 +388,7 @@ State finishedCrossingBoard = State(enterFinishedCrossingBoard, updateFinishedCr
  stateMachine.transitionTo(waitForCommand);
  
  }
- void exitCrossingBoard()  {
+ void exitFinishedCrossingBoard()  {
  
  }
 
@@ -409,7 +416,8 @@ State findEdge = State(enterFindEdge, updateFindEdge, exitFindEdge);
  void exitFindEdge()  {
  
  nav.stop_sleep(PAUSE_DURATION);
- 
+  nav.goForwardForever();  // found it, go forward
+
  }
  
 
@@ -579,6 +587,7 @@ void setup() {
   isGapCrossed = false;
   isEdgeFound = false;
   travelingHome = false;
+  isDoubleCheckingGap = false;
   
   #ifdef DEBUG_COMMS
     pinMode(2, OUTPUT);
@@ -699,19 +708,26 @@ void loop() {
    }
    
    else if(stateMachine.isInState(gapFound))  {
-   //now need to turn90degrees
-   
-   #ifndef DEBUG_COMMS
-
-   /*
-   //TODO - need to account for waves being at the edge
-     if(!nav.atEdge())  {
-       nav.adjustToGap();
-     }
-     */
-   #endif
-     stateMachine.transitionTo(turn90Degrees_CCW);
-     
+        //now need to turn90degrees
+        
+        #ifndef DEBUG_COMMS
+        
+        /*
+        //TODO - need to account for waves being at the edge
+         if(!nav.atEdge())  {
+           nav.adjustToGap();
+         }
+         */
+        #endif
+        
+        if(nav.doubleCheckGap())
+            stateMachine.transitionTo(turn90Degrees_CCW);
+        else
+        {
+            nav.goBackwardForever();
+            stateMachine.transitionTo(lookForGap);        
+        }
+         
    
    }
    

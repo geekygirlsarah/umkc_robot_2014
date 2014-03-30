@@ -175,6 +175,25 @@ class Navigation {
                   return false;
                 }
                 
+                // check if really at a gap
+                // should be ran once
+                bool doubleCheckGap()   {
+                    // By this point gap should have been detected and robot stopped. We 
+                    // should double check this and align up properly
+                    
+                    // update position first
+                    //gapfind.update();
+                    if(gapfind.gapPresent())
+                        return true;
+                    
+                    // Might or might not be at gap, so return false
+                    return false;                                        
+                
+                
+                
+                }
+                
+                
                 //use ticks to adjust.. as soon as we find gap, needs to go forward some ticks
                 bool adjustToGap()  {
                   //500 taped, trying 900 untaped
@@ -266,6 +285,8 @@ class Navigation {
                   sabertooth.all_stop();
                 }
                 void goForwardForever()  {
+                  Serial.println("takeoff/goForwardForever");
+
                   //sabertooth.forward();
                   sabertooth.reverse();
                   goingForward = true;
@@ -299,12 +320,13 @@ class Navigation {
                    return !mag.isSafe();
                    
                  }
-		  
+
+                /*  basically a duplicate of goForwardForever, so removing 		  
                 void takeOff()  {
-                  Serial.println("takeoff");
                   goForwardForever();
                   
                 }
+                */
                 
               
                 
