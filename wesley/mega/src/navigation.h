@@ -9,8 +9,9 @@
 
 
 
-#define HARDCODE_TICKS_LASTGAP 7000
-#define HARDCODE_TICKS_GAP_ADJUST 1200
+#define HARDCODE_TICKS_LASTGAP 5500
+#define HARDCODE_TICKS_GAP_ADJUST 1000
+#define HARDCODE_TICKS_TRAVEL_TO_TOOLS 20000
 #define GAPFINDER_THRESHOLD 25
 
 
@@ -177,11 +178,13 @@ class Navigation {
                 //use ticks to adjust.. as soon as we find gap, needs to go forward some ticks
                 bool adjustToGap()  {
                   //500 taped, trying 900 untaped
+                    goForwardForever();
                     int32_t start_ticks = positionFR;
                     while(true)  {
                       if(abs(positionFR - start_ticks) > HARDCODE_TICKS_GAP_ADJUST)
                          break; 
                      }
+                     stopNow();
                      
                 }
                 
@@ -194,6 +197,7 @@ class Navigation {
                          break; 
                      }
                      return true;
+                     stopNow();
                 }
                 
                 
@@ -272,6 +276,16 @@ class Navigation {
                   sabertooth.forward();
                   goingForward = false;
                 }
+                
+                void travelToTools()  {
+                  int32_t start_ticks = positionFR;
+                    while(true)  {
+                      if(abs(positionFR - start_ticks) > HARDCODE_TICKS_TRAVEL_TO_TOOLS)
+                         break; 
+                     }
+                   sabertooth.all_stop();
+                }
+                
                 void stop_sleep(int duration)  {
                   sabertooth.all_stop();
                   delay(duration);

@@ -1,8 +1,19 @@
 
-#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
-#define ITERATION 1  //how many gaps to cross.. for debugging
-#define LASTGAP 1  //which one to stop at and do the hardcoded one
-#define PAUSE_DURATION  100  //how many milliseconds between movements
+//THESE ARE IMPORTANT
+#define ITERATION 3  //how many gaps to cross.. for debugging
+#define LASTGAP 3  //which one to stop at and do the hardcoded one
+#define PAUSE_DURATION  300  //how many milliseconds between movements
+
+
+
+
+//THese are just debugging things
+//separating the Crossing Wave state
+//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+//#define TEST_TRANSITION_FROM_TOOLS_ONLY   //this starts from the tool pick up position, then goes back to default home position 
+//#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
+//#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
+
 
 /* mega movement tester
  * written by: victoria wu
@@ -153,6 +164,10 @@ void enterGoToTools()    {
   #ifdef DEBUG_COMMS
     digitalWrite(2, HIGH);
   #endif
+ 
+  #ifndef DEBUG_COMMS
+  nav.goForwardForever();    //CHAGNDS:FKLJSDKLF:SDJ:FLDKSF
+  #endif
   arrivedAtTools = false;
 }
 void updateGoToTools()  {
@@ -163,11 +178,15 @@ void updateGoToTools()  {
   //
   #ifndef DEBUG_COMMS
   //todo - actually mjoving places
-  #endif
   
-  #ifdef DEBUG_COMMS
-  arrivedAtTools = true;
+  //so right now this is just a straight go forward this number of ticks.
+  //TODO put in chase's code to make it actually follow the wall
+  
+  nav.travelToTools();  //blocks and breaks once # of ticks are there 
   #endif
+
+  arrivedAtTools = true;
+ 
  
 }
 void exitGoToTools()  {
@@ -207,6 +226,12 @@ void exitTransitionToolsToCrossBoard()  {
 //-----
 
 State crossingBoard = State(NULL, NULL, NULL);  //wait for command from board. either to go somewhere, or start wave crossing.
+
+//----
+//terrible testing class
+//-----
+State test90DegreeTurn = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitTurn90Degrees);
+
 
 //------
 //turn90Degrees = mega needs to turn 90 degrees now. requires help from board too.
@@ -252,13 +277,15 @@ State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
 //  -then turn 90 degree CW back towards the lane
 //----------
 
-State gapFound = State(enterGapFound,NULL,NULL);
+State gapFound = State(enterGapFound,NULL,exitGapFound);
  void enterGapFound()  {
  advertising_state.payload = PL_GAP_FOUND;
  talker.publish(&advertising_state);
  
  }
-
+void exitGapFound()  {
+  nav.stop_sleep(PAUSE_DURATION);
+}
 
 
 //----------
@@ -277,6 +304,7 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  //updateROS_spin();  //do i need this??
  #ifndef DEBUG_COMMS 
  isGapFound = nav.lookingForGap();
+  //NEED TO BE MOVING and not stopeed. 
  //stateMachine.immediateTransitionTo(waitForCommand);    
  
  #endif
@@ -286,7 +314,7 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  #endif
  }
  void exitLookForGap()  {
- nav.stop_sleep(PAUSE_DURATION);
+ 
  }
  
  //--------------
@@ -422,16 +450,10 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
   }
   
     else if(packet.msgType == MSGTYPE_FINISHED)  {
-   if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
-   	    //current_status = theend;
-  
-   
-   //new thing - immediate transition to finished state
+       if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
+           //new thing - immediate transition to finished state
            turn90DegreeFinished = true; 
-   //stateMachine.immediateTransitionTo(waitForCommand); 
-   
-   
-   }
+         }
 
    }
    
@@ -592,7 +614,11 @@ void loop() {
     //spin
     //will set it to...crossingBoard state
      if(crossBoard)  {
+       #ifdef TEST_TURN_90_ONLY
+       stateMachine.transitionTo(turn90Degrees_CW);  //TODO change back. this state change is just for testing 90 degree turns without modifying board side ros stuff.
+       #else
        stateMachine.transitionTo(crossingBoard);
+       #endif
        crossBoard = false;
      } 
      else if (commandGoToTools)  {
@@ -622,9 +648,14 @@ void loop() {
      //future optimization - look for Gap 
      
      //i'm at the tools... and need to get back to home
+     
+     #ifndef TEST_CROSS_BOARD_FROM_HOME_ONLY
      if(!travelingHome)  {
        stateMachine.transitionTo(transitionToolsToCrossBoard);
      }
+     #else
+     stateMachine.transitionTo(lookForGap);
+     #endif
      
      //TODOTODODO - not traveling home change transition./?/    //
      
@@ -638,8 +669,17 @@ void loop() {
    }
    
     else if (stateMachine.isInState(transitionToolsToCrossBoard))  {
-     if(isEdgeFound)
+      
+     
+      
+     if(isEdgeFound)  {
+         #ifndef TEST_TRANSITION_FROM_TOOLS_ONLY
          stateMachine.transitionTo(lookForGap);
+         #else
+         stateMachine.transitionTo(waitForCommand);
+         #endif
+     
+     }
   }
    
    
@@ -649,7 +689,9 @@ void loop() {
        
        //might need to hardcode the ticks if I'm not at an edge.
        
-       
+       nav.adjustToGap();
+       nav.stop_sleep(PAUSE_DURATION);
+       stateMachine.transitionTo(waitForCommand);
        isGapFound = false;
        stateMachine.transitionTo(gapFound);
      }
@@ -659,9 +701,13 @@ void loop() {
    //now need to turn90degrees
    
    #ifndef DEBUG_COMMS
+
+   /*
+   //TODO - need to account for waves being at the edge
      if(!nav.atEdge())  {
        nav.adjustToGap();
      }
+     */
    #endif
      stateMachine.transitionTo(turn90Degrees_CCW);
      
@@ -681,7 +727,11 @@ void loop() {
    // stateMachine.transitionTo(crossGap);   
    //}
    
+     #ifdef TEST_TURN_90_ONLY
+      stateMachine.transitionTo(waitForCommand);
+     #else
      stateMachine.transitionTo(crossGap);
+     #endif
       turn90DegreeFinished = false;
      }
    }
@@ -711,7 +761,11 @@ void loop() {
    //stateMachine.transitionTo(lookForGap);
    
    //-> go backwards until you hit an edge... then look for gap
+       #ifdef TEST_TURN_90_ONLY
+      stateMachine.transitionTo(waitForCommand);
+       #else
        stateMachine.transitionTo(findEdge);
+       #endif
        turn90DegreeFinished = false;
    }
    }
