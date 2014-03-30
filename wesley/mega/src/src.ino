@@ -82,6 +82,7 @@ bool crossBoard;
 bool  commandGoToTools;
 bool  isGapFound;
 bool  isGapCrossed;
+bool restartGapFound;
 bool  isEdgeFound;
 bool travelingHome;
 
@@ -578,6 +579,7 @@ void setup() {
   isGapFound = false;
   isGapCrossed = false;
   isEdgeFound = false;
+  restartGapFound = false;
   travelingHome = false;
   
   #ifdef DEBUG_COMMS
@@ -709,8 +711,14 @@ void loop() {
      }
      */
    #endif
-     stateMachine.transitionTo(turn90Degrees_CCW);
-     
+   
+   // Double-check that we're at a gap first before turning
+   //  ???   if(gapfinder.gapPresent()) {
+      stateMachine.transitionTo(turn90Degrees_CCW);
+    // }
+    // else {
+    //  
+    //}     
    
    }
    
