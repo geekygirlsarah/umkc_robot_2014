@@ -7,6 +7,7 @@ project(commander)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  mega_caretaker
 )
 
 ## System dependencies are found with CMake's conventions
@@ -160,9 +161,11 @@ add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/notifier.cpp)
 target_link_libraries(cmdr ${catkin_LIBRARIES})
 add_executable(button_wait src/button_wait.cpp src/notifier.cpp)
 target_link_libraries(button_wait ${catkin_LIBRARIES})
+add_executable(cabman src/cabman.cpp)
+target_link_libraries(cabman ${catkin_LIBRARIES})
 
 ## Mark executables and/or libraries for installation
-install(TARGETS cmdr button_wait
+install(TARGETS cmdr button_wait cabman
 	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
