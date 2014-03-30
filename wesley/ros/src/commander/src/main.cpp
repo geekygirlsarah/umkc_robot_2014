@@ -9,6 +9,7 @@ using std::string;
 #define release() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: release}'", "");
 #define park() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: park}'", "");
 #define carry() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: carry}'", "");
+#define giveup() executeBinary("rostopic pub -1 /arm/put/angle wesley/arm_angle 90 180 90 90 90 120", "");
 
 /**
  * Executes a binary file at path and returns the exit code.
@@ -60,7 +61,7 @@ int main(int argc, char* argv[]) {
 	// 5) move_to_rig
 	// 6) align_on_rig
 	// 7) 
-//	logger->logStatus("init -- closing hand.");
+	ROS_INFO("CMDR :: main --> closing hand to avoid collision.");
 	grasp();
 
 //	logger->logStatus("Executing button_wait");
@@ -75,6 +76,7 @@ int main(int argc, char* argv[]) {
 	ROS_INFO("ID_FLAME returned value (%d)", tool);
 	if (tool == 60) {
 		ROS_ERROR("CMDR :: id_flame --> return 60! indicates no fire found. no point going on; bailing.");
+		giveup();
 		return(tool);
 	}
 
