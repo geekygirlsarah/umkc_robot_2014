@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 				polylines(viewport, approx, true, CV_RGB(125, 189, 26), 1.5);
 				std::stringstream ss;
 				ss << "sides: " << approx.size();
-				putText(frame, ss.str(), Point (320, 400), FONT_HERSHEY_PLAIN, 1.5, CV_RGB(0xFF, 0xDF, 0x00), 1.5);
+				putText(frame, ss.str(), Point (165, 470), FONT_HERSHEY_PLAIN, 1.5, CV_RGB(0xFF, 0xDF, 0x00), 1.5);
 			}
 		}
 

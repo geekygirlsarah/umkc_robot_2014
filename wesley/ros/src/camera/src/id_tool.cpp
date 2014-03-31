@@ -412,8 +412,9 @@ DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								case CIRCLE:
-									if (approx.size() == 8 ||
-										approx.size() == 9 ||
+									if (approx.size() ==  7 ||
+										approx.size() ==  8 ||
+										approx.size() ==  9 ||
 										approx.size() == 10) {
 										ROS_WARN("match(CIRCLE)");
 										// teal
