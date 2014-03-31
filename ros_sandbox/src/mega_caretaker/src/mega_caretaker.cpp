@@ -51,7 +51,7 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 	//need to go to either 0 or 90 degrees ish
 	mega_caretaker::MegaPacket packet;
 	packet.msgType = MSGTYPE_MOTORCOM;		//command 
-	if(given_payload == PL_START_TURNING_90_CW)	{
+	if(given_payload == PL_START_TURNING_90_CW_X_AXIS || given_payload == PL_START_TURNING_90_CW_Y_AXIS)	{
 			ROS_INFO("board->mega:: Now turn 90 degrees CW");
 			packet.payload = PL_TURNCW;	//turn
 	}
@@ -62,6 +62,7 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 	megaTalker.publish(packet);
 	
 
+	//TODO CHANGE THIS TO MATCH X/Y axis stuff
 	if(withIMU)	{
 			//keep checking until it's 90
 			bool turned90 = false;
@@ -146,22 +147,41 @@ void MegaCaretaker::heardFromMega(const mega_caretaker::MegaPacket &packet)	{
 		ROS_INFO("HELLLLLLPPPPPP MEEEEEEEEEE");
 	}
 	if(packet.msgType == MSGTYPE_HEY)	{
-		if(packet.payload == PL_START_TURNING_90_CW || packet.payload == PL_START_TURNING_90_CCW)	{
-			ROS_INFO("mega->board:: please help turn 90 degrees");
+		if(packet.payload == PL_START_TURNING_90_CW_X_AXIS || packet.payload == PL_START_TURNING_90_CCW_X_AXIS )	{
+			ROS_INFO("mega->board:: please help turn 90 degrees to X axis");
 			mega_caretaker::MegaPacket temp;
 			/*
 			temp.msgType = MSGTYPE_ACK;		//ack to mega
 			temp.payload = PL_GENERAL_ACK;
 			megaTalker.publish(temp);
 			*/
-			ROS_INFO("board->mega:: turning 90 degreees!");
+			ROS_INFO("board->mega:: turning 90 degreees to X axis!");
 
 			make90DegreeTurn(packet.payload);			
 
 			temp.msgType = MSGTYPE_FINISHED;	//ros control finished - no need to modify payload, cw and ccw are still same
 			temp.payload = packet.payload;
 			megaTalker.publish(temp);
-			ROS_INFO("board->mega:: sending finished turning 90");
+			ROS_INFO("board->mega:: sending finished turning 90 to X axis");
+
+			msg_understood = true;
+		}
+		else if(packet.payload == PL_START_TURNING_90_CW_Y_AXIS || packet.payload == PL_START_TURNING_90_CCW_Y_AXIS )	{
+			ROS_INFO("mega->board:: please help turn 90 degrees to Y axis");
+			mega_caretaker::MegaPacket temp;
+			/*
+			temp.msgType = MSGTYPE_ACK;		//ack to mega
+			temp.payload = PL_GENERAL_ACK;
+			megaTalker.publish(temp);
+			*/
+			ROS_INFO("board->mega:: turning 90 degreees to Y axis!");
+
+			make90DegreeTurn(packet.payload);			
+
+			temp.msgType = MSGTYPE_FINISHED;	//ros control finished - no need to modify payload, cw and ccw are still same
+			temp.payload = packet.payload;
+			megaTalker.publish(temp);
+			ROS_INFO("board->mega:: sending finished turning 90 to Y axis");
 
 			msg_understood = true;
 		}
@@ -321,7 +341,7 @@ void MegaCaretaker::run()	{
 	//startWaveCrossing();
 	while(ros::ok())	{
 		ros::spinOnce();
-		ROS_INFO("spinning?");
+		//ROS_INFO("spinning?");
 	}
 }
 

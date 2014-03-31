@@ -245,7 +245,8 @@ State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
  nav.stopNow();
  
  //Ask board for help!
- initiateTurn90_CW();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+  initiateTurn90_CW_X_axis();
  }
  
  void updateTurn90Degrees()  {
@@ -267,7 +268,7 @@ State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
  nav.stopNow();
  
  //Ask board for help!
- initiateTurn90_CCW();
+ initiateTurn90_CCW_Y_axis();
  }
  
 //----------
@@ -450,10 +451,13 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
   }
   
     else if(packet.msgType == MSGTYPE_FINISHED)  {
-       if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
-           //new thing - immediate transition to finished state
+       if(packet.payload == PL_FINISHED_TURNING_90_CW_X_AXIS || packet.payload == PL_FINISHED_TURNING_90_CCW_Y_AXIS) {
+           //new thing - immediate transition to finished state  //-> these are only used for crossing  the board.
            turn90DegreeFinished = true; 
          }
+        else if(packet.payload == PL_FINISHED_TURNING_90_CW_Y_AXIS || packet.payload == PL_FINISHED_TURNING_90_CCW_X_AXIS)  {  
+          //these are used (will be used) in the transition state from rig to crossingboard start)
+        }
 
    }
    
@@ -538,16 +542,16 @@ void initROS()  {
 }
 
 
-void initiateTurn90_CW()  {
+void initiateTurn90_CW_X_axis()  {
   temp.msgType = MSGTYPE_HEY;
-  temp.payload = PL_START_TURNING_90_CW;
+  temp.payload = PL_START_TURNING_90_CW_X_AXIS;
   talker.publish(&temp);
 }
 
 
-void initiateTurn90_CCW()  {
+void initiateTurn90_CCW_Y_axis()  {
   temp.msgType = MSGTYPE_HEY;
-  temp.payload = PL_START_TURNING_90_CCW;
+  temp.payload = PL_START_TURNING_90_CCW_Y_AXIS;
   talker.publish(&temp);
 }
 
