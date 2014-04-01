@@ -142,6 +142,8 @@ int main(int argc, char* argv[]) {
 	camera.x = (t.x + (27*(cos(alpha)) + 47*(sin(alpha))));
 	camera.y = (t.y - (47*(cos(alpha)) - 27*(sin(alpha))));
 	camera.z = (t.z + (30));
+	camera.p = t.p;
+	camera.r = t.r;
 	Point2f offset(0, 0);
 
 	tally_box tally;
@@ -242,22 +244,32 @@ capture:
 		ss.str("");
 
 		// find the longest edge of the square tool (it's a rectangle)
-		float off_x, off_y;
+		float roll_x, roll_y;
 		if (( sqrt(pow((approx[0].x - approx[1].x), 2) + pow((approx[0].y - approx[1].y), 2)) ) >
 		    ( sqrt(pow((approx[1].x - approx[2].x), 2) + pow((approx[1].y - approx[2].y), 2)) ) ) {
-			off_x = approx[1].x - approx[0].x;
-			off_y = approx[1].y - approx[0].y;
+			roll_x = approx[1].x - approx[0].x;
+			roll_y = approx[1].y - approx[0].y;
 			putText(viewport, "ha", approx[1], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
 		} else {
-			off_x = approx[2].x - approx[1].x;
-			off_y = approx[2].y - approx[1].y;
+			roll_x = approx[2].x - approx[1].x;
+			roll_y = approx[2].y - approx[1].y;
 			putText(viewport, "ha", approx[2], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
 		}
 		// determine the offset angle of this edge from a straight up and down.
 		//    this will be used to line the grip to the edge of the tool
-		float off_r = atan2(off_y, off_x);
-		float off_d = 90 - (off_r * 180 / 3.14159);
+		float roll_r = atan2(roll_y, roll_x);
+		float roll_d = 90 - (roll_r * 180 / 3.14159);
 		// - and display
+		ss << "roll_d: " << roll_d;
+		putText(frame,
+				ss.str(),
+				Point(20, 180),
+				FONT_HERSHEY_PLAIN,
+				1.5,
+				CV_RGB(0xFF, 0xDF, 0x00),
+				2);
+		ss.str("");
+
 		double alpha_r = atan2(t.y, t.x);
 //		theta = (theta * 180 / 3.14159);
 		double alpha = (alpha_r * 180 / 3.14159) - 90;
@@ -304,6 +316,7 @@ capture:
 		//    arm (wrist_roll);
 		double theta_r = (atan2(offset.y, offset.x));
 		double theta = (theta_r * 180 / 3.14159);
+		// this ninety needs to be changed to use t.r
 		double lambda = (90 - alpha + (theta));
 		double lambda_r = lambda * 3.14159 / 180;
 		float xc = offset.x;
@@ -313,6 +326,7 @@ capture:
 		offset.y = -((yc * cos(lambda_r)) - (xc * sin(lambda_r)));
 //		offset.x += 10 + (20 * cos((off_d * 3.14159 / 180.0)));
 //		offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
+//
 
 		ss << "theta: " << (theta_r * 180 / 3.14159);
 		putText(frame,
@@ -376,11 +390,13 @@ capture:
 
 		wesley::arm_point p;
 		p.direct_mode = true;
-		p.x = t.x - offset.x;
-		p.y = t.y + offset.y;
-		p.z = t.z - z_dist - 25;
-		p.p = t.p;
-		p.r = t.r - off_d;
+		p.x = camera.x - offset.x;
+		p.x += (10*cos(roll_r));
+		p.y += (10*sin(roll_r));
+		p.y = camera.y + offset.y;
+		p.z = camera.z - z_dist - 25;
+		p.p = camera.p;
+		p.r = fmod((roll_d < 0 ? camera.r - roll_d : camera.r + roll_d), 180.0);
 		p.cmd = "pick";
 
 		ss << "p: [" << p.x
