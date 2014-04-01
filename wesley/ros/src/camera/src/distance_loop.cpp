@@ -139,8 +139,8 @@ int main(int argc, char* argv[]) {
 	float alpha = (atan2(t.y, t.x));
 //	Point3_<float> camera(t.x - 47, t.y - 27, t.z - 31.2);
 	wesley::arm_point camera;
-	camera.x = (t.x - (47*(cos(alpha)) + 27*(sin(alpha))));
-	camera.y = (t.y - (27*(cos(alpha)) - 47*(sin(alpha))));
+	camera.x = (t.x + (27*(cos(alpha)) + 47*(sin(alpha))));
+	camera.y = (t.y - (47*(cos(alpha)) - 27*(sin(alpha))));
 	camera.z = (t.z + (30));
 	Point2f offset(0, 0);
 
@@ -268,10 +268,10 @@ capture:
 				2);
 		ss.str("");
 
-		double theta_r = atan2(t.y, t.x);
+		double alpha_r = atan2(t.y, t.x);
 //		theta = (theta * 180 / 3.14159);
-		double theta = (theta_r * 180 / 3.14159) - 90;
-		ss << "theta: " << theta;
+		double alpha = (alpha_r * 180 / 3.14159) - 90;
+		ss << "alpha: " << alpha;
 		putText(frame,
 				ss.str(),
 				Point(20, 90),
@@ -307,14 +307,17 @@ capture:
 		ss.str("");
 
 		// translate the offset of contour center and frame center into mm.
-//		offset.x *= ratio;
-//		offset.y *= ratio;
-//		float xc = offset.x;
-//		float yc = offset.y;
-//		offset.x = ((xc * cos(theta_r - (3.14156 / 2))) +
-//					(yc * sin(theta_r - (3.14159 / 2))));
-//		offset.y = ((yc * cos(theta_r - (3.14159 / 2))) -
-//					(xc * sin(theta_r - (3.14159 / 2))));
+		offset.x *= ratio;
+		offset.y *= ratio;
+		// angle of p from c along c's x-axis. this is in the camera's refernce frame.
+		// the addition of pi comes from the angle of the camera in relation to the
+		//    arm (wrist_roll);
+		double theta_r = (atan2(offset.y, offset.x) + (3.14159 / 2));
+		float xc = offset.x;
+		float yc = offset.y;
+		offset.x = ((xc * cos(theta_r)) + (yc * sin(theta_r)));
+		// flipped from camera's negative y to robot's positive y.
+		offset.y = -((yc * cos(theta_r)) - (xc * sin(theta_r)));
 //		offset.x += 10 + (20 * cos((off_d * 3.14159 / 180.0)));
 //		offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
 
@@ -387,6 +390,7 @@ capture:
 	//	drawContours(frame, approx, -1, CV_RGB(0xD4, 0x35, 0xCD));
 
 		circle(viewport, mc, 5, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
+		circle(viewport, center, 2, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
 		circle(viewport, approx[0], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
 		putText(viewport, "0", approx[0], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
 		circle(viewport, approx[1], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
