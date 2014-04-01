@@ -224,11 +224,59 @@ int main(int argc, char* argv[]) {
 		return(60);
 	}
 
-	const short MAX_ID_TOOL = 13;
+	const short MAX_ID_TOOL = 4;
 
-	wesley::arm_point position[2][3][MAX_ID_TOOL];
+//	wesley::arm_point position[2][3][MAX_ID_TOOL];
+//	wesley::arm_point position[area][pos][state]
+	wesley::arm_point position[3][MAX_ID_TOOL][2];
 	std::string buffer;
 	for (int area = LEFT; area <= RIGHT; area++) {
+		for (int pos = 0; pos < MAX_ID_TOOL; pos++) {
+			for (int state = FIND_TOOL; state <= FIND_TOP;) {
+				getline(fin, buffer);
+				if (buffer[0] == '#' || buffer.size() == 0) {
+					continue;
+				}
+				std::stringstream ss;
+				ss << buffer;
+				float x, y, z, p, r;
+				ss >> x >> y >> z >> p >> r;
+				position[area][pos][state].direct_mode = true;
+				position[area][pos][state].x = x;
+				position[area][pos][state].y = y;
+				position[area][pos][state].z = z;
+				position[area][pos][state].p = p;
+				position[area][pos][state].r = r;
+				switch(state) {
+					case FIND_TOOL:
+						position[area][pos][state].cmd = "id_tool: FIND_TOOL";
+						break;
+					case FIND_TOP:
+						position[area][pos][state].cmd = "id_tool: FIND_TOP";
+						break;
+				}
+				state++;
+			}
+		}
+	}	//*/
+	if (EMGDBG) {
+		for (int area = LEFT; area <= RIGHT; area++) {
+			for (int pos = 0; pos < MAX_ID_TOOL; pos++) {
+				for (int state = FIND_TOOL; state <= FIND_TOP;) {
+					ROS_INFO("ID_TOOL :: init --> hopper: (%d, %f, %f, %f, %f, %f, %s)",
+						position[area][pos][state].direct_mode,
+						position[area][pos][state].x,
+						position[area][pos][state].y,
+						position[area][pos][state].z,
+						position[area][pos][state].p,
+						position[area][pos][state].r,
+						position[area][pos][state].cmd.c_str());
+					state++;
+				}
+			}
+		}
+	}	//*/
+/*	for (int area = LEFT; area <= RIGHT; area++) {
 		for (int pos = 0; pos < 13; pos++) {
 			getline(fin, buffer);
 			if (buffer[0] == '#' || buffer.size() == 0) {
@@ -269,7 +317,7 @@ int main(int argc, char* argv[]) {
 			position[FIND_TOP][area][pos].cmd = "id_tool: FIND_TOP";
 			ss.str("");
 		}
-	}
+	}	//*/
 
 	// open first camera device found in system
 	// according to OpenCV documentation, this can accept a filename.
@@ -326,7 +374,6 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 
 	// keep track of which position was last looked at - let's us start
 	//    from where we left off and not have to start all the way over.
-	size_t trial = 0;
 	size_t area = LEFT;		// via enum(tool_area), LEFT = 0, CENTER = 1, and RIGHT = 2
 	size_t pos = 0;
 	int contour_idx = -1;
@@ -337,19 +384,19 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 		ROS_WARN("ID_TOOL :: switch(job_state) [%d]", job_state);
 		switch(job_state) {
 			case FIND_TOOL: {
-				for(; trial < MAX_ID_TOOL; trial++) {
+				for(; pos < MAX_ID_TOOL; pos++) {
 					for(; area <= RIGHT; area++) {
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> switching state to find tool");
-						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> for(%d:%d)", trial, area);
+						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> for(%d:%d)", area, pos);
 						// move arm to position[job_state][area][trial];
 						waiting = true;
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: (%f, %f, %f, %f, %f)",
-									position[job_state][area][pos].x,
-									position[job_state][area][pos].y,
-									position[job_state][area][pos].z,
-									position[job_state][area][pos].p,
-									position[job_state][area][pos].r);
-						pub.publish(position[job_state][area][pos]);
+									position[area][pos][job_state].x,
+									position[area][pos][job_state].y,
+									position[area][pos][job_state].z,
+									position[area][pos][job_state].p,
+									position[area][pos][job_state].r);
+						pub.publish(position[area][pos][job_state]);
 						do {
 							ros::spinOnce();
 						} while(waiting);
@@ -374,6 +421,10 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 						// apply ROI_tool to frame and copy that section into a new matrix
 						Mat viewport = frame(ROI_tool);
 						contour_idx = process_frame(viewport, thresh, contours);
+						double good_area = 25000;
+						double contour_area = contourArea(contours[contour_idx], false);
+						ROS_INFO("ID_TOOL :: FIND_TOOL ---------------------> area: (%f)", contour_area);
+					//	if (contour_idx > -1 && (contour_area > good_area)) {
 						if (contour_idx > -1) {
 							approxPolyDP(contours[contour_idx],
 										 approx,
@@ -432,13 +483,15 @@ DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 							}	// end switch(tool) for FIND_TOOL
 							if (tool_found == true) {
 								ROS_INFO("ID_TOOL :: (FIND_TOOL) --> found a tool.");
+DBGCV								polylines(viewport, approx, true, color);
 DBGCV								imshow("frame", frame);
 DBGCV								while(waitKey() != 27);
 								job_state = FIND_TOP;
 								break;		// from for(area);
 							} else {
-DBGCV								imshow("frame", frame);
-DBGCV								while(waitKey() != 27);
+								// moste likely, approx.size() did not match our criteria
+//DBGCV								imshow("frame", frame);
+//DBGCV								while(waitKey() != 27);
 								// didn't find what we were looking for,
 								// try next position.
 								continue;	// with for(area)
@@ -451,7 +504,7 @@ DBGCV								while(waitKey() != 27);
 							continue;
 						}	// end if(contour_idx)
 					}	// end for(area) within each trial
-						ROS_INFO("ID_TOOL :: (FIND_TOOL) :: for(trial) done --> for(%d", trial);
+						ROS_INFO("ID_TOOL :: (FIND_TOOL) :: for(trial) done --> for(%d", pos);
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> ending reason(%d)", tool_found);
 					if (tool_found == true) {
 //						destroyWindow("frame");
@@ -474,96 +527,89 @@ DBGCV								while(waitKey() != 27);
 			}	// end case(FIND_TOOL);
 			break;
 			case FIND_TOP: {
-				for(pos = 0; pos < 5; pos++) {
-					ROS_INFO("ID_TOOL :: (FIND_TOP) :: --> switching state to find top of tool");
-					// move arm to position[job_state][area][pos];
-					waiting = true;
-					pub.publish(position[job_state][area][pos]);
-					do {
-						ros::spinOnce();
-					} while(waiting);
-					//    job_state is the main logic handler/tracker
-					//    area follows from the for loop in FIND_TOOL
-					capture >> frame;
-					for (int i = 0; i < 6; i++) {
-						capture >> swallow;
-					}
-					contour_idx = process_frame(frame, thresh, contours);
-					if (contour_idx > -1) {
-						approxPolyDP(contours[contour_idx],
-									 approx,
-									 arcLength(contours[contour_idx], true) * .015,
-									 true);
-						switch(tool) {
-							case SQUARE:
-								if (approx.size() == 4) {
-									// goldenrod
-DBGCV									color = CV_RGB(0xDA, 0xA5, 0x20);
-									ROS_WARN("match_TOP(SQUARE)");
-									top_found = true;
-								}
-							break;
-							case TRIANGLE:
-								if (approx.size() == 3) {
-									// lightpink
-DBGCV									color = CV_RGB(0xFF, 0xB6, 0xC1);
-									ROS_WARN("match_TOP(TRIANGLE)");
-									top_found = true;
-								}
-							break;
-							case CIRCLE:
-								if (approx.size() == 8) {
-									// olive
-DBGCV									color = CV_RGB(0x80, 0x80, 0x00);
-									ROS_WARN("match_TOP(CIRCLE)");
-									top_found = true;
-								}
-							break;
-							default:
-							break;
-						}	// end switch(tool) for FIND_TOP
-						if (top_found == true) {
-						ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. not finished with loop yet.");
-DBGCV							imshow("frame", frame);
-DBGCV							while(waitKey() != 27);
-							job_state = FIND_DISTANCE;
-							break;
-						} else {
-DBGCV							imshow("frame", frame);
-DBGCV							while(waitKey() != 27);
-							// go to the next position.
-							continue;
-						}
+				ROS_INFO("ID_TOOL :: (FIND_TOP) :: --> switching state to find top of tool");
+				// move arm to position[job_state][area][pos];
+				waiting = true;
+				pub.publish(position[area][pos][job_state]);
+				do {
+					ros::spinOnce();
+				} while(waiting);
+				//    job_state is the main logic handler/tracker
+				//    area follows from the for loop in FIND_TOOL
+				capture >> frame;
+				for (int i = 0; i < 6; i++) {
+					capture >> swallow;
+				}
+				contour_idx = process_frame(frame, thresh, contours);
+				double good_area = 13000;
+				double contour_area = contourArea(contours[contour_idx], false);
+				ROS_INFO("ID_TOOL :: FIND_TOP -----------------------> area: (%f)", contour_area);
+			//	if (contour_idx > -1 && (contour_area > good_area)) {
+				if (contour_idx > -1) {
+					approxPolyDP(contours[contour_idx],
+								 approx,
+								 arcLength(contours[contour_idx], true) * .015,
+								 true);
+					switch(tool) {
+						case SQUARE:
+							if (approx.size() == 4) {
+								// goldenrod
+DBGCV								color = CV_RGB(0xDA, 0xA5, 0x20);
+								ROS_WARN("match_TOP(SQUARE)");
+								top_found = true;
+							}
+						break;
+						case TRIANGLE:
+							if (approx.size() == 3) {
+								// lightpink
+DBGCV								color = CV_RGB(0xFF, 0xB6, 0xC1);
+								ROS_WARN("match_TOP(TRIANGLE)");
+								top_found = true;
+							}
+						break;
+						case CIRCLE:
+							if (approx.size() == 8) {
+								// olive
+DBGCV								color = CV_RGB(0x80, 0x80, 0x00);
+								ROS_WARN("match_TOP(CIRCLE)");
+								top_found = true;
+							}
+						break;
+						default:
+						break;
+					}	// end switch(tool) for FIND_TOP
+					if (top_found == true) {
+					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. not finished with loop yet.");
+DBGCV						polylines(frame, approx, true, color);
+DBGCV						imshow("frame", frame);
+DBGCV						while(waitKey() != 27);
+						job_state = FIND_DISTANCE;
+//						break;
 					} else {
 DBGCV						imshow("frame", frame);
 DBGCV						while(waitKey() != 27);
-						// contour_idx was -1. no contour found.
-						// go to next position.
-						continue;
+						// go to the next position.
+//						continue;
 					}
-				}	// end for(pos)
+				}
 				if (top_found == true) {
 					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. tool is double-confirmed.");
 					job_state = FIND_DISTANCE;
-
-				//	break;
+					//	break;
 				} else {
-						ROS_INFO("ID_TOOL :: (FIND_TOP) --> DID NOT FIND TOP. no confidence, restart trials.");
-					// didn't find the shape 
-					// go back to FIND_TOOL from where we left off + 1;
-					if (area == RIGHT && trial == 4) {
-						ROS_INFO("ID_TOOL :: (FIND_TOP) --> reached the end. next trial would overrun. bail.");
+					ROS_INFO("ID_TOOL :: (FIND_TOP) --> DID NOT FIND TOP. no confidence, restart trials.");
+					if (area == RIGHT && pos == (MAX_ID_TOOL - 1)) {
+						ROS_INFO("ID_TOOL :: (FIND_TOP) --> reached end. next trial would over-run. bail.");
 						failure = true;
 					}
-					else if (area == RIGHT && trial < 4) {
+					else if (area == RIGHT && pos < MAX_ID_TOOL) {
 						area = LEFT;
-						trial += 1;
+						pos += 1;
 					}
 					else {
-						area += 1;
+					area += 1;
 					}
-			
-
+						
 					job_state = FIND_TOOL;
 				}
 			}	// end case(FIND_TOP);
@@ -585,7 +631,7 @@ DBGCV						while(waitKey() != 27);
 					50.8, 		// CIRCLE diameter
 				};
 
-				wesley::arm_point t = position[FIND_TOP][area][pos];	// t, for temp;
+				wesley::arm_point t = position[area][pos][FIND_TOP];	// t, for temp;
 				double tool_area = contourArea(contours[contour_idx], false);
 				double z_dist = distance_to_tool(tool_area, tool);
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> z_dist: %f", z_dist);
@@ -617,6 +663,7 @@ DBGCV						while(waitKey() != 27);
 						off_y = approx[ha].y - approx[hb].y;
 						off_r = atan2(off_y, off_x);
 						off_d = 90 - (off_r * 180 / 3.14159);
+						ROS_INFO("ID_TOOL :: FIND_DISTANCE --> offset degree of long edge: %f", off_d);
 
 						hypot = sqrt(pow((approx[hb].x - approx[ha + 1].x), 2)
 								   + pow((approx[hb].y - approx[ha + 1].y), 2));
@@ -652,8 +699,17 @@ DBGCV						while(waitKey() != 27);
 
 				offset.x *= ratio;
 				offset.y *= ratio;
-				offset.x += 47 + (20 * cos((off_d * 3.14159 / 180.0)));
-				offset.y += 47 + (20 * sin((off_d * 3.14159 / 180.0)));
+				offset.x +=  0 + (20 * cos((off_d * 3.14159 / 180.0)));
+				offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
+
+				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> opening hand");
+				pickup.direct_mode = false;
+				pickup.cmd = "release";
+				pub.publish(pickup);
+				waiting = true;
+				do {
+					ros::spinOnce();
+				} while(waiting);
 
 				pickup.direct_mode = true;
 				pickup.x = t.x + offset.x;
@@ -672,7 +728,7 @@ DBGCV						while(waitKey() != 27);
 				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> first offset published.");
 
 				sleep(1);		// sleep an extra second beyond what &block_arm_wait() does.
-				pickup.z = t.z - z_dist - 25;
+				pickup.z = t.z - (z_dist);
 				pub.publish(pickup);
 				waiting = true;
 				do { 
@@ -681,7 +737,7 @@ DBGCV						while(waitKey() != 27);
 				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> second offset published.");
 
 				job_state = TOOL_GRASP;
-				
+				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> preparing to grasp");
 				// light purple
 DBGCV				color = CV_RGB(0xAD, 0x66, 0xD5);
 DBGCV				circle(frame, mc, 5, color, CV_FILLED);
@@ -702,7 +758,12 @@ DBGCV				while(waitKey() != 27);
 			case TOOL_GRASP:
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> switching state to gather tool.");
 				pickup.direct_mode = false;
-				pickup.cmd = "grasp";
+				{
+					std::stringstream ss;
+					ss.str("");
+					ss << "grasp " << tool;
+					pickup.cmd = ss.str();
+				}
 				pub.publish(pickup);
 				waiting = true;
 				do {
@@ -710,7 +771,26 @@ DBGCV				while(waitKey() != 27);
 				} while(waiting);
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> tool should be had.");
 
+				// lift up.
+				pickup.direct_mode = true;
+				pickup.z = position[area][pos][FIND_TOP].z;
+				pickup.p = -75;
+				pickup.cmd = "lifting straight";
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: (%f, %f, %f, %f, %f)",
+							position[area][pos][job_state].x,
+							position[area][pos][job_state].y,
+							position[area][pos][job_state].z,
+							position[area][pos][job_state].p,
+							position[area][pos][job_state].r);
+				pub.publish(pickup);
+				waiting = true;
+				do {
+					ros::spinOnce();
+				} while(waiting);
+
+				pickup.direct_mode = false;
 				pickup.cmd = "carry";
+				pub.publish(pickup);
 				waiting = true;
 				do {
 					ros::spinOnce();
@@ -724,8 +804,8 @@ DBGCV				while(waitKey() != 27);
 				// no known cases that bring us here.
 			break;
 		}	// end switch(job_state)
-DBGCV		imshow("frame", frame);
-DBGCV		while(waitKey() != 27);
+//DBGCV		imshow("frame", frame);
+//DBGCV		while(waitKey() != 27);
 //		if (tool_found == true && top_found == true) {
 //			ROS_INFO("ID_TOOL(for(EVER)) --> CONFIRMED! finishing out.");
 //			ROS_INFO("ID_TOOL(FIND_TOOL) :: found tool at: (%f, %f, %f, %f, %f)",

@@ -456,14 +456,18 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			return(pillow);
 		}
 
-		float grasp() {
-		//	Serial.print("ARM --> grasp :: tension: (");
-		//	Serial.print(tension); Serial.println(")");
-		//	if (tension >= 25);
-		//		p_destination[HAND] += 20;
-		//		update();
-		//	}
-			p_destination[HAND] = topulse(100);
+		float grasp(char tool) {
+			switch(tool) {
+				case 's':
+					p_destination[HAND] = topulse(120);
+					break;
+				case 't':
+					p_destination[HAND] = topulse(140);
+					break;
+				case 'c':
+					p_destination[HAND] = topulse(130);
+					break;
+			}
 			update();
 			return(p_position[HAND]);
 		}
