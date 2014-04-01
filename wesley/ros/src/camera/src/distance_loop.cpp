@@ -133,7 +133,8 @@ int main(int argc, char* argv[]) {
 	std::vector<std::vector<Point> > contours;
 	Moments mu;
 	Point2f mc;
-	Point center(320, 240);
+	const unsigned char frame_offset_y = 100;
+	Point center(320, (240 + (frame_offset_y / 2)));
 	Point3_<float> camera(t.x - 47, t.y - 27, t.z - 31.2);
 	Point2f offset(0, 0);
 
@@ -143,7 +144,10 @@ capture:
 	for (int i = 7; i > 0; i--) {
 		capture >> frame;
 	}
-	cvtColor(frame, thresh, CV_RGB2GRAY);
+	Rect ROI = Rect(0, frame_offset_y, 640, (480 - frame_offset_y));
+	Mat viewport = frame(ROI);
+	viewport.copyTo(thresh);
+	cvtColor(thresh, thresh, CV_RGB2GRAY);
 	threshold(thresh, thresh, 80, 255, CV_THRESH_BINARY);
 	bitwise_xor(thresh, Scalar(255), thresh);
 
@@ -218,6 +222,7 @@ capture:
 		// offset of the contour center from the center of the camera's frame
 		//    offset is currently in pixels
 		offset.x = mc.x - center.x;
+		mc.y -= frame_offset_y;
 		offset.y = -(mc.y - center.y);
 		// - and display the offset
 		ss << "off_c: " << offset;

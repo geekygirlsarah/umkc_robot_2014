@@ -377,8 +377,12 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 	size_t area = LEFT;		// via enum(tool_area), LEFT = 0, CENTER = 1, and RIGHT = 2
 	size_t pos = 0;
 	int contour_idx = -1;
+	
+	const unsigned char frame_offset_y = 100;
 
 	wesley::arm_point pickup;
+	double z_dist = 0.0f;
+
 	#define EVER ;;
 	for(EVER) {
 		ROS_WARN("ID_TOOL :: switch(job_state) [%d]", job_state);
@@ -484,8 +488,6 @@ DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 							if (tool_found == true) {
 								ROS_INFO("ID_TOOL :: (FIND_TOOL) --> found a tool.");
 DBGCV								polylines(viewport, approx, true, color);
-DBGCV								imshow("frame", frame);
-DBGCV								while(waitKey() != 27);
 								job_state = FIND_TOP;
 								break;		// from for(area);
 							} else {
@@ -496,6 +498,8 @@ DBGCV								while(waitKey() != 27);
 								// try next position.
 								continue;	// with for(area)
 							}
+DBGCV							imshow("frame", frame);
+DBGCV							while(waitKey() != 27);
 						} else {
 							ROS_INFO("ID_TOOL :: (FIND_TOOL) :: process frame --> contour_idx reports -1");
 							// contour_idx was -1, didn't find a contour. try
@@ -540,8 +544,13 @@ DBGCV								while(waitKey() != 27);
 				for (int i = 0; i < 6; i++) {
 					capture >> swallow;
 				}
-				contour_idx = process_frame(frame, thresh, contours);
-				double good_area = 13000;
+				// lose the upper 100 pixels of the frame to avoid catching the edge
+				//    of the board and all the nothingness beyond.
+				Rect ROI_tool = Rect(0, frame_offset_y, 640, (480 - frame_offset_y));
+DBGCV				rectangle(frame, ROI_tool, CV_RGB(0xD0, 0x00, 0x6E), 1);
+				Mat viewport = frame(ROI_tool);
+				contour_idx = process_frame(viewport, thresh, contours);
+				double good_area = 25000;
 				double contour_area = contourArea(contours[contour_idx], false);
 				ROS_INFO("ID_TOOL :: FIND_TOP -----------------------> area: (%f)", contour_area);
 			//	if (contour_idx > -1 && (contour_area > good_area)) {
@@ -580,17 +589,13 @@ DBGCV								color = CV_RGB(0x80, 0x80, 0x00);
 					}	// end switch(tool) for FIND_TOP
 					if (top_found == true) {
 					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. not finished with loop yet.");
-DBGCV						polylines(frame, approx, true, color);
-DBGCV						imshow("frame", frame);
-DBGCV						while(waitKey() != 27);
 						job_state = FIND_DISTANCE;
 //						break;
 					} else {
-DBGCV						imshow("frame", frame);
-DBGCV						while(waitKey() != 27);
 						// go to the next position.
 //						continue;
 					}
+DBGCV						polylines(viewport, approx, true, color);
 				}
 				if (top_found == true) {
 					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. tool is double-confirmed.");
@@ -612,6 +617,8 @@ DBGCV						while(waitKey() != 27);
 						
 					job_state = FIND_TOOL;
 				}
+DBGCV				imshow("frame", frame);
+DBGCV				while(waitKey() != 27);
 			}	// end case(FIND_TOP);
 			break;
 			// FIND_CENTER and FIND_DISTANCE should be the same job_state.
@@ -630,10 +637,10 @@ DBGCV						while(waitKey() != 27);
 					57.15,		// TRIANGLE edge
 					50.8, 		// CIRCLE diameter
 				};
-
-				wesley::arm_point t = position[area][pos][FIND_TOP];	// t, for temp;
+				
+//				wesley::arm_point t = position[area][pos][FIND_TOP];	// t, for temp;
 				double tool_area = contourArea(contours[contour_idx], false);
-				double z_dist = distance_to_tool(tool_area, tool);
+				z_dist = distance_to_tool(tool_area, tool);
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> z_dist: %f", z_dist);
 				mu = moments(contours[contour_idx], false);
 				mc = Point2f((mu.m10 / mu.m00),
@@ -712,32 +719,15 @@ DBGCV						while(waitKey() != 27);
 				} while(waiting);
 
 				pickup.direct_mode = true;
-				pickup.x = t.x + offset.x;
-				pickup.y = t.y + offset.y;
-				pickup.z = t.z;				// left alone for now. adjusted in a few lines.
-				pickup.p = t.p;
-				pickup.r = t.r - off_d;
+				pickup.x = position[area][pos][FIND_TOP].x + offset.x;
+				pickup.y = position[area][pos][FIND_TOP].y + offset.y;
+				pickup.z = position[area][pos][FIND_TOP].z;				// left alone for now. adjusted in a few lines.
+				pickup.p = position[area][pos][FIND_TOP].p;
+				pickup.r = position[area][pos][FIND_TOP].r - off_d;
 				pickup.cmd = "id_tool: pickup";
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> pickup point found. publishing.");
+				std::cout << "ID_TOOL :: FIND_DISTANCE --> point: " << pickup << std::endl;
 
-				pub.publish(pickup);
-				waiting = true;
-				do {
-					ros::spinOnce();
-				} while(waiting);
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> first offset published.");
-
-				sleep(1);		// sleep an extra second beyond what &block_arm_wait() does.
-				pickup.z = t.z - (z_dist);
-				pub.publish(pickup);
-				waiting = true;
-				do { 
-					ros::spinOnce();
-				} while(waiting);
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> second offset published.");
-
-				job_state = TOOL_GRASP;
-				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> preparing to grasp");
 				// light purple
 DBGCV				color = CV_RGB(0xAD, 0x66, 0xD5);
 DBGCV				circle(frame, mc, 5, color, CV_FILLED);
@@ -753,9 +743,30 @@ DBGCV				while(waitKey() != 27);
 				//    tool up and return a 1 to the caller that we have
 				//    succeeded in collecting the tool.
 				// that's probably the way to go.
+				job_state = TOOL_GRASP;
 			}
 			break;
 			case TOOL_GRASP:
+				ROS_INFO("ID_TOOL :: TOOL_GRASP --> preparing to pick up tool.");
+				pub.publish(pickup);
+				waiting = true;
+				do {
+					ros::spinOnce();
+				} while(waiting);
+				ROS_WARN("ID_TOOL :: TOOL_GRASP --> first offset published.");
+
+				sleep(1);		// sleep an extra second beyond what &block_arm_wait() does.
+				pickup.z = position[area][pos][FIND_TOP].z - (z_dist);
+				pub.publish(pickup);
+				waiting = true;
+				do { 
+					ros::spinOnce();
+				} while(waiting);
+				ROS_WARN("ID_TOOL :: TOOL_GRASP --> second offset published.");
+
+				while (waitKey() != 27);
+
+				ROS_INFO("ID_TOOL :: TOOL_GRASP --> preparing to grasp");
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> switching state to gather tool.");
 				pickup.direct_mode = false;
 				{
@@ -817,7 +828,7 @@ DBGCV				while(waitKey() != 27);
 //			break;
 //		}
 		if (HUA == true) {
-			ROS_INFO("ID_TOOL :: HUA!");
+			ROS_INFO("ID_TOOL :: HUA?");
 			break;
 		}
 		if (failure == true) {
