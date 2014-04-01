@@ -133,9 +133,15 @@ int main(int argc, char* argv[]) {
 	std::vector<std::vector<Point> > contours;
 	Moments mu;
 	Point2f mc;
-	const unsigned char frame_offset_y = 100;
-	Point center(320, (240 + (frame_offset_y / 2)));
-	Point3_<float> camera(t.x - 47, t.y - 27, t.z - 31.2);
+	const unsigned char frame_offset_y = 0;
+	Point center(640 / 2, (480 - frame_offset_y) / 2);
+//	float alpha = (atan2(t.y, t.x) - (3.14159 / 2));
+	float alpha = (atan2(t.y, t.x));
+//	Point3_<float> camera(t.x - 47, t.y - 27, t.z - 31.2);
+	wesley::arm_point camera;
+	camera.x = (t.x - (47*(cos(alpha)) + 27*(sin(alpha))));
+	camera.y = (t.y - (27*(cos(alpha)) - 47*(sin(alpha))));
+	camera.z = (t.z + (30));
 	Point2f offset(0, 0);
 
 	tally_box tally;
@@ -222,8 +228,8 @@ capture:
 		// offset of the contour center from the center of the camera's frame
 		//    offset is currently in pixels
 		offset.x = mc.x - center.x;
-		mc.y -= frame_offset_y;
-		offset.y = -(mc.y - center.y);
+//		mc.y -= frame_offset_y;
+		offset.y = -(mc.y - ((480 - frame_offset_y) / 2));
 		// - and display the offset
 		ss << "off_c: " << offset;
 		putText(frame,
@@ -241,11 +247,11 @@ capture:
 		    ( sqrt(pow((approx[1].x - approx[2].x), 2) + pow((approx[1].y - approx[2].y), 2)) ) ) {
 			off_x = approx[1].x - approx[0].x;
 			off_y = approx[1].y - approx[0].y;
-			putText(frame, "ha", approx[1], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
+			putText(viewport, "ha", approx[1], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
 		} else {
 			off_x = approx[2].x - approx[1].x;
 			off_y = approx[2].y - approx[1].y;
-			putText(frame, "ha", approx[2], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
+			putText(viewport, "ha", approx[2], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
 		}
 		// determine the offset angle of this edge from a straight up and down.
 		//    this will be used to line the grip to the edge of the tool
@@ -261,6 +267,20 @@ capture:
 				CV_RGB(0xFF, 0xDF, 0x00),
 				2);
 		ss.str("");
+
+		double theta_r = atan2(t.y, t.x);
+//		theta = (theta * 180 / 3.14159);
+		double theta = (theta_r * 180 / 3.14159) - 90;
+		ss << "theta: " << theta;
+		putText(frame,
+				ss.str(),
+				Point(20, 90),
+				FONT_HERSHEY_PLAIN,
+				1.5,
+				CV_RGB(0xFF, 0xDF, 0x00),
+				2);
+		ss.str("");
+
 
 //			ss << "h_dist: " << sqrt(pow((center.x - mc.x), 2) + pow((center.y - mc.y), 2));
 		double hypot = sqrt(pow((approx[0].x - approx[2].x), 2) + pow((approx[0].y - approx[2].y), 2));
@@ -287,14 +307,36 @@ capture:
 		ss.str("");
 
 		// translate the offset of contour center and frame center into mm.
-		offset.x *= ratio;
-		offset.y *= ratio;
-		offset.x += 47 + (20 * cos((off_d * 3.14159 / 180.0)));
-		offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
+//		offset.x *= ratio;
+//		offset.y *= ratio;
+//		float xc = offset.x;
+//		float yc = offset.y;
+//		offset.x = ((xc * cos(theta_r - (3.14156 / 2))) +
+//					(yc * sin(theta_r - (3.14159 / 2))));
+//		offset.y = ((yc * cos(theta_r - (3.14159 / 2))) -
+//					(xc * sin(theta_r - (3.14159 / 2))));
+//		offset.x += 10 + (20 * cos((off_d * 3.14159 / 180.0)));
+//		offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
+
 		ss << "off_m: " << offset;
 		putText(frame,
 				ss.str(),
 				Point(300, 90),
+				FONT_HERSHEY_PLAIN,
+				1.5,
+				CV_RGB(0xFF, 0xDF, 0x00),
+				2);
+		ss.str("");
+
+		ss << "c: [" << camera.x
+		   << ", " << camera.y
+		   << ", " << camera.z
+//		   << ", " << camera.p
+//		   << ", " << camera.r
+		   << "]";
+		putText(frame,
+				ss.str(),
+				Point(20, 480),
 				FONT_HERSHEY_PLAIN,
 				1.5,
 				CV_RGB(0xFF, 0xDF, 0x00),
@@ -340,14 +382,15 @@ capture:
 				2);
 		ss.str("");
 
-		drawContours(frame, contours, biggest_contour, CV_RGB(0xD4, 0x35, 0xCD));
+		polylines(viewport, approx, true, CV_RGB(0xD4, 0x35, 0xCD));
+	//	drawContours(viewport, contours, biggest_contour, CV_RGB(0xD4, 0x35, 0xCD));
 	//	drawContours(frame, approx, -1, CV_RGB(0xD4, 0x35, 0xCD));
 
-		circle(frame, mc, 5, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
-		circle(frame, approx[0], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
-		putText(frame, "0", approx[0], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
-		circle(frame, approx[1], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
-		circle(frame, approx[2], 2, CV_RGB(0x24, 0x43, 0xD6), CV_FILLED);
+		circle(viewport, mc, 5, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
+		circle(viewport, approx[0], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
+		putText(viewport, "0", approx[0], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
+		circle(viewport, approx[1], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
+		circle(viewport, approx[2], 2, CV_RGB(0x24, 0x43, 0xD6), CV_FILLED);
 	}
 	imshow("frame", frame);
 	short keypress;

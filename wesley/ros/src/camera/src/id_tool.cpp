@@ -647,7 +647,7 @@ DBGCV				while(waitKey() != 27);
 							 (mu.m01 / mu.m00));
 				Point2f offset(
 					  mc.x - 320,	// x coordinate offset from center of camera frame
-					-(mc.y - 240)	// same, but for y. here, camera.y moves opposite
+					-(mc.y - ((480 - frame_offset_y) / 2))	// same, but for y. here, camera.y moves opposite
 				);					//    the frame of the robot.
 				float off_x, off_y;
 				float off_r, off_d;
@@ -706,7 +706,7 @@ DBGCV				while(waitKey() != 27);
 
 				offset.x *= ratio;
 				offset.y *= ratio;
-				offset.x +=  0 + (20 * cos((off_d * 3.14159 / 180.0)));
+				offset.x += 10 + (20 * cos((off_d * 3.14159 / 180.0)));
 				offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
 
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> opening hand");
