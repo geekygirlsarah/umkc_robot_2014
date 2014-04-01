@@ -60,18 +60,29 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 			packet.payload = PL_TURNCCW;	//turn
 	}
 	megaTalker.publish(packet);
+
 	
+	//finding out about x/yalignment
+	bool x_aligned = false;
+
+	if(given_payload == PL_START_TURNING_90_CW_X_AXIS || given_payload == PL_START_TURNING_90_CCW_X_AXIS)	{
+		x_aligned = true;	
+	}
+	else	{
+		x_aligned = false;
+	}
 
 	//TODO CHANGE THIS TO MATCH X/Y axis stuff
 	if(withIMU)	{
 			//keep checking until it's 90
 			bool turned90 = false;
-			bool x_aligned = false;
-			bool y_aligned = false;
 			double diff = 1;	//within 90 or 0 +- this diff
 			while(!turned90)	{
 				if(client.call(srv))	{
 					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+					//x axis - 0, 180
+					//y axis - 90,-90
+				
 //					if(given_payload == PL_START_TURNING_90_CCW)	{
 //						turned90 = (srv.response.yaw > (90 - diff) && srv.response.yaw< (0 + diff));
 //					}
