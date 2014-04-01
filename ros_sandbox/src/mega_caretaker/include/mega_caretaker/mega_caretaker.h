@@ -55,6 +55,9 @@ namespace mega_caretaker	{
 					void startGoToTools();
 
 
+					//test thingies
+					void testIMUCompassDirections();
+
 			public:
 					void init(ros::NodeHandle n);
 					void run();

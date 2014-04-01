@@ -18,6 +18,31 @@
 #include "mega_caretaker/master_mega_packet_defs.h"
 using namespace mega_caretaker;
 
+namespace	imu_stuff	{
+			//this is terrible.
+
+			//0 degrees - init position. facing east
+			//-90 degrees - faceing south
+			//90 degrees - facing north
+			//180/-180 facing west
+
+	double diff = 1;	//within 90 or 0 +- this diff
+	bool facingEast(double currentYaw)	{
+		return (currentYaw > (0 - diff)) && (currentYaw < (0 + diff)); 
+	}
+	
+	bool facingWest(double currentYaw)	{
+		return ((currentYaw < (-180 + diff)) ) || ( (currentYaw > (180 - diff)) && currentYaw <= 180 ) ; 
+	}
+	bool facingNorth(double currentYaw)	{
+		return (currentYaw > (90 - diff)) && (currentYaw < (90 + diff));
+	}
+	bool facingSouth(double currentYaw)	{
+		return (currentYaw > (-90 - diff)) && (currentYaw < (-90 + diff));
+	}
+}
+
+
 //Called when mega requests it.
 //Will send proper command to turn to motors,
 //wait until its 90 degrees from the IMU, 
@@ -63,25 +88,35 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 
 	
 	//finding out about x/yalignment
-	bool x_aligned = false;
+	bool align_x = false;
 
 	if(given_payload == PL_START_TURNING_90_CW_X_AXIS || given_payload == PL_START_TURNING_90_CCW_X_AXIS)	{
-		x_aligned = true;	
+		align_x = true;	
 	}
 	else	{
-		x_aligned = false;
+		align_x = false;
 	}
 
 	//TODO CHANGE THIS TO MATCH X/Y axis stuff
 	if(withIMU)	{
+
 			//keep checking until it's 90
 			bool turned90 = false;
-			double diff = 1;	//within 90 or 0 +- this diff
 			while(!turned90)	{
 				if(client.call(srv))	{
 					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
 					//x axis - 0, 180
 					//y axis - 90,-90
+			
+			/*
+				if(align_x)	{
+						turned90 = imu_stuff::facingEast(srv.response.yaw) || imu_stuff::facingWest(srv.response.yaw);
+					}
+					else	{
+						turned90 = imu_stuff::facingNorth(srv.response.yaw) || imu_stuff::facingSouth(srv.response.yaw);
+					}
+			*/
+
 				
 //					if(given_payload == PL_START_TURNING_90_CCW)	{
 //						turned90 = (srv.response.yaw > (90 - diff) && srv.response.yaw< (0 + diff));
@@ -350,9 +385,51 @@ void MegaCaretaker::run()	{
 	//need to wait for mega to be in command state!
 	//startGoToTools();
 	//startWaveCrossing();
+	testIMUCompassDirections();
 	while(ros::ok())	{
 		ros::spinOnce();
 		//ROS_INFO("spinning?");
+	}
+}
+
+void MegaCaretaker::testIMUCompassDirections()	{
+	imu_filter_madgwick::imu_yaw srv;
+	if(withIMU)	{
+			int seconds = 1;
+			if(client.call(srv))	{
+				ROS_INFO("testing imu compass directions - assuming the init position (starting position is EAST");
+				while(!imu_stuff::facingEast(srv.response.yaw))	{ 
+					client.call(srv);//ROS_INFO( "current yaw: %f",srv.response.yaw);  
+				}
+				ROS_INFO("now facing East");
+				ROS_INFO("==============");
+
+				ROS_INFO(".. please turn North");
+				while(!imu_stuff::facingNorth(srv.response.yaw))	{ 
+					client.call(srv);//ROS_INFO( "current yaw: %f",srv.response.yaw);  
+				}
+				ROS_INFO("now facing North");
+				ROS_INFO("==============");
+
+				ROS_INFO(".. please turn West");
+				while(!imu_stuff::facingWest(srv.response.yaw))	{ 
+					client.call(srv);//ROS_DEBUG_THROTTLE(seconds, "current yaw: %f",srv.response.yaw);  
+				}
+				ROS_INFO("now facing West");
+				ROS_INFO("==============");
+
+				ROS_INFO(".. please turn South");
+				while(!imu_stuff::facingSouth(srv.response.yaw))	{ 
+					client.call(srv);//ROS_DEBUG_THROTTLE(seconds, "current yaw: %f",srv.response.yaw);  
+				}
+				ROS_INFO("now facing South");
+				ROS_INFO("==============");
+				
+				ROS_INFO("testing complete!");
+			}
+	}
+	else	{
+		ROS_INFO("no imu. aborting testing");
 	}
 }
 
@@ -415,7 +492,7 @@ void MegaCaretaker::init(ros::NodeHandle n)	{
 
 
 	//need to see if mega is actually responding... if not keep trying
-	attemptMegaConnection();
+//	attemptMegaConnection();
 	
 }
 
