@@ -224,7 +224,7 @@ int main(int argc, char* argv[]) {
 		return(60);
 	}
 
-	const short MAX_ID_TOOL = 4;
+	const short MAX_ID_TOOL = 9;
 
 //	wesley::arm_point position[2][3][MAX_ID_TOOL];
 //	wesley::arm_point position[area][pos][state]
