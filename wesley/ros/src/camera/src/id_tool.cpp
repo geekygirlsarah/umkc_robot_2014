@@ -77,6 +77,14 @@ using namespace cv;
 #define DBGOUT if EMGDBG std::cout
 #define DBGCV if EMGDBG
 
+#ifndef M_PI
+	#define M_PI 3.141592654
+#endif
+
+#ifndef M_PI_2
+	#define M_PI_2 1.570796327
+#endif
+
 // how to keep track of the tool we're looking for
 enum shapes { NONE, SQUARE, TRIANGLE, CIRCLE };
 unsigned short tool = NONE;
@@ -378,7 +386,7 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 	size_t pos = 0;
 	int contour_idx = -1;
 	
-	const unsigned char frame_offset_y = 100;
+	const unsigned char frame_offset_y = 0;
 
 	wesley::arm_point pickup;
 	double z_dist = 0.0f;
@@ -550,11 +558,11 @@ DBGCV							while(waitKey() != 27);
 DBGCV				rectangle(frame, ROI_tool, CV_RGB(0xD0, 0x00, 0x6E), 1);
 				Mat viewport = frame(ROI_tool);
 				contour_idx = process_frame(viewport, thresh, contours);
-				double good_area = 25000;
+				double good_area = 30000;
 				double contour_area = contourArea(contours[contour_idx], false);
 				ROS_INFO("ID_TOOL :: FIND_TOP -----------------------> area: (%f)", contour_area);
-			//	if (contour_idx > -1 && (contour_area > good_area)) {
-				if (contour_idx > -1) {
+				if (contour_idx > -1 && (contour_area > good_area)) {
+			//	if (contour_idx > -1) {
 					approxPolyDP(contours[contour_idx],
 								 approx,
 								 arcLength(contours[contour_idx], true) * .015,
@@ -639,7 +647,25 @@ DBGCV				while(waitKey() != 27);
 				};
 				
 //				wesley::arm_point t = position[area][pos][FIND_TOP];	// t, for temp;
+				wesley::arm_point camera = position[area][pos][FIND_TOP];
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> tip: (%f, %f, %f, %f, %f)",
+							camera.x,
+							camera.y,
+							camera.z,
+							camera.p,
+							camera.r);
+				// alpha: the angle of the arm in its own reference frame
+				double alpha_r = atan2(camera.y, camera.x);
+				// camera(x, y, z) is the point of the camera in the robot's frame.
+				camera.x += (27*(cos(alpha_r)) + 47*(sin(alpha_r)));
+				camera.y -= (47*(cos(alpha_r)) - 27*(sin(alpha_r)));
 				double tool_area = contourArea(contours[contour_idx], false);
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> camera: (%f, %f, %f, %f, %f)",
+							camera.x,
+							camera.y,
+							camera.z,
+							camera.p,
+							camera.r);
 				z_dist = distance_to_tool(tool_area, tool);
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> z_dist: %f", z_dist);
 				mu = moments(contours[contour_idx], false);
@@ -647,10 +673,11 @@ DBGCV				while(waitKey() != 27);
 							 (mu.m01 / mu.m00));
 				Point2f offset(
 					  mc.x - 320,	// x coordinate offset from center of camera frame
-					-(mc.y - ((480 - frame_offset_y) / 2))	// same, but for y. here, camera.y moves opposite
+					-(mc.y - ((480 - frame_offset_y) / 2))	
+									// same, but for y. here, camera.y moves opposite
 				);					//    the frame of the robot.
-				float off_x, off_y;
-				float off_r, off_d;
+				float roll_x, roll_y;
+				float roll_r, roll_d;
 				float ratio= 0.0f;
 				double hypot = 0.0f;
 				switch(tool) {
@@ -666,11 +693,11 @@ DBGCV				while(waitKey() != 27);
 							hb = 1;
 						}
 						// calculate the angle offset of the long side.
-						off_x = approx[ha].x - approx[hb].x;
-						off_y = approx[ha].y - approx[hb].y;
-						off_r = atan2(off_y, off_x);
-						off_d = 90 - (off_r * 180 / 3.14159);
-						ROS_INFO("ID_TOOL :: FIND_DISTANCE --> offset degree of long edge: %f", off_d);
+						roll_x = approx[ha].x - approx[hb].x;
+						roll_y = approx[ha].y - approx[hb].y;
+						roll_r = atan2(roll_y, roll_x);
+						roll_d = 90 - (roll_r * 180 / 3.14159);
+						ROS_INFO("ID_TOOL :: FIND_DISTANCE --> offset degree of long edge: %f", roll_d);
 
 						hypot = sqrt(pow((approx[hb].x - approx[ha + 1].x), 2)
 								   + pow((approx[hb].y - approx[ha + 1].y), 2));
@@ -679,14 +706,14 @@ DBGCV				while(waitKey() != 27);
 					break;
 					case TRIANGLE:
 						// triangle work here
-						off_x = approx[1].x - approx[0].x;
-						off_y = approx[1].y - approx[0].y;
+						roll_x = approx[1].x - approx[0].x;
+						roll_y = approx[1].y - approx[0].y;
 
-						hypot = sqrt(pow(off_x, 2)
-								   + pow(off_y, 2));
+						hypot = sqrt(pow(roll_x, 2)
+								   + pow(roll_y, 2));
 						
-						off_r = atan2(off_y, off_x);
-						off_d = 90 - (off_r * 180 / 3.14159);
+						roll_r = atan2(roll_y, roll_x);
+						roll_d = 90 - (roll_r * 180 / 3.14159);
 
 						break;
 					case CIRCLE:
@@ -704,10 +731,22 @@ DBGCV				while(waitKey() != 27);
 
 				ratio = tool_d[tool] / hypot;
 
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xp, yp): offset(%f, %f)", offset.x, offset.y);
+				// translate the pixel offset into millimeters (the unit of the robot's frame)
 				offset.x *= ratio;
 				offset.y *= ratio;
-				offset.x += 10 + (20 * cos((off_d * 3.14159 / 180.0)));
-				offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xm, ym): offset(%f, %f)", offset.x, offset.y);
+				// theta is the angle of the line between camera center and tool center
+				//    in relation to the camera's frame.
+				double theta_r = (atan2(offset.y, offset.x));
+				double lambda_r = (M_PI_2 - alpha_r + theta_r);
+				// store the original values so that we can manipulate them both at the same time
+				float xc = offset.x;
+				float yc = offset.y;
+				// translate the camera->tool offset into the robot's frame.
+				offset.x =  ((xc * cos(lambda_r)) + (yc * sin(lambda_r)));
+				// flipped from camera's negative y to robot's positive y.
+				offset.y = -((yc * cos(lambda_r)) - (xc * sin(lambda_r)));
 
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> opening hand");
 				pickup.direct_mode = false;
@@ -719,11 +758,13 @@ DBGCV				while(waitKey() != 27);
 				} while(waiting);
 
 				pickup.direct_mode = true;
-				pickup.x = position[area][pos][FIND_TOP].x + offset.x;
-				pickup.y = position[area][pos][FIND_TOP].y + offset.y;
-				pickup.z = position[area][pos][FIND_TOP].z;				// left alone for now. adjusted in a few lines.
-				pickup.p = position[area][pos][FIND_TOP].p;
-				pickup.r = position[area][pos][FIND_TOP].r - off_d;
+				pickup.x = camera.x - offset.x;
+				pickup.x -= (10*sin(roll_r));
+				pickup.y = camera.y + offset.y;
+				pickup.y += (10*cos(roll_r));
+				pickup.z = camera.z;				// left alone for now. adjusted in a few lines.
+				pickup.p = camera.p;
+				pickup.r = fmod((camera.r - roll_d), 180.0);
 				pickup.cmd = "id_tool: pickup";
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> pickup point found. publishing.");
 				std::cout << "ID_TOOL :: FIND_DISTANCE --> point: " << pickup << std::endl;
