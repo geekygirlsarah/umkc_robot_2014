@@ -1,0 +1,4 @@
+#!/bin/bash
+
+catkin_make -DCMAKE_INSTALL_PREFIX=/home/umkc/wesley && catkin_make install -DCMAKE_INSTALL_PREFIX=/home/umkc/wesley
+
