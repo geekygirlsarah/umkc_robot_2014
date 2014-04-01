@@ -258,16 +258,6 @@ capture:
 		float off_r = atan2(off_y, off_x);
 		float off_d = 90 - (off_r * 180 / 3.14159);
 		// - and display
-		ss << "off_d: " << off_d;
-		putText(frame,
-				ss.str(),
-				Point(20, 120),
-				FONT_HERSHEY_PLAIN,
-				1.5,
-				CV_RGB(0xFF, 0xDF, 0x00),
-				2);
-		ss.str("");
-
 		double alpha_r = atan2(t.y, t.x);
 //		theta = (theta * 180 / 3.14159);
 		double alpha = (alpha_r * 180 / 3.14159) - 90;
@@ -312,14 +302,37 @@ capture:
 		// angle of p from c along c's x-axis. this is in the camera's refernce frame.
 		// the addition of pi comes from the angle of the camera in relation to the
 		//    arm (wrist_roll);
-		double theta_r = (atan2(offset.y, offset.x) + (3.14159 / 2));
+		double theta_r = (atan2(offset.y, offset.x));
+		double theta = (theta_r * 180 / 3.14159);
+		double lambda = (90 - alpha + (theta));
+		double lambda_r = lambda * 3.14159 / 180;
 		float xc = offset.x;
 		float yc = offset.y;
-		offset.x = ((xc * cos(theta_r)) + (yc * sin(theta_r)));
+		offset.x = ((xc * cos(lambda_r)) + (yc * sin(lambda_r)));
 		// flipped from camera's negative y to robot's positive y.
-		offset.y = -((yc * cos(theta_r)) - (xc * sin(theta_r)));
+		offset.y = -((yc * cos(lambda_r)) - (xc * sin(lambda_r)));
 //		offset.x += 10 + (20 * cos((off_d * 3.14159 / 180.0)));
 //		offset.y += 27 + (20 * sin((off_d * 3.14159 / 180.0)));
+
+		ss << "theta: " << (theta_r * 180 / 3.14159);
+		putText(frame,
+				ss.str(),
+				Point(20, 120),
+				FONT_HERSHEY_PLAIN,
+				1.5,
+				CV_RGB(0xFF, 0xDF, 0x00),
+				2);
+		ss.str("");
+
+		ss << "lambda: " << (90 - alpha) + (theta_r * 180 / 3.14159);
+		putText(frame,
+				ss.str(),
+				Point(20, 150),
+				FONT_HERSHEY_PLAIN,
+				1.5,
+				CV_RGB(0xFF, 0xDF, 0x00),
+				2);
+		ss.str("");
 
 		ss << "off_m: " << offset;
 		putText(frame,
@@ -363,7 +376,7 @@ capture:
 
 		wesley::arm_point p;
 		p.direct_mode = true;
-		p.x = t.x + offset.x;
+		p.x = t.x - offset.x;
 		p.y = t.y + offset.y;
 		p.z = t.z - z_dist - 25;
 		p.p = t.p;
