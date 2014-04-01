@@ -391,12 +391,12 @@ capture:
 		wesley::arm_point p;
 		p.direct_mode = true;
 		p.x = camera.x - offset.x;
-		p.x += (10*cos(roll_r));
-		p.y += (10*sin(roll_r));
+		p.x -= (10*sin(roll_r));
 		p.y = camera.y + offset.y;
+		p.y += (10*cos(roll_r));
 		p.z = camera.z - z_dist - 25;
 		p.p = camera.p;
-		p.r = fmod((roll_d < 0 ? camera.r - roll_d : camera.r + roll_d), 180.0);
+		p.r = fmod((camera.r - roll_d), 180.0);
 		p.cmd = "pick";
 
 		ss << "p: [" << p.x
