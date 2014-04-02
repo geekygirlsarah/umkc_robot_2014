@@ -120,7 +120,7 @@ int executeBinary(string binaryName, string prefix, string mode ){
 	/**
 	 * Uncomment this to turn on watchdogging (memory is deallocated in the class)
 	//WatchDog* watch = new WatchDog;
-	//std::thread(watch(binaryName));
+	//std::thread(watch,binaryName);
 	*/
 	//Get return value, don't ask why it's this but it is. It's from the stack overflow on popen. 
 	//

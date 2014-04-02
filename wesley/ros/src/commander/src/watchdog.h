@@ -12,7 +12,7 @@ using std::string;
 /**
  * Watch dog is a functor object that should be called as such, don't worry it suicides itself and deallocates it's own memory
  * WatchDog* watch = new WatchDog; 
- * std::thread(watch(binaryName));
+ * std::thread(watch,binaryName);
  */
 class WatchDog{
 	string name;
