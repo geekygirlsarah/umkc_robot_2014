@@ -1,7 +1,6 @@
 #include <ros/ros.h>
 #include "exit_handlers.h"
 #include <string>
-#include <unistd.h>
 #include <signal.h>
 #include <watchdog.h>
 using std::string;
