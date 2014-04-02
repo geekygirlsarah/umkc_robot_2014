@@ -85,6 +85,12 @@ using namespace cv;
 	#define M_PI_2 1.570796327
 #endif
 
+#define wait_on_arm() {				\
+			waiting = true;			\
+			do {					\
+				ros::spinOnce();	\
+			} while(waiting);		\
+		}
 // how to keep track of the tool we're looking for
 enum shapes { NONE, SQUARE, TRIANGLE, CIRCLE };
 unsigned short tool = NONE;
@@ -401,7 +407,6 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> switching state to find tool");
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> for(%d:%d)", area, pos);
 						// move arm to position[job_state][area][trial];
-						waiting = true;
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: (%f, %f, %f, %f, %f)",
 									position[area][pos][job_state].x,
 									position[area][pos][job_state].y,
@@ -409,9 +414,7 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 									position[area][pos][job_state].p,
 									position[area][pos][job_state].r);
 						pub.publish(position[area][pos][job_state]);
-						do {
-							ros::spinOnce();
-						} while(waiting);
+						wait_on_arm();
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> released from block_arm_wait");
 						// wait for return response from arm indicating finshed moving.
 						// acquire a frame to job_state
@@ -541,11 +544,8 @@ DBGCV							while(waitKey() != 27);
 			case FIND_TOP: {
 				ROS_INFO("ID_TOOL :: (FIND_TOP) :: --> switching state to find top of tool");
 				// move arm to position[job_state][area][pos];
-				waiting = true;
 				pub.publish(position[area][pos][job_state]);
-				do {
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();
 				//    job_state is the main logic handler/tracker
 				//    area follows from the for loop in FIND_TOOL
 				capture >> frame;
@@ -776,10 +776,7 @@ DBGCV				while(waitKey() != 27);
 				pickup.direct_mode = false;
 				pickup.cmd = "release";
 				pub.publish(pickup);
-				waiting = true;
-				do {
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();
 
 				pickup.direct_mode = true;
 				pickup.x = camera.x - offset.x;
@@ -820,32 +817,20 @@ DBGCV				while(waitKey() != 27);
 			case TOOL_GRASP:
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> preparing to pick up tool.");
 				pub.publish(pickup);
-				waiting = true;
-				do {
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();
 				ROS_WARN("ID_TOOL :: TOOL_GRASP --> first offset published.");
 
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> midline point.");
 				pickup.z -= (z_dist - 50);
 				pub.publish(pickup);
-				waiting = true;
-				do { 
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();
 
-//				waiting = true;
-//				do {
-//					ros::spinOnce();
-//				} while(waiting);
+//				wait_on_arm();
 
 				sleep(1);		// sleep an extra second beyond what &block_arm_wait() does.
 				pickup.z = (position[area][pos][FIND_TOP].z - z_dist);
 				pub.publish(pickup);
-				waiting = true;
-				do { 
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();
 				ROS_WARN("ID_TOOL :: TOOL_GRASP --> second offset published.");
 
 				
@@ -859,10 +844,7 @@ DBGCV				while(waitKey() != 27);
 					pickup.cmd = ss.str();
 				}
 				pub.publish(pickup);
-				waiting = true;
-				do {
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> tool should be had.");
 
 				// lift up.
@@ -877,18 +859,12 @@ DBGCV				while(waitKey() != 27);
 							position[area][pos][job_state].p,
 							position[area][pos][job_state].r);
 				pub.publish(pickup);
-				waiting = true;
-				do {
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();	
 
 				pickup.direct_mode = false;
 				pickup.cmd = "carry";
 				pub.publish(pickup);
-				waiting = true;
-				do {
-					ros::spinOnce();
-				} while(waiting);
+				wait_on_arm();
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> tool in possession and carried. exiting.");
 
 // i think this is 				
