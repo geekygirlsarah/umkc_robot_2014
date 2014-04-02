@@ -85,6 +85,8 @@ bool  isGapCrossed;
 bool  isEdgeFound;
 bool travelingHome;
 
+//gapfinder shenanigans
+bool assumingGapAtEdge;
 
 int temp_num;  //used to fix gapfinder lookingforgap thing :(
 
@@ -297,6 +299,7 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  void enterLookForGap()  {
  advertising_state.payload = PL_LOOKING_FOR_GAP;
  talker.publish(&advertising_state);
+ assumingGapAtEdge = true;
  
  }
  
@@ -306,7 +309,7 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
    //-> moving and stuff is handled inside looking for gap
    //updateROS_spin();  //do i need this??
  #ifndef DEBUG_COMMS
- temp_num = nav.lookingForGap();  
+ temp_num = nav.lookingForGap(&assumingGapAtEdge);  
  isGapFound = temp_num;
   //NEED TO BE MOVING and not stopeed. 
  //stateMachine.immediateTransitionTo(waitForCommand);    
@@ -697,7 +700,14 @@ void loop() {
        //might need to hardcode the ticks if I'm not at an edge.
        #ifndef DEBUG_COMMS
        //NO ADJUSTING
+       //- if the gap is NOT at edge, only then do we adjust. 
+       
        nav.adjustToGap();
+      /*NOT WORKING RIGHT NOW - isn't adjusting to gap at all :( - 8:35AM wed
+       if(assumingGapAtEdge == false)  {
+         nav.adjustToGap();
+       }
+       */
        nav.stop_sleep(PAUSE_DURATION);
        #endif
        //stateMachine.transitionTo(waitForCommand);

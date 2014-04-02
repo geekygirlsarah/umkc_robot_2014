@@ -154,7 +154,7 @@ class Navigation {
                 //-> return -1: ABORT ABORT, emergeney need go to back to find edge state
                 //   return  0: false - no gap.
                 //   return  1: true - GAP GAP IT"S A GAP!
-                int lookingForGap()  {
+                int lookingForGap(bool* assumeGapAtEdge)  {
                   //sabertooth.reverse(20);
                   //sabertooth.forward(20);
                   //console.println("moving \t checking gap");
@@ -163,6 +163,7 @@ class Navigation {
                   
                   //gapfind.printDebug();
                   //gapfind.printGapStatus();
+                 
                   
                   gapfind.update();
                   
@@ -170,7 +171,7 @@ class Navigation {
                   //gap found? move forward a set amount to center self (MAYBE ?? need to check if you really found gap.
                   if(gapfind.gapPresent())  {
                     sabertooth.all_stop();  //first stop to keep readings stable
-                    
+                    delay(1000);
                     if(gapfind.gapPresentThorough())  {
                       gapfind.reset();
                       return 1; 
@@ -180,6 +181,10 @@ class Navigation {
                        return -1;  
                     }
                   }
+                  //this is to after update  - FIX the edge case
+                  //gap RIGHT THERE on the edge
+                  assumeGapAtEdge = false;  //we know FOR SURE the gap is not at the edge anymore
+                  goForwardForever();
                   return 0;
                 }
                 
