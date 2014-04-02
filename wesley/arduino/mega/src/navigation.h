@@ -162,15 +162,22 @@ class Navigation {
                   gapfind.update();
                   
                   
-                  //gap found? move forward a set amount to center self
+                  //gap found? move forward a set amount to center self (MAYBE ?? need to check if you really found gap.
                   if(gapfind.gapPresent())  {
-                    Serial.println("moving \t GAP FOUND!!");
+                    Serial.println("moving \t GAP might be found found!!");
+                    sabertooth.all_stop();  //first stop to keep readings stable
+                    /*
+                    if(gapfind.gapPresentThorough())  {
+                      //gapfind.reset();
+                      return true; 
+                    } else  {
+                      
+                    }
+                    */
                     gapfind.reset();
-                     //unfortunately right now i have no ticks.. so it stays here forever
-                    
-                    
-                    sabertooth.all_stop();
                     return true;
+
+                    
                   }
                   return false;
                 }

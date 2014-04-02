@@ -4,7 +4,6 @@
 /**
  * GapFinder
  * Jan 2014
- * Author: Victoria Wu, Andrew Cunningham
  *
  * Given three IR sensors in a row, finds a gap thingy
  * written for the 2014 ieee region 5 comp
@@ -20,7 +19,7 @@
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
 
-
+#define NUM_GAP_CHECKS 3
 
 class GapFinder	{
 private:
@@ -181,10 +180,23 @@ public:
     }
   }
 
+  //this one values quickness more than accuracy.
+  //ok to be moving
   bool gapPresent()	{
  	return gap_status == yes_gap;	
   }
- 
+
+  //this one assumes you are already stopped, checks in a row.
+  //DO NOT BE MOVING WHEN YOU DO THIS
+  bool gapPresentThorough()	{
+ 	for(int i = 0; i < NUM_GAP_CHECKS; i++)
+ 		{        
+		 	if(!checkYesGap())
+ 				return false; 
+ 		}    
+ 	return true;
+  }
+
   bool maybeGapPresent()	{
   	return gap_status == def_maybe_gap;
   }
