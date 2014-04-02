@@ -1,0 +1,12 @@
+<launch>
+	<param name="useIMU" value="false" type="bool" />
+
+<!--	<include file="$(find phidgets_imu)/launch/imu.launch"/> -->
+	<include file="$(find rosserial_server)/launch/serial.launch">
+		<arg name="port" value="/dev/ttyACM2" />	
+	</include>
+	<node 	pkg="mega_caretaker" type="mega_caretaker_node"
+		name="MEGA_CARETAKER"
+		output="screen"	/>
+</launch>
+
