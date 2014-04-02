@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
 		return(60);
 	}
 
-	const short MAX_ID_TOOL = 11;
+	const short MAX_ID_TOOL = 12;
 
 //	wesley::arm_point position[2][3][MAX_ID_TOOL];
 //	wesley::arm_point position[area][pos][state]
@@ -600,7 +600,7 @@ DBGCV								color = CV_RGB(0xFF, 0xB6, 0xC1);
 									approxPolyDP(approx, secapprox, 123, true);
 									if (secapprox.size() == 3) {
 DBGCV										color = CV_RGB(0xFF, 0xB6, 0xC1);
-										ROS_WARN("match_TOP(TRIANGLE--2");
+										ROS_WARN("match_TOP(TRIANGLE--2)");
 										top_found = true;
 									}
 								}
@@ -790,8 +790,14 @@ DBGCV				while(waitKey() != 27);
 				pickup.p = camera.p;
 				pickup.r = fmod((camera.r - roll_d), 180.0);
 				pickup.cmd = "id_tool: pickup";
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> pickup (%f, %f, %f (-> %f), %f, %f)",
+					pickup.x,
+					pickup.y,
+					pickup.z, (pickup.z - z_dist),
+					pickup.p,
+					pickup.r);
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> pickup point found. publishing.");
-				std::cout << "ID_TOOL :: FIND_DISTANCE --> point: " << pickup << std::endl;
+DBGCV				std::cout << "ID_TOOL :: FIND_DISTANCE --> point: " << pickup << std::endl;
 
 				// light purple
 DBGCV				color = CV_RGB(0xAD, 0x66, 0xD5);
@@ -820,13 +826,13 @@ DBGCV				while(waitKey() != 27);
 				} while(waiting);
 				ROS_WARN("ID_TOOL :: TOOL_GRASP --> first offset published.");
 
-//				ROS_INFO("ID_TOOL :: TOOL_GRASP --> midline point.");
-//				pickup.z -= (z_dist - 30);
-//				pub.publish(pickup);
-//				waiting = true;
-//				do { 
-//					ros::spinOnce();
-//				} while(waiting);
+				ROS_INFO("ID_TOOL :: TOOL_GRASP --> midline point.");
+				pickup.z -= (z_dist - 50);
+				pub.publish(pickup);
+				waiting = true;
+				do { 
+					ros::spinOnce();
+				} while(waiting);
 
 //				waiting = true;
 //				do {
@@ -834,7 +840,7 @@ DBGCV				while(waitKey() != 27);
 //				} while(waiting);
 
 				sleep(1);		// sleep an extra second beyond what &block_arm_wait() does.
-				pickup.z -= z_dist;
+				pickup.z = (position[area][pos][FIND_TOP].z - z_dist);
 				pub.publish(pickup);
 				waiting = true;
 				do { 
