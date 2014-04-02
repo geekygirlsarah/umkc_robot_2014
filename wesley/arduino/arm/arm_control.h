@@ -128,13 +128,20 @@ class arm_control {
 			 * to be correctly readable, this should be set using
 			 *    topulse() or topulsef().
 			 */
-		//	p_position[BASE] 		= 1368;		//  80°
-			p_position[BASE] 		= 1472;		//  90°
-			p_position[SHOULDER]	= 2245;		// 165°
-			p_position[ELBOW]		= 600;		//   5.5°
-			p_position[WRIST_P]		= 544;		//   0°
-			p_position[WRIST_R]		= 1523;		//  95°
-			p_position[HAND]		= 1472;		//  90°
+			// for the initial park, we'll set both the arrays:
+			//
+			//    p_destination[JOINT]
+			//    p_position[JOINT]
+			//
+			// to hard-coded values. odd behavior has been seen
+			//    when calling grasp() or release() without these
+			//    two being set correctly.
+			p_destination[BASE] 	= p_position[BASE] 		= topulsef(90);
+			p_destination[SHOULDER]	= p_position[SHOULDER] 	= topulsef(165);
+			p_destination[ELBOW]	= p_position[ELBOW] 	= topulsef(5.5);
+			p_destination[WRIST_P]	= p_position[WRIST_P] 	= topulsef(0);
+			p_destination[WRIST_R]	= p_position[WRIST_R] 	= topulsef(95);
+			p_destination[HAND]		= p_position[HAND] 		= topulsef(90);
 			
 			/* for testing purposes, this will proceed in order
 			 *    and directly place the successive joints at
@@ -158,14 +165,13 @@ class arm_control {
 		//	Serial.flush();
 			/* here, define, in pulse, what angles to place the
 			 *    servos at. these will then be moved below */
-		//	p_destination[BASE] 	= 1368;		//  80°
-			p_destination[BASE] 	= 1472;		//  90°
-			p_destination[SHOULDER]	= 2245;		// 165°
-			p_destination[ELBOW]	= 600;		//   5.5°
-			p_destination[WRIST_P]	= 544;		//   0°
-			p_destination[WRIST_R]	= 1523;		//  95°
+			p_destination[BASE] 	= topulsef(90);
+			p_destination[SHOULDER]	= topulsef(165);
+			p_destination[ELBOW]	= topulsef(5.5);
+			p_destination[WRIST_P]	= topulsef(0);
+			p_destination[WRIST_R]	= topulsef(95);
 			// do not mess with the hand. leave to that grasp/release
-		//	p_destination[HAND]		= 1472;		//  90°
+		//	p_destination[HAND]		= topulse(90);
 			
 			update();
 		//	Serial.println("ARM :: park() --> leaving");
@@ -180,14 +186,19 @@ class arm_control {
 		//	Serial.flush();
 			// here, define a secondary park location to use
 			//    while carrying a tool.
-		//	p_destination[BASE] 	= 1368;
-			p_destination[BASE] 	= 1472;
-			p_destination[SHOULDER]	= 2245;
-			p_destination[ELBOW]	= 600;
-			p_destination[WRIST_P]	= 2348;
-			p_destination[WRIST_R]	= 544;
-			// as in park, leave the hand alone.
-		//	p_destination[HAND]		= 1472;
+			//
+			// pre-defined carry position:
+			//    90 165 5.5 180 0 90
+			p_destination[BASE] 	= topulsef(90);
+			p_destination[SHOULDER]	= topulsef(165);
+			p_destination[ELBOW]	= topulsef(5.5);
+			p_destination[WRIST_P]	= topulsef(180);
+			p_destination[WRIST_R]	= topulsef(0);
+			// as in park, leave the hand alone. when this is
+			//    called, we're likely carrying a tool. the
+			//    hand opening will be set with grasp() and
+			//    release();
+		//	p_destination[HAND]		= topulsef(90);
 
 			update();
 		//	Serial.println("ARM :: carry() --> leaving");
@@ -459,13 +470,13 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 		float grasp(char tool) {
 			switch(tool) {
 				case 's':
-					p_destination[HAND] = topulse(120);
+					p_destination[HAND] = topulse(100);
 					break;
 				case 't':
-					p_destination[HAND] = topulse(140);
+					p_destination[HAND] = topulse(130);
 					break;
 				case 'c':
-					p_destination[HAND] = topulse(130);
+					p_destination[HAND] = topulse(110);
 					break;
 			}
 			update();
