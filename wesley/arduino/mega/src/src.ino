@@ -1,7 +1,7 @@
 
 //THESE ARE IMPORTANT
-#define ITERATION 3  //how many gaps to cross.. for debugging
-#define LASTGAP 3  //which one to stop at and do the hardcoded one
+#define ITERATION 2  //how many gaps to cross.. for debugging
+#define LASTGAP 2  //which one to stop at and do the hardcoded one
 #define PAUSE_DURATION  300  //how many milliseconds between movements
 
 
@@ -9,9 +9,9 @@
 
 //THese are just debugging things
 //separating the Crossing Wave state
-#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 //#define TEST_TRANSITION_FROM_TOOLS_ONLY   //this starts from the tool pick up position, then goes back to default home position 
-//#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
+#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
 //#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
 
 
@@ -693,6 +693,7 @@ void loop() {
        isGapFound = false;
        //might need to hardcode the ticks if I'm not at an edge.
        #ifndef DEBUG_COMMS
+       //NO ADJUSTING
        nav.adjustToGap();
        nav.stop_sleep(PAUSE_DURATION);
        #endif

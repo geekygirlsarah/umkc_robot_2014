@@ -66,7 +66,7 @@ class Navigation {
                   gapfind.init(A0,A1,A2,GAPFINDER_THRESHOLD);
                   eyes.init(A4,8);
                   mag.init(10,10,A6,A7);
-                  par.init(A2,A1,A0, &sabertooth);
+                  //par.init(A2,A1,A0, &sabertooth);
                 
                   
                   goingForward = true;  //... this is from the point of view of robot. it will always start going forward.
