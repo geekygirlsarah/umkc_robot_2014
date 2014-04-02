@@ -133,9 +133,9 @@ int main(int argc, char* argv[]) {
 	std::vector<std::vector<Point> > contours;
 	Moments mu;
 	Point2f mc;
-	const unsigned char frame_offset_y = 0;
-	const unsigned char frame_offset_x = 0;
-	Point center(640 / 2, (480 - frame_offset_y) / 2);
+	const unsigned char frame_offset_y = 80;
+	const unsigned char frame_offset_x = 160;
+	Point center(320, 240);
 //	float alpha = (atan2(t.y, t.x) - (3.14159 / 2));
 	float alpha = (atan2(t.y, t.x));
 //	Point3_<float> camera(t.x - 47, t.y - 27, t.z - 31.2);
@@ -153,9 +153,7 @@ capture:
 	for (int i = 7; i > 0; i--) {
 		capture >> frame;
 	}
-	Rect ROI = Rect(frame_offset_x, frame_offset_y,
-					(640 - (2*frame_offset_x)),
-					(480 - frame_offset_y));
+	Rect ROI = Rect(frame_offset_x, frame_offset_y, 300, 360);
 	rectangle(frame, ROI, CV_RGB(0xBF, 0x23, 0xBF));
 	Mat viewport = frame(ROI);
 	viewport.copyTo(thresh);
@@ -220,11 +218,23 @@ capture:
 		mu = moments(approx, false);
 		mc = Point2f((mu.m10 / mu.m00),
 					 (mu.m01 / mu.m00));
+		mc.x += frame_offset_x;
+		mc.y += frame_offset_y;
 		// - display the center
-		ss << "cntr: " << mc;
+		ss << "ctr: " << center;
 		putText(frame,
 				ss.str(),
 				Point(300, 30),
+				FONT_HERSHEY_PLAIN,
+				1.5,
+				CV_RGB(0xFF, 0xDF, 0x00),
+				2);
+		ss.str("");
+
+		ss << "mc: " << mc;
+		putText(frame,
+				ss.str(),
+				Point(300, 60),
 				FONT_HERSHEY_PLAIN,
 				1.5,
 				CV_RGB(0xFF, 0xDF, 0x00),
@@ -240,7 +250,7 @@ capture:
 		ss << "off_c: " << offset;
 		putText(frame,
 				ss.str(),
-				Point(300, 60),
+				Point(300, 90),
 				FONT_HERSHEY_PLAIN,
 				1.5,
 				CV_RGB(0xFF, 0xDF, 0x00),
@@ -355,7 +365,7 @@ capture:
 		ss << "off_m: " << offset;
 		putText(frame,
 				ss.str(),
-				Point(300, 90),
+				Point(300, 120),
 				FONT_HERSHEY_PLAIN,
 				1.5,
 				CV_RGB(0xFF, 0xDF, 0x00),
@@ -395,9 +405,9 @@ capture:
 		wesley::arm_point p;
 		p.direct_mode = true;
 		p.x = camera.x - offset.x;
-		p.x -= (10*sin(roll_r));
+		p.x -= (20*sin(roll_r));
 		p.y = camera.y + offset.y;
-		p.y += (10*cos(roll_r));
+		p.y += (20*cos(roll_r));
 		p.z = camera.z - z_dist - 25;
 		p.p = camera.p;
 		p.r = fmod((camera.r - roll_d), 180.0);
@@ -422,8 +432,8 @@ capture:
 	//	drawContours(viewport, contours, biggest_contour, CV_RGB(0xD4, 0x35, 0xCD));
 	//	drawContours(frame, approx, -1, CV_RGB(0xD4, 0x35, 0xCD));
 
-		circle(viewport, mc, 5, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
-		circle(viewport, center, 2, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
+		circle(frame, mc, 5, CV_RGB(0x84, 0x43, 0xD6), CV_FILLED);
+		circle(frame, center, 2, CV_RGB(0x84, 0x43, 0x36), CV_FILLED);
 		circle(viewport, approx[0], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
 		putText(viewport, "0", approx[0], FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0xEE, 0xF4, 0xF4), 1);
 		circle(viewport, approx[1], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);

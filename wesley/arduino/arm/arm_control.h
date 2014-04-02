@@ -141,7 +141,7 @@ class arm_control {
 			p_destination[ELBOW]	= p_position[ELBOW] 	= topulsef(5.5);
 			p_destination[WRIST_P]	= p_position[WRIST_P] 	= topulsef(0);
 			p_destination[WRIST_R]	= p_position[WRIST_R] 	= topulsef(95);
-			p_destination[HAND]		= p_position[HAND] 		= topulsef(90);
+			p_destination[HAND]		= p_position[HAND] 		= topulsef(20);
 			
 			/* for testing purposes, this will proceed in order
 			 *    and directly place the successive joints at

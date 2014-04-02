@@ -73,7 +73,7 @@ using namespace cv;
 #include <unistd.h>		// sleep()
 
 // personal debug defines. set to (0) to turn off.
-#define EMGDBG (0)
+#define EMGDBG (1)
 #define DBGOUT if EMGDBG std::cout
 #define DBGCV if EMGDBG
 
@@ -392,7 +392,8 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 	size_t pos = 0;
 	int contour_idx = -1;
 	
-	const unsigned char frame_offset_y = 0;
+	const unsigned short frame_offset_y = 80;
+	const unsigned short frame_offset_x = 160;
 
 	wesley::arm_point pickup;
 	double z_dist = 0.0f;
@@ -429,7 +430,7 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 							capture >> swallow;
 						}
 						// create a rectangle for our region of interest
-						Rect ROI_tool = Rect(160, 80, 300, 360);
+						Rect ROI_tool = Rect(frame_offset_x, frame_offset_y, 300, 360);
 						// draw a red outline around the region of interest
 //						rectangle(frame, ROI_tool, CV_RGB(0xF8, 0x00, 0x12), 1);
 
@@ -554,7 +555,8 @@ DBGCV							while(waitKey() != 27);
 				}
 				// lose the upper 100 pixels of the frame to avoid catching the edge
 				//    of the board and all the nothingness beyond.
-				Rect ROI_tool = Rect(0, frame_offset_y, 640, (480 - frame_offset_y));
+//				Rect ROI_tool = Rect(0, frame_offset_y, 640, (480 - frame_offset_y));
+				Rect ROI_tool = Rect(frame_offset_x, frame_offset_y, 300, 360);
 DBGCV				rectangle(frame, ROI_tool, CV_RGB(0xD0, 0x00, 0x6E), 1);
 				Mat viewport = frame(ROI_tool);
 				contour_idx = process_frame(viewport, thresh, contours);
