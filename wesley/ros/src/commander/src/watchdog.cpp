@@ -24,7 +24,5 @@ void WatchDog::operator()(string binaryName){
 		std::this_thread::sleep_for(std::chrono::seconds(seconds_to_sleep));
 	}
 	execute_pkill(binaryName);
-	/**Need to delete the memory allocated for this because it's a suicide thread*/
-	delete this;
 }
 

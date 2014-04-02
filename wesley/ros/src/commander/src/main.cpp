@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <watchdog.h>
+//#include <thread.h> Include if using watchdog
 using std::string;
 
 #define grasp() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: grasp}'", "");
@@ -118,8 +119,8 @@ int executeBinary(string binaryName, string prefix, string mode ){
 		return -2;
 	}
 	/**
-	 * Uncomment this to turn on watchdogging (memory is deallocated in the class)
-	//WatchDog* watch = new WatchDog;
+	 * Uncomment this to turn on watchdogging 
+	//WatchDog watch;
 	//std::thread(watch,binaryName);
 	*/
 	//Get return value, don't ask why it's this but it is. It's from the stack overflow on popen. 

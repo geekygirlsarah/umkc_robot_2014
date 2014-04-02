@@ -10,8 +10,8 @@ using std::string;
 #ifndef WATCHDOG_H
 #define WATCHDOG_H
 /**
- * Watch dog is a functor object that should be called as such, don't worry it suicides itself and deallocates it's own memory
- * WatchDog* watch = new WatchDog; 
+ * Watch dog is a functor object that should be called as such
+ * WatchDog watch; 
  * std::thread(watch,binaryName);
  */
 class WatchDog{
