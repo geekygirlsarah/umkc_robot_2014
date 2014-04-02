@@ -412,7 +412,7 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> switching state to find tool");
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> for(%d:%d)", area, pos);
 						// move arm to position[job_state][area][trial];
-						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: (%f, %f, %f, %f, %f)",
+						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: ( %f %f %f %f %f )",
 									position[area][pos][job_state].x,
 									position[area][pos][job_state].y,
 									position[area][pos][job_state].z,
@@ -440,11 +440,12 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 						// apply ROI_tool to frame and copy that section into a new matrix
 						Mat viewport = frame(ROI_tool);
 						contour_idx = process_frame(viewport, thresh, contours);
-						double good_area = 25000;
+						double good_area_min = 25000;
+						double good_area_max = 45000;
 						double contour_area = contourArea(contours[contour_idx], false);
 						ROS_INFO("ID_TOOL :: FIND_TOOL ---------------------> area: (%f)", contour_area);
-					//	if (contour_idx > -1 && (contour_area > good_area)) {
-						if (contour_idx > -1) {
+						if (contour_idx > -1 && (contour_area > good_area_min) && (contour_area < good_area_max)) {
+					//	if (contour_idx > -1) {
 							approxPolyDP(contours[contour_idx],
 										 approx,
 										 arcLength(contours[contour_idx], true) * .015,
@@ -559,10 +560,11 @@ DBGCV							while(waitKey() != 27);
 DBGCV				rectangle(frame, ROI_tool, CV_RGB(0xD0, 0x00, 0x6E), 1);
 				Mat viewport = frame(ROI_tool);
 				contour_idx = process_frame(viewport, thresh, contours);
-				double good_area = 20000;
+				double good_area_min = 20000;
+				double good_area_max = 30000;
 				double contour_area = contourArea(contours[contour_idx], false);
 				ROS_INFO("ID_TOOL :: FIND_TOP -----------------------> area: (%f)", contour_area);
-				if (contour_idx > -1 && (contour_area > good_area)) {
+				if (contour_idx > -1 && (contour_area > good_area_min) && (contour_area < good_area_max)) {
 			//	if (contour_idx > -1) {
 					approxPolyDP(contours[contour_idx],
 								 approx,
@@ -697,7 +699,7 @@ DBGCV				while(waitKey() != 27);
 				
 //				wesley::arm_point t = position[area][pos][FIND_TOP];	// t, for temp;
 				wesley::arm_point camera = position[area][pos][FIND_TOP];
-				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> tip: (%f, %f, %f, %f, %f)",
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> tip: ( %f %f %f %f %f )",
 							camera.x,
 							camera.y,
 							camera.z,
@@ -705,11 +707,12 @@ DBGCV				while(waitKey() != 27);
 							camera.r);
 				// alpha: the angle of the arm in its own reference frame
 				double alpha_r = atan2(camera.y, camera.x);
+				double alpha_d = (alpha_r * 180 / M_PI);
 				// camera(x, y, z) is the point of the camera in the robot's frame.
 				camera.x += (27*(cos(alpha_r)) + 47*(sin(alpha_r)));
 				camera.y -= (47*(cos(alpha_r)) - 27*(sin(alpha_r)));
 				double tool_area = contourArea(contours[contour_idx], false);
-				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> camera: (%f, %f, %f, %f, %f)",
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> camera: ( %f %f %f %f %f )",
 							camera.x,
 							camera.y,
 							camera.z,
@@ -787,14 +790,18 @@ DBGCV				while(waitKey() != 27);
 
 				ratio = tool_d[tool] / leg;
 
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xc, yc): offset(%f, %f)", offset.x, offset.y);
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset_camera(xc, yc): offset(%f, %f)", offset.x, offset.y);
 				// translate the pixel offset into millimeters (the unit of the robot's frame)
 				offset.x *= ratio;
 				offset.y *= ratio;
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset_metere(xm, ym): offset(%f, %f)", offset.x, offset.y);
 				// theta is the angle of the line between camera center and tool center
 				//    in relation to the camera's frame.
 				double theta_r = (atan2(offset.y, offset.x));
-				double lambda_r = (M_PI_2 - alpha_r + theta_r);
+				double theta_d = (theta_r * 180 / M_PI);
+				double lambda_d = (90 - (alpha_d + theta_d));
+				double lambda_r = (lambda_d * M_PI / 180);
+			//	double lambda_r = (M_PI_2 - alpha_r + theta_r);
 				// store the original values so that we can manipulate them both at the same time
 				float xc = offset.x;
 				float yc = offset.y;
@@ -802,7 +809,7 @@ DBGCV				while(waitKey() != 27);
 				offset.x =  ((xc * cos(lambda_r)) + (yc * sin(lambda_r)));
 				// flipped from camera's negative y to robot's positive y.
 				offset.y = -((yc * cos(lambda_r)) - (xc * sin(lambda_r)));
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xm, ym): offset(%f, %f)", offset.x, offset.y);
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset_pickup(xp, yp): offset(%f, %f)", offset.x, offset.y);
 
 
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> opening hand");
@@ -892,7 +899,7 @@ DBGCV				while(waitKey() != 27);
 				pickup.z = position[area][pos][FIND_TOP].z;
 				pickup.p = -75;
 				pickup.cmd = "lifting straight";
-				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: (%f, %f, %f, %f, %f)",
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: ( %f %f %f %f %f )",
 							position[area][pos][job_state].x,
 							position[area][pos][job_state].y,
 							position[area][pos][job_state].z,

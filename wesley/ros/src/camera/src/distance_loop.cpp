@@ -137,6 +137,7 @@ int main(int argc, char* argv[]) {
 	tally_box tally;
 reset:
 	ROS_INFO("DIST --> waiting for /arm/response");
+	waiting = true;
 	do {
 		// wait until the arm is in position to take a picture;
 		ros::spinOnce();
@@ -205,7 +206,7 @@ capture:
 		//    offset is currently in pixels
 		offset.x = mc.x - center.x;
 //		mc.y -= frame_offset_y;
-		offset.y = -(mc.y - ((480 - frame_offset_y) / 2));
+		offset.y = -(mc.y - center.y);
 		// - and display the offset
 		ss << "off_c: " << offset;
 		putText(frame,
