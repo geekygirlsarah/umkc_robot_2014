@@ -134,6 +134,7 @@ int main(int argc, char* argv[]) {
 	Moments mu;
 	Point2f mc;
 	const unsigned char frame_offset_y = 0;
+	const unsigned char frame_offset_x = 0;
 	Point center(640 / 2, (480 - frame_offset_y) / 2);
 //	float alpha = (atan2(t.y, t.x) - (3.14159 / 2));
 	float alpha = (atan2(t.y, t.x));
@@ -152,7 +153,10 @@ capture:
 	for (int i = 7; i > 0; i--) {
 		capture >> frame;
 	}
-	Rect ROI = Rect(0, frame_offset_y, 640, (480 - frame_offset_y));
+	Rect ROI = Rect(frame_offset_x, frame_offset_y,
+					(640 - (2*frame_offset_x)),
+					(480 - frame_offset_y));
+	rectangle(frame, ROI, CV_RGB(0xBF, 0x23, 0xBF));
 	Mat viewport = frame(ROI);
 	viewport.copyTo(thresh);
 	cvtColor(thresh, thresh, CV_RGB2GRAY);

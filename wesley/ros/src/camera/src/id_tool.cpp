@@ -77,6 +77,14 @@ using namespace cv;
 #define DBGOUT if EMGDBG std::cout
 #define DBGCV if EMGDBG
 
+#ifndef M_PI
+	#define M_PI 3.141592654
+#endif
+
+#ifndef M_PI_2
+	#define M_PI_2 1.570796327
+#endif
+
 // how to keep track of the tool we're looking for
 enum shapes { NONE, SQUARE, TRIANGLE, CIRCLE };
 unsigned short tool = NONE;
@@ -224,11 +232,59 @@ int main(int argc, char* argv[]) {
 		return(60);
 	}
 
-	const short MAX_ID_TOOL = 13;
+	const short MAX_ID_TOOL = 11;
 
-	wesley::arm_point position[2][3][MAX_ID_TOOL];
+//	wesley::arm_point position[2][3][MAX_ID_TOOL];
+//	wesley::arm_point position[area][pos][state]
+	wesley::arm_point position[3][MAX_ID_TOOL][2];
 	std::string buffer;
 	for (int area = LEFT; area <= RIGHT; area++) {
+		for (int pos = 0; pos < MAX_ID_TOOL; pos++) {
+			for (int state = FIND_TOOL; state <= FIND_TOP;) {
+				getline(fin, buffer);
+				if (buffer[0] == '#' || buffer.size() == 0) {
+					continue;
+				}
+				std::stringstream ss;
+				ss << buffer;
+				float x, y, z, p, r;
+				ss >> x >> y >> z >> p >> r;
+				position[area][pos][state].direct_mode = true;
+				position[area][pos][state].x = x;
+				position[area][pos][state].y = y;
+				position[area][pos][state].z = z;
+				position[area][pos][state].p = p;
+				position[area][pos][state].r = r;
+				switch(state) {
+					case FIND_TOOL:
+						position[area][pos][state].cmd = "id_tool: FIND_TOOL";
+						break;
+					case FIND_TOP:
+						position[area][pos][state].cmd = "id_tool: FIND_TOP";
+						break;
+				}
+				state++;
+			}
+		}
+	}	//*/
+	if (EMGDBG) {
+		for (int area = LEFT; area <= RIGHT; area++) {
+			for (int pos = 0; pos < MAX_ID_TOOL; pos++) {
+				for (int state = FIND_TOOL; state <= FIND_TOP;) {
+					ROS_INFO("ID_TOOL :: init --> hopper: (%d, %f, %f, %f, %f, %f, %s)",
+						position[area][pos][state].direct_mode,
+						position[area][pos][state].x,
+						position[area][pos][state].y,
+						position[area][pos][state].z,
+						position[area][pos][state].p,
+						position[area][pos][state].r,
+						position[area][pos][state].cmd.c_str());
+					state++;
+				}
+			}
+		}
+	}	//*/
+/*	for (int area = LEFT; area <= RIGHT; area++) {
 		for (int pos = 0; pos < 13; pos++) {
 			getline(fin, buffer);
 			if (buffer[0] == '#' || buffer.size() == 0) {
@@ -269,7 +325,7 @@ int main(int argc, char* argv[]) {
 			position[FIND_TOP][area][pos].cmd = "id_tool: FIND_TOP";
 			ss.str("");
 		}
-	}
+	}	//*/
 
 	// open first camera device found in system
 	// according to OpenCV documentation, this can accept a filename.
@@ -326,29 +382,33 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 
 	// keep track of which position was last looked at - let's us start
 	//    from where we left off and not have to start all the way over.
-	size_t trial = 0;
 	size_t area = LEFT;		// via enum(tool_area), LEFT = 0, CENTER = 1, and RIGHT = 2
 	size_t pos = 0;
 	int contour_idx = -1;
+	
+	const unsigned char frame_offset_y = 0;
 
 	wesley::arm_point pickup;
+	double z_dist = 0.0f;
+
 	#define EVER ;;
 	for(EVER) {
 		ROS_WARN("ID_TOOL :: switch(job_state) [%d]", job_state);
 		switch(job_state) {
 			case FIND_TOOL: {
-				for(; trial < MAX_ID_TOOL; trial++) {
+				for(; pos < MAX_ID_TOOL; pos++) {
 					for(; area <= RIGHT; area++) {
-						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> for(%d:%d)", trial, area);
+						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> switching state to find tool");
+						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> for(%d:%d)", area, pos);
 						// move arm to position[job_state][area][trial];
 						waiting = true;
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: (%f, %f, %f, %f, %f)",
-									position[job_state][area][pos].x,
-									position[job_state][area][pos].y,
-									position[job_state][area][pos].z,
-									position[job_state][area][pos].p,
-									position[job_state][area][pos].r);
-						pub.publish(position[job_state][area][pos]);
+									position[area][pos][job_state].x,
+									position[area][pos][job_state].y,
+									position[area][pos][job_state].z,
+									position[area][pos][job_state].p,
+									position[area][pos][job_state].r);
+						pub.publish(position[area][pos][job_state]);
 						do {
 							ros::spinOnce();
 						} while(waiting);
@@ -373,6 +433,10 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 						// apply ROI_tool to frame and copy that section into a new matrix
 						Mat viewport = frame(ROI_tool);
 						contour_idx = process_frame(viewport, thresh, contours);
+						double good_area = 25000;
+						double contour_area = contourArea(contours[contour_idx], false);
+						ROS_INFO("ID_TOOL :: FIND_TOOL ---------------------> area: (%f)", contour_area);
+					//	if (contour_idx > -1 && (contour_area > good_area)) {
 						if (contour_idx > -1) {
 							approxPolyDP(contours[contour_idx],
 										 approx,
@@ -412,9 +476,8 @@ DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 									}
 								break;
 								case CIRCLE:
-									if (approx.size() ==  7 ||
-										approx.size() ==  8 ||
-										approx.size() ==  9 ||
+									if (approx.size() == 8 ||
+										approx.size() == 9 ||
 										approx.size() == 10) {
 										ROS_WARN("match(CIRCLE)");
 										// teal
@@ -432,17 +495,19 @@ DBGCV										color = CV_RGB(0xFF, 0x22, 0x44);
 							}	// end switch(tool) for FIND_TOOL
 							if (tool_found == true) {
 								ROS_INFO("ID_TOOL :: (FIND_TOOL) --> found a tool.");
-DBGCV								imshow("frame", frame);
-DBGCV								while(waitKey() != 27);
+DBGCV								polylines(viewport, approx, true, color);
 								job_state = FIND_TOP;
 								break;		// from for(area);
 							} else {
-DBGCV								imshow("frame", frame);
-DBGCV								while(waitKey() != 27);
+								// moste likely, approx.size() did not match our criteria
+//DBGCV								imshow("frame", frame);
+//DBGCV								while(waitKey() != 27);
 								// didn't find what we were looking for,
 								// try next position.
 								continue;	// with for(area)
 							}
+DBGCV							imshow("frame", frame);
+DBGCV							while(waitKey() != 27);
 						} else {
 							ROS_INFO("ID_TOOL :: (FIND_TOOL) :: process frame --> contour_idx reports -1");
 							// contour_idx was -1, didn't find a contour. try
@@ -451,7 +516,7 @@ DBGCV								while(waitKey() != 27);
 							continue;
 						}	// end if(contour_idx)
 					}	// end for(area) within each trial
-						ROS_INFO("ID_TOOL :: (FIND_TOOL) :: for(trial) done --> for(%d", trial);
+						ROS_INFO("ID_TOOL :: (FIND_TOOL) :: for(trial) done --> for(%d", pos);
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> ending reason(%d)", tool_found);
 					if (tool_found == true) {
 //						destroyWindow("frame");
@@ -474,102 +539,121 @@ DBGCV								while(waitKey() != 27);
 			}	// end case(FIND_TOOL);
 			break;
 			case FIND_TOP: {
-				for(pos = 0; pos < 5; pos++) {
-					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> for(%d)", pos);
-					// move arm to position[job_state][area][pos];
-					waiting = true;
-					pub.publish(position[job_state][area][pos]);
-					do {
-						ros::spinOnce();
-					} while(waiting);
-					//    job_state is the main logic handler/tracker
-					//    area follows from the for loop in FIND_TOOL
-					capture >> frame;
-					for (int i = 0; i < 6; i++) {
-						capture >> swallow;
-					}
-					contour_idx = process_frame(frame, thresh, contours);
-					if (contour_idx > -1) {
-						approxPolyDP(contours[contour_idx],
-									 approx,
-									 arcLength(contours[contour_idx], true) * .015,
-									 true);
-						switch(tool) {
-							case SQUARE:
-								if (approx.size() == 4) {
-									// goldenrod
-DBGCV									color = CV_RGB(0xDA, 0xA5, 0x20);
-									ROS_WARN("match_TOP(SQUARE)");
-									top_found = true;
+				ROS_INFO("ID_TOOL :: (FIND_TOP) :: --> switching state to find top of tool");
+				// move arm to position[job_state][area][pos];
+				waiting = true;
+				pub.publish(position[area][pos][job_state]);
+				do {
+					ros::spinOnce();
+				} while(waiting);
+				//    job_state is the main logic handler/tracker
+				//    area follows from the for loop in FIND_TOOL
+				capture >> frame;
+				for (int i = 0; i < 6; i++) {
+					capture >> swallow;
+				}
+				// lose the upper 100 pixels of the frame to avoid catching the edge
+				//    of the board and all the nothingness beyond.
+				Rect ROI_tool = Rect(0, frame_offset_y, 640, (480 - frame_offset_y));
+DBGCV				rectangle(frame, ROI_tool, CV_RGB(0xD0, 0x00, 0x6E), 1);
+				Mat viewport = frame(ROI_tool);
+				contour_idx = process_frame(viewport, thresh, contours);
+				double good_area = 30000;
+				double contour_area = contourArea(contours[contour_idx], false);
+				ROS_INFO("ID_TOOL :: FIND_TOP -----------------------> area: (%f)", contour_area);
+				if (contour_idx > -1 && (contour_area > good_area)) {
+			//	if (contour_idx > -1) {
+					approxPolyDP(contours[contour_idx],
+								 approx,
+								 arcLength(contours[contour_idx], true) * .015,
+								 true);
+					switch(tool) {
+						case SQUARE:
+							if (approx.size() == 4) {
+								// goldenrod
+DBGCV								color = CV_RGB(0xDA, 0xA5, 0x20);
+								ROS_WARN("match_TOP(SQUARE)");
+								top_found = true;
+							}
+						break;
+						case TRIANGLE:
+							if (approx.size() == 3) {
+								// lightpink
+DBGCV								color = CV_RGB(0xFF, 0xB6, 0xC1);
+								ROS_WARN("match_TOP(TRIANGLE)");
+								top_found = true;
+							} else {
+								{
+									// somtimes a triangle can pick up the shadow as
+									//    part of the contour. here we'll run the
+									//    approximated polygon through another run
+									//    of approxPolyDP and use a large value to
+									//    clear off any of the staggler parts.
+									// 123 was picked through testing as a fairly sane
+									//    value. anything between 50 and 300 should
+									//    work just as well.
+									// additionally, the shade within this range should
+									//    be small enough to not throw off the top
+									//    finding code in FIND_TOP. this means we can
+									//    still use the original approx vector.
+									vector<Point> secapprox;
+									approxPolyDP(approx, secapprox, 123, true);
+									if (secapprox.size() == 3) {
+DBGCV										color = CV_RGB(0xFF, 0xB6, 0xC1);
+										ROS_WARN("match_TOP(TRIANGLE--2");
+										top_found = true;
+									}
 								}
-							break;
-							case TRIANGLE:
-								if (approx.size() == 3) {
-									// lightpink
-DBGCV									color = CV_RGB(0xFF, 0xB6, 0xC1);
-									ROS_WARN("match_TOP(TRIANGLE)");
-									top_found = true;
-								}
-							break;
-							case CIRCLE:
-								if (approx.size() == 8) {
-									// olive
-DBGCV									color = CV_RGB(0x80, 0x80, 0x00);
-									ROS_WARN("match_TOP(CIRCLE)");
-									top_found = true;
-								}
-							break;
-							default:
-							break;
-						}	// end switch(tool) for FIND_TOP
-						if (top_found == true) {
-						ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. not finished with loop yet.");
-DBGCV							imshow("frame", frame);
-DBGCV							while(waitKey() != 27);
-							job_state = FIND_DISTANCE;
-							break;
-						} else {
-DBGCV							imshow("frame", frame);
-DBGCV							while(waitKey() != 27);
-							// go to the next position.
-							continue;
-						}
+							}
+						break;
+						case CIRCLE:
+							if (approx.size() == 8) {
+								// olive
+DBGCV								color = CV_RGB(0x80, 0x80, 0x00);
+								ROS_WARN("match_TOP(CIRCLE)");
+								top_found = true;
+							}
+						break;
+						default:
+						break;
+					}	// end switch(tool) for FIND_TOP
+					if (top_found == true) {
+					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. not finished with loop yet.");
+						job_state = FIND_DISTANCE;
+//						break;
 					} else {
-DBGCV						imshow("frame", frame);
-DBGCV						while(waitKey() != 27);
-						// contour_idx was -1. no contour found.
-						// go to next position.
-						continue;
+						// go to the next position.
+//						continue;
 					}
-				}	// end for(pos)
+DBGCV						polylines(viewport, approx, true, color);
+				}
 				if (top_found == true) {
 					ROS_INFO("ID_TOOL :: (FIND_TOP) :: for(pos) --> found the top. tool is double-confirmed.");
 					job_state = FIND_DISTANCE;
-
-				//	break;
+					//	break;
 				} else {
-						ROS_INFO("ID_TOOL :: (FIND_TOP) --> DID NOT FIND TOP. no confidence, restart trials.");
-					// didn't find the shape 
-					// go back to FIND_TOOL from where we left off + 1;
-					if (area == RIGHT && trial == 4) {
-						ROS_INFO("ID_TOOL :: (FIND_TOP) --> reached the end. next trial would overrun. bail.");
+					ROS_INFO("ID_TOOL :: (FIND_TOP) --> DID NOT FIND TOP. no confidence, restart trials.");
+					if (area == RIGHT && pos == (MAX_ID_TOOL - 1)) {
+						ROS_INFO("ID_TOOL :: (FIND_TOP) --> reached end. next trial would over-run. bail.");
 						failure = true;
 					}
-					else if (area == RIGHT && trial < 4) {
+					else if (area == RIGHT && pos < MAX_ID_TOOL) {
 						area = LEFT;
-						trial += 1;
+						pos += 1;
 					}
 					else {
-						area += 1;
+					area += 1;
 					}
-			
-
+						
 					job_state = FIND_TOOL;
 				}
+DBGCV				imshow("frame", frame);
+DBGCV				while(waitKey() != 27);
 			}	// end case(FIND_TOP);
 			break;
 			// FIND_CENTER and FIND_DISTANCE should be the same job_state.
 			case FIND_DISTANCE: {
+				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> switching state to find relation to tool");
 				// use the contour from above (FIND_TOP) and use it
 				//    to judge tool distance from camera
 				// this should work since contours is filled inside the loop
@@ -583,24 +667,46 @@ DBGCV						while(waitKey() != 27);
 					57.15,		// TRIANGLE edge
 					50.8, 		// CIRCLE diameter
 				};
-
-				wesley::arm_point t = position[FIND_TOP][area][pos];	// t, for temp;
+				
+//				wesley::arm_point t = position[area][pos][FIND_TOP];	// t, for temp;
+				wesley::arm_point camera = position[area][pos][FIND_TOP];
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> tip: (%f, %f, %f, %f, %f)",
+							camera.x,
+							camera.y,
+							camera.z,
+							camera.p,
+							camera.r);
+				// alpha: the angle of the arm in its own reference frame
+				double alpha_r = atan2(camera.y, camera.x);
+				// camera(x, y, z) is the point of the camera in the robot's frame.
+				camera.x += (27*(cos(alpha_r)) + 47*(sin(alpha_r)));
+				camera.y -= (47*(cos(alpha_r)) - 27*(sin(alpha_r)));
 				double tool_area = contourArea(contours[contour_idx], false);
-				double z_dist = distance_to_tool(tool_area, tool);
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> camera: (%f, %f, %f, %f, %f)",
+							camera.x,
+							camera.y,
+							camera.z,
+							camera.p,
+							camera.r);
+				z_dist = distance_to_tool(tool_area, tool);
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> z_dist: %f", z_dist);
 				mu = moments(contours[contour_idx], false);
 				mc = Point2f((mu.m10 / mu.m00),
 							 (mu.m01 / mu.m00));
 				Point2f offset(
 					  mc.x - 320,	// x coordinate offset from center of camera frame
-					-(mc.y - 240)	// same, but for y. here, camera.y moves opposite
+					-(mc.y - ((480 - frame_offset_y) / 2))	
+									// same, but for y. here, camera.y moves opposite
 				);					//    the frame of the robot.
-				float off_x, off_y;
-				float off_r, off_d;
+				float roll_x = 0.0f;
+				float roll_y = 0.0f;
+				float roll_r = 0.0f;
+				float roll_d = 0.0f;
 				float ratio= 0.0f;
 				double hypot = 0.0f;
 				switch(tool) {
 					case SQUARE: {
+						// find the longest side in an attempt to pick up the tool in the same manner
 						short ha, hb;
 						if (( sqrt(pow((approx[0].x - approx[1].x), 2) + pow((approx[0].y - approx[1].y), 2)) ) >
 						    ( sqrt(pow((approx[1].x - approx[2].x), 2) + pow((approx[1].y - approx[2].y), 2)) ) ) {
@@ -610,10 +716,12 @@ DBGCV						while(waitKey() != 27);
 							ha = 2;
 							hb = 1;
 						}
-						off_x = approx[ha].x - approx[hb].x;
-						off_y = approx[ha].y - approx[hb].y;
-						off_r = atan2(off_y, off_x);
-						off_d = 90 - (off_r * 180 / 3.14159);
+						// calculate the angle offset of the long side.
+						roll_x = approx[ha].x - approx[hb].x;
+						roll_y = approx[ha].y - approx[hb].y;
+						roll_r = atan2(roll_y, roll_x);
+						roll_d = 90 - (roll_r * 180 / 3.14159);
+						ROS_INFO("ID_TOOL :: FIND_DISTANCE --> offset degree of long edge: %f", roll_d);
 
 						hypot = sqrt(pow((approx[hb].x - approx[ha + 1].x), 2)
 								   + pow((approx[hb].y - approx[ha + 1].y), 2));
@@ -622,14 +730,14 @@ DBGCV						while(waitKey() != 27);
 					break;
 					case TRIANGLE:
 						// triangle work here
-						off_x = approx[1].x - approx[0].x;
-						off_y = approx[1].y - approx[0].y;
+						roll_x = approx[1].x - approx[0].x;
+						roll_y = approx[1].y - approx[0].y;
 
-						hypot = sqrt(pow(off_x, 2)
-								   + pow(off_y, 2));
+						hypot = sqrt(pow(roll_x, 2)
+								   + pow(roll_y, 2));
 						
-						off_r = atan2(off_y, off_x);
-						off_d = 90 - (off_r * 180 / 3.14159);
+						roll_r = atan2(roll_y, roll_x);
+						roll_d = 90 - (roll_r * 180 / 3.14159);
 
 						break;
 					case CIRCLE:
@@ -647,38 +755,44 @@ DBGCV						while(waitKey() != 27);
 
 				ratio = tool_d[tool] / hypot;
 
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xp, yp): offset(%f, %f)", offset.x, offset.y);
+				// translate the pixel offset into millimeters (the unit of the robot's frame)
 				offset.x *= ratio;
 				offset.y *= ratio;
-				offset.x += 47 + (20 * cos((off_d * 3.14159 / 180.0)));
-				offset.y += 47 + (20 * sin((off_d * 3.14159 / 180.0)));
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xm, ym): offset(%f, %f)", offset.x, offset.y);
+				// theta is the angle of the line between camera center and tool center
+				//    in relation to the camera's frame.
+				double theta_r = (atan2(offset.y, offset.x));
+				double lambda_r = (M_PI_2 - alpha_r + theta_r);
+				// store the original values so that we can manipulate them both at the same time
+				float xc = offset.x;
+				float yc = offset.y;
+				// translate the camera->tool offset into the robot's frame.
+				offset.x =  ((xc * cos(lambda_r)) + (yc * sin(lambda_r)));
+				// flipped from camera's negative y to robot's positive y.
+				offset.y = -((yc * cos(lambda_r)) - (xc * sin(lambda_r)));
 
-				pickup.direct_mode = true;
-				pickup.x = t.x + offset.x;
-				pickup.y = t.y + offset.y;
-				pickup.z = t.z;				// left alone for now. adjusted in a few lines.
-				pickup.p = t.p;
-				pickup.r = t.r - off_d;
-				pickup.cmd = "id_tool: pickup";
-				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> pickup point found. publishing.");
-
+				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> opening hand");
+				pickup.direct_mode = false;
+				pickup.cmd = "release";
 				pub.publish(pickup);
 				waiting = true;
 				do {
 					ros::spinOnce();
 				} while(waiting);
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> first offset published.");
 
-				sleep(1);		// sleep an extra second beyond what &block_arm_wait() does.
-				pickup.z = t.z - z_dist - 25;
-				pub.publish(pickup);
-				waiting = true;
-				do { 
-					ros::spinOnce();
-				} while(waiting);
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> second offset published.");
+				pickup.direct_mode = true;
+				pickup.x = camera.x - offset.x;
+				pickup.x -= (10*sin(roll_r + alpha_r));
+				pickup.y = camera.y + offset.y;
+				pickup.y += (10*cos(roll_r + alpha_r));
+				pickup.z = camera.z;				// left alone for now. adjusted in a few lines.
+				pickup.p = camera.p;
+				pickup.r = fmod((camera.r - roll_d), 180.0);
+				pickup.cmd = "id_tool: pickup";
+				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> pickup point found. publishing.");
+				std::cout << "ID_TOOL :: FIND_DISTANCE --> point: " << pickup << std::endl;
 
-				job_state = TOOL_GRASP;
-				
 				// light purple
 DBGCV				color = CV_RGB(0xAD, 0x66, 0xD5);
 DBGCV				circle(frame, mc, 5, color, CV_FILLED);
@@ -694,11 +808,50 @@ DBGCV				while(waitKey() != 27);
 				//    tool up and return a 1 to the caller that we have
 				//    succeeded in collecting the tool.
 				// that's probably the way to go.
+				job_state = TOOL_GRASP;
 			}
 			break;
 			case TOOL_GRASP:
+				ROS_INFO("ID_TOOL :: TOOL_GRASP --> preparing to pick up tool.");
+				pub.publish(pickup);
+				waiting = true;
+				do {
+					ros::spinOnce();
+				} while(waiting);
+				ROS_WARN("ID_TOOL :: TOOL_GRASP --> first offset published.");
+
+//				ROS_INFO("ID_TOOL :: TOOL_GRASP --> midline point.");
+//				pickup.z -= (z_dist - 30);
+//				pub.publish(pickup);
+//				waiting = true;
+//				do { 
+//					ros::spinOnce();
+//				} while(waiting);
+
+//				waiting = true;
+//				do {
+//					ros::spinOnce();
+//				} while(waiting);
+
+				sleep(1);		// sleep an extra second beyond what &block_arm_wait() does.
+				pickup.z -= z_dist;
+				pub.publish(pickup);
+				waiting = true;
+				do { 
+					ros::spinOnce();
+				} while(waiting);
+				ROS_WARN("ID_TOOL :: TOOL_GRASP --> second offset published.");
+
+				
+				ROS_INFO("ID_TOOL :: TOOL_GRASP --> preparing to grasp");
+				ROS_INFO("ID_TOOL :: TOOL_GRASP --> switching state to gather tool.");
 				pickup.direct_mode = false;
-				pickup.cmd = "grasp";
+				{
+					std::stringstream ss;
+					ss.str("");
+					ss << "grasp " << tool;
+					pickup.cmd = ss.str();
+				}
 				pub.publish(pickup);
 				waiting = true;
 				do {
@@ -706,21 +859,41 @@ DBGCV				while(waitKey() != 27);
 				} while(waiting);
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> tool should be had.");
 
+				// lift up.
+				pickup.direct_mode = true;
+				pickup.z = position[area][pos][FIND_TOP].z;
+				pickup.p = -75;
+				pickup.cmd = "lifting straight";
+				ROS_INFO("ID_TOOL :: (FIND_TOOL) --> going to: (%f, %f, %f, %f, %f)",
+							position[area][pos][job_state].x,
+							position[area][pos][job_state].y,
+							position[area][pos][job_state].z,
+							position[area][pos][job_state].p,
+							position[area][pos][job_state].r);
+				pub.publish(pickup);
+				waiting = true;
+				do {
+					ros::spinOnce();
+				} while(waiting);
+
+				pickup.direct_mode = false;
 				pickup.cmd = "carry";
+				pub.publish(pickup);
 				waiting = true;
 				do {
 					ros::spinOnce();
 				} while(waiting);
 				ROS_INFO("ID_TOOL :: TOOL_GRASP --> tool in possession and carried. exiting.");
 
+// i think this is 				
 				HUA = true;
 			break;				
 			default:
 				// no known cases that bring us here.
 			break;
 		}	// end switch(job_state)
-DBGCV		imshow("frame", frame);
-DBGCV		while(waitKey() != 27);
+//DBGCV		imshow("frame", frame);
+//DBGCV		while(waitKey() != 27);
 //		if (tool_found == true && top_found == true) {
 //			ROS_INFO("ID_TOOL(for(EVER)) --> CONFIRMED! finishing out.");
 //			ROS_INFO("ID_TOOL(FIND_TOOL) :: found tool at: (%f, %f, %f, %f, %f)",
@@ -732,7 +905,7 @@ DBGCV		while(waitKey() != 27);
 //			break;
 //		}
 		if (HUA == true) {
-			ROS_INFO("ID_TOOL :: HUA!");
+			ROS_INFO("ID_TOOL :: HUA?");
 			break;
 		}
 		if (failure == true) {
