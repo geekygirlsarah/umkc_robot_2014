@@ -21,8 +21,9 @@
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
 
-#define NUM_GAP_CHECKS 3
-
+#define GAPFINDER_NUM_GAP_CHECK_TOTAL 5 	//how many times should we take reading for gap
+#define GAPFINDER_NUM_GAP_CHECK_ACCEPTABLE 3	//how many times should the reading say there is a gap for us to assume there is a gap
+#define GAPFINDER_VERIFY_GAP_DELAY 50	//ms between taking readings for gap once stopped
 class GapFinder	{
 private:
   //Using 3 IR sensors along the side. 
@@ -199,12 +200,16 @@ public:
   //this one assumes you are already stopped, checks in a row.
   //DO NOT BE MOVING WHEN YOU DO THIS
   bool gapPresentThorough()	{
- 	for(int i = 0; i < NUM_GAP_CHECKS; i++)
+	int okChecks = 0; //how many times we read a gap
+
+ 	for(int i = 0; i < GAPFINDER_NUM_GAP_CHECK_TOTAL ; i++)
  		{        
-		 	if(!checkYesGap())
- 				return false; 
+		 	if(checkYesGap())	{
+ 				okChecks++; 
+ 			}
+ 			delay(GAPFINDER_VERIFY_GAP_DELAY);
  		}    
- 	return true;
+ 	return okChecks >= GAPFINDER_NUM_GAP_CHECK_ACCEPTABLE;
   }
 
   bool maybeGapPresent()	{
