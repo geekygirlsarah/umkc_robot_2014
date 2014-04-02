@@ -470,10 +470,10 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 		float grasp(char tool) {
 			switch(tool) {
 				case 's':
-					p_destination[HAND] = topulse(100);
+					p_destination[HAND] = topulse(120);
 					break;
 				case 't':
-					p_destination[HAND] = topulse(130);
+					p_destination[HAND] = topulse(140);
 					break;
 				case 'c':
 					p_destination[HAND] = topulse(110);

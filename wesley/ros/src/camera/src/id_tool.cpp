@@ -195,6 +195,10 @@ int process_frame(Mat &frame, Mat &thresh, vector<vector<Point> > &contours) {
 	return (biggest_contour);
 }
 
+double hypot(Point ha, Point hb) {
+	return ( sqrt(pow((hb.x - ha.x), 2) + pow((hb.y - ha.y), 2)) );
+}
+
 int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "id_tool");
 	
@@ -356,7 +360,7 @@ int main(int argc, char* argv[]) {
 	// the window is for testing and lets the coder see what
 	//    the camera is seeing / looking at.
 DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
-	Mat frame, thresh, viewport, swallow;
+	Mat frame, thresh, viewport;
 
 	// vectors for the findContours, approxPolyDP and HoughCircles
 	//    keep the creation of these vectors outside of the loop so
@@ -419,15 +423,14 @@ DBGCV	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 						ROS_INFO("ID_TOOL :: (FIND_TOOL) --> released from block_arm_wait");
 						// wait for return response from arm indicating finshed moving.
 						// acquire a frame to job_state
-						capture >> frame;
 						// swallow the next 6 frames from the buffer.
 						// this was discovered to be a problem from the camera buffer.
 						// for some reason the camera buffer stores 6 frames before
 						//    catching up to where we want it to be. 6 is the minimum.
 						//    anything more is also acceptable; the frame capture is
 						//    rather fast.
-						for (int i = 0; i < 6; i++) {
-							capture >> swallow;
+						for (int f = 0; f < 10; f++) {
+							capture >> frame;
 						}
 						// create a rectangle for our region of interest
 						Rect ROI_tool = Rect(frame_offset_x, frame_offset_y, 300, 360);
@@ -549,18 +552,14 @@ DBGCV							while(waitKey() != 27);
 				wait_on_arm();
 				//    job_state is the main logic handler/tracker
 				//    area follows from the for loop in FIND_TOOL
-				capture >> frame;
-				for (int i = 0; i < 6; i++) {
-					capture >> swallow;
+				for (int f = 0; f < 10; f++) {
+					capture >> frame;
 				}
-				// lose the upper 100 pixels of the frame to avoid catching the edge
-				//    of the board and all the nothingness beyond.
-//				Rect ROI_tool = Rect(0, frame_offset_y, 640, (480 - frame_offset_y));
 				Rect ROI_tool = Rect(frame_offset_x, frame_offset_y, 300, 360);
 DBGCV				rectangle(frame, ROI_tool, CV_RGB(0xD0, 0x00, 0x6E), 1);
 				Mat viewport = frame(ROI_tool);
 				contour_idx = process_frame(viewport, thresh, contours);
-				double good_area = 30000;
+				double good_area = 20000;
 				double contour_area = contourArea(contours[contour_idx], false);
 				ROS_INFO("ID_TOOL :: FIND_TOP -----------------------> area: (%f)", contour_area);
 				if (contour_idx > -1 && (contour_area > good_area)) {
@@ -610,10 +609,36 @@ DBGCV										color = CV_RGB(0xFF, 0xB6, 0xC1);
 						break;
 						case CIRCLE:
 							if (approx.size() == 8) {
+								// need to add a check of all four diagonals. if any
+								//    one of them is large by a significat amount,
+								//    say, outside of 1/3 the distance again, then
+								//    we are looking at the side of the tool and
+								//    getting a false positive.
+
+								double diags[4] = {
+									hypot(approx[0], approx[4]),
+									hypot(approx[1], approx[5]),
+									hypot(approx[2], approx[6]),
+									hypot(approx[3], approx[7]),
+								};
+
+								// using 5% of the average diagonal length
+								double diags_avg = (diags[0] + diags[1] + diags[2] + diags[3]) / 4;
+								bool false_circle = false;
+								for (short dth = 0; dth < 4; dth++) {
+									if (abs(diags[dth] - diags_avg) > (diags_avg * .05)) {
+										ROS_WARN("ID_TOOL :: FIND_TOP(CIRCLE) --> false catch. one diagonal is too long.");
+										false_circle = false;
+										break;
+									}
+								}
+
+								if (!false_circle)  {
 								// olive
-DBGCV								color = CV_RGB(0x80, 0x80, 0x00);
-								ROS_WARN("match_TOP(CIRCLE)");
-								top_found = true;
+DBGCV									color = CV_RGB(0x80, 0x80, 0x00);
+									ROS_WARN("match_TOP(CIRCLE)");
+									top_found = true;
+								}
 							}
 						break;
 						default:
@@ -695,28 +720,32 @@ DBGCV				while(waitKey() != 27);
 				mu = moments(contours[contour_idx], false);
 				mc = Point2f((mu.m10 / mu.m00),
 							 (mu.m01 / mu.m00));
-				Point2f offset(
+				mc.x += frame_offset_x;
+				mc.y += frame_offset_y;
+				Point2f offset(		// this offset calculation assumes frame: 640x480
+									// smarter code would ask the frame Mat its size
 					  mc.x - 320,	// x coordinate offset from center of camera frame
-					-(mc.y - ((480 - frame_offset_y) / 2))	
-									// same, but for y. here, camera.y moves opposite
+					-(mc.y - 240)	// same, but for y. here, camera.y moves opposite
 				);					//    the frame of the robot.
+				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> mc.x(%f), mc.y(%f)", mc.x, mc.y);
 				float roll_x = 0.0f;
 				float roll_y = 0.0f;
 				float roll_r = 0.0f;
 				float roll_d = 0.0f;
 				float ratio= 0.0f;
-				double hypot = 0.0f;
+				double leg = 0.0f;
 				switch(tool) {
 					case SQUARE: {
-						// find the longest side in an attempt to pick up the tool in the same manner
+						// find the longest side in an attempt to pick up the tool along the long edge
 						short ha, hb;
-						if (( sqrt(pow((approx[0].x - approx[1].x), 2) + pow((approx[0].y - approx[1].y), 2)) ) >
-						    ( sqrt(pow((approx[1].x - approx[2].x), 2) + pow((approx[1].y - approx[2].y), 2)) ) ) {
-							ha = 1;
-							hb = 0;
-						} else {
-							ha = 2;
+//						if (( sqrt(pow((approx[0].x - approx[1].x), 2) + pow((approx[0].y - approx[1].y), 2)) ) >
+//						    ( sqrt(pow((approx[1].x - approx[2].x), 2) + pow((approx[1].y - approx[2].y), 2)) ) ) {
+						if (hypot(approx[0], approx[1]) > hypot(approx[1], approx[2])) {
+							ha = 0;
 							hb = 1;
+						} else {
+							ha = 1;
+							hb = 2;
 						}
 						// calculate the angle offset of the long side.
 						roll_x = approx[ha].x - approx[hb].x;
@@ -725,8 +754,9 @@ DBGCV				while(waitKey() != 27);
 						roll_d = 90 - (roll_r * 180 / 3.14159);
 						ROS_INFO("ID_TOOL :: FIND_DISTANCE --> offset degree of long edge: %f", roll_d);
 
-						hypot = sqrt(pow((approx[hb].x - approx[ha + 1].x), 2)
-								   + pow((approx[hb].y - approx[ha + 1].y), 2));
+						leg = hypot(approx[ha], approx[hb]);
+//						hypot = sqrt(pow((approx[hb].x - approx[ha + 1].x), 2)
+//								   + pow((approx[hb].y - approx[ha + 1].y), 2));
 
 					}
 					break;
@@ -735,8 +765,7 @@ DBGCV				while(waitKey() != 27);
 						roll_x = approx[1].x - approx[0].x;
 						roll_y = approx[1].y - approx[0].y;
 
-						hypot = sqrt(pow(roll_x, 2)
-								   + pow(roll_y, 2));
+						leg = sqrt(pow(roll_x, 2) + pow(roll_y, 2));
 						
 						roll_r = atan2(roll_y, roll_x);
 						roll_d = 90 - (roll_r * 180 / 3.14159);
@@ -744,8 +773,9 @@ DBGCV				while(waitKey() != 27);
 						break;
 					case CIRCLE:
 						// circle work here
-						hypot = sqrt(pow((approx[4].x - approx[0].x), 2)
-								   + pow((approx[4].y - approx[0].x), 2));
+						leg = hypot(approx[0], approx[4]);
+//						hypot = sqrt(pow((approx[4].x - approx[0].x), 2)
+//								   + pow((approx[4].y - approx[0].x), 2));
 						break;
 					default:
 						ROS_WARN("ID_TOOL :: FIND_DISTANCE --> switch(tool): default, shouldn't be here. continuing.");
@@ -755,13 +785,12 @@ DBGCV				while(waitKey() != 27);
 						break;
 				}
 
-				ratio = tool_d[tool] / hypot;
+				ratio = tool_d[tool] / leg;
 
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xp, yp): offset(%f, %f)", offset.x, offset.y);
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xc, yc): offset(%f, %f)", offset.x, offset.y);
 				// translate the pixel offset into millimeters (the unit of the robot's frame)
 				offset.x *= ratio;
 				offset.y *= ratio;
-				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xm, ym): offset(%f, %f)", offset.x, offset.y);
 				// theta is the angle of the line between camera center and tool center
 				//    in relation to the camera's frame.
 				double theta_r = (atan2(offset.y, offset.x));
@@ -773,6 +802,8 @@ DBGCV				while(waitKey() != 27);
 				offset.x =  ((xc * cos(lambda_r)) + (yc * sin(lambda_r)));
 				// flipped from camera's negative y to robot's positive y.
 				offset.y = -((yc * cos(lambda_r)) - (xc * sin(lambda_r)));
+				ROS_WARN("ID_TOOL :: FIND_DISTANCE --> offset(xm, ym): offset(%f, %f)", offset.x, offset.y);
+
 
 				ROS_INFO("ID_TOOL :: FIND_DISTANCE --> opening hand");
 				pickup.direct_mode = false;
@@ -782,9 +813,16 @@ DBGCV				while(waitKey() != 27);
 
 				pickup.direct_mode = true;
 				pickup.x = camera.x - offset.x;
-				pickup.x -= (10*sin(roll_r + alpha_r));
 				pickup.y = camera.y + offset.y;
-				pickup.y += (10*cos(roll_r + alpha_r));
+				// the 20 here is the distance in millimeters from the center of the hand to the
+				//    tip of the grip. now that we've found where the center of the hand should
+				//    be in relation to the tool, we need to adjust the grip so that the finger
+				//    next to the camera is the point of consideration. shift the pickup point
+				//    by this much, with trig, so that we can get there.
+//				pickup.x -= (20*sin(roll_r + alpha_r));
+//				pickup.y += (20*cos(roll_r + alpha_r));
+				pickup.x -= (20*sin(roll_r));
+				pickup.y += (20*cos(roll_r));
 				pickup.z = camera.z;				// left alone for now. adjusted in a few lines.
 				pickup.p = camera.p;
 				pickup.r = fmod((camera.r - roll_d), 180.0);
