@@ -63,7 +63,7 @@ class Navigation {
                   encoders.init();
                   mov.init(&sabertooth);
                   Serial.println("ready");
-                  gapfind.init(A0,A1,A2,GAPFINDER_THRESHOLD);
+                  gapfind.init(A0,A1,A2,GAPFINDER_THRESHOLD, &sabertooth);
                   eyes.init(A4,8);
                   mag.init(10,10,A6,A7);
                   //par.init(A2,A1,A0, &sabertooth);
@@ -124,6 +124,7 @@ class Navigation {
                    } 
                    */
                    
+                   /*
                    if(!mag.isFrontSafe() && goingForward)  {
                      Serial.println("ACK SOMETHING!");
                      sabertooth.all_stop();
@@ -146,10 +147,14 @@ class Navigation {
                      Serial.println("go reverse");
                      sabertooth.forward(20);
                    }
+                   */
                 }
                 
                 //returns if gap is found.
-                bool lookingForGap()  {
+                //-> return -1: ABORT ABORT, emergeney need go to back to find edge state
+                //   return  0: false - no gap.
+                //   return  1: true - GAP GAP IT"S A GAP!
+                int lookingForGap()  {
                   //sabertooth.reverse(20);
                   //sabertooth.forward(20);
                   //console.println("moving \t checking gap");
@@ -164,22 +169,18 @@ class Navigation {
                   
                   //gap found? move forward a set amount to center self (MAYBE ?? need to check if you really found gap.
                   if(gapfind.gapPresent())  {
-                    Serial.println("moving \t GAP might be found found!!");
                     sabertooth.all_stop();  //first stop to keep readings stable
-                    /*
-                    if(gapfind.gapPresentThorough())  {
-                      //gapfind.reset();
-                      return true; 
-                    } else  {
-                      
-                    }
-                    */
-                    gapfind.reset();
-                    return true;
-
                     
+                    if(gapfind.gapPresentThorough())  {
+                      gapfind.reset();
+                      return 1; 
+                    } else  {
+                      //EMERGENCY SOMETHIGN MESSED UP - NEED TO GO BACK TO FIN EDGE STATE
+                      gapfind.reset();
+                       return -1;  
+                    }
                   }
-                  return false;
+                  return 0;
                 }
                 
                 //use ticks to adjust.. as soon as we find gap, needs to go forward some ticks
@@ -302,8 +303,8 @@ class Navigation {
                //return true once you foind the edge (this is make it a lot easier to separate so i can find gap separetely find finding edge
                //TODO optimize :D
                  bool atEdge()    {
-                   mag.update();
-                   return !mag.isSafe();
+                   //mag.update();
+                   return !mag.isBackSensorSafe();
                    
                  }
 		  

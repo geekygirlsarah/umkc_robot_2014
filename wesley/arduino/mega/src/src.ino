@@ -1,7 +1,7 @@
 
 //THESE ARE IMPORTANT
-#define ITERATION 2  //how many gaps to cross.. for debugging
-#define LASTGAP 2  //which one to stop at and do the hardcoded one
+#define ITERATION 3  //how many gaps to cross.. for debugging
+#define LASTGAP 3  //which one to stop at and do the hardcoded one
 #define PAUSE_DURATION  300  //how many milliseconds between movements
 
 
@@ -80,13 +80,13 @@ bool turn90DegreeFinished;
 bool arrivedAtTools;
 bool crossBoard;
 bool  commandGoToTools;
-bool  isGapFound;
+int  isGapFound;
 bool  isGapCrossed;
 bool  isEdgeFound;
 bool travelingHome;
 
 
-
+int temp_num;  //used to fix gapfinder lookingforgap thing :(
 
 
 ros::NodeHandle  nh;	
@@ -297,20 +297,23 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  void enterLookForGap()  {
  advertising_state.payload = PL_LOOKING_FOR_GAP;
  talker.publish(&advertising_state);
- nav.takeOff();
+ 
  }
  
  //ignoring falling off for now
  void updateLookForGap()  {
- //updateROS_spin();  //do i need this??
- #ifndef DEBUG_COMMS 
- isGapFound = nav.lookingForGap();
+ 
+   //-> moving and stuff is handled inside looking for gap
+   //updateROS_spin();  //do i need this??
+ #ifndef DEBUG_COMMS
+ temp_num = nav.lookingForGap();  
+ isGapFound = temp_num;
   //NEED TO BE MOVING and not stopeed. 
  //stateMachine.immediateTransitionTo(waitForCommand);    
  
  #endif
  #ifdef DEBUG_COMMS
- isGapFound = true;
+ isGapFound = 1;
      
  #endif
  }
@@ -579,7 +582,7 @@ void setup() {
   arrivedAtTools = false;
   crossBoard = false; 
   commandGoToTools = false;
-  isGapFound = false;
+  isGapFound = 0;
   isGapCrossed = false;
   isEdgeFound = false;
   travelingHome = false;
@@ -689,8 +692,8 @@ void loop() {
    
    else if(stateMachine.isInState(lookForGap))  {
    //spin.. will transition to gapFound state when its' found
-     if(isGapFound)  {
-       isGapFound = false;
+     if(isGapFound == 1)  {
+       isGapFound = 0;
        //might need to hardcode the ticks if I'm not at an edge.
        #ifndef DEBUG_COMMS
        //NO ADJUSTING
@@ -700,6 +703,9 @@ void loop() {
        //stateMachine.transitionTo(waitForCommand);
    
        stateMachine.transitionTo(gapFound);
+     }
+     else if (isGapFound == -1) {   //ABORt! need to go back to findedge state!!!
+       stateMachine.transitionTo(findEdge);
      }
    }
    

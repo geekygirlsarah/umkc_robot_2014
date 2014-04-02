@@ -16,6 +16,8 @@
 #include <Distance2D120X.h>
 #include <DistSmoother.h>
 
+#include <motor_cmd.h>
+
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
 
@@ -39,6 +41,8 @@ private:
   DistSmoother Dist1;
   DistSmoother Dist2;  
   DistSmoother Dist3;
+
+  motor_cmd *saber;
 
   const static int threshold_default = 10;  //threshold for ping sensor detecting a hole (cm)
   int threshold;  //threshold for ping sensor detecting a hole (cm)
@@ -73,25 +77,30 @@ public:
 
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
-  void init(int pin1, int pin2, int pin3 )  {
+  void init(int pin1, int pin2, int pin3 , motor_cmd* s)  {
     Dist1.init(pin1);
     Dist2.init(pin2);
     Dist3.init(pin3);
     check = 3;
     threshold = threshold_default;
     gap_status = no_gap;    //we start out assuming no hole
+
+    saber = s;
+
   }
 
 
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
-  void init(int pin1, int pin2, int pin3, int thresh)  {
+  void init(int pin1, int pin2, int pin3, int thresh, motor_cmd* s)  {
     Dist1.init(pin1);
     Dist2.init(pin2);
     Dist3.init(pin3);
     check = 3;
     threshold = thresh;
     gap_status = no_gap;    //we start out assuming no hole
+    
+    saber = s;
   }
 
   //find and print the distances
@@ -160,6 +169,7 @@ public:
 			  break;
 			case yes_gap:
 			
+			saber->all_stop();	//attempting to STOP as soon as gap is reached
 			//  if(!checkYesGap())
 			//	gap_status = no_gap;
 			  break;

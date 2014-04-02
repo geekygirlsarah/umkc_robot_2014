@@ -2,7 +2,6 @@
 /**
  * Magellan - Edge sensor class 
  * Jan 2014
- * Author: Victoria Wu
  * UMKC Robotics 2014
  *
  * Find out if you're at the edge of the world or not. 
@@ -117,10 +116,11 @@ private:
   
 public:
 
+/*
   bool isFrontSensorSafe()  {
    return front.isCloser(threshold_front);
   }
-  
+  */
   bool isBackSensorSafe()  {
    return back.isCloser(threshold_back);
   }
@@ -136,7 +136,7 @@ public:
   void init(int thresh_front, int thresh_back, int pin1, int pin2) {
     threshold_front = thresh_front;
     threshold_back= thresh_back;
-    front.init(pin1);
+   // front.init(pin1);
     back.init(pin2);
     check =3;
   }
@@ -175,10 +175,11 @@ public:
     Serial.println();
   }
   
+  /*
   bool isFrontSafe()	{
  	return !(danger_status == front_danger); 
   }
-
+*/
   bool isBackSafe()	{
   	return !(danger_status == back_danger);
   }
@@ -198,12 +199,13 @@ public:
 			switch(danger_status)  {
 			  //Want to be quick and jumpy. As soon as sensor reads upsafe, jump. Rather a false positive than a false negative.
 			  case ok:
-				if(!isFrontSensorSafe())
-				  danger_status = front_danger;
-				else if (!isBackSensorSafe())
+//				if(!isFrontSensorSafe())
+//				  danger_status = front_danger;
+				if (!isBackSensorSafe())
 				  danger_status = back_danger;
 				break;
-				
+
+/*
 			  //Must read a safe reading for at least "check" counts in a row.
 			  case front_danger:
 				if(isFrontSensorSafe())  {
@@ -217,7 +219,8 @@ public:
 				else   //front still reads edge!!
 				  currentSafeCount = 0;
 				break;
-			  case back_danger:
+*/
+			case back_danger:
 				if(isBackSensorSafe())  {
 				  if(currentSafeCount == check)  {
 					danger_status = ok;
