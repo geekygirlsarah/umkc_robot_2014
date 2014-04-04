@@ -12,6 +12,12 @@
 #define HARDCODE_TICKS_LASTGAP 5500
 #define HARDCODE_TICKS_GAP_ADJUST 1000
 #define HARDCODE_TICKS_TRAVEL_TO_TOOLS 20000
+// Hard coded driving ticks:
+// HOME is lane we start in, LANE1 is next lane, LANE3 is the next, RIGS is last lane
+#define HARDCODE_TICKS_DISTANCE_INTO_HOME 5300
+#define HARDCODE_TICKS_DISTANCE_INTO_LANE1 6000
+#define HARDCODE_TICKS_DISTANCE_INTO_LANE2 7600
+#define HARDCODE_TICKS_DISTANCE_INTO_RIGS 5000
 #define GAPFINDER_THRESHOLD 25
 
 
@@ -53,6 +59,8 @@ class Navigation {
                 ParallelPark par; 
                 Magellan mag;
                 
+                //int lastTickAvg;
+                
           
                 
                 const static int32_t ticksFor90 = 3450;
@@ -68,6 +76,7 @@ class Navigation {
                   mag.init(10,10,A6,A7);
                   par.init(A2,A1,A0, &sabertooth);
                 
+                  //lastTickAvg = 0;
                   
                   goingForward = true;  //... this is from the point of view of robot. it will always start going forward.
                                         //it'xs just that the motor library has it as "reverse()" as our going forward XD
@@ -176,6 +185,7 @@ class Navigation {
                 }
                 
                 //use ticks to adjust.. as soon as we find gap, needs to go forward some ticks
+                // void??
                 bool adjustToGap()  {
                   //500 taped, trying 900 untaped
                     goForwardForever();
@@ -212,6 +222,49 @@ class Navigation {
                      return true;
                    }
                    return false;
+                }
+                
+                // These should be able to be called either direction due to hard coding tick values
+                
+                void driveIntoLaneHome()  {
+                    goForwardForever();
+                    int32_t start_ticks = positionBL;
+                    while(true)  {
+                      if(abs(positionBL - start_ticks) > HARDCODE_TICKS_DISTANCE_INTO_HOME)
+                         break; 
+                     }
+                     stopNow();
+                     //return true;
+                }
+                void driveIntoLane1()  {
+                    goForwardForever();
+                    int32_t start_ticks = positionBL;
+                    while(true)  {
+                      if(abs(positionBL - start_ticks) > HARDCODE_TICKS_DISTANCE_INTO_LANE1)
+                         break; 
+                     }
+                     stopNow();
+                     //return true;
+                }
+                void driveIntoLane2()  {
+                    goForwardForever();
+                    int32_t start_ticks = positionBL;
+                    while(true)  {
+                      if(abs(positionBL - start_ticks) > HARDCODE_TICKS_DISTANCE_INTO_LANE2)
+                         break; 
+                     }
+                     stopNow();
+                     //return true;
+                }
+                void driveIntoLaneRigs()  {
+                    goForwardForever();
+                    int32_t start_ticks = positionBL;
+                    while(true)  {
+                      if(abs(positionBL - start_ticks) > HARDCODE_TICKS_DISTANCE_INTO_RIGS)
+                         break;
+                     }
+                     stopNow();
+                     //return true;
                 }
                 
                 void parallelpark()  {

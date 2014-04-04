@@ -9,9 +9,9 @@
 
 //THese are just debugging things
 //separating the Crossing Wave state
-#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
+//#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 //#define TEST_TRANSITION_FROM_TOOLS_ONLY   //this starts from the tool pick up position, then goes back to default home position 
-//#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
+#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
 //#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
 
 
@@ -354,7 +354,25 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
     isGapCrossed = true;
  }
  else  {
-   isGapCrossed = nav.crossGap();
+   // old:
+   //isGapCrossed = nav.crossGap();
+   // new:
+   // works for going from rigs (case 1) to home (case 3). Need to change functions if 
+   // going "forward" through course
+   switch(gapsThru)
+   {
+     case 1:  // From home to gap 1
+       nav.driveIntoLane2();
+       break;
+     case 2:
+       nav.driveIntoLane1();
+       break;
+     case 3:
+       nav.driveIntoLaneHome();
+       break;
+     break;
+     }
+     isGapCrossed = true;
  }
  
  //stateMachine.transitionTo(waitForCommand);
