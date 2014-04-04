@@ -13,7 +13,6 @@
 #include <wesley/arm_angle.h> 	// custom message to put arm at specific angles
 #include <wesley/arm_point.h> 	// custom message for put_point
 #include <std_msgs/Empty.h> 	// cheap, tiny, response message
-#include <std_msgs/String.h>
 
 #include "arm_control.h"
 
@@ -24,9 +23,7 @@ arm_control arm;
 // globally needed ros objects
 ros::NodeHandle nh;
 wesley::arm_point res;
-std_msgs::String debug_msg;
 ros::Publisher pub("/arm/response", &res);
-ros::Publisher debug_pub("/arm/debug", &debug_msg);
 
 // callback for response for /arm/put/point
 //
@@ -38,7 +35,6 @@ ros::Publisher debug_pub("/arm/debug", &debug_msg);
 void arm_put_point(const wesley::arm_point& msg){
 	if (msg.direct_mode == true) {
 		arm.put_point(msg.x, msg.y, msg.z, msg.p, msg.r);
-//		arm.put_point_line(msg);
 	} else {
 		if (strcmp(msg.cmd, "park") == 0) {
 			arm.park();
@@ -46,18 +42,24 @@ void arm_put_point(const wesley::arm_point& msg){
 		if (strcmp(msg.cmd, "carry") == 0) {
 			arm.carry();
 		} else
-		if ((strcmp(msg.cmd, "grasp s") == 0) || (strcmp(msg.cmd, "grasp 1") == 0)) {
+		if (strcmp(msg.cmd, "grasp s") == 0) {
 			arm.grasp('s');
 		} else
-		if ((strcmp(msg.cmd, "grasp t") == 0) || (strcmp(msg.cmd, "grasp 2") == 0)) {
+		if (strcmp(msg.cmd, "grasp t") == 0) {
 			arm.grasp('t');
 		} else
-		if ((strcmp(msg.cmd, "grasp c") == 0) || (strcmp(msg.cmd, "grasp 3") == 0)) {
+		if (strcmp(msg.cmd, "grasp c") == 0) {
 			arm.grasp('c');
 		} else
-//		if (strcmp(msg.cmd, "query") == 0) {
-//			arm.query();
-//		} else
+		if (strcmp(msg.cmd, "grasp 1") == 0) {
+			arm.grasp('s');
+		} else
+		if (strcmp(msg.cmd, "grasp 2") == 0) {
+			arm.grasp('t');
+		} else
+		if (strcmp(msg.cmd, "grasp 3") == 0) {
+			arm.grasp('c');
+		} else
 		if (strcmp(msg.cmd, "release") == 0) {
 			arm.release();
 		}
@@ -125,15 +127,14 @@ void setup() {
 	arm.connect(NO_OF_JOINTS, 2, 3, 4, 6, 7, 8);
 	// this tells the arm to park. other wise, the servos
 	//    default to 90 degrees.
-//	arm.attach_pub(&debug_pub);
 	arm.initial_park();
+
 	// initialize the nodehandle, publisher and two subscribers
 	nh.initNode();
 	nh.advertise(pub);
-//	nh.advertise(debug_pub);
 	nh.subscribe(sub_point);
 	// in production, it may be beneficial to remove this subscription.
-//	nh.subscribe(sub_angle);
+	nh.subscribe(sub_angle);
 
 }
 
