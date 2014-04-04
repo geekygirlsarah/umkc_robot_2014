@@ -293,11 +293,13 @@ void exitGapFound()  {
 
 //----------
 //lookForGap - travel straight thru lanes, while looking for gap. Stop once we find a gap.
+//WE STOP when we enter lookforgap
 //----------
 
 State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  void enterLookForGap()  {
- advertising_state.payload = PL_LOOKING_FOR_GAP;
+  nav.stopNow();
+   advertising_state.payload = PL_LOOKING_FOR_GAP;
  talker.publish(&advertising_state);
  assumingGapAtEdge = true;
  
@@ -702,12 +704,12 @@ void loop() {
        //NO ADJUSTING
        //- if the gap is NOT at edge, only then do we adjust. 
        
-       nav.adjustToGap();
-      /*NOT WORKING RIGHT NOW - isn't adjusting to gap at all :( - 8:35AM wed
+       //nav.adjustToGap();
+      //NOT WORKING RIGHT NOW - isn't adjusting to gap at all :( - 8:35AM wed - 9:33PM thur -> implemented, NOT TESTE
        if(assumingGapAtEdge == false)  {
          nav.adjustToGap();
        }
-       */
+       
        nav.stop_sleep(PAUSE_DURATION);
        #endif
        //stateMachine.transitionTo(waitForCommand);
