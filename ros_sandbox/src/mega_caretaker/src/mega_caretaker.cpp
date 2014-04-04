@@ -387,7 +387,7 @@ void MegaCaretaker::run()	{
 
 	//need to wait for mega to be in command state!
 	//startGoToTools();
-	startWaveCrossing();
+	//startWaveCrossing();
 //	testIMUCompassDirections();
 	while(ros::ok())	{
 		ros::spinOnce();
