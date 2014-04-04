@@ -1,7 +1,8 @@
 #include <ros.h>					// basic ROS objects
 #include <std_msgs/Byte.h>			// leds are condensed into one byte
 #include <std_msgs/Bool.h>			// button: true / false
-
+#include <std_msgs/Int8.h
+#include <battery_checker.h>
 // majority of code lives in the ROS namespace
 using namespace ros;
 
@@ -45,11 +46,13 @@ NodeHandle nh;
 
 // keep track of running_state : this is altered by a button press.
 std_msgs::Bool running_state;
+std_msgs::int8 panic;
 std_msgs::Byte set_leds;
 
 Publisher                  pub("/master/button", &running_state);
 Subscriber<std_msgs::Byte> sub("/master/leds",   &display_status);
-
+Publisher panic_pub("/master/panic",1000); 
+BatteryChecker batteryChecker;
 void setup() {
 	// status display LEDs
 	pinMode(RED1, OUTPUT);
@@ -72,7 +75,10 @@ void setup() {
 	// initialize the node and attach the publication and subscription
 	nh.initNode();
 	nh.advertise(pub);
+	nh.advertise(panic_pub);
 	nh.subscribe(sub);
+
+	batteryChecker.init();
 
 	// set initial values of check.
 	running_state.data = false;
@@ -135,6 +141,11 @@ void loop() {
 	// 8) sit and spin, checking each round for:
 	//    a) a message in on /master/leds
 	//    b) or a message waiting to go out on /master/button
+	batteryChecker.update();
+	panic.msg = (batteryChecker.isSafe())? 0 : 1;
+	if(panic.msg == 1){
+		panic_pub.publish(panic);
+	}
 	nh.spinOnce();
 	delay(5);
 

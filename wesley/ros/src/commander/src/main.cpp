@@ -2,7 +2,9 @@
 #include "exit_handlers.h"
 #include <string>
 #include <unistd.h>
-
+#include <signal.h>
+#include <watchdog.h>
+//#include <thread.h> Include if using watchdog
 using std::string;
 
 #define grasp() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: grasp}'", "");
@@ -116,6 +118,11 @@ int executeBinary(string binaryName, string prefix, string mode ){
 	if(f == 0){
 		return -2;
 	}
+	/**
+	 * Uncomment this to turn on watchdogging 
+	//WatchDog watch;
+	//std::thread(watch,binaryName);
+	*/
 	//Get return value, don't ask why it's this but it is. It's from the stack overflow on popen. 
 	//
 	// http://bytes.com/topic/c/answers/131694-pclose-returning-termination-status-command#post472837
@@ -126,3 +133,5 @@ int executeBinary(string binaryName, string prefix, string mode ){
 	//    man 2 waitpid) did not shed any extra light on this.
 	return pclose(f)/256;
 }
+
+
