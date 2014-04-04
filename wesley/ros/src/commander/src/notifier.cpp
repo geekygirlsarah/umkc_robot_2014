@@ -184,7 +184,7 @@ LedNotifier::LedNotifier(ros::NodeHandle* handle,
 		parse();
 }
 
-ros::NodeHandle* LedNotifier::init_handle(ros::NodeHandle* handle) {
+void LedNotifier::init_handle(ros::NodeHandle* handle) {
 	nh = handle;
 	pub = nh->advertise<std_msgs::Byte>("/master/leds", 1000);
 //	while (pub.getNumSubscribers() <= 0) {
