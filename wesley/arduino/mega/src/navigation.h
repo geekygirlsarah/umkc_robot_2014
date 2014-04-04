@@ -280,13 +280,13 @@ class Navigation {
                 }
                 void goForwardForever()  {
                   //sabertooth.forward();
-                  sabertooth.reverse();
+                  sabertooth.foward();
                   goingForward = true;
                 }
                 
                 void goBackwardForever()  {
                   //sabertooth.reverse();
-                  sabertooth.forward();
+                  sabertooth.reverse();
                   goingForward = false;
                 }
                 
