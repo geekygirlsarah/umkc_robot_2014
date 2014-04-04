@@ -34,7 +34,8 @@ ros::Publisher pub("/arm/response", &res);
 //       some pre-defined values for specific commands.
 void arm_put_point(const wesley::arm_point& msg){
 	if (msg.direct_mode == true) {
-		arm.put_point(msg.x, msg.y, msg.z, msg.p, msg.r);
+//		arm.put_point(msg.x, msg.y, msg.z, msg.p, msg.r);
+		arm.put_point_line(msg);
 	} else {
 		if (strcmp(msg.cmd, "park") == 0) {
 			arm.park();
@@ -42,22 +43,13 @@ void arm_put_point(const wesley::arm_point& msg){
 		if (strcmp(msg.cmd, "carry") == 0) {
 			arm.carry();
 		} else
-		if (strcmp(msg.cmd, "grasp s") == 0) {
+		if ((strcmp(msg.cmd, "grasp s") == 0) || (strcmp(msg.cmd, "grasp 1") == 0)) {
 			arm.grasp('s');
 		} else
-		if (strcmp(msg.cmd, "grasp t") == 0) {
+		if ((strcmp(msg.cmd, "grasp t") == 0) || (strcmp(msg.cmd, "grasp 2") == 0)) {
 			arm.grasp('t');
 		} else
-		if (strcmp(msg.cmd, "grasp c") == 0) {
-			arm.grasp('c');
-		} else
-		if (strcmp(msg.cmd, "grasp 1") == 0) {
-			arm.grasp('s');
-		} else
-		if (strcmp(msg.cmd, "grasp 2") == 0) {
-			arm.grasp('t');
-		} else
-		if (strcmp(msg.cmd, "grasp 3") == 0) {
+		if ((strcmp(msg.cmd, "grasp c") == 0) || (strcmp(msg.cmd, "grasp 3") == 0)) {
 			arm.grasp('c');
 		} else
 		if (strcmp(msg.cmd, "release") == 0) {

@@ -14,6 +14,7 @@
  *       set in millimeters.
  */
 #include <math.h> 		// various trig functions
+#include <wesley/arm_point.h>
 
 // these maps translate angles into servo pulses and vice-versa.
 //    the _f() maps expose the pulses finest granularaty of .1 degree.
@@ -52,6 +53,8 @@ class arm_control {
 
 		short p_destination[NO_OF_JOINTS];
 		short p_position[NO_OF_JOINTS];
+		wesley::arm_point point_prev;
+//		wesley::arm_point point_next;
 
 	public:
 		enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
@@ -139,10 +142,19 @@ class arm_control {
 			p_destination[BASE] 	= p_position[BASE] 		= topulsef(90);
 			p_destination[SHOULDER]	= p_position[SHOULDER] 	= topulsef(165);
 			p_destination[ELBOW]	= p_position[ELBOW] 	= topulsef(5.5);
-			p_destination[WRIST_P]	= p_position[WRIST_P] 	= topulsef(0);
+			p_destination[WRIST_P]= p_position[WRIST_P] 	= topulsef(0);
 			p_destination[WRIST_R]	= p_position[WRIST_R] 	= topulsef(95);
 			p_destination[HAND]		= p_position[HAND] 		= topulsef(20);
 			
+			// measured directly from the arms origin to tip of gripper.	
+			point_prev.direct_mode = 0;
+			point_prev.x = 0;
+			point_prev.y = 64;
+			point_prev.z = 10;
+			point_prev.p = 0;
+			point_prev.r = 95;
+			point_prev.cmd = "initial park";
+
 			/* for testing purposes, this will proceed in order
 			 *    and directly place the successive joints at
 			 *    the prescribed angle defined above.
@@ -173,9 +185,20 @@ class arm_control {
 			// do not mess with the hand. leave to that grasp/release
 		//	p_destination[HAND]		= topulse(90);
 			
-			update();
+		//	update();
 		//	Serial.println("ARM :: park() --> leaving");
 		//	Serial.flush();
+
+		//	this is an implementation of a new move method.
+			wesley::arm_point point_next;
+			point_next.direct_mode = 0;
+			point_next.x = 0;
+			point_next.y = 64;
+			point_next.z = 10;
+			point_next.p = 0;
+			point_next.r = 95;
+			point_next.cmd = "forced park";
+			put_point_line(point_next);
 		}
 
 		// this locks the arm in much the same position as park()
@@ -227,6 +250,13 @@ class arm_control {
 			p_position[joint] = arm[joint].readMicroseconds();
 		}
 
+		void direct_update() {
+			for (int joint = BASE; joint <= WRIST_R; joint++) {
+				p_position[joint] = p_destination[joint];
+				put(joint, p_destination[joint]);
+			}
+		}
+		
 		// so, update is no longer a variable list funciton.
 		//
 		// this still needs a little work in order to make it really
@@ -244,7 +274,6 @@ class arm_control {
 		//    then, on each update, the arm can be put to the next 
 		//    successive point along that line, resulting in smoother,
 		//    more geometric motion. -- an excersize for another day.
-//		void update(const byte argc, ...) {
 		void update() {
 		//	Serial.println("ARM :: update(...) --> entering");
 		//	Serial.flush();
@@ -413,8 +442,8 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			p_destination[ELBOW] = topulsef(elb_angle_d);
 
 		//	put (4, BASE, WRIST_P, SHOULDER, ELBOW);
-			update();
-			
+		//	update();
+			direct_update();
 		}
 
 		struct point getxyz() {
@@ -492,5 +521,107 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			p_destination[HAND] = topulse(20);
 			update();
 		}
+
+		// new implementation of movement. this solves an equation
+		//    and increments along the longest difference between
+		//    point_prev and point_next
+		void put_point_line(wesley::arm_point point_next) {
+			wesley::arm_point diff;
+			diff.direct_mode = false;
+			diff.cmd = "difference between two points.";
+
+			diff.x = point_next.x - point_prev.x;
+			diff.y = point_next.y - point_prev.y;
+			diff.z = point_next.z - point_prev.z;
+			diff.p = point_next.p - point_prev.p;
+			diff.r = point_next.r - point_prev.r;
+
+			char guiding_light = 0;
+			short longest_gap = 0;
+			bool increasing = false;
+			if (diff.x > longest_gap) {
+				longest_gap = diff.x;
+				guiding_light = 'x';
+				increasing = (point_next.x > point_prev.x);
+			}
+			if (diff.y > longest_gap) {
+				longest_gap = diff.y;
+				guiding_light = 'y';
+				increasing = (point_next.y > point_prev.y);
+			}
+			if (diff.z > longest_gap) {
+				longest_gap = diff.z;
+				guiding_light = 'z';
+				increasing = (point_next.z > point_prev.z);
+			}
+
+			move_line(guiding_light, increasing, point_next);
+		}
+
+		void move_line(char guide, bool increasing, wesley::arm_point& point_next) {
+			// this function runs through a for loop while longest_gap != 0;
+			// for each iteration it increases/decreases the guide by 1 mm
+			//    and solves a 3-space line equation for the other two points
+			//    and then called self.put_on_line(x, y, z, p, r) to move the
+			//    arm into that direct point. this could call self.put_point
+
+			float x = 0.0f;
+			float y = 0.0f;
+			float z = 0.0f;
+
+			float k = 0.0f;
+
+			switch (guide) {
+				case 'x':
+					for (x = point_prev.x; x != point_next.x;) {
+						k = (x - point_prev.x) / (point_next.x - point_prev.x);
+						y = (k * (point_next.y - point_prev.y)) + point_prev.y;
+						z = (k * (point_next.z - point_prev.z)) + point_prev.y;
+					
+						put_point(x, y, z, point_next.p, point_next.r);
+//						put_point_line(x, y, z, point_next.p, point_next.r);
+						if (increasing) {
+							x += 1;
+						} else {
+							x -= 1;
+						}
+					}
+					break;
+				case 'y':
+					for (y = point_prev.y; y != point_next.y;) {
+						k = (y - point_prev.y) / (point_next.y - point_prev.y);
+						x = (k * (point_next.x - point_prev.x)) + point_prev.x;
+						z = (k * (point_next.z - point_prev.z)) + point_prev.y;
+					
+						put_point(x, y, z, point_next.p, point_next.r);
+//						put_point_line(x, y, z, point_next.p, point_next.r);
+						if (increasing) {
+							x += 1;
+						} else {
+							x -= 1;
+						}
+					}
+					break;
+				case 'z':
+					for (z = point_prev.z; z != point_next.z;) {
+						k = (z - point_prev.z) / (point_next.z - point_prev.z);
+						x = (k * (point_next.x - point_prev.x)) + point_prev.y;
+						y = (k * (point_next.y - point_prev.y)) + point_prev.y;
+					
+						put_point(x, y, z, point_next.p, point_next.r);
+//						put_point_line(x, y, z, point_next.p, point_next.r);
+						if (increasing) {
+							x += 1;
+						} else {
+							x -= 1;
+						}
+					}
+					break;
+			}
+			// final put to catch the last point.
+			put_point(point_next.x, point_next.y, point_next.z, point_next.p, point_next.r);
+			point_prev = point_next;
+		}
+
 };
 
