@@ -18,7 +18,7 @@ working... little problem with wheels listing.
 */
 
 motor_cmd sabertooth;
-//QuadEncoder encoders;
+QuadEncoder encoders;
 
 
 
@@ -33,7 +33,7 @@ void setup()
   //Serial.println("begin");
   //delay(5000);
   sabertooth.begin(2); 
-  //encoders.init();
+  encoders.init();
   //eyes.init(A2,11);
   
 }
@@ -41,16 +41,15 @@ void setup()
 void loop()
 {
   
-  sabertooth.all_stop();
-  delay(5000);
-  sabertooth.forward();
-  delay(5000);
+  //sabertooth.all_stop();
+  //delay(5000);
+  //sabertooth.forward();
+  //delay(5000);
   /*
   sabertooth.forward();
   delay(5000); 
-  *
- /* 
- 
+  */
+   /*
   eyes.update();
    
    if(eyes.obstaclePresent())
@@ -58,7 +57,7 @@ void loop()
    //eyes.printDebug();
    //eyes.printObstStatus();
   
-  
+  */
   
    if (Serial.available() > 0) {
 		// process incoming commands from console
@@ -66,7 +65,7 @@ void loop()
 		switch(cmd) {
 			case 'w':
 				Serial.println("forward");
-				
+				/*
                                 if(eyes.obstacleNotPresent())
                                   sabertooth.forward(20);
                                 else  {
@@ -77,19 +76,21 @@ void loop()
                                 }
                                 //sabertooth.rightMotorCommand(0x60);
                                 //sabertooth.leftMotorCommand(0x20);
-			//	sabertooth.forward();
+				*/
+				sabertooth.forward();
 				break;
                    
 			case 's':
 				Serial.println("reverse");
+				/*
                                 if(eyes.obstacleNotPresent())
                                   sabertooth.reverse(20);
                                 else  {
                                   Serial.println("THERe's a thing!");
                                   sabertooth.all_stop();
                                 }
-				
-			//	sabertooth.reverse();
+				*/
+				sabertooth.reverse();
 				break;
                         
                                 
@@ -102,9 +103,7 @@ void loop()
 		}
 	}
 
-*/
 
-/*
 
   Serial.print("FL: ");
   Serial.println(positionFL);
@@ -114,6 +113,5 @@ void loop()
   Serial.println(positionFR);
   Serial.print(" BR: ");
   Serial.println(positionBR);
-  */
 }
 
