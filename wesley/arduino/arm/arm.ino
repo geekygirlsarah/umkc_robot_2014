@@ -37,8 +37,8 @@ ros::Publisher debug_pub("/arm/debug", &debug_msg);
 //       some pre-defined values for specific commands.
 void arm_put_point(const wesley::arm_point& msg){
 	if (msg.direct_mode == true) {
-//		arm.put_point(msg.x, msg.y, msg.z, msg.p, msg.r);
-		arm.put_point_line(msg);
+		arm.put_point(msg.x, msg.y, msg.z, msg.p, msg.r);
+//		arm.put_point_line(msg);
 	} else {
 		if (strcmp(msg.cmd, "park") == 0) {
 			arm.park();
@@ -55,9 +55,9 @@ void arm_put_point(const wesley::arm_point& msg){
 		if ((strcmp(msg.cmd, "grasp c") == 0) || (strcmp(msg.cmd, "grasp 3") == 0)) {
 			arm.grasp('c');
 		} else
-		if (strcmp(msg.cmd, "query") == 0) {
-			arm.query();
-		} else
+//		if (strcmp(msg.cmd, "query") == 0) {
+//			arm.query();
+//		} else
 		if (strcmp(msg.cmd, "release") == 0) {
 			arm.release();
 		}
@@ -125,15 +125,15 @@ void setup() {
 	arm.connect(NO_OF_JOINTS, 2, 3, 4, 6, 7, 8);
 	// this tells the arm to park. other wise, the servos
 	//    default to 90 degrees.
-	arm.attach_pub(&debug_pub);
+//	arm.attach_pub(&debug_pub);
 	arm.initial_park();
 	// initialize the nodehandle, publisher and two subscribers
 	nh.initNode();
 	nh.advertise(pub);
-	nh.advertise(debug_pub);
+//	nh.advertise(debug_pub);
 	nh.subscribe(sub_point);
 	// in production, it may be beneficial to remove this subscription.
-	nh.subscribe(sub_angle);
+//	nh.subscribe(sub_angle);
 
 }
 

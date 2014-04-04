@@ -55,9 +55,9 @@ class arm_control {
 		short p_destination[NO_OF_JOINTS];
 		short p_position[NO_OF_JOINTS];
 
-		ros::Publisher* pub;
+//		ros::Publisher* pub;
 		std_msgs::String dmsg;
-		char buffer[80];
+		char buffer[60];
 		wesley::arm_point point_prev;
 //		wesley::arm_point point_next;
 
@@ -85,14 +85,14 @@ class arm_control {
 		~arm_control() {
 		}
 
-		void attach_pub(ros::Publisher* publisher) {
-			pub = publisher;
-		}
+//		void attach_pub(ros::Publisher* publisher) {
+//			pub = publisher;
+//		}
 
-		void publish(char* msg) {
-			dmsg.data = msg;
-			pub->publish(&dmsg);
-		}
+//		void publish(char* msg) {
+//			dmsg.data = msg;
+//			pub->publish(&dmsg);
+//		}
 
 		// attachs a set of pins to the servos -- this is a nifty
 		//    little function. but pointless really.
@@ -198,20 +198,20 @@ class arm_control {
 			// do not mess with the hand. leave to that grasp/release
 		//	p_destination[HAND]		= topulse(90);
 			
-		//	update();
+			update();
 		//	Serial.println("ARM :: park() --> leaving");
 		//	Serial.flush();
 
 		//	this is an implementation of a new move method.
-			wesley::arm_point point_next;
-			point_next.direct_mode = 0;
-			point_next.x = 0;
-			point_next.y = 64;
-			point_next.z = 10;
-			point_next.p = 0;
-			point_next.r = 95;
-			point_next.cmd = "forced park";
-			put_point_line(point_next);
+		//	wesley::arm_point point_next;
+		//	point_next.direct_mode = 0;
+		//	point_next.x = 0;
+		//	point_next.y = 64;
+		//	point_next.z = 10;
+		//	point_next.p = 0;
+		//	point_next.r = 95;
+		//	point_next.cmd = "forced park";
+		//	put_point_line(point_next);
 		}
 
 		// this locks the arm in much the same position as park()
@@ -572,7 +572,6 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			if (longest_gap == 0) {
 				return;
 			} else {
-				publish(buffer);
 				move_line(guiding_light, increasing, point_next);
 			}
 		}
@@ -641,21 +640,22 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			point_prev = point_next;
 		}
 
-		void query() {
-			struct point loc = getxyz();
-			char numx[8];
-			char numy[8];
-			char numz[8];
-			char nump[8];
-			char numr[8];
-			dtostrf(loc.x, 4, 2, numx);
-			dtostrf(loc.y, 4, 2, numy);
-			dtostrf(loc.z, 4, 2, numz);
-			dtostrf(point_prev.p, 4, 2, nump);
-			dtostrf(point_prev.r, 4, 2, numr);
+/*		void query() {
+			struct point loc;
+                        loc = getxyz();
+			char numx[10];
+			char numy[10];
+			char numz[10];
+			char nump[10];
+			char numr[10];
+			dtostrf(loc.x, 5, 2, numx);
+			dtostrf(loc.y, 5, 2, numy);
+			dtostrf(loc.z, 5, 2, numz);
+			dtostrf(point_prev.p, 5, 2, nump);
+			dtostrf(point_prev.r, 5, 2, numr);
 			sprintf(buffer, "ARM :: query --> at ( %s %s %s %s %s )",
 				numx, numy, numz, nump, numr);
 			publish(buffer);
-		}
+		}	*/
 };
 
