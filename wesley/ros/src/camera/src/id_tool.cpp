@@ -203,7 +203,7 @@ int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "id_tool");
 	
 	// this program must be called with one argument (see switch below)
-	if (argc != 3) {
+	if (argc < 2) {
 		program_help(argv[0]);
 		return(10);
 	}
@@ -234,11 +234,15 @@ int main(int argc, char* argv[]) {
 	// structure for file definition.
 	struct stat verify;
 	std::ifstream fin;
-	string file_position_tool = argv[2];
-	if (stat(file_position_tool.c_str(), &verify) == 0) {
-		fin.open(file_position_tool.c_str(), std::ifstream::in);
+	string filename = "/home/umkc/wesley/config/";
+	if (argc == 3) {
+		filename = argv[2];
+	}
+	filename += "position_tool.lst";
+	if (stat(filename.c_str(), &verify) == 0) {
+		fin.open(filename.c_str(), std::ifstream::in);
 	} else {
-		ROS_ERROR("ID_TOOL --> unable to locate %s - fatal; bailing.", file_position_tool.c_str());
+		ROS_ERROR("ID_TOOL --> unable to locate %s - fatal; bailing.", filename.c_str());
 		return(60);
 	}
 
