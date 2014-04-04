@@ -80,13 +80,15 @@ bool turn90DegreeFinished;
 bool arrivedAtTools;
 bool crossBoard;
 bool  commandGoToTools;
-bool  isGapFound;
+int  isGapFound;
 bool  isGapCrossed;
 bool  isEdgeFound;
 bool travelingHome;
 
+//gapfinder shenanigans
+bool assumingGapAtEdge;
 
-
+int temp_num;  //used to fix gapfinder lookingforgap thing :(
 
 
 ros::NodeHandle  nh;	
@@ -291,26 +293,32 @@ void exitGapFound()  {
 
 //----------
 //lookForGap - travel straight thru lanes, while looking for gap. Stop once we find a gap.
+//WE STOP when we enter lookforgap
 //----------
 
 State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  void enterLookForGap()  {
- advertising_state.payload = PL_LOOKING_FOR_GAP;
+  nav.stopNow();
+   advertising_state.payload = PL_LOOKING_FOR_GAP;
  talker.publish(&advertising_state);
- nav.takeOff();
+ assumingGapAtEdge = true;
+ 
  }
  
  //ignoring falling off for now
  void updateLookForGap()  {
- //updateROS_spin();  //do i need this??
- #ifndef DEBUG_COMMS 
- isGapFound = nav.lookingForGap();
+ 
+   //-> moving and stuff is handled inside looking for gap
+   //updateROS_spin();  //do i need this??
+ #ifndef DEBUG_COMMS
+ temp_num = nav.lookingForGap(&assumingGapAtEdge);  
+ isGapFound = temp_num;
   //NEED TO BE MOVING and not stopeed. 
  //stateMachine.immediateTransitionTo(waitForCommand);    
  
  #endif
  #ifdef DEBUG_COMMS
- isGapFound = true;
+ isGapFound = 1;
      
  #endif
  }
@@ -597,7 +605,7 @@ void setup() {
   arrivedAtTools = false;
   crossBoard = false; 
   commandGoToTools = false;
-  isGapFound = false;
+  isGapFound = 0;
   isGapCrossed = false;
   isEdgeFound = false;
   travelingHome = false;
@@ -707,16 +715,27 @@ void loop() {
    
    else if(stateMachine.isInState(lookForGap))  {
    //spin.. will transition to gapFound state when its' found
-     if(isGapFound)  {
-       isGapFound = false;
+     if(isGapFound == 1)  {
+       isGapFound = 0;
        //might need to hardcode the ticks if I'm not at an edge.
        #ifndef DEBUG_COMMS
-       nav.adjustToGap();
+       //NO ADJUSTING
+       //- if the gap is NOT at edge, only then do we adjust. 
+       
+       //nav.adjustToGap();
+      //NOT WORKING RIGHT NOW - isn't adjusting to gap at all :( - 8:35AM wed - 9:33PM thur -> implemented, NOT TESTE
+       if(assumingGapAtEdge == false)  {
+         nav.adjustToGap();
+       }
+       
        nav.stop_sleep(PAUSE_DURATION);
        #endif
        //stateMachine.transitionTo(waitForCommand);
    
        stateMachine.transitionTo(gapFound);
+     }
+     else if (isGapFound == -1) {   //ABORt! need to go back to findedge state!!!
+       stateMachine.transitionTo(findEdge);
      }
    }
    

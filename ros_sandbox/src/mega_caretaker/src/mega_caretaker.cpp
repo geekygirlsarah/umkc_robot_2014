@@ -104,18 +104,21 @@ void MegaCaretaker::make90DegreeTurn(int8_t given_payload)	{
 			bool turned90 = false;
 			while(!turned90)	{
 				if(client.call(srv))	{
-					turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+					//terrible terrible relative turning
+					//turned90 = (fabs(init_yaw - srv.response.yaw) > 90);
+					
+					
 					//x axis - 0, 180
 					//y axis - 90,-90
 			
-			/*
+			
 				if(align_x)	{
 						turned90 = imu_stuff::facingEast(srv.response.yaw) || imu_stuff::facingWest(srv.response.yaw);
 					}
 					else	{
 						turned90 = imu_stuff::facingNorth(srv.response.yaw) || imu_stuff::facingSouth(srv.response.yaw);
 					}
-			*/
+			
 
 				
 //					if(given_payload == PL_START_TURNING_90_CCW)	{
