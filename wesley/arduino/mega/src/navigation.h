@@ -172,7 +172,10 @@ class Navigation {
                   if(gapfind.gapPresent())  {
                     sabertooth.all_stop();  //first stop to keep readings stable
                     delay(1000);
-                    if(gapfind.gapPresentThorough())  {
+					//maybe this one is too strict. just reset, and let the gapfind update and run again
+					gapfind.reset();
+					gapfind.update();
+                    if(gapfind.gapPresent())  {
                       gapfind.reset();
                       return 1; 
                     } else  {
