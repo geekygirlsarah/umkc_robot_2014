@@ -1,28 +1,10 @@
 #include <ros/ros.h>
-#include "exit_handlers.h"
+#include "runner.h"
 #include <string>
 #include <unistd.h>
 #include <signal.h>
-#include <watchdog.h>
-//#include <thread.h> Include if using watchdog
+#include "armcommands.h"
 using std::string;
-
-#define grasp() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: grasp}'", "");
-#define release() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: release}'", "");
-#define park() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: park}'", "");
-#define carry() executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: carry}'", "");
-#define giveup() executeBinary("rostopic pub -1 /arm/put/angle wesley/arm_angle 90 90 180 90 90 120", "");
-
-/**
- * Executes a binary file at path and returns the exit code.
- *
- * The prefix is the begining to the path where the binary is located
- *
- * The mode can be left alone usually, it's set to write
- *
- * @return The integer exit code from the binary
- */
-int executeBinary(string path,string prefix="/home/umkc/wesley/lib/", string mode="r");
 /**
  * The main function. Contains an instance of the LedNotifier object
  *
@@ -32,18 +14,14 @@ int executeBinary(string path,string prefix="/home/umkc/wesley/lib/", string mod
  */
 int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "cmdr");
-	ros::NodeHandle nh;
 	ROS_INFO("CMDR :: main --> commander initializing");
-
-//	Logger * logger = new Logger(&nh);
 	string parse_file = "/home/umkc/wesley/config";
 	if (argc == 2) {			// someone passed us a leading path to
 		parse_file = argv[1];	//    notify_id.txt
 	}
 
 	parse_file += "/notify_id.txt";
-	//	ExitHandler exithandler(logger, &nh, parse_file);
-	ExitHandler exithandler(&nh, parse_file);
+	Runner runner(parse_file);
 	ROS_INFO("CMDR :: main --> logger and handler set up.");
 
 	// here -- the recommended manner in calling the binaries is as follows:
@@ -66,46 +44,23 @@ int main(int argc, char* argv[]) {
 //	ROS_INFO("CMDR :: main --> closing hand to avoid collision.");
 //	grasp();
 
-//	logger->logStatus("Executing button_wait");
 	ROS_WARN("CMDR :: main --> launching: button_wait");
-	exithandler.button_wait(executeBinary("rosrun commander button_wait", ""));
+	runner.button_wait();		
 	// sleep for a couple of seconds to allow clearance of hands and feet.
 	sleep(2);
 
-//	logger->logStatus("Executing ID flame");
-	int tool = 0;
-	exithandler.id_flame(tool = executeBinary("rosrun camera id_flame", ""));
-	ROS_INFO("ID_FLAME returned value (%d)", tool);
-	switch(tool) {
-		case 60:
-			ROS_ERROR("CMDR :: id_flame --> return 60! indicates no fire found. no point going on; bailing.");
-			giveup();
-			return(tool);
-			break;
-		case 50:
-			ROS_ERROR("CMDR :: id_flame --> return 50! cannot open camera. fatal, but recoverable. bailing.");
-			giveup();
-			return(tool);
-			break;
-	}
-
-//	logger->logStatus("init -- parking in carry spot.");
-	carry();
+	runner.id_flame();	
+	
 
 //	logger->logStatus("init -- opening hand.");
 //	release();
 
-	executeBinary("rosrun commander cabman 0 0", "");
-
+	runner.cab_man(0,0);
 //	logger->logStatus("Executing ID tool");
-	std::stringstream ss;
-	ss <<  "rosrun camera id_tool " << tool  << " /home/umkc/wesley/config/position_tool.lst";
-	exithandler.id_tool(executeBinary(ss.str(), ""));
 
-	carry();
+	ArmCommands::carry();
 
-
-	executeBinary("rosrun commander cabman 0 1", "");
+	runner.cab_man(0,1);
 
 
 }
