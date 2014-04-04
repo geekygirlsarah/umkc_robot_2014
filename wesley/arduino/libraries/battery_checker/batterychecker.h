@@ -49,7 +49,7 @@ public:
 
         if (lastReadValue < TOLERANCE)
         {
-            safeOperatingVoltage = true;        
+            safeOperatingVoltage = false;        
         }
         
         return safeOperatingVoltage; 

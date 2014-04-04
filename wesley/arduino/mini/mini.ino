@@ -2,7 +2,7 @@
 #include <std_msgs/Byte.h>			// leds are condensed into one byte
 #include <std_msgs/Bool.h>			// button: true / false
 #include <std_msgs/Int8.h
-#include <libaries/battery_checker.h>
+#include <battery_checker.h>
 // majority of code lives in the ROS namespace
 using namespace ros;
 
