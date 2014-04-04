@@ -1,0 +1,6 @@
+Arduino Libraries folder
+
+the following libraries are in this folder:
+
+- ros_lib		: from rosrun rosserial_arduino make_libraries.py .
+- etc..

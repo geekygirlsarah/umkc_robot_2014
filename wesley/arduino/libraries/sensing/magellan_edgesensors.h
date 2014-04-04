@@ -49,7 +49,7 @@ private:
   // using a hard coded distance T
   const static int threshold_front_default= 6;	//the ideal sensor reading for safetey - ie how far the sensor reads usually.  hard coded to our specific thingy
   const static int threshold_back_default = 6;	//the ideal sensor reading for safetey - ie how far the sensor reads usually. 
-//  const static int difference = 5;	//once a reading reads within +- difference of the baseline, that is an abrupt change and you should stop
+  //  const static int difference = 5;	//once a reading reads within +- difference of the baseline, that is an abrupt change and you should stop
  // const static double alpha = 0.80;	//alpha - how much you value current reading over previous readings
 
   bool safeness;
@@ -121,6 +121,10 @@ public:
    return front.isCloser(threshold_front);
   }
   */
+  bool isFrontSensorSafe()  {
+   return front.isCloser(threshold_front);
+  }
+  
   bool isBackSensorSafe()  {
    return back.isCloser(threshold_back);
   }
@@ -180,7 +184,7 @@ public:
  	return !(danger_status == front_danger); 
   }
 */
-  bool isBackSafe()	{
+    bool isBackSafe()	{
   	return !(danger_status == back_danger);
   }
 
@@ -206,20 +210,12 @@ public:
 				break;
 
 /*
-			  //Must read a safe reading for at least "check" counts in a row.
-			  case front_danger:
-				if(isFrontSensorSafe())  {
-				  if(currentSafeCount == check)  {
-					danger_status = ok;
-					currentSafeCount = 0;
-				  }
-				  else
-					currentSafeCount++; 
-				}
-				else   //front still reads edge!!
-				  currentSafeCount = 0;
+				if(!isFrontSensorSafe())
+				  danger_status = front_danger;
+				else if (!isBackSensorSafe())
+				  danger_status = back_danger;
 				break;
-*/
+			*/
 			case back_danger:
 				if(isBackSensorSafe())  {
 				  if(currentSafeCount == check)  {

@@ -67,7 +67,7 @@ class Navigation {
                   eyes.init(A4,8);
                   mag.init(6,6,A6,A7);
                   //par.init(A2,A1,A0, &sabertooth);
-                
+               
                   
                   goingForward = true;  //... this is from the point of view of robot. it will always start going forward.
                                         //it'xs just that the motor library has it as "reverse()" as our going forward XD
@@ -163,7 +163,6 @@ class Navigation {
                   
                   //gapfind.printDebug();
                   //gapfind.printGapStatus();
-                 
                   
                   gapfind.update();
                   
@@ -189,7 +188,7 @@ class Navigation {
                   assumeGapAtEdge = false;  //we know FOR SURE the gap is not at the edge anymore
                   goForwardForever();
                   return 0;
-                }
+               }
                 
                 //use ticks to adjust.. as soon as we find gap, needs to go forward some ticks
                 bool adjustToGap()  {
@@ -284,6 +283,7 @@ class Navigation {
                 void goForwardForever()  {
                   //sabertooth.forward();
                   sabertooth.foward();
+                  sabertooth.reverse();
                   goingForward = true;
                 }
                 
@@ -313,7 +313,7 @@ class Navigation {
                  bool atEdge()    {
                    //mag.update();
                    return !mag.isBackSensorSafe();
-                   
+                  
                  }
 		  
                 void takeOff()  {

@@ -4,6 +4,7 @@
 /**
  * GapFinder
  * Jan 2014
+ * Author: Victoria Wu, Andrew Cunningham
  *
  * Given three IR sensors in a row, finds a gap thingy
  * written for the 2014 ieee region 5 comp
@@ -16,14 +17,11 @@
 #include <Distance2D120X.h>
 #include <DistSmoother.h>
 
-#include <motor_cmd.h>
-
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
 
-#define GAPFINDER_NUM_GAP_CHECK_TOTAL 5 	//how many times should we take reading for gap
-#define GAPFINDER_NUM_GAP_CHECK_ACCEPTABLE 3	//how many times should the reading say there is a gap for us to assume there is a gap
-#define GAPFINDER_VERIFY_GAP_DELAY 50	//ms between taking readings for gap once stopped
+
+
 class GapFinder	{
 private:
   //Using 3 IR sensors along the side. 
@@ -42,8 +40,6 @@ private:
   DistSmoother Dist1;
   DistSmoother Dist2;  
   DistSmoother Dist3;
-
-  motor_cmd *saber;
 
   const static int threshold_default = 10;  //threshold for ping sensor detecting a hole (cm)
   int threshold;  //threshold for ping sensor detecting a hole (cm)
@@ -78,30 +74,25 @@ public:
 
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
-  void init(int pin1, int pin2, int pin3 , motor_cmd* s)  {
+  void init(int pin1, int pin2, int pin3 )  {
     Dist1.init(pin1);
     Dist2.init(pin2);
     Dist3.init(pin3);
     check = 3;
     threshold = threshold_default;
     gap_status = no_gap;    //we start out assuming no hole
-
-    saber = s;
-
   }
 
 
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
-  void init(int pin1, int pin2, int pin3, int thresh, motor_cmd* s)  {
+  void init(int pin1, int pin2, int pin3, int thresh)  {
     Dist1.init(pin1);
     Dist2.init(pin2);
     Dist3.init(pin3);
     check = 3;
     threshold = thresh;
     gap_status = no_gap;    //we start out assuming no hole
-    
-    saber = s;
   }
 
   //find and print the distances
@@ -170,7 +161,6 @@ public:
 			  break;
 			case yes_gap:
 			
-			saber->all_stop();	//attempting to STOP as soon as gap is reached
 			//  if(!checkYesGap())
 			//	gap_status = no_gap;
 			  break;
@@ -191,27 +181,10 @@ public:
     }
   }
 
-  //this one values quickness more than accuracy.
-  //ok to be moving
   bool gapPresent()	{
  	return gap_status == yes_gap;	
   }
-
-  //this one assumes you are already stopped, checks in a row.
-  //DO NOT BE MOVING WHEN YOU DO THIS
-  bool gapPresentThorough()	{
-	int okChecks = 0; //how many times we read a gap
-
- 	for(int i = 0; i < GAPFINDER_NUM_GAP_CHECK_TOTAL ; i++)
- 		{        
-		 	if(checkYesGap())	{
- 				okChecks++; 
- 			}
- 			delay(GAPFINDER_VERIFY_GAP_DELAY);
- 		}    
- 	return okChecks >= GAPFINDER_NUM_GAP_CHECK_ACCEPTABLE;
-  }
-
+ 
   bool maybeGapPresent()	{
   	return gap_status == def_maybe_gap;
   }

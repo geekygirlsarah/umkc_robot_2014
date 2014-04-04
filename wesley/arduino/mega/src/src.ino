@@ -12,7 +12,7 @@
 //#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 //#define TEST_TRANSITION_FROM_TOOLS_ONLY   //this starts from the tool pick up position, then goes back to default home position 
 #define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
-//#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
+//#define test_turn_90_only  //only have up if you want to test 90degree stuff d:
 
 
 /* mega movement tester
@@ -89,6 +89,8 @@ bool travelingHome;
 bool assumingGapAtEdge;
 
 int temp_num;  //used to fix gapfinder lookingforgap thing :(
+
+
 
 
 ros::NodeHandle  nh;	
@@ -302,7 +304,6 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
    advertising_state.payload = PL_LOOKING_FOR_GAP;
  talker.publish(&advertising_state);
  assumingGapAtEdge = true;
- 
  }
  
  //ignoring falling off for now
@@ -319,7 +320,7 @@ State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  #endif
  #ifdef DEBUG_COMMS
  isGapFound = 1;
-     
+    
  #endif
  }
  void exitLookForGap()  {
