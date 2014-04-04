@@ -374,6 +374,7 @@ void MegaCaretaker::setup()	{
 	
 	commandListener = node.subscribe("/mega/command", 10, &MegaCaretaker::heardFromMaster, this);
 	commandTalker = node.advertise<mega_caretaker::MasterPacket>("/mega/response", 10);
+	ROS_INFO("finished setting up subs and pubs");
 }
 
 
@@ -385,7 +386,7 @@ void MegaCaretaker::run()	{
 	//need to wait for mega to be in command state!
 	//startGoToTools();
 	//startWaveCrossing();
-	testIMUCompassDirections();
+	//testIMUCompassDirections();
 	while(ros::ok())	{
 		ros::spinOnce();
 		//ROS_INFO("spinning?");
@@ -474,13 +475,15 @@ void MegaCaretaker::init(ros::NodeHandle n)	{
 	
 	//get param for using IMU default to true
 	n.param("useIMU", withIMU, true);
-
+	ROS_INFO("using IMU param set");
 	//certain things this node needs
 	//make sure arduino is actually listening
 	ros::Rate poll_rate(100);
 	while(megaTalker.getNumSubscribers() == 0) 	{
 		poll_rate.sleep();
 	}
+
+	ROS_INFO("so the mega talker is listening");
 
 	//make sure the IMU service is up
 	if(withIMU)	{
@@ -492,7 +495,7 @@ void MegaCaretaker::init(ros::NodeHandle n)	{
 
 
 	//need to see if mega is actually responding... if not keep trying
-//	attemptMegaConnection();
+	attemptMegaConnection();
 	
 }
 
