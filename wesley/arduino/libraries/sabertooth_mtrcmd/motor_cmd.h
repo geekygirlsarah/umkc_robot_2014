@@ -289,12 +289,12 @@ class motor_cmd {
             DIRECTION = STOPPED;
         }
 
-		void turnCCW()	{
+		void turnCW()	{
 			turn(QUARTER_REVERSE, QUARTER_FORWARD);
 //			turn(HALF_REVERSE, HALF_FORWARD);
 		}
 
-		void turnCW()	{
+		void turnCCW()	{
 			turn(QUARTER_FORWARD, QUARTER_REVERSE);
 //			turn(HALF_FORWARD, HALF_REVERSE);
 		}
