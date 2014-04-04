@@ -15,6 +15,7 @@
  */
 #include <math.h> 		// various trig functions
 #include <wesley/arm_point.h>
+#include <std_msgs/String.h>
 
 // these maps translate angles into servo pulses and vice-versa.
 //    the _f() maps expose the pulses finest granularaty of .1 degree.
@@ -53,6 +54,15 @@ class arm_control {
 
 		short p_destination[NO_OF_JOINTS];
 		short p_position[NO_OF_JOINTS];
+
+		ros::Publisher* pub;
+		std_msgs::String dmsg;
+		char buffer[100];
+		char numx[10];
+		char numy[10];
+		char numz[10];
+		char nump[10];
+		char numr[10];
 		wesley::arm_point point_prev;
 //		wesley::arm_point point_next;
 
@@ -70,7 +80,6 @@ class arm_control {
 //			p_position = new short[NO_OF_JOINTS];
 //			p_destination = new short[NO_OF_JOINTS];
 //			arm = new Servo[NO_OF_JOINTS];
-			
 			struct point pos_xyz(0, 0, 0);
 
 			for (byte joint = 0; joint < NO_OF_JOINTS; joint++) {
@@ -79,6 +88,24 @@ class arm_control {
 			}
 		}
 		~arm_control() {
+		}
+
+		void attach_pub(ros::Publisher* publisher) {
+			pub = publisher;
+		}
+
+		void publish(char* msg) {
+			dmsg.data = msg;
+			pub->publish(&dmsg);
+		}
+
+		void build_str(char* buf, char* fmt, float x, float y, float z, float p, float r) {
+			dtostrf(x, 8, 2, numx);
+			dtostrf(y, 8, 2, numy);
+			dtostrf(z, 8, 2, numz);
+			dtostrf(p, 8, 2, nump);
+			dtostrf(r, 8, 2, numr);
+			sprintf(buffer, fmt, numx, numy, numz, nump, numr );
 		}
 
 		// attachs a set of pins to the servos -- this is a nifty
@@ -199,6 +226,7 @@ class arm_control {
 			point_next.r = 95;
 			point_next.cmd = "forced park";
 			put_point_line(point_next);
+			publish("ARM --> forced park()");
 		}
 
 		// this locks the arm in much the same position as park()
@@ -382,6 +410,9 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 		}
 		void put_point( float x, float y, float z, float wrist_pitch_d, float wrist_roll_d )
 		{
+			build_str(buffer, "ARM :: put_point(x, y, z, p, r) --> entering with: ( %s %s %s %s %s )",
+				x, y, z, wrist_pitch_d, wrist_roll_d);
+			publish(buffer);
 		//	Serial.print("ARM :: put(xyz) --> (");
 		//	Serial.print(x), Serial.print(", ");
 		//	Serial.print(y), Serial.print(", ");
@@ -526,6 +557,7 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 		//    and increments along the longest difference between
 		//    point_prev and point_next
 		void put_point_line(wesley::arm_point point_next) {
+
 			wesley::arm_point diff;
 			diff.direct_mode = false;
 			diff.cmd = "difference between two points.";
@@ -536,26 +568,50 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			diff.p = point_next.p - point_prev.p;
 			diff.r = point_next.r - point_prev.r;
 
+			build_str(buffer, "ARM :: put_point_line --> diff ( %s %s %s %s %s )", 
+				diff.x,
+				diff.y,
+				diff.z,
+				diff.p,
+				diff.r);
+			publish(buffer);
+
 			char guiding_light = 0;
-			short longest_gap = 0;
+			float longest_gap = 0;
 			bool increasing = false;
-			if (diff.x > longest_gap) {
-				longest_gap = diff.x;
+			if (fabs(diff.x) > longest_gap) {
+				longest_gap = fabs(diff.x);
+				dtostrf(longest_gap, 8, 2, numx);
+				sprintf(buffer, "ARM :: put_point_line --> guide: x, %s", numx);
+				publish(buffer);
 				guiding_light = 'x';
 				increasing = (point_next.x > point_prev.x);
 			}
-			if (diff.y > longest_gap) {
-				longest_gap = diff.y;
+			if (fabs(diff.y) > longest_gap) {
+				longest_gap = fabs(diff.y);
+				dtostrf(longest_gap, 8, 2, numx);
+				sprintf(buffer, "ARM :: put_point_line --> guide: y, %s", numx);
+				publish(buffer);
 				guiding_light = 'y';
 				increasing = (point_next.y > point_prev.y);
 			}
-			if (diff.z > longest_gap) {
-				longest_gap = diff.z;
+			if (fabs(diff.z) > longest_gap) {
+				longest_gap = fabs(diff.z);
+				dtostrf(longest_gap, 8, 2, numx);
+				sprintf(buffer, "ARM :: put_point_line --> guide: z, %s", numx);
+				publish(buffer);
 				guiding_light = 'z';
 				increasing = (point_next.z > point_prev.z);
 			}
 
-			move_line(guiding_light, increasing, point_next);
+			if (longest_gap == 0) {
+				publish("ARM :: put_point_line --> all zero. no work to do. returning.");
+				return;
+			} else {
+				sprintf(buffer, "ARM :: put_point_line --> preparing to move.");
+				publish(buffer);
+				move_line(guiding_light, increasing, point_next);
+			}
 		}
 
 		void move_line(char guide, bool increasing, wesley::arm_point& point_next) {
@@ -564,6 +620,17 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			//    and solves a 3-space line equation for the other two points
 			//    and then called self.put_on_line(x, y, z, p, r) to move the
 			//    arm into that direct point. this could call self.put_point
+
+			build_str(buffer, "ARM :: move_line --> entering with: ( %s %s %s %s %s )",
+				point_next.x,
+				point_next.y,
+				point_next.z,
+				point_next.p,
+				point_next.r);
+			publish(buffer);
+			
+			sprintf(buffer, "ARM :: move_line --> guiding light: %c", guide);
+			publish(buffer);
 
 			float x = 0.0f;
 			float y = 0.0f;
@@ -576,10 +643,9 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 					for (x = point_prev.x; x != point_next.x;) {
 						k = (x - point_prev.x) / (point_next.x - point_prev.x);
 						y = (k * (point_next.y - point_prev.y)) + point_prev.y;
-						z = (k * (point_next.z - point_prev.z)) + point_prev.y;
+						z = (k * (point_next.z - point_prev.z)) + point_prev.z;
 					
 						put_point(x, y, z, point_next.p, point_next.r);
-//						put_point_line(x, y, z, point_next.p, point_next.r);
 						if (increasing) {
 							x += 1;
 						} else {
@@ -591,37 +657,48 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 					for (y = point_prev.y; y != point_next.y;) {
 						k = (y - point_prev.y) / (point_next.y - point_prev.y);
 						x = (k * (point_next.x - point_prev.x)) + point_prev.x;
-						z = (k * (point_next.z - point_prev.z)) + point_prev.y;
+						z = (k * (point_next.z - point_prev.z)) + point_prev.z;
 					
 						put_point(x, y, z, point_next.p, point_next.r);
-//						put_point_line(x, y, z, point_next.p, point_next.r);
 						if (increasing) {
-							x += 1;
+							y += 1;
 						} else {
-							x -= 1;
+							y -= 1;
 						}
 					}
 					break;
 				case 'z':
 					for (z = point_prev.z; z != point_next.z;) {
 						k = (z - point_prev.z) / (point_next.z - point_prev.z);
-						x = (k * (point_next.x - point_prev.x)) + point_prev.y;
+						x = (k * (point_next.x - point_prev.x)) + point_prev.x;
 						y = (k * (point_next.y - point_prev.y)) + point_prev.y;
 					
 						put_point(x, y, z, point_next.p, point_next.r);
-//						put_point_line(x, y, z, point_next.p, point_next.r);
 						if (increasing) {
-							x += 1;
+							z += 1;
 						} else {
-							x -= 1;
+							z -= 1;
 						}
 					}
+					break;
+				default:
+					publish("ARM :: move_line :: switch --> hit default.");
 					break;
 			}
 			// final put to catch the last point.
 			put_point(point_next.x, point_next.y, point_next.z, point_next.p, point_next.r);
 			point_prev = point_next;
+			publish("ARM :: move_line --> leaving.");
 		}
 
+		void query() {
+			build_str(buffer, "ARM :: query --> at ( %s %s %s %s %s )",
+				point_prev.x,
+				point_prev.y,
+				point_prev.z,
+				point_prev.p,
+				point_prev.r);
+			publish(buffer);
+		}
 };
 
