@@ -120,6 +120,7 @@ void Runner::cab_man(int id_1, int id_2){
 	int returnCode = executeBinary(ss.str());
 
 	logReturnCode("cab_man",returnCode);
+	ArmCommands::carry();
 }
 
 int executeBinary(string binaryName, string prefix, string mode ){

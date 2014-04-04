@@ -57,7 +57,6 @@ int main(int argc, char* argv[]) {
 
 	runner.cab_man(0,0);
 //	logger->logStatus("Executing ID tool");
-	ArmCommands::carry();
 
 	runner.cab_man(0,1);
 
