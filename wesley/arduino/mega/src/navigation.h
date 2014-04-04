@@ -181,6 +181,7 @@ class Navigation {
                   if(gapfind.gapPresent())  {
                     sabertooth.all_stop();  //first stop to keep readings stable
                     delay(1000);
+                /*
 					//maybe this one is too strict. just reset, and let the gapfind update and run again
 					gapfind.reset();
 					gapfind.update();
@@ -192,10 +193,13 @@ class Navigation {
                       gapfind.reset();
                        return -1;  
                     }
+                    */
+                    gapfind.reset();
+                    return 1;
                   }
                   //this is to after update  - FIX the edge case
                   //gap RIGHT THERE on the edge
-                  assumeGapAtEdge = false;  //we know FOR SURE the gap is not at the edge anymore
+                  *assumeGapAtEdge = false;  //we know FOR SURE the gap is not at the edge anymore
                   goForwardForever();
                   return 0;
                 }
@@ -336,7 +340,7 @@ class Navigation {
                 }
                 void goForwardForever()  {
                   //sabertooth.forward();
-                  sabertooth.foward();
+                  sabertooth.forward();
                   goingForward = true;
                 }
                 
