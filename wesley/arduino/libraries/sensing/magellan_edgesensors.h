@@ -136,7 +136,7 @@ public:
   void init(int thresh_front, int thresh_back, int pin1, int pin2) {
     threshold_front = thresh_front;
     threshold_back= thresh_back;
-   // front.init(pin1);
+    front.init(pin1);
     back.init(pin2);
     check =3;
   }
