@@ -3,9 +3,9 @@
 
 #include "notifier.h"
 #include "unistd.h"
-#include "armcommands.h"
 #include <sstream>
 #include <ros/ros.h>
+#include <ros/console.h>
 /**
  * Executes a binary file at path and returns the exit code.
  *
@@ -45,7 +45,7 @@ private:
 public:
 	ros::NodeHandle* handle;
 
-	enum ArmState{GRASP,RELEASE,PARK,CARRY,GIVEUP};
+	enum ArmState {GRASP,RELEASE,PARK,CARRY,GIVEUP};
 	/**
 	 * Construcs an exithandler class
 	 *

@@ -3,7 +3,6 @@
 #include <string>
 #include <unistd.h>
 #include <signal.h>
-#include "armcommands.h"
 using std::string;
 /**
  * The main function. Contains an instance of the LedNotifier object

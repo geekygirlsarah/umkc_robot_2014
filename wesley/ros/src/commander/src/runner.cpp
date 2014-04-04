@@ -1,4 +1,5 @@
 #include "runner.h" 
+#include <ros/console.h>
 Runner::Runner(string parse_file) {
 	ROS_INFO("EXIT :: (log, nh, str) --> entering.");
 	ledNotifier.init_handle(handle);
@@ -113,7 +114,7 @@ void Runner::cab_man(int id_1, int id_2){
 
 	std::stringstream logstream;
 	ss << "Cabman run with arguements" << id_1 << " " << id_2;
-	string log_out = ss.str();
+	const char* log_out = ss.str().c_str();
 	ROS_INFO(log_out);
 
 	int returnCode = executeBinary(ss.str());
@@ -154,18 +155,23 @@ void Runner::die(){
 }
 
 void Runner::logReturnCode(string binary, int code){
-	ROS_INFO(binary + "returned value (%d)", code);	
+	std::stringstream ss;
+	ss << binary << " return value " << code;
+	const char* output = ss.str().c_str();	
+	ROS_INFO(output);	
 }
 
 void Runner::logStatus(string context, string name, bool throwMatchingLedCode){
-	ROS_INFO(context + " logged a status of  " + name);
+	const char* output = (context+" logged a status of " + name).c_str();
+	ROS_INFO(output);
 	if(throwMatchingLedCode){
 		ledNotifier.throwLedCode(name);
 	}
 }
 void Runner::generalFailure(string context, bool giveup){
 	ledNotifier.throwGeneralFailure();
-	ROS_INFO("General Failure in " + context);
+	const char* outString = ("General failure in " + context).c_str();
+	ROS_INFO(outString);
 	if(giveup){die();}
 }
 
