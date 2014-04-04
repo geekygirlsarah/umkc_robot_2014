@@ -1,46 +1,11 @@
+#ifndef RUNNER_H
+#define RUNNER_H
+
 #include "notifier.h"
 #include "unistd.h"
+#include "armcommands.h"
 #include <sstream>
-class Runner{
-private:
-	ros::NodeHandle handle;
-	LedNotifier ledNotifier;
-	int flame, shape;
-	/**
-	 * Puts the robot in an infinite loop if it has to give up	
-	 */
-	static void die(){
-		ROS_INFO("Unrecoverable error, going into death protocol");
-		ArmCommands::giveup();
-		ledNotifier.lightLeds("death",true);
-		ROS_INFO("Spinning forever as a result of death");
-		while(true){sleep(1);}
-	}
-	/*
-	 * Logs a return code to ros info
-	 */
-	void logReturnCode(string binary, int code){
-		ROS_INFO(binary + "returned value (%d)", code);	
-	}
-	/**
-	 * Used to log a status from a binary return code
-	 */	
-	void logStatus(string context, string name, bool throwMatchingLedCode = true){
-		ROS_INFO(context + " logged a status of  " + name);
-		if(throwMatchingLedCode){
-			ledNotifier.throwLedCode(name);
-		}
-	}
-	/**
-	 * Called when an unspecified failure has been found
-	 */
-	void generalFailure(string context, bool giveup = false){
-		ledNotifier.throwGeneralFailure();
-		ROS_INFO("General Failure in " + context);
-		if(giveup){die();}
-	}
-
-public:
+#include <ros/ros.h>
 /**
  * Executes a binary file at path and returns the exit code.
  *
@@ -50,7 +15,37 @@ public:
  *
  * @return The integer exit code from the binary
  */
-	static int executeBinary(string path,string prefix="", string mode="r");
+int executeBinary(string path,string prefix="", string mode="r");
+
+class Runner{
+
+private:
+	LedNotifier ledNotifier;
+	int flame, shape, tool;
+
+	/**
+	 * Puts the robot in an infinite loop if it has to give up	
+	 */
+	void die();
+	/*
+	 * Logs a return code to ros info
+	 */
+	void logReturnCode(string binary, int code);
+			
+	/**
+	 * Used to log a status from a binary return code
+	 */	
+	void logStatus(string context, string name, bool throwMatchingLedCode = true);
+	/**
+	 * Called when an unspecified failure has been found
+	 */
+	void generalFailure(string context, bool giveup = false);
+
+
+public:
+	ros::NodeHandle* handle;
+
+	enum ArmState{GRASP,RELEASE,PARK,CARRY,GIVEUP};
 	/**
 	 * Construcs an exithandler class
 	 *
@@ -76,6 +71,23 @@ public:
 	 *
 	 */
 	void id_tool();
-
+	/**
+	 * Manages vickys program
+	 */
 	void cab_man(int id_1,int id_2);
+	/**
+	 * Used to directly call an arm state, should probabbly only be used in neccessray situations, most arm stuff should be handled in a specific binary run Call
+	 */
+	void moveArmState(ArmState state);
 };
+
+namespace ArmCommands{
+	int grasp(){return executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: grasp}'", "");}
+	int release() {return executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: release}'", "");}
+	int park() {return executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: park}'", "");}
+	int carry() {return executeBinary("rostopic pub -1 /arm/put/point wesley/arm_point '{direct_mode: false, cmd: carry}'", "");}
+	int giveup() {return executeBinary("rostopic pub -1 /arm/put/angle wesley/arm_angle 90 90 180 90 90 120", "");}
+};
+
+#endif
+

@@ -27,7 +27,7 @@ void Runner::button_wait() {
 //id_flame will take our return code from id_flame and throw led 
 //notification based on the outcome
 void Runner::id_flame(){
-	returnCode = executeBinary("rosrun camera id_flame")
+	int returnCode = executeBinary("rosrun camera id_flame");
 	string name = "id_flame";
 	logReturnCode(name,returnCode);	
 	//switch based on return code 
@@ -88,7 +88,7 @@ void Runner::id_tool()
 {
 	std::stringstream ss;
 	ss <<  "rosrun camera id_tool " << shape; 
-	returnCode = executeBinary(ss.str())
+	int returnCode = executeBinary(ss.str());
 	logReturnCode(ss.str(),returnCode);
 	switch(returnCode){
 		case 0:
@@ -100,31 +100,33 @@ void Runner::id_tool()
 		default:	
 			//set our private variable tool = to returnCode for documentation
 			tool = returnCode;
-			std::stringstream ss << "found tool number" << tool;
+			std::stringstream ss;
+			ss << "found tool number" << tool;
 			logStatus("id_tool",ss.str());
 			break;
 	}
 	ArmCommands::carry();
 }
 void Runner::cab_man(int id_1, int id_2){
-	stringstream ss;
+	std::stringstream ss;
 	ss << "rosrun commander cabman " << id_1 << " " << id_2;
 
-	stringstream logstream << "Cabman run with arguements" << id_1 << " " << id_2;
-	ROS_INFO(logstream.str());
+	std::stringstream logstream;
+	ss << "Cabman run with arguements" << id_1 << " " << id_2;
+	string log_out = ss.str();
+	ROS_INFO(log_out);
 
 	int returnCode = executeBinary(ss.str());
 
 	logReturnCode("cab_man",returnCode);
 }
 
-int Runner::executeBinary(string binaryName, string prefix, string mode ){
+int executeBinary(string binaryName, string prefix, string mode ){
 	string name = prefix + binaryName;
 	FILE * f = popen(name.c_str(),mode.c_str());
 	
 	//Eror while opening file stream
 	if(f == 0){
-		logStatus("executeBinary","couldn't find the specified file " + prefix + binaryName,false);
 		return -2;
 	}
 	/**
@@ -141,4 +143,49 @@ int Runner::executeBinary(string binaryName, string prefix, string mode ){
 	//    which is based on waitpid. reading those two man pages (man 2 wait4, or
 	//    man 2 waitpid) did not shed any extra light on this.
 	return pclose(f)/256;
+}
+
+void Runner::die(){
+		ROS_INFO("Unrecoverable error, going into death protocol");
+		ArmCommands::giveup();
+		ledNotifier.throwLedCode("death",true);
+		ROS_INFO("Spinning forever as a result of death");
+		while(true){sleep(1);}
+}
+
+void Runner::logReturnCode(string binary, int code){
+	ROS_INFO(binary + "returned value (%d)", code);	
+}
+
+void Runner::logStatus(string context, string name, bool throwMatchingLedCode){
+	ROS_INFO(context + " logged a status of  " + name);
+	if(throwMatchingLedCode){
+		ledNotifier.throwLedCode(name);
+	}
+}
+void Runner::generalFailure(string context, bool giveup){
+	ledNotifier.throwGeneralFailure();
+	ROS_INFO("General Failure in " + context);
+	if(giveup){die();}
+}
+
+
+void Runner::moveArmState(ArmState state){
+	switch(state){
+		case GRASP:
+			ArmCommands::grasp();
+			break;
+		case RELEASE:
+			ArmCommands::release();
+			break;
+		case PARK:
+			ArmCommands::park();
+			break;
+		case CARRY:
+			ArmCommands::carry();
+			break;
+		case GIVEUP:
+			ArmCommands::giveup();
+			break;
+	}
 }
