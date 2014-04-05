@@ -136,12 +136,12 @@ class arm_control {
 			// to hard-coded values. odd behavior has been seen
 			//    when calling grasp() or release() without these
 			//    two being set correctly.
-			p_destination[BASE] 	= p_position[BASE] 		= topulsef(90);
+			p_destination[BASE] 	= p_position[BASE] 		= topulsef(95);
 			p_destination[SHOULDER]	= p_position[SHOULDER] 	= topulsef(165);
 			p_destination[ELBOW]	= p_position[ELBOW] 	= topulsef(5.5);
 			p_destination[WRIST_P]	= p_position[WRIST_P] 	= topulsef(0);
 			p_destination[WRIST_R]	= p_position[WRIST_R] 	= topulsef(95);
-			p_destination[HAND]		= p_position[HAND] 		= topulsef(20);
+			p_destination[HAND]		= p_position[HAND] 		= topulsef(130);
 			
 			/* for testing purposes, this will proceed in order
 			 *    and directly place the successive joints at
@@ -165,7 +165,7 @@ class arm_control {
 		//	Serial.flush();
 			/* here, define, in pulse, what angles to place the
 			 *    servos at. these will then be moved below */
-			p_destination[BASE] 	= topulsef(90);
+			p_destination[BASE] 	= topulsef(95);
 			p_destination[SHOULDER]	= topulsef(165);
 			p_destination[ELBOW]	= topulsef(5.5);
 			p_destination[WRIST_P]	= topulsef(0);
@@ -189,7 +189,7 @@ class arm_control {
 			//
 			// pre-defined carry position:
 			//    90 165 5.5 180 0 90
-			p_destination[BASE] 	= topulsef(90);
+			p_destination[BASE] 	= topulsef(95);
 			p_destination[SHOULDER]	= topulsef(165);
 			p_destination[ELBOW]	= topulsef(5.5);
 			p_destination[WRIST_P]	= topulsef(180);
