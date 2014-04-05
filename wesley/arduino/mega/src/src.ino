@@ -11,7 +11,7 @@
 //separating the Crossing Wave state
 //#define DEBUG_COMMS  //don't test sensor stuf! just the comms!
 //#define TEST_TRANSITION_FROM_TOOLS_ONLY   //this starts from the tool pick up position, then goes back to default home position 
-//#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
+#define TEST_CROSS_BOARD_FROM_HOME_ONLY //the opposite of the above will starts from the default home position, goes all the way across - this will supercede the test_transition_from_tools
 //#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
 
 
@@ -80,13 +80,15 @@ bool turn90DegreeFinished;
 bool arrivedAtTools;
 bool crossBoard;
 bool  commandGoToTools;
-bool  isGapFound;
+int  isGapFound;
 bool  isGapCrossed;
 bool  isEdgeFound;
 bool travelingHome;
 
+//gapfinder shenanigans
+bool assumingGapAtEdge;
 
-
+int temp_num;  //used to fix gapfinder lookingforgap thing :(
 
 
 ros::NodeHandle  nh;	
@@ -245,7 +247,8 @@ State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
  nav.stopNow();
  
  //Ask board for help!
- initiateTurn90_CW();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+  initiateTurn90_CW_X_axis();
  }
  
  void updateTurn90Degrees()  {
@@ -267,7 +270,7 @@ State turn90Degrees_CW = State(enterTurn90Degrees_cw, updateTurn90Degrees, exitT
  nav.stopNow();
  
  //Ask board for help!
- initiateTurn90_CCW();
+ initiateTurn90_CCW_Y_axis();
  }
  
 //----------
@@ -290,26 +293,32 @@ void exitGapFound()  {
 
 //----------
 //lookForGap - travel straight thru lanes, while looking for gap. Stop once we find a gap.
+//WE STOP when we enter lookforgap
 //----------
 
 State lookForGap = State(enterLookForGap, updateLookForGap, exitLookForGap);
  void enterLookForGap()  {
- advertising_state.payload = PL_LOOKING_FOR_GAP;
+  nav.stopNow();
+   advertising_state.payload = PL_LOOKING_FOR_GAP;
  talker.publish(&advertising_state);
- nav.takeOff();
+ assumingGapAtEdge = true;
+ 
  }
  
  //ignoring falling off for now
  void updateLookForGap()  {
- //updateROS_spin();  //do i need this??
- #ifndef DEBUG_COMMS 
- isGapFound = nav.lookingForGap();
+ 
+   //-> moving and stuff is handled inside looking for gap
+   //updateROS_spin();  //do i need this??
+ #ifndef DEBUG_COMMS
+ temp_num = nav.lookingForGap(&assumingGapAtEdge);  
+ isGapFound = temp_num;
   //NEED TO BE MOVING and not stopeed. 
  //stateMachine.immediateTransitionTo(waitForCommand);    
  
  #endif
  #ifdef DEBUG_COMMS
- isGapFound = true;
+ isGapFound = 1;
      
  #endif
  }
@@ -450,10 +459,13 @@ void packet_catch(const mega_caretaker::MegaPacket& packet)  {
   }
   
     else if(packet.msgType == MSGTYPE_FINISHED)  {
-       if(packet.payload == PL_FINISHED_TURNING_90_CW || packet.payload == PL_FINISHED_TURNING_90_CCW) {
-           //new thing - immediate transition to finished state
+       if(packet.payload == PL_FINISHED_TURNING_90_CW_X_AXIS || packet.payload == PL_FINISHED_TURNING_90_CCW_Y_AXIS) {
+           //new thing - immediate transition to finished state  //-> these are only used for crossing  the board.
            turn90DegreeFinished = true; 
          }
+        else if(packet.payload == PL_FINISHED_TURNING_90_CW_Y_AXIS || packet.payload == PL_FINISHED_TURNING_90_CCW_X_AXIS)  {  
+          //these are used (will be used) in the transition state from rig to crossingboard start)
+        }
 
    }
    
@@ -538,16 +550,16 @@ void initROS()  {
 }
 
 
-void initiateTurn90_CW()  {
+void initiateTurn90_CW_X_axis()  {
   temp.msgType = MSGTYPE_HEY;
-  temp.payload = PL_START_TURNING_90_CW;
+  temp.payload = PL_START_TURNING_90_CW_X_AXIS;
   talker.publish(&temp);
 }
 
 
-void initiateTurn90_CCW()  {
+void initiateTurn90_CCW_Y_axis()  {
   temp.msgType = MSGTYPE_HEY;
-  temp.payload = PL_START_TURNING_90_CCW;
+  temp.payload = PL_START_TURNING_90_CCW_Y_AXIS;
   talker.publish(&temp);
 }
 
@@ -575,7 +587,7 @@ void setup() {
   arrivedAtTools = false;
   crossBoard = false; 
   commandGoToTools = false;
-  isGapFound = false;
+  isGapFound = 0;
   isGapCrossed = false;
   isEdgeFound = false;
   travelingHome = false;
@@ -685,15 +697,27 @@ void loop() {
    
    else if(stateMachine.isInState(lookForGap))  {
    //spin.. will transition to gapFound state when its' found
-     if(isGapFound)  {
-       
+     if(isGapFound == 1)  {
+       isGapFound = 0;
        //might need to hardcode the ticks if I'm not at an edge.
+       #ifndef DEBUG_COMMS
+       //NO ADJUSTING
+       //- if the gap is NOT at edge, only then do we adjust. 
        
-       nav.adjustToGap();
+       //nav.adjustToGap();
+      //NOT WORKING RIGHT NOW - isn't adjusting to gap at all :( - 8:35AM wed - 9:33PM thur -> implemented, NOT TESTE
+       if(assumingGapAtEdge == false)  {
+         nav.adjustToGap();
+       }
+       
        nav.stop_sleep(PAUSE_DURATION);
-       stateMachine.transitionTo(waitForCommand);
-       isGapFound = false;
+       #endif
+       //stateMachine.transitionTo(waitForCommand);
+   
        stateMachine.transitionTo(gapFound);
+     }
+     else if (isGapFound == -1) {   //ABORt! need to go back to findedge state!!!
+       stateMachine.transitionTo(findEdge);
      }
    }
    
