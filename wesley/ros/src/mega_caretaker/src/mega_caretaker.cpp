@@ -369,14 +369,21 @@ void MegaCaretaker::informFinishedWaveCrossing()	{
 void MegaCaretaker::setup()	{
 //	motorCommandTopic = n.subscribe(geometry_msgs/
 	ROS_INFO("care:: setting up subscribers + publishers");
+	ROS_INFO("care:: advertising boardToArduino...");
 	megaTalker = node.advertise<mega_caretaker::MegaPacket>("/mega_caretaker/boardToArduino", 10);
+	ROS_INFO("care:: subscribing  to arduinotToBoard...");
 	megaListener = node.subscribe("/mega_caretaker/arduinoToBoard", 10, &MegaCaretaker::heardFromMega, this);
 
+	ROS_INFO("care:: subscribing to orientation_data...");
 	orientationListener = node.subscribe("Orientation_data", 10, &MegaCaretaker::heardFromOrientation, this);
+	ROS_INFO("care:: setting up serviceClient for getCurrentYaw...");
 	client = node.serviceClient<imu_filter_madgwick::imu_yaw>("getCurrentYaw");
 	
+	ROS_INFO("care:: subscribing  to /mega/command...");
 	commandListener = node.subscribe("/mega/command", 10, &MegaCaretaker::heardFromMaster, this);
+	ROS_INFO("care:: advertising /mega/response...");
 	commandTalker = node.advertise<mega_caretaker::MasterPacket>("/mega/response", 10);
+	ROS_INFO("care:: finished setting up subs and pubs");
 }
 
 
@@ -475,17 +482,21 @@ void MegaCaretaker::init(ros::NodeHandle n)	{
 	node = n;
 	setup();
 	
+
 	//get param for using IMU default to true
 	n.param("useIMU", withIMU, true);
-
+	ROS_INFO("care:: Waiting for something to listen to megaTalker ");
 	//certain things this node needs
 	//make sure arduino is actually listening
+	ROS_INFO("care:: waiting for subscriber to boardToArduino");
 	ros::Rate poll_rate(100);
 	while(megaTalker.getNumSubscribers() == 0) 	{
 		poll_rate.sleep();
 	}
+	
 
 	//make sure the IMU service is up
+	ROS_INFO("care:: waiting for IMU service");
 	if(withIMU)	{
 		ros::service::waitForService("getCurrentYaw", 5000);
 	}
