@@ -157,7 +157,7 @@ include_directories(
 # catkin_add_nosetests(test)
 
 
-add_executable(cmdr src/main.cpp src/exit_handlers.cpp src/notifier.cpp)
+add_executable(cmdr src/main.cpp src/runner.cpp src/notifier.cpp)
 target_link_libraries(cmdr ${catkin_LIBRARIES})
 add_executable(button_wait src/button_wait.cpp src/notifier.cpp)
 target_link_libraries(button_wait ${catkin_LIBRARIES})

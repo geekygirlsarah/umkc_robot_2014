@@ -108,6 +108,6 @@ public:
 	 */
 	string cat_codes();
 
-	ros::NodeHandle* init_handle(ros::NodeHandle* handle);
+	void init_handle(ros::NodeHandle* handle);
 };
 #endif
