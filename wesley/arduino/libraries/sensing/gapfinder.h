@@ -4,7 +4,6 @@
 /**
  * GapFinder
  * Jan 2014
- * Author: Victoria Wu, Andrew Cunningham
  *
  * Given three IR sensors in a row, finds a gap thingy
  * written for the 2014 ieee region 5 comp
@@ -15,13 +14,16 @@
  * TODO: interface with the outside world - return a thingy from gapFind (DONE)
  **/
 #include <Distance2D120X.h>
+#include <DistSmoother.h>
 
+#include <motor_cmd.h>
 
 #ifndef GAPFINDER_H
 #define GAPFINDER_H
 
-
-
+#define GAPFINDER_NUM_GAP_CHECK_TOTAL 5 	//how many times should we take reading for gap
+#define GAPFINDER_NUM_GAP_CHECK_ACCEPTABLE 3	//how many times should the reading say there is a gap for us to assume there is a gap
+#define GAPFINDER_VERIFY_GAP_DELAY 50	//ms between taking readings for gap once stopped
 class GapFinder	{
 private:
   //Using 3 IR sensors along the side. 
@@ -37,11 +39,14 @@ private:
   int outerloopcount;	//how many times the update() method will run thru the state loop
   int distance1,distance2,distance3;  //used for debugging
 
-  Distance2D120X Dist1;
-  Distance2D120X Dist2;  
-  Distance2D120X Dist3;
+  DistSmoother Dist1;
+  DistSmoother Dist2;  
+  DistSmoother Dist3;
 
-  const static int threshold = 20;  //threshold for ping sensor detecting a hole (cm)
+  motor_cmd *saber;
+
+  const static int threshold_default = 10;  //threshold for ping sensor detecting a hole (cm)
+  int threshold;  //threshold for ping sensor detecting a hole (cm)
 
 
   
@@ -71,22 +76,39 @@ public:
   enum ternary {NO_GAP, MAYBE_GAP, YES_GAP};  
   
 
+  //Which 3 pins are you using to find this gap?
+  //must be in order, from right or left doesn't matter
+  void init(int pin1, int pin2, int pin3 , motor_cmd* s)  {
+    Dist1.init(pin1);
+    Dist2.init(pin2);
+    Dist3.init(pin3);
+    check = 3;
+    threshold = threshold_default;
+    gap_status = no_gap;    //we start out assuming no hole
+
+    saber = s;
+
+  }
+
 
   //Which 3 pins are you using to find this gap?
   //must be in order, from right or left doesn't matter
-  void init(int pin1, int pin2, int pin3)  {
-    Dist1.begin(pin1);
-    Dist2.begin(pin2);
-    Dist3.begin(pin3);
+  void init(int pin1, int pin2, int pin3, int thresh, motor_cmd* s)  {
+    Dist1.init(pin1);
+    Dist2.init(pin2);
+    Dist3.init(pin3);
     check = 3;
+    threshold = thresh;
     gap_status = no_gap;    //we start out assuming no hole
+    
+    saber = s;
   }
 
   //find and print the distances
   void printDebug()  {
-    distance1 = Dist1.getDistanceCentimeter();
-    distance2 = Dist2.getDistanceCentimeter();
-    distance3 = Dist3.getDistanceCentimeter();
+    distance1 = Dist1.getAccurateDistCM();
+    distance2 = Dist2.getAccurateDistCM();
+    distance3 = Dist3.getAccurateDistCM();
     //difference = distance1 - distance2;
 
     Serial.print("dist(cm):\t");
@@ -147,8 +169,10 @@ public:
 			 
 			  break;
 			case yes_gap:
-			  if(!checkYesGap())
-				gap_status = no_gap;
+			
+			saber->all_stop();	//attempting to STOP as soon as gap is reached
+			//  if(!checkYesGap())
+			//	gap_status = no_gap;
 			  break;
 
 			}
@@ -167,16 +191,38 @@ public:
     }
   }
 
+  //this one values quickness more than accuracy.
+  //ok to be moving
   bool gapPresent()	{
  	return gap_status == yes_gap;	
   }
- 
+
+  //this one assumes you are already stopped, checks in a row.
+  //DO NOT BE MOVING WHEN YOU DO THIS
+  bool gapPresentThorough()	{
+	int okChecks = 0; //how many times we read a gap
+
+ 	for(int i = 0; i < GAPFINDER_NUM_GAP_CHECK_TOTAL ; i++)
+ 		{        
+		 	if(checkYesGap())	{
+ 				okChecks++; 
+ 			}
+ 			delay(GAPFINDER_VERIFY_GAP_DELAY);
+ 		}    
+ 	return okChecks >= GAPFINDER_NUM_GAP_CHECK_ACCEPTABLE;
+  }
+
   bool maybeGapPresent()	{
   	return gap_status == def_maybe_gap;
   }
 
   bool gapNotPresent()	{
   	return (gap_status == no_gap || gap_status == maybe_gap);
+  }
+
+  //reset back to no gap state. 
+  void reset()	{
+ 	gap_status = no_gap; 
   }
 
 };

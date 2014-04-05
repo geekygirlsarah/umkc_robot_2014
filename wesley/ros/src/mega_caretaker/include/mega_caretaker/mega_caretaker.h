@@ -8,6 +8,7 @@
 #include <ros/console.h>
 //msg includes
 #include "mega_caretaker/MegaPacket.h"
+#include "mega_caretaker/MasterPacket.h"
 
 
 
@@ -17,6 +18,9 @@ namespace mega_caretaker	{
 			private:
 					
 					ros::NodeHandle node;
+					bool withIMU;	//used for debugging - no imu input
+					bool megaConnectionOK;	//starts as false. have i establshed comms with mega yet?
+					bool megaReady;			//starts as false. is mega ready to be commanded?
 
 					//talking to the arduino
 					ros::Publisher megaTalker;		//publishes to boardToArduino
@@ -24,18 +28,36 @@ namespace mega_caretaker	{
 
 
 					//interfacing with the rest of the board
+					ros::Publisher commandTalker;	//inform the rest of board what the mega is doing
+					ros::Subscriber commandListener;	//tell the mega what to do! from the outside 
 					ros::Subscriber orientationListener;	//subscribes to /Orientation_data
 					ros::ServiceClient client;				//client for getCurrentYaw service
 
 					void setup();
+					void attemptMegaConnection();
 
 					//callbacks galore
 					void heardFromMega(const mega_caretaker::MegaPacket &packet);
+					void heardFromMaster(const mega_caretaker::MasterPacket &packet);
 					void heardFromOrientation(const std_msgs::String &packet);
 
+
+					//talking to rest of board
+					void informFinishedWaveCrossing();
+					void informFinishedGoToTools();
+
+					void printStateInfo(int8_t payload);
 					//logic functions
-					void make90DegreeTurn();
+					void make90DegreeTurn(int8_t payload);
+
+					//talk to  mega
 					void startWaveCrossing();
+					void startGoToTools();
+
+
+					//test thingies
+					void testIMUCompassDirections();
+
 			public:
 					void init(ros::NodeHandle n);
 					void run();

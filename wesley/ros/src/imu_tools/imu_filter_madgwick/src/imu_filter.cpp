@@ -107,11 +107,11 @@ ImuFilter::~ImuFilter()
 
 bool ImuFilter::getCurrentYaw(imu_filter_madgwick::imu_yaw::Request& request, imu_filter_madgwick::imu_yaw::Response& response)	{
 	
-	ROS_INFO("Giving current yaw");
 	
   	boost::mutex::scoped_lock(mutex_);
   	tf::Quaternion q(q1, q2, q3, q0);   
   	response.yaw = 57.2957795*tf::getYaw(q); //convert from rad to angle
+//	ROS_INFO("Giving current yaw %f", response.yaw);
 	return true;
 }
 
