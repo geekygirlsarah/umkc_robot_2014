@@ -1,6 +1,7 @@
 #include "runner.h" 
 #include <ros/console.h>
 Runner::Runner(string parse_file) {
+	handle = new ros::NodeHandle;	
 	ROS_INFO("EXIT :: (log, nh, str) --> entering.");
 	ledNotifier.init_handle(handle);
 	ROS_INFO("EXIT :: (log, nh, str) --> notifier created.");

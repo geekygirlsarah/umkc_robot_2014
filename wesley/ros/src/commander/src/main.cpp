@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 
 	runner.cab_man(0,0);
 //	logger->logStatus("Executing ID tool");
-
+	runner.id_tool();
 	runner.cab_man(0,1);
 
 	return 0;
