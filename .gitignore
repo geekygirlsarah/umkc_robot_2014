@@ -1,0 +1,35 @@
+[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must ends with two \r.
+Icon
+
+
+# Thumbnails
+._*
+
+#vim swap files
+.swp
+.swo
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# ros/catkin specific ones
+cmake_install.cmake
+build/
+bin/
+lib/
+#not sure if we need devel or not O.o
+devel/
+msg_gen/
+srv_gen/
