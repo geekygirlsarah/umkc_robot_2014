@@ -1,4 +1,4 @@
-#include <ros.h>					// basic ROS objects
+#include <ros.h>				// basic ROS objects
 #include <std_msgs/Byte.h>			// leds are condensed into one byte
 #include <std_msgs/Bool.h>			// button: true / false
 
@@ -24,14 +24,20 @@ const byte GRN2 = A0;
 //void display_status(const geometry_msgs::Point& status) {
 void display_status(const std_msgs::Byte& msg) {
 	bool status[6] = {
-		msg.data & 0x01,
-		msg.data & 0x02,
-		msg.data & 0x04,
-		msg.data & 0x08,
-		msg.data & 0x10,
-		msg.data & 0x20,
+		// an array of booleans indicate which LEDs to turn on.
+		// these are gathered by masking out the individual bit
+		//    as condesed by LedNotifier.
+		msg.data & 0x01,	// RED 1
+		msg.data & 0x02,	// RED 2
+		msg.data & 0x04,	// YELLOW 1
+		msg.data & 0x08,	// YELLOW 2
+		msg.data & 0x10,	// GREEN 1
+		msg.data & 0x20,	// GREEN 2
 	};
 
+	// now that the byte has been decompressed, set the LEDs
+	//    according to the value given.
+	// please see notify_id.txt for status values.
 	digitalWrite(RED1, status[0]);
 	digitalWrite(RED2, status[1]);
 	digitalWrite(YLW1, status[2]);
@@ -107,23 +113,40 @@ void loop() {
 			published = true;
 		}
 	} else {
+	// this else chunk is checked after the message has been published.
+	// the idea here is that we want to be able to do a software reset
+	//    of the mini so that we can return to a state that will push
+	//    the 'go' status when the button is pressed again.
+	// the overall button check logic is similar to the above code. it
+	//    has been altered sligthly to to allow for accidental and
+	//    momentary pushes of the button to do nothing.
 		if (reset_held == false) {
 			reset_held = !digitalRead(BTN);
+			// we just checked the button so keep track of that
+			//    time so we can set a hold delay below.
 			reset_wait = millis();
 		} else {
+		// the button has been pressed. while the button is still
+		//    being held wait until the required time has elapsed.
 			do {
 				release_time = millis();
 			} while((!digitalRead(BTN)) && (release_time - reset_wait < 4000));
+			// a final check to make sure we're still held down and
+			//    the appropriate time has been met
 			if ((!digitalRead(BTN)) && (release_time >= 4000)) {
+				// turn on all the lights to indicate a change
 				set_leds.data = 0x3F;
 				display_status(set_leds);
+				// reset all internal state check booleans
 				published = false;
 				running_state.data = false;
 	                        // wait until button is let go.
         	                while(!digitalRead(BTN));
+        	                // return the LEDs to the inital state (RED 1 & 2 on)
                 	        set_leds.data = 0x03;
                         	display_status(set_leds);
 			} else {
+				// didn't meet the requirements for reset.
 				reset_held = false;
 			}
 			reset_held = false;
