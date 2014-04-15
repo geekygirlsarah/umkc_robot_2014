@@ -128,9 +128,10 @@ void loop() {
 		} else {
 		// the button has been pressed. while the button is still
 		//    being held wait until the required time has elapsed.
+		// required time for hold is ~4 seconds.
 			do {
-				release_time = millis();
-			} while((!digitalRead(BTN)) && (release_time - reset_wait < 4000));
+				release_time = millis() - reset_wait;
+			} while((!digitalRead(BTN)) && (release_time < 4000));
 			// a final check to make sure we're still held down and
 			//    the appropriate time has been met
 			if ((!digitalRead(BTN)) && (release_time >= 4000)) {
