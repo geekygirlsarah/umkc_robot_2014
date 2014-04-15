@@ -14,6 +14,7 @@
  *       set in millimeters.
  */
 #include <math.h> 		// various trig functions
+#include <wesley/arm_point.h>
 
 // these maps translate angles into servo pulses and vice-versa.
 //    the _f() maps expose the pulses finest granularaty of .1 degree.
@@ -53,6 +54,9 @@ class arm_control {
 		short p_destination[NO_OF_JOINTS];
 		short p_position[NO_OF_JOINTS];
 
+		wesley::arm_point point_prev;
+//		wesley::arm_point point_next;
+
 	public:
 		enum JOINTS { BASE, SHOULDER, ELBOW, WRIST_P, WRIST_R, HAND };
 
@@ -67,7 +71,6 @@ class arm_control {
 //			p_position = new short[NO_OF_JOINTS];
 //			p_destination = new short[NO_OF_JOINTS];
 //			arm = new Servo[NO_OF_JOINTS];
-			
 			struct point pos_xyz(0, 0, 0);
 
 			for (byte joint = 0; joint < NO_OF_JOINTS; joint++) {
@@ -136,13 +139,26 @@ class arm_control {
 			// to hard-coded values. odd behavior has been seen
 			//    when calling grasp() or release() without these
 			//    two being set correctly.
-			p_destination[BASE] 	= p_position[BASE] 		= topulsef(95);
+			p_destination[BASE] 	= p_position[BASE]		= topulsef(90);
 			p_destination[SHOULDER]	= p_position[SHOULDER] 	= topulsef(165);
 			p_destination[ELBOW]	= p_position[ELBOW] 	= topulsef(5.5);
 			p_destination[WRIST_P]	= p_position[WRIST_P] 	= topulsef(0);
 			p_destination[WRIST_R]	= p_position[WRIST_R] 	= topulsef(95);
-			p_destination[HAND]		= p_position[HAND] 		= topulsef(130);
+			p_destination[HAND] 	= p_position[HAND]		= topulsef(20);
 			
+			// measured directly from the arms origin to tip of gripper.
+			//    this was found to be inaccurate and begat a number of
+			//    problems that kept the move_line() method from being
+			//    used. a little bit more time and this should be much
+			//    better than the current method.
+			point_prev.direct_mode = 0;
+			point_prev.x = 0;
+			point_prev.y = 64;
+			point_prev.z = 10;
+			point_prev.p = 0;
+			point_prev.r = 95;
+			point_prev.cmd = "initial park";
+
 			/* for testing purposes, this will proceed in order
 			 *    and directly place the successive joints at
 			 *    the prescribed angle defined above.
@@ -165,7 +181,7 @@ class arm_control {
 		//	Serial.flush();
 			/* here, define, in pulse, what angles to place the
 			 *    servos at. these will then be moved below */
-			p_destination[BASE] 	= topulsef(95);
+			p_destination[BASE] 	= topulsef(90);
 			p_destination[SHOULDER]	= topulsef(165);
 			p_destination[ELBOW]	= topulsef(5.5);
 			p_destination[WRIST_P]	= topulsef(0);
@@ -173,9 +189,20 @@ class arm_control {
 			// do not mess with the hand. leave to that grasp/release
 		//	p_destination[HAND]		= topulse(90);
 			
-			update();
+		//	update();
 		//	Serial.println("ARM :: park() --> leaving");
 		//	Serial.flush();
+
+		//	this is an implementation of a new move method.
+			wesley::arm_point point_next;
+			point_next.direct_mode = 0;
+			point_next.x = 0;
+			point_next.y = 64;
+			point_next.z = 10;
+			point_next.p = 0;
+			point_next.r = 95;
+			point_next.cmd = "forced park";
+			put_point_line(point_next);
 		}
 
 		// this locks the arm in much the same position as park()
@@ -189,7 +216,7 @@ class arm_control {
 			//
 			// pre-defined carry position:
 			//    90 165 5.5 180 0 90
-			p_destination[BASE] 	= topulsef(95);
+			p_destination[BASE] 	= topulsef(90);
 			p_destination[SHOULDER]	= topulsef(165);
 			p_destination[ELBOW]	= topulsef(5.5);
 			p_destination[WRIST_P]	= topulsef(180);
@@ -227,6 +254,19 @@ class arm_control {
 			p_position[joint] = arm[joint].readMicroseconds();
 		}
 
+		// iterates across all joints in enum(JOINTS) order and put()s
+		//    the joint directly to the desired position. this is to be
+		//    used in conjunction with the new move_line() method of
+		//    movement. the idea is that the arm will move by small
+		//    increments and so we can just directly place all servos
+		//    at once with no care to order or neatness.
+		void direct_update() {
+			for (int joint = BASE; joint <= WRIST_R; joint++) {
+				p_position[joint] = p_destination[joint];
+				put(joint, p_destination[joint]);
+			}
+		}
+		
 		// so, update is no longer a variable list funciton.
 		//
 		// this still needs a little work in order to make it really
@@ -244,24 +284,10 @@ class arm_control {
 		//    then, on each update, the arm can be put to the next 
 		//    successive point along that line, resulting in smoother,
 		//    more geometric motion. -- an excersize for another day.
-//		void update(const byte argc, ...) {
 		void update() {
 		//	Serial.println("ARM :: update(...) --> entering");
 		//	Serial.flush();
-//			va_list argv;
-//			va_start(argv, argc);
 
-			// collect the queue of joints to move;
-//			byte* arm_queue = new byte[argc];
-//			for (byte ith = 0; ith < argc; ith++) {
-//				arm_queue[ith] = va_arg(argv, int);
-//			}
-
-//			va_end(argv);
-		//	Serial.println("ARM :: update(...) --> armqueue created");
-		//	Serial.flush();
-			// destroy the argument list - we're done.
-			
 //			short* step = new short[NO_OF_JOINTS];
 			short step[NO_OF_JOINTS];
 			// this is likely unneccessary.
@@ -324,22 +350,14 @@ class arm_control {
 				arm[joint].writeMicroseconds(p_destination[joint]);
 			}
 
-			//*/
-//			delete(arm_queue);
-//			delete(step);
 		//	Serial.println("ARM :: update(...) --> leaving");
 		//	Serial.flush();
 		}
 
-		/* place at (x, y, z) - this is an inverse kinematic
-		 *    equation that translates the (x, y, z) into
-		 *    angualr measures from an origin defined at the
-		 *    base of the arm.
-		 *
-		 * this function is borrowed from:
-http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
-		 * which, conincedentilelery is the same arm as the one we have
-		 * */
+		// this is for the topic /arm/put/angle. it was handy during testing
+		//    and proved to be marginally useful in production. call this
+		//    function with the desired angles of all servos and we'll go
+		//    there using the smooth update() function.
 		void put_angle( unsigned short B, unsigned short S, unsigned short E, unsigned short WP, unsigned short WR, unsigned short H) {
 		//	Serial.println("ARM --> put_angle :: entering");
 			p_destination[BASE] = topulse(B);
@@ -351,6 +369,16 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 
 			update();
 		}
+
+		/* place at (x, y, z) - this is an inverse kinematic
+		 *    equation that translates the (x, y, z) into
+		 *    angualr measures from an origin defined at the
+		 *    base of the arm.
+		 *
+		 * this function is borrowed from:
+		 *    http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
+		 * which, conincedentilelery is the same arm as the one we have
+		 * */
 		void put_point( float x, float y, float z, float wrist_pitch_d, float wrist_roll_d )
 		{
 		//	Serial.print("ARM :: put(xyz) --> (");
@@ -391,36 +419,23 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 			float wri_angle_d = ( wrist_pitch_d + 90 + ( 180 - ( shl_angle_d + elb_angle_d ) ) );
 		//	float wri_angle_d = ( wrist_pitch_d - elb_angle_d ) - shl_angle_d;
 
-			/* Servo pulses */
-		//	float bas_servopulse = 1500.0 - (( degrees( bas_angle_r )) * 11.11 );
-		//	float shl_servopulse = 1500.0 + (( shl_angle_d - 90.0 ) * 6.6 );
-		//	float elb_servopulse = 1500.0 -  (( elb_angle_d - 90.0 ) * 6.6 );
-		//	float wri_servopulse = 1500 + ( wri_angle_d  * 11.1 );
-
-			/* Set Servos, using arm*
-			put(BASE, degrees(bas_angle_r) );
-			put(WRIST_P, wri_angle_d );
-			put(SHOULDER, shl_angle_d );
-			put(ELBOW, elb_angle_d );
-			//*/
-			
-			// update the pulse_destination array and then prepare
-			//    to call update 
+			// update the pulse_destination array and in preparation
+			//    to call update()
 			p_destination[BASE] = topulsef(degrees(bas_angle_r));
 			p_destination[WRIST_P] = topulsef(wri_angle_d);
 			p_destination[WRIST_R] = topulsef(wrist_roll_d);
 			p_destination[SHOULDER] = topulsef(shl_angle_d);
 			p_destination[ELBOW] = topulsef(elb_angle_d);
 
-		//	put (4, BASE, WRIST_P, SHOULDER, ELBOW);
 			update();
-			
+			// direct_update() is used in the newer move_line() method.
+		//	direct_update();
 		}
 
 		struct point getxyz() {
 			// this function should return the XYZ position of the arm.
 			// do we worry about the roll of the wrist? shouldn't have to.
-			//    the point of consideration lies along the wrists roll axis.
+			//    the point of consideration lies along the wrist's roll axis.
 		//	Serial.println("ARM :: getxyz() --> entering");
 			double  cosB,  sinB;
 			double hcosS, hsinS, sumofpiecesX;
@@ -469,28 +484,207 @@ http://www.circuitsathome.com/mcu/robotic-arm-inverse-kinematics-on-arduino
 
 		float grasp(char tool) {
 			switch(tool) {
-				case 's':
+				case 's':	// grap the square
 					p_destination[HAND] = topulse(120);
 					break;
-				case 't':
+				case 't':	// grab the triangle
 					p_destination[HAND] = topulse(140);
 					break;
-				case 'c':
+				case 'c':	// grab the circle
 					p_destination[HAND] = topulse(110);
 					break;
 			}
+			// calling update isn't needed, but we'll do it for consistancy.
 			update();
 			return(p_position[HAND]);
 		}
 
 		void release() {
-		//	Serial.println("ARM --> release :: entering.");
-		//	while (p_position[HAND] != 20) {
-		//		p_destination[HAND] -= 20;
-		//		update();
-		//	}
+			// return the hand to the default open position.
 			p_destination[HAND] = topulse(20);
 			update();
 		}
-};
 
+		// new implementation of movement. this solves an equation
+		//    and increments along the longest difference between
+		//    point_prev and point_next
+		
+		/** this method shows great promise, but currently doesn't work.
+		 * what this does is:
+		 * 
+		 *    - the arm now keeps track of it's current position via
+		 *      point_prev being updated everytime the arm moves.
+		 *    - when given a new point find the length needed to move
+		 *      along each axis.
+		 *    - from among those 3 values, find the longest difference.
+		 *      this will be our guide for solving our equations.
+		 * 
+		 * this was great in theory and in practice showed promise, but
+		 *    i found that the initial value given does not match where
+		 *    the arm thinks it's at. this led to crashes and confusion
+		 *    when trying to move the arm.
+		 * another issue is that the pitch and roll of the wrist is not
+		 *    considered in this function. a more polished function will
+		 *    adjust both .p and .r appropriately to continue smoothness.
+		 * 
+		 **/
+		void put_point_line(wesley::arm_point point_next) {
+
+			wesley::arm_point diff;
+			diff.direct_mode = false;
+			diff.cmd = "difference between two points.";
+
+			// find the differences between where we are and where we
+			//    want to end up.
+			diff.x = point_next.x - point_prev.x;
+			diff.y = point_next.y - point_prev.y;
+			diff.z = point_next.z - point_prev.z;
+			diff.p = point_next.p - point_prev.p;
+			diff.r = point_next.r - point_prev.r;
+
+			// from the differences of X, Y, and Z find the longest travel
+			//    distance - this will be the guide for solving our functions.
+			// we use the longest traversal so that we can have quantize the
+			//    movement as small as possible. this allows for more updates
+			//    along the line than the shorter traverals would allow for
+			//    our quanta of movement.
+			char guiding_light = 0;
+			float longest_gap = 0;
+			bool increasing = false;
+			// floats don't allow normal absolute value. it was found that
+			//    fabs(float) provided that functionality. (in math.h)
+			// we'll check them all in turn. which ever is the longest
+			//    will appear at the end of all the checks.
+			if (fabs(diff.x) > longest_gap) {
+				longest_gap = fabs(diff.x);
+				guiding_light = 'x';
+				increasing = (point_next.x > point_prev.x);
+			}
+			if (fabs(diff.y) > longest_gap) {
+				longest_gap = fabs(diff.y);
+				guiding_light = 'y';
+				increasing = (point_next.y > point_prev.y);
+			}
+			if (fabs(diff.z) > longest_gap) {
+				longest_gap = fabs(diff.z);
+				guiding_light = 'z';
+				increasing = (point_next.z > point_prev.z);
+			}
+
+			// if after all three of the above checks the gap is still 0
+			//    it means that we were given the same point that we're
+			//    already at; no need to move. the better function will
+			//    have allowances for wrist pitch and roll here.
+			if (longest_gap == 0) {
+				return;
+			} else {
+				move_line(guiding_light, increasing, point_next);
+			}
+			
+			/** it dawns on me now that another way to do this is to
+			 *     have our point of consideration (tip) be at the end
+			 *     of the wrist, not the end of the gripper. this would
+			 *     allow movement of the hand to be completely independent
+			 *     of the arm. extra care would need to be taken to make
+			 *     sure that the hand doesn't bind or run into anything.
+			 **/
+		}
+
+		/** this function solves a line between the previous point (our current one),
+		 *     and the next one (given on /arm/put/point). the form of this eqaution is:
+		 * 
+		 *      X - x1       Y - y1       Z - z1       (note the capitals)
+		 *     --------  =  --------  =  --------
+		 *     x2 - x1      y2 - y1      y2 - y1
+		 * 
+		 *  here, we'll know one of the capitals and can then solve the other
+		 *     two equalites with that value. for example, consider X is our
+		 *     guiding light:
+		 * 
+		 *      X - x1
+		 *     --------  =  a known value, k when X is provided.
+		 *     x2 - x1 
+		 * 
+		 *      we then solve for the unknown Y and Z by setting the appropriate
+		 *      term in the above equality to k
+		 * 
+		 *      Y - y1
+		 *     --------  =  k  -->   k(y2 - y1) = Y - y1  -->  k(y2 - y1) + y1 = Y
+		 *     y2 - y1
+		 * 
+		 *      Z - z1
+		 *     --------  =  k  -->   k(z2 - z1) = Z - z1  -->  k(z2 - z1) + z1 = Z
+		 *     z2 - z1
+		 *
+		 *  when the guiding light changes, we just solve for the other two unknowns
+		 *     in a similar matter.
+		 * 
+		 *  after the two unknowns are solved we'll have our intermediate
+		 *     point (X, Y, Z), where the guide is incremented by our quanta
+		 *     of 1 mm (in the scale of the robot's reference frame)
+		 * 
+		 **/
+		void move_line(char guide, bool increasing, wesley::arm_point& point_next) {
+			// this function runs through a for loop while longest_gap != 0;
+			// for each iteration it increases/decreases the guide by 1 mm
+			//    and solves a 3-space line equation for the other two points
+			//    and then called self.put_on_line(x, y, z, p, r) to move the
+			//    arm into that direct point. this could call self.put_point
+
+			float x = 0.0f;
+			float y = 0.0f;
+			float z = 0.0f;
+
+			float k = 0.0f;
+
+			switch (guide) {
+				case 'x':
+					for (x = point_prev.x; x != point_next.x;) {
+						k = (x - point_prev.x) / (point_next.x - point_prev.x);
+						y = (k * (point_next.y - point_prev.y)) + point_prev.y;
+						z = (k * (point_next.z - point_prev.z)) + point_prev.z;
+					
+						put_point(x, y, z, point_next.p, point_next.r);
+						if (increasing) {
+							x += 1;
+						} else {
+							x -= 1;
+						}
+					}
+					break;
+				case 'y':
+					for (y = point_prev.y; y != point_next.y;) {
+						k = (y - point_prev.y) / (point_next.y - point_prev.y);
+						x = (k * (point_next.x - point_prev.x)) + point_prev.x;
+						z = (k * (point_next.z - point_prev.z)) + point_prev.z;
+					
+						put_point(x, y, z, point_next.p, point_next.r);
+						if (increasing) {
+							y += 1;
+						} else {
+							y -= 1;
+						}
+					}
+					break;
+				case 'z':
+					for (z = point_prev.z; z != point_next.z;) {
+						k = (z - point_prev.z) / (point_next.z - point_prev.z);
+						x = (k * (point_next.x - point_prev.x)) + point_prev.x;
+						y = (k * (point_next.y - point_prev.y)) + point_prev.y;
+					
+						put_point(x, y, z, point_next.p, point_next.r);
+						if (increasing) {
+							z += 1;
+						} else {
+							z -= 1;
+						}
+					}
+					break;
+				default:
+					break;
+			}
+			// final put to catch the last point.
+			put_point(point_next.x, point_next.y, point_next.z, point_next.p, point_next.r);
+			point_prev = point_next;
+		}
+};
