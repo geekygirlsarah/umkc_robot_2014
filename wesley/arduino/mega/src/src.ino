@@ -1,6 +1,5 @@
-
-/* mega movement tester
- * written by: victoria wu
+/* src.ino
+ * umkc robotics 2014
  * date: 1/17/14 
  *
  * what: make the robot Fkeep going until the gap is found. then stop. (going to put it all on the mega, no bridge just yet
