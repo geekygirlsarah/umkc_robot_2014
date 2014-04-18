@@ -29,7 +29,8 @@ private:
 public:
 
 	WallFollow() { };
-
+	
+	//Sets the distance from the wall we are safe in
 	void setLimits(int far, int mid, int close)
 	{
 		UPPER_LIMIT = far;
@@ -37,6 +38,7 @@ public:
 		LOWER_LIMIT = close;
 	}
 	
+	//Initializes which pins you use for sensors
 	void init(int pin1 , int pin2, int pin3, motor_cmd*  s) 
 	{
 		front.init(pin1);
@@ -48,18 +50,23 @@ public:
 		notGood = false;
 	}
 	
+	//Straight will return whether or not you are in the safe zone, called inside update
 	internal straight()
 		{
 		internal result;
+		//Assume we are straight to begin
 		notGood = false;
+		//If front is REALLY far away, we exclude it
 		if(front.getAccurateDistCM() > 25)
 			{
+				//And we look at the middle instead
 				if(middle.getAccurateDistCM() > UPPER_LIMIT)
 				{
 					Serial.print("Middle sensor reads: ");
 					Serial.println(middle.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO FAR AWAY");
+					//Return that we list right if we are too far away
 					return list_right;
 				}
 				else if(middle.getAccurateDistCM() < LOWER_LIMIT)
@@ -68,11 +75,12 @@ public:
 					Serial.println(middle.getAccurateDistCM());
 					notGood = true;
 					Serial.println("TOO CLOSE");
+					//return that we list left if we are too close
 					return list_left;
 				}
 				
 			}
-			
+		//if middle is too far we use front instead
 		else if(middle.getAccurateDistCM() > 25)
 			{
 				if(front.getAccurateDistCM() > UPPER_LIMIT)
@@ -93,6 +101,7 @@ public:
 					return list_left;
 				}
 			}
+		//If back is out, we out we just use front as well
 		else if(back.getAccurateDistCM() > 25)
 			{
 				if(front.getAccurateDistCM() > UPPER_LIMIT)
@@ -113,7 +122,7 @@ public:
 				}
 			}	
   
-	
+		//And defaults to front if none are too far
 		else
 			{
 				if(front.getAccurateDistCM() > UPPER_LIMIT)
@@ -136,9 +145,10 @@ public:
 		return result;
 		}
 		
-	
+	//Update sends motor commands to correct course with a state machine
 	internal update(const byte DIRECTION)
 	{
+		//State machine calls straight() and sends the appropriate motor command
 		int outerloopcount = 1;
 		while(outerloopcount-- > 0)
 		{
