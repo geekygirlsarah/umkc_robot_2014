@@ -1,3 +1,12 @@
+/*
+umkc robotics 2014
+
+Msg protocol for the msg MasterPacket in MegaCaretaker/msg.
+Used to commmunicate from rest of board to the mega_caretaker node.
+*/
+
+
+
 #ifndef MASTER_MEGA_PACKET_DEFS
 #define MASTER_MEGA_PACKET_DEFS
 
