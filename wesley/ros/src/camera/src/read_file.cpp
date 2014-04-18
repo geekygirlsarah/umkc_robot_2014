@@ -1,3 +1,11 @@
+/** READ_FILE.CPP
+ *  
+ *  This code was used to practice reading a file into an arm_point message.
+ *  
+ *  This code became obsolete with an alteration to id_tool.cpp and a new
+ *     format for the coordinates_*.lst files.
+ */
+ 
 #include <ros/ros.h>
 #include <wesley/arm_point.h>
 
