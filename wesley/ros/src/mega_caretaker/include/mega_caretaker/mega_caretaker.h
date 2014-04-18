@@ -1,3 +1,18 @@
+/*
+mega_caretaker
+umkc robotics 2014
+
+Node that handles communications from the rest of the board, to the mega. 
+Listens for hi level commands ie go to tools, cross waves, and feeds IMU data to mega as needed.
+
+After initializing pubs and subs, spins and waits for command from Master. 
+Look at README for topic name/protocol.
+
+*/
+
+
+
+
 #ifndef MEGA_CARETAKER_H 
 #define MEGA_CARETAKER_H 
 
