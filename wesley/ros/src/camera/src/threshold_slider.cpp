@@ -1,3 +1,17 @@
+/** THRESHOLD_SLIDER.CPP
+ *  by: Eric M Gonzalez
+ * 
+ *  PURPOSE: This code provides a side-by-side view of what the camera sees and
+ *           the same frame after a run through OpenCV's threshold(). A slider
+ *           is available at the top of the window to adjust the hi_ and lo_
+ *           threshold values given to threshold.
+ * 
+ *           This allows the user to modify the threshold() values used through-
+ *           out the cv code to help fine-tune what is seen and used by the camera.
+ *           this can help to clean up noise in the camera's images.'
+ * 
+ */
+
 #include <highgui.h>
 #include <cv.h>
 #include <iostream>
@@ -44,6 +58,7 @@ int main(int argc, char* argv[]) {
 		createTrackbar( slider_hi, "image thresh", &hi_thresh, max_thresh, slider_hi_thresh );
 
 	cap >> frame;
+	// make a second mat twice as wide as the camera frame
 	Mat window(frame.rows, frame.cols*2, CV_8UC3);
 	for (;;) {
 		cap >> frame;
@@ -56,6 +71,7 @@ int main(int argc, char* argv[]) {
 		slider_hi_thresh(hi_thresh, 0);
 
 		cvtColor(thresh, thresh, CV_GRAY2RGB);
+		// horizontally concatenate the two images into the window Mat.
 		hconcat(frame, thresh, window);
 		imshow("image thresh", window);
 	//	while (waitKey(10) != 27);
