@@ -1,4 +1,31 @@
 
+/* mega movement tester
+ * written by: victoria wu
+ * date: 1/17/14 
+ *
+ * what: make the robot Fkeep going until the gap is found. then stop. (going to put it all on the mega, no bridge just yet
+ * FIRST - just getting the robot to move. NO comms between mini and mega. just everything on the mega, ignoring encoders right now
+ * PURPOSE: 
+ 
+ * .... pro tip: if you get the error "serial2 is not declared in this scope" check that the board you're programming for IS THE MEGA
+ * -> first starting. .the motors just go crazy  a bit 
+ 
+ * next -> turn in place until parallel!! 
+ 
+ This file is where the top level state machine lives, as well as logic for ros communication. 
+ The state machine uses the classes in the FiniteStateMachine.h/cpp files. 
+ navigation.h encapsulates the logic that is one step below (commands to move, stop, find a gap, find a wall.. etc.
+ 
+ Explanation of key states:
+ initializeComms - uses three way handshake to init comms between board and mega. 
+  Board initiates by sending a SYN msg, mega responds with SYN-ACK, once ACK is received the mega moves on to WaitForCommand state.
+  
+ waitforcommand - Mega spins here and waits for a hi level command from the board (ie, go to the tools, go across the waves.)
+ 
+ */
+
+
+
 //THESE ARE IMPORTANT
 #define ITERATION 3  //how many gaps to cross.. for debugging
 #define LASTGAP 3  //which one to stop at and do the hardcoded one
@@ -15,19 +42,6 @@
 //#define TEST_TURN_90_ONLY  //ONLY have up if you want to test 90degree stuff D:
 
 
-/* mega movement tester
- * written by: victoria wu
- * date: 1/17/14 
- *
- * what: make the robot Fkeep going until the gap is found. then stop. (going to put it all on the mega, no bridge just yet
- * FIRST - just getting the robot to move. NO comms between mini and mega. just everything on the mega, ignoring encoders right now
- * PURPOSE: 
- 
- * .... pro tip: if you get the error "serial2 is not declared in this scope" check that the board you're programming for IS THE MEGA
- * -> first starting. .the motors just go crazy  a bit 
- 
- * next -> turn in place until parallel!! 
- */
 
 //woohoo ros time !
 #include <QuadEncoder.h>
