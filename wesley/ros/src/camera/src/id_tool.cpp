@@ -101,23 +101,6 @@ unsigned short job_state = FIND_TOOL;
 //    of which tool position we're looking at
 enum tool_area { LEFT, CENTER, RIGHT };
 
-// coordinate structure - this will be filled from a file.
-// for the oil rigs - use 'coordinates_flame.lst'
-// for the tools    - use 'coordinates_tools.lst'
-//
-// format of the file is:
-//    one coordinate per line separated by a space:
-//    	 x y z w
-//    file does support comments: begin each line of
-//       a comment with a #
-//struct coordinate {
-//	int x;
-//	int y;
-//	int z;
-//	coordinate(int x=0, int y=0, int z=0) : 
-//		x(x), y(y), z(z) { };
-//};
-
 // quick help in case the program is called incorrectly.
 void program_help(const char* arg_zero) {
 	std::cerr << "please call " << arg_zero << " with one of:" << std::endl;
@@ -227,11 +210,17 @@ int main(int argc, char* argv[]) {
 			break;
 	}
 
-	// position[job_state][area][pos]
-	//
+	// check for the co-ordinates file.
 	// be sure to fill this with appropriate locations.
-	// preferably from a file. see above the coordinate
-	// structure for file definition.
+	// preferably from a file.
+	// for the oil rigs - use 'coordinates_flame.lst'
+	// for the tools    - use 'coordinates_tools.lst'
+	//
+	// format of the file is:
+	//    one coordinate per line separated by a space:
+	//    	 x y z p r
+	//    file does support comments: begin each line of
+	//       a comment with a #
 	struct stat verify;
 	std::ifstream fin;
 	string filename = "/home/umkc/wesley/config/";
@@ -256,6 +245,7 @@ int main(int argc, char* argv[]) {
 		for (int pos = 0; pos < MAX_ID_TOOL; pos++) {
 			for (int state = FIND_TOOL; state <= FIND_TOP;) {
 				getline(fin, buffer);
+				// ignore comments or blank lines
 				if (buffer[0] == '#' || buffer.size() == 0) {
 					continue;
 				}
@@ -344,6 +334,8 @@ int main(int argc, char* argv[]) {
 	// open first camera device found in system
 	// according to OpenCV documentation, this can accept a filename.
 	//    so far, that hasn't worked.
+	// The filename that is accepted is that of a video file, not a
+	//    a device node.
 	VideoCapture capture(0);
 	if (!capture.isOpened()) {
 		ROS_ERROR("unable to open default camera device (0) - fatal - bailing.");
