@@ -8,6 +8,7 @@
  *
  * 			key: the number of sides returned by approxPolyDP
  *  		value: the number of times the key has been given
+ *          running_avg: a continual average of provided values.
  *
  * 			this class can return the mode and average of its
  * 			tallies.
