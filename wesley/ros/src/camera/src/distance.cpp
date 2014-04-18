@@ -1,3 +1,25 @@
+/** THIS CODE IS OBSOLETED BY ID_TOOL.CPP
+ * 
+ *  distance.cpp
+ *  by: Eric M Gonzalez
+ * 
+ *  PURPOSE: This code was used to narrow in on an algorithm to find
+ *           the top and distance of a tool in the id_tool program.
+ *
+ *           Through the use of this program, and the help of Darren
+ *           Cogan, id_tool.cpp was written to pick up the tool.
+ * 
+ *           This program will still work, but will give values that
+ *           do not match the robot's reference frame or the values
+ *           returned by id_tool.
+ * 
+ *           Call this program with one of {t, c, s} to search for
+ *           't'riangle, 'c'ircle, or 's'quare.
+ *           
+ */
+
+
+
 #include <cv.h>
 #include <highgui.h>
 
@@ -41,7 +63,18 @@ double distance(double apparent_area_px, short tool=0) {
 //		1414.2722529,	// trianlge
 //		2026.829916,	// circle
 //	};
+	// after some experimentation, my focal length constant was found to be:
+	//
+	//    f = 12281.13061 px^2 / mm
+	//
+	// please consult bound graph-notebook for more detailed calculations.
+//	return((12281.13061 * actual_area_of[tool]) / apparent_area);
+	
 
+
+	// The above commentary is now obsoleted. Thanks again to Darren for the
+	//    following method of determining distance. please see id_tool.cpp
+	//    for more information.
 	double inital_area_px[4] = {
 		0.0f,
 		42452.6,
@@ -51,14 +84,7 @@ double distance(double apparent_area_px, short tool=0) {
 
 	double inital_measure = 152.4;	// mm , ~6inches.
 
-	// after some experimentation, my focal length constant was found to be:
-	//
-	//    f = 12281.13061 px^2 / mm
-	//
-	// please consult bound graph-notebook for more detailed calculations.
-
 	return(sqrt(inital_area_px[tool] / apparent_area_px) * inital_measure);
-//	return((12281.13061 * actual_area_of[tool]) / apparent_area);
 }
 
 struct tally {
@@ -69,6 +95,7 @@ struct tally {
 int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "distance");
 
+	// what are we looking for? see if we were called with an argument.
 	enum tool_shapes { NONE, SQUARE, TRIANGLE, CIRCLE };
 	short tool = NONE;
 	if (argc == 2) {
@@ -99,6 +126,7 @@ int main(int argc, char* argv[]) {
 	namedWindow("frame", CV_WINDOW_AUTOSIZE);
 	frame = imread("snapshot.png");
 
+	// create a publisher - however, this isn't used internally.
 	ros::NodeHandle nh;
 	ros::Publisher pub = nh.advertise<wesley::arm_point>("/arm/put/point", 1000);
 
