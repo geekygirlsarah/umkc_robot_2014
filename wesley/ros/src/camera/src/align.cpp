@@ -1,11 +1,20 @@
+/** ALIGN.CPP
+ *  by:  Eric M Gonzalez
+ * 
+ *  PURPOSE: This code is intened to hold the alignment code to insert the
+ *           tool into the rig.
+ */
+
 #include <ros/ros.h>
 #include <wesley/arm_point.h>
 
 #include <iostream>
 
 
-#define wait_on_arm() {			\
-	waiting = true;				\
+// a macro that will spin and wait for the arm to unblock.
+//    nothing fancy, this just consolidates 3 or 4 lines into one.
+#define wait_on_arm() {		\
+	waiting = true;		\
 	do { ros::spinOnce() } while waiting;
 
 bool waiting = true;
@@ -35,9 +44,11 @@ int main(int argc, char* argv[]) {
 		90,			// CIRCLE
 	};
 
+	// wait for the publisher to settle before proceeding.
 	while(pub.getNumSubscribers <= 0);
 	ROS_INFO("ALIGN :: publisher ready. proceeding.");
 
+	// position the arm up and to the right side of the vehicle
 	welsey::arm_point pos;
 	pos.direct_mode = true;
 	pos.x = -216;
@@ -50,19 +61,21 @@ int main(int argc, char* argv[]) {
 	pub.publish(pos);
 	wait_on_arm();
 
+	// lower the arm
 	pos.z = -30;
 	pos.cmd = "align, down";
 	ROS_INFO("ALIGN --> setting tool down to rig-hole height");
 	pub.publish(pos);
 	wait_on_arm();
 
+	// stick the arm out, hopefully hitting the mark.
 	pos.x -= 130;
 	pos.cmd = "align, insert";
 	ROS_INFO("ALIGN --> inserting tool.");
 	pub.publish(pos);
 	wait_on_arm();
 
-
+	// leave.
 	ROS_INFO("ALIGN --> tool inserted. done.");
 	return(0);
 }
