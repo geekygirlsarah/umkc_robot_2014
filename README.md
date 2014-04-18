@@ -1,5 +1,5 @@
-umkc_robot_2014_arduino
-=======================
+umkc_robot_2014
+===============
 
 Arduino code for the UMKC IEEE Robotics Team 2014 IEEE R5 Competition
 
