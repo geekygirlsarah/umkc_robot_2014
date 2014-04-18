@@ -1,3 +1,21 @@
+/*
+packet protocol for comms between mega and board
+umkc robotics 2014
+
+This header file lists the protocol for comms for the msgtype MegaCaretaker/MegaPacket.msg.
+Messages are first identified by their msgType as:
+ -commands (MSGTYPE_HEY)
+ -acks from mega to board (MSGTYPE_ACK)
+ -finished completing something (MSGTYPE_FINISHED)
+ -state advertisements (MSGTYPE_STATE)
+ -motor commands (MSGTYPE_MOTORCOM)
+ -three way handshake msgs (MSGTYPE_HANDSHAKE)
+ 
+This file needs to be kept the exact same as the header file with same name in the mega folder.
+
+*/
+
+
 #ifndef  REDUX_MEGA_PACKET_DEFS_H
 #define REDUX_MEGA_PACKET_DEFS_H
 
