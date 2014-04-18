@@ -1,3 +1,22 @@
+/** DISATNCE_LOOP.CPP
+ *  by: Eric M Gonzalez
+ * 
+ *  PURPOSE: This code was used to continually find a proposed pickup point (p)
+ *           for the tool identified in the frame viewed by the camera
+ * 
+ *           When started the program waits for a message on /arm/response, takes
+ *           a picture of the world it can see, and caluclates the pickup point
+ *           based on whatever contours is sees. This program is designed to be
+ *           used in conjunction with driving the arm by hand. It is not very
+ *           ribust and began to diverge from the code used in id_tool.cpp a couple
+ *           of weeks before competition.
+ * 
+ *           AS A RESULT OF DIVERGENCE, THIS PROGRAM IS NOT TO BE TRUSTED OR USED.
+ * 
+ *           Please see id_tool.cpp for current implementation of pickup-point code.
+ * 
+ */
+
 #include <cv.h>
 #include <highgui.h>
 
@@ -56,7 +75,16 @@ double distance(double apparent_area_px, short tool=0) {
 //		1414.2722529,	// trianlge
 //		2026.829916,	// circle
 //	};
+	// after some experimentation, my focal length constant was found to be:
+	//
+	//    f = 12281.13061 px^2 / mm
+	//
+	// please consult bound graph-notebook for more detailed calculations.
 
+//	return((12281.13061 * actual_area_of[tool]) / apparent_area);
+
+	
+	// the above code has been obsoleted by the following formula found by Darren
 	double inital_area_px[4] = {
 		0.0f,
 		42452.6,
@@ -66,16 +94,11 @@ double distance(double apparent_area_px, short tool=0) {
 
 	double inital_measure = 152.4;	// mm , ~6inches.
 
-	// after some experimentation, my focal length constant was found to be:
-	//
-	//    f = 12281.13061 px^2 / mm
-	//
-	// please consult bound graph-notebook for more detailed calculations.
-
 	return(sqrt(inital_area_px[tool] / apparent_area_px) * inital_measure);
-//	return((12281.13061 * actual_area_of[tool]) / apparent_area);
 }
 
+// tally_box was used to track a running average of the area found.
+//    became less useful when this code was stepped through.
 struct tally {
 	double average;
 	unsigned int width;
@@ -84,6 +107,7 @@ struct tally {
 int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "distance");
 
+	// determine how we were called.
 	enum tool_shapes { NONE, SQUARE, TRIANGLE, CIRCLE };
 	short tool = NONE;
 	if (argc == 2) {
@@ -110,6 +134,7 @@ int main(int argc, char* argv[]) {
 		return(40);
 	}
 
+	// this is a diameter of the tool in mm.
 	const double tool_d[4] = {
 		0.0f,
 		72.4,
@@ -128,6 +153,8 @@ int main(int argc, char* argv[]) {
 	std::vector<std::vector<Point> > contours;
 	Moments mu;
 	Point2f mc;
+	// these frame_offset_? will be used to translate between the camera frame
+	//    and the viewport used to indentify the tool
 	const unsigned char frame_offset_y = 80;
 	const unsigned char frame_offset_x = 160;
 	Point center(320, 240);
@@ -135,6 +162,9 @@ int main(int argc, char* argv[]) {
 	Point2f offset(0, 0);
 
 	tally_box tally;
+	// program starts here. this will block and copy the co-ordinate that
+	//    the arm was placed. this is used in the following calculations.
+	// yes, there is a goto statement in this code.
 reset:
 	ROS_INFO("DIST --> waiting for /arm/response");
 	waiting = true;
@@ -143,9 +173,9 @@ reset:
 		ros::spinOnce();
 	} while(waiting);
 
-//	float alpha = (atan2(t.y, t.x) - (3.14159 / 2));
+	// find the angle of the base from the x and y co-ordinates of tip.
 	float alpha = (atan2(t.y, t.x));
-//	Point3_<float> camera(t.x - 47, t.y - 27, t.z - 31.2);
+	// find the (x, y, z) co-ordinate of the camera based on the tip.
 	camera.x = (t.x + (27*(cos(alpha)) + 47*(sin(alpha))));
 	camera.y = (t.y - (47*(cos(alpha)) - 27*(sin(alpha))));
 	camera.z = t.z;
@@ -153,6 +183,7 @@ reset:
 	camera.r = t.r;
 
 capture:
+	// swallow a few frames before getting the last one to use.
 	for (int i = 7; i > 0; i--) {
 		capture >> frame;
 	}
@@ -449,6 +480,11 @@ capture:
 		circle(viewport, approx[1], 2, CV_RGB(0xE4, 0x83, 0x36), CV_FILLED);
 		circle(viewport, approx[2], 2, CV_RGB(0x24, 0x43, 0xD6), CV_FILLED);
 	
+		// this helps to make sure that a circle is really a circle by calculating
+		//    four diagonals and seeing if there within a certain tolerance.
+		// through experiementation, this tolerance was found to be around 5%
+		// if a diagnoal is beyond the average of the four diagonals by 5%, then
+		//    a message appears saying so. in practice, the contour is rejected.
 		if (tool == CIRCLE && approx.size() == 8) {
 			double diags[4] = {
 				sqrt(pow((approx[0].x - approx[4].x), 2) + pow((approx[0].y - approx[4].y), 2)) ,
@@ -479,19 +515,20 @@ capture:
 	short keypress;
 	do {
 		keypress = waitKey();
-		if(keypress == 27) {
+		if(keypress == 27) {				// esc
 			break;
-		} else if (keypress == 105) {
+		} else if (keypress == 105) {		// 'i'
 			std::cout << approx << std::endl;
-		} else if (keypress == 100) {
+		} else if (keypress == 100) {		// 'd'
 			std::cout << "approx.size(" << approx.size() << ")" << std::endl;
-		} else if (keypress == 99) {
+		} else if (keypress == 99) {		// 'c'
 			goto capture;
-		} else if (keypress == 114) {
+		} else if (keypress == 114) {		// 'r'
 			goto reset;
 		}
 	} while(keypress != 27);
 
+	// print out the final result of the tally running average
 	std::cout << "areas: mean[" << tally.mean() << "] and mode[" << tally.mode() << "]" << std::endl;
 	return(0);
 }
