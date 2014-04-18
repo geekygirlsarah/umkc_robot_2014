@@ -5,6 +5,9 @@
  * Is a wrapper class to provide smoothing and filtering.
  *
  * Focuses on filtering out abrupt spikes in data
+ 
+ getFilteredDistanceCM is not accurate, don't use it. use getAccurateDistCM() instead
+ 
  *
  *
  * brain dump
