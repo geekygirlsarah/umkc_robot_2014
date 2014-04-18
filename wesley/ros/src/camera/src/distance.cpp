@@ -1,4 +1,4 @@
-/** THIS CODE IS OBSOLETED BY ID_TOOL.CPP
+/** THIS CODE IS OBSOLETED BY DISTANCE_LOOP.CPP
  * 
  *  distance.cpp
  *  by: Eric M Gonzalez
